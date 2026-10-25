@@ -31,7 +31,7 @@ ollama pull llama3.1:8b
 ollama pull nomic-embed-text
 ```
 
-Create `.env` in this folder:
+Create `.env` in this folder (copy `.env.example`):
 
 ```
 DATABASE_URL=postgresql://<user>@localhost:5432/memory_db
@@ -52,23 +52,30 @@ poetry run python scripts/smoke_test.py
 poetry run python scripts/evaluate.py --set A
 
 # retrieval only, on already ingested data (seconds, deterministic)
-poetry run python scripts/evaluate.py --set A B C --retrieval-only --no-ingest
+poetry run python scripts/evaluate.py --set A B C D E F --retrieval-only --no-ingest
 
 # why was each fact kept or dropped?
 poetry run python scripts/inspect_scores.py --scenario b_stale_flood
 ```
 
-Results are also written to `eval_results.json`. All scenario sets (A–D) have been seen,
-so they cannot validate further tuning.
+Results are also written to `eval_results.json`. All scenario sets (A–F) have been seen,
+so they cannot validate further tuning; a change needs a new set written beforehand.
+The status of each set is in `scripts/scenarios/__init__.py`.
 
-Other scripts: `scripts/chat.py` (interactive chat, `/mode smart|baseline|none`) and
-`scripts/demo_ingest.py` (write-path demo).
+Tests (`tests/` only; the DB tests need the Postgres database from `.env`):
+
+```bash
+poetry run pytest -q
+```
+
+Other script: `scripts/chat.py` (interactive chat, `/mode smart|baseline|none`, `/facts`).
 
 ## Layout
 
 | Path | What |
 |---|---|
-| `src/memory_system/` | `extract`, `conflicts`, `manager` (write path); `retrieve`, `assistant` (read path); `llm`, `db`, `config` |
-| `scripts/` | evaluation, inspection, chat, demo, smoke test; `scenarios.py` holds the test sets |
+| `src/memory_system/` | write path: `extract` (LLM), `actions` (pure rules: grounding, assert/retract checks), `conflicts` (DB decisions), `events` (audit log), `manager`; read path: `retrieve` (gate and ranking), `assistant` (prompt); shared: `llm`, `db`, `config` |
+| `scripts/` | `evaluate.py` (+ `eval_metrics.py`, `eval_report.py`), `inspect_scores.py`, `chat.py`, `smoke_test.py`; `scenarios/` holds the test sets A–F |
+| `tests/` | `test_actions.py` and `test_gate.py` (pure), `test_write_path.py` and `test_manager.py` (need the DB) |
 | `schema.sql` | full schema for a fresh database; after a schema change, drop and recreate the database from it |
 | `docs/` | A environment, B storage, C model access, D write path, E read path, `findings.md` |

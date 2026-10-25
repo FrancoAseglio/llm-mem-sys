@@ -3,6 +3,7 @@ from datetime import datetime
 from memory_system.actions import is_grounded, normalize_actions
 from memory_system.conflicts import apply_fact
 from memory_system.db import get_pool
+from memory_system.events import log_event
 from memory_system.extract import extract_facts, load_relation_types
 from memory_system.llm import embed
 
@@ -11,7 +12,8 @@ def ingest_user_message(
     user_id: str, text: str, at: datetime | None = None
 ) -> list[tuple[str, str, str]]:
     """Store a message, extract facts, and update memory. Returns (outcome, relation, value),
-    outcome as in conflicts.apply_fact.
+    outcome as in conflicts.apply_fact, or
+    [("extraction_failed", "", "")] if the model could not read the message (the message is kept).
 
     `at` is when the user said it (None = now). Used to replay past conversations.
     """
@@ -27,7 +29,19 @@ def ingest_user_message(
 
         relations = load_relation_types(conn)
         single = frozenset(n for n, (card, _) in relations.items() if card == "single")
-        facts = normalize_actions(extract_facts(text, relations), text, single)
+        try:
+            extracted = extract_facts(text, relations)
+        except Exception as error:  # model down, timeout or malformed JSON
+            # keep the message (it is still searchable) and say that no facts were read from it
+            log_event(
+                conn,
+                user_id,
+                "reject",
+                None,
+                {"reason": "extraction failed", "error": repr(error)[:200]},
+            )
+            return [("extraction_failed", "", "")]
+        facts = normalize_actions(extracted, text, single)
         # relations this message really sets (a rejected value does not count)
         asserted = {
             f.relation

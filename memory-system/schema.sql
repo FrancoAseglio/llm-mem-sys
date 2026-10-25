@@ -1,5 +1,5 @@
 -- Memory system schema (Postgres 17 + pgvector). Single source of truth for a fresh DB.
--- Existing DBs: apply migrations/*.sql instead.
+-- After a schema change, drop and recreate the database from this file (there are no migrations).
 -- Embedding dimension 768 = nomic-embed-text. If you change embedding model, change every vector(768).
 
 CREATE EXTENSION IF NOT EXISTS vector;
