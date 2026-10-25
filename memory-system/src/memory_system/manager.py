@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from memory_system.conflicts import apply_fact
+from memory_system.conflicts import apply_fact, is_grounded
 from memory_system.db import get_pool
 from memory_system.extract import extract_facts, load_relation_types
 from memory_system.llm import embed
@@ -9,7 +9,8 @@ from memory_system.llm import embed
 def ingest_user_message(
     user_id: str, text: str, at: datetime | None = None
 ) -> list[tuple[str, str, str]]:
-    """Store a message, extract facts, and update memory. Returns (outcome, relation, value).
+    """Store a message, extract facts, and update memory. Returns (outcome, relation, value),
+    outcome as in conflicts.apply_fact.
 
     `at` is when the user said it (None = now). Used to replay past conversations.
     """
@@ -24,10 +25,15 @@ def ingest_user_message(
         ).fetchone()[0]
 
         relations = load_relation_types(conn)
+        facts = extract_facts(text, relations)
+        # relations this message really sets (a rejected value does not count)
+        asserted = {f.relation for f in facts
+                    if f.action == "assert" and is_grounded(f.value, text)}
         results = []
-        for fact in extract_facts(text, relations):
+        for fact in facts:
             outcome = apply_fact(
-                conn, user_id, fact.relation, fact.value, message_id, at
+                conn, user_id, fact.relation, fact.value, message_id, at,
+                action=fact.action, source_text=text, message_relations=asserted,
             )
             results.append((outcome, fact.relation, fact.value))
         return results

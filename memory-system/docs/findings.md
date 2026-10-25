@@ -38,3 +38,14 @@ query embedding, so no extra model call. On 30 questions from sets A-C:
 Without hints, food questions routed to `likes` instead of `allergic_to` ("a quick snack").
 The two hints (`allergic_to`, `dislikes`) were written after seeing those misses, so they are
 a design choice, not evidence. Set D was written before routing existed and was run once.
+
+## 4. Known retrieval limits found on set E (not fixed)
+
+- **Top-2 routing vetoes a strong match.** "Which language am I trying to learn?" vs
+  `goal = learn Japanese`: raw similarity 0.70, far above the floor, but `goal` ranked 4th
+  among relation types, so routing dropped it. The fact was there and matched; routing hid it.
+- **Allergy just outside the bypass.** `allergic_to = sesame` (raw 0.42) for a food question:
+  `allergic_to` ranked 3rd, so the safety bypass (top-2 only) did not apply and the floor removed it.
+- **Proposed fix, NOT implemented:** a strong-match override (a fact with raw similarity of about 0.60
+  or more skips routing) and an allergy bypass for routing rank <= 3. It is reserved as a
+  pre-registered ablation for a final fresh set, so that set can measure it blind.

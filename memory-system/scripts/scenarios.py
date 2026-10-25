@@ -10,6 +10,9 @@ SET C  blind when written, now SPENT: written BEFORE the relative window was run
        (12 facts) so many facts compete, plus abstain questions that test the floor.
 SET E  BLIND, written before the safety bypass and the goal-extraction change. Measures the safety gain
        and noise cost of letting allergies skip the floor, and goal extraction. RUN IT ONCE.
+SET F  BLIND, write path only: corrections, a hallucination-prone message, likes/dislikes flips and
+       employer changes. Written after the write-path fixes, before running it. RUN IT ONCE.
+       The stored facts (--verbose) are the main check; predictions in docs/predictions_write.md.
 
 messages : (days_ago, text)  -- order does not matter, the runner sorts them
 expect   : list of groups; every group needs at least one of its words in the ANSWER
@@ -488,6 +491,93 @@ for _text in E_FILLER:
     _leaks = [w for w in _e_words if w in _text.lower()]
     assert not _leaks, f"set E filler {_text!r} contains tested words {_leaks}"
 
+# ---- SET F ----
+F_FILLER = E_FILLER[:4]
+
+SET_F = [
+    {
+        # correction without the word "not"; expected: latex archived, pollen active
+        "id": "f_correction_allergy", "kind": "correction",
+        "messages": [(210, "I'm allergic to latex."),
+                     (35, "Sorry, I mixed things up before: latex is fine for me, "
+                          "it's pollen that I'm allergic to.")] + spread(F_FILLER, 10, 200),
+        "questions": [
+            {"q": "What am I allergic to?", "expect": [["pollen"]], "needs": ["pollen"],
+             "stale": ["latex"]},
+        ],
+    },
+    {
+        # "no longer" correction on a multi-valued relation; expected: chess archived, pottery active
+        "id": "f_no_longer_hobby", "kind": "correction",
+        "messages": [(190, "I play chess most evenings."),
+                     (25, "I don't play chess anymore; these days my hobby is pottery.")]
+                    + spread(F_FILLER, 10, 180),
+        "questions": [
+            {"q": "What are my hobbies?", "expect": [["pottery"]], "needs": ["pottery"],
+             "stale": ["chess"]},
+        ],
+    },
+    {
+        # hallucination-prone: no new title is stated; expected: teacher stays, nothing invented
+        "id": "f_vague_promotion", "kind": "hallucination",
+        "messages": [(200, "I work at Hillside School as a teacher."),
+                     (20, "Big day today, I finally got the promotion I'd been chasing!")],
+        "questions": [
+            {"q": "Where do I work?", "expect": [["hillside"]], "needs": ["hillside"],
+             "avoid": ["promot", "manager", "senior"]},
+            {"q": "What's my job title?", "avoid": ["promot", "manager", "senior"]},
+        ],
+    },
+    {
+        # likes -> dislikes; expected: likes superseded by dislikes (contradiction)
+        "id": "f_like_to_dislike", "kind": "contradiction",
+        "messages": [(180, "I love spicy food."),
+                     (30, "I've gone right off spicy food, I can't stand it these days.")],
+        "questions": [
+            {"q": "What kind of food do I enjoy?", "avoid": ["spicy"]},
+        ],
+    },
+    {
+        # dislikes -> likes; expected: dislikes superseded by likes (contradiction)
+        "id": "f_dislike_to_like", "kind": "contradiction",
+        "messages": [(200, "I can't stand opera."),
+                     (40, "Funny thing, I've grown to really love opera lately.")],
+        "questions": [
+            {"q": "What music do I like?", "expect": [["opera"]], "needs": ["opera"]},
+        ],
+    },
+    {
+        # employer change, no title; expected: nurse conflicted, so the title question gets nothing
+        "id": "f_employer_no_title", "kind": "conflicted",
+        "messages": [(240, "I'm a nurse at Saint Mary's Hospital."),
+                     (30, "I switched employers, I'm at Riverside Clinic now.")],
+        "questions": [
+            {"q": "Where do I work?", "expect": [["riverside"]], "needs": ["riverside"],
+             "stale": ["mary"]},
+            {"q": "What's my job title?", "avoid": ["nurse"]},  # by design: conflicted
+        ],
+    },
+    {
+        # employer change with a title; expected: both superseded, nothing conflicted
+        "id": "f_employer_with_title", "kind": "stale",
+        "messages": [(260, "I work at Northwind as a sales rep."),
+                     (45, "I left Northwind and I'm now a product manager at Contoso.")],
+        "questions": [
+            {"q": "Where do I work?", "expect": [["contoso"]], "needs": ["contoso"],
+             "stale": ["northwind"]},
+            {"q": "What's my job title?", "expect": [["product manager"]],
+             "needs": ["product manager"], "stale": ["sales"]},
+        ],
+    },
+]
+
+# Leak check: F filler must not contain any word that set F tests for.
+_f_words = {w for sc in SET_F for q in sc["questions"]
+            for w in q.get("needs", []) + q.get("avoid", []) + q.get("stale", [])}
+for _text in F_FILLER:
+    _leaks = [w for w in _f_words if w in _text.lower()]
+    assert not _leaks, f"set F filler {_text!r} contains tested words {_leaks}"
+
 for _s in SET_A:
     _s["set"] = "A"
 for _s in SET_B:
@@ -498,5 +588,7 @@ for _s in SET_D:
     _s["set"] = "D"
 for _s in SET_E:
     _s["set"] = "E"
+for _s in SET_F:
+    _s["set"] = "F"
 
-SCENARIOS = SET_A + SET_B + SET_C + SET_D + SET_E
+SCENARIOS = SET_A + SET_B + SET_C + SET_D + SET_E + SET_F

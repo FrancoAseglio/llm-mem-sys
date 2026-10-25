@@ -125,7 +125,8 @@ CREATE TABLE IF NOT EXISTS memory_events (
     id          BIGSERIAL PRIMARY KEY,
     user_id     TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     event_type  TEXT NOT NULL
-                CHECK (event_type IN ('add', 'duplicate', 'update', 'conflict', 'summarize', 'archive', 'retrieve')),
+                CHECK (event_type IN ('add', 'duplicate', 'update', 'conflict', 'summarize', 'archive', 'retrieve',
+                                      'retract', 'reject', 'contradiction')),
     fact_id     BIGINT REFERENCES facts(id) ON DELETE SET NULL,
     details     JSONB NOT NULL DEFAULT '{}'::jsonb,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT now()

@@ -86,7 +86,7 @@ def tally(rows: list[dict], mode: str, key: str) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--set", nargs="+", choices=["A", "B", "C", "D", "E"], help="scenario sets to run")
+    parser.add_argument("--set", nargs="+", choices=["A", "B", "C", "D", "E", "F"], help="scenario sets to run")
     parser.add_argument("--only", nargs="+", help="scenario ids to run")
     parser.add_argument("--no-ingest", action="store_true", help="reuse existing eval data")
     parser.add_argument("--retrieval-only", action="store_true", help="skip the LLM answers")
@@ -159,7 +159,8 @@ def main() -> None:
                  "B": "B (spent: the floor and window were chosen after seeing it)",
                  "C": "C (spent: written before the relative window ran on it)",
                  "D": "D (BLIND: written before routing existed in the pipeline; run once)",
-                 "E": "E (BLIND: written before the safety bypass and goal prompt; run once)"}[set_name]
+                 "E": "E (BLIND: written before the safety bypass and goal prompt; run once)",
+                 "F": "F (BLIND: write path only, written after the write-path fixes; run once)"}[set_name]
         print(f"\nSET {label}: {len(rows)} questions")
         print(f"{'mode':<10}{'needed':>9}{'noise':>8}{'stale in':>10}{'avg':>7}"
               f"{'answers':>10}{'stale in':>10}")
