@@ -27,7 +27,13 @@ from memory_system.config import (
     SAFETY_BYPASS,
     SAFETY_RELATIONS,
 )
-from memory_system.retrieve import retrieve_baseline, score_facts, select_memories
+from memory_system.retrieve import (
+    best_raw,
+    gate_failure,
+    retrieve_baseline,
+    score_facts,
+    select_memories,
+)
 
 
 def show(user: str, question: str, needs: list[str], k: int) -> None:
@@ -75,30 +81,29 @@ def show(user: str, question: str, needs: list[str], k: int) -> None:
                 f"\n   raw similarity: needed {min(wanted):.2f} to {max(wanted):.2f} | "
                 f"best other {max(others):.2f} | margin {margin:+.2f} -> {verdict}"
             )
+        best = best_raw(scored)
         for m in scored:
             if needed(m.value) and m.id not in picked:
-                if m.raw_similarity < MIN_RELEVANCE:
+                what = f"MISSED: {m.relation}={m.value}:"
+                failure = gate_failure(m, best)
+                if failure is None:
+                    print(f"   {what} passed the gate but cut by k={k}")
+                    continue
+                stage, amount = failure
+                if stage == "floor":
                     print(
-                        f"   MISSED: {m.relation}={m.value}: raw {m.raw_similarity:.2f} is "
-                        f"{MIN_RELEVANCE - m.raw_similarity:.2f} below the gate"
+                        f"   {what} raw {m.raw_similarity:.2f} is "
+                        f"{amount:.2f} below the gate"
                     )
-                elif (
-                    m.raw_similarity
-                    < max(x.raw_similarity for x in scored) - RELATIVE_WINDOW
-                ):
-                    top = max(x.raw_similarity for x in scored)
+                elif stage == "window":
                     print(
-                        f"   MISSED: {m.relation}={m.value}: raw {m.raw_similarity:.2f} is "
-                        f"{top - m.raw_similarity:.2f} below the best fact (window {RELATIVE_WINDOW})"
-                    )
-                elif ROUTING_TOP_N and m.relation_rank > ROUTING_TOP_N:
-                    print(
-                        f"   MISSED: {m.relation}={m.value}: routed out, this relation ranks "
-                        f"{m.relation_rank} for the question (top {ROUTING_TOP_N} allowed)"
+                        f"   {what} raw {m.raw_similarity:.2f} is "
+                        f"{amount:.2f} below the best fact (window {RELATIVE_WINDOW})"
                     )
                 else:
                     print(
-                        f"   MISSED: {m.relation}={m.value}: passed the gate but cut by k={k}"
+                        f"   {what} routed out, this relation ranks "
+                        f"{m.relation_rank} for the question (top {ROUTING_TOP_N} allowed)"
                     )
 
     rows = retrieve_baseline(user, question, 10)

@@ -133,39 +133,61 @@ def score_facts(user_id: str, query: str) -> list[Memory]:
     return scored
 
 
+def best_raw(scored: list[Memory]) -> float:
+    """Best raw similarity among the unpinned facts that pass the floor (0.0 if none do).
+    The relative window is measured from this value."""
+    return max(
+        (
+            m.raw_similarity
+            for m in scored
+            if not m.pinned and m.raw_similarity >= MIN_RELEVANCE
+        ),
+        default=0.0,
+    )
+
+
+def gate_failure(m: Memory, best: float) -> tuple[str, float] | None:
+    """Why the relevance gate drops this fact, or None if it passes.
+
+    Returns ("floor", gap below MIN_RELEVANCE), ("window", gap below the best fact) or
+    ("routing", the fact's relation rank). `best` comes from best_raw(scored).
+    The checks run in that order. SAFETY_RELATIONS skip the floor and window when
+    routing ranks them in the top ROUTING_TOP_N (SAFETY_BYPASS, needs routing on).
+    """
+    routed = ROUTING_TOP_N <= 0 or m.relation_rank <= ROUTING_TOP_N
+    if (
+        ROUTING_TOP_N > 0
+        and SAFETY_BYPASS
+        and m.relation in SAFETY_RELATIONS
+        and routed
+    ):
+        return None
+    if m.raw_similarity < MIN_RELEVANCE:
+        return "floor", MIN_RELEVANCE - m.raw_similarity
+    if m.raw_similarity < best - RELATIVE_WINDOW:
+        return "window", best - m.raw_similarity
+    if not routed:
+        return "routing", float(m.relation_rank)
+    return None
+
+
 def select_memories(scored: list[Memory], k: int) -> tuple[list[Memory], list[Memory]]:
     """Gate, then rank. Returns (pinned, relevant).
 
     pinned   : facts important enough to always include (off by default)
-    relevant : facts that pass ALL parts of the gate, best score first, at most k
+    relevant : facts that pass the gate (see gate_failure), best score first, at most k
                  floor   : raw similarity >= MIN_RELEVANCE
                  window  : raw similarity within RELATIVE_WINDOW of the best fact that passed the floor
                  routing : the fact's relation type is among the ROUTING_TOP_N best matches
                            for the question (0 = off)
-               SAFETY_RELATIONS skip the floor and window when routing passes them
-               (SAFETY_BYPASS, needs routing on).
+               SAFETY_RELATIONS skip the floor and window when routing passes them.
     """
     pinned = [m for m in scored if m.pinned]
-    candidates = [
-        m for m in scored if not m.pinned and m.raw_similarity >= MIN_RELEVANCE
+    best = best_raw(scored)
+    relevant = [
+        m for m in scored if not m.pinned and gate_failure(m, best) is None
     ]
-    if candidates:
-        best = max(m.raw_similarity for m in candidates)
-        candidates = [
-            m for m in candidates if m.raw_similarity >= best - RELATIVE_WINDOW
-        ]
-    if ROUTING_TOP_N > 0:
-        candidates = [m for m in candidates if m.relation_rank <= ROUTING_TOP_N]
-        if SAFETY_BYPASS:
-            passed = {m.id for m in candidates} | {
-                m.id
-                for m in scored
-                if not m.pinned
-                and m.relation in SAFETY_RELATIONS
-                and m.relation_rank <= ROUTING_TOP_N
-            }
-            candidates = [m for m in scored if m.id in passed]  # keeps score order
-    return pinned, candidates[:k]
+    return pinned, relevant[:k]
 
 
 def retrieve(user_id: str, query: str, k: int = 4, touch: bool = True) -> list[Memory]:

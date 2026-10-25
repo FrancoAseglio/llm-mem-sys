@@ -39,3 +39,13 @@ for _letter, _scenarios in SETS.items():
         _scenario["set"] = _letter
 
 SCENARIOS = [scenario for scenarios in SETS.values() for scenario in scenarios]
+
+# One-line status of each set, shown in the evaluation summary.
+SET_LABELS = {
+    "A": "A (tuning set, cannot validate)",
+    "B": "B (spent: the floor and window were chosen after seeing it)",
+    "C": "C (spent: written before the relative window ran on it)",
+    "D": "D (BLIND: written before routing existed in the pipeline; run once)",
+    "E": "E (BLIND: written before the safety bypass and goal prompt; run once)",
+    "F": "F (BLIND: write path only, written after the write-path fixes; run once)",
+}
