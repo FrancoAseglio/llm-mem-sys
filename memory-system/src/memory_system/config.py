@@ -31,7 +31,7 @@ DEFAULT_IMPORTANCE = {
 DUPLICATE_SIMILARITY = 0.8
 
 # ---- Retrieval: a relevance gate (floor, window, routing), then a ranking among what passes ----
-# Evidence for these values: docs/findings.md.
+# Evidence for these values: docs/08_findings.md.
 
 # Floor: a fact needs raw cosine similarity >= this to the question. Fragile (one example per side).
 MIN_RELEVANCE = 0.42

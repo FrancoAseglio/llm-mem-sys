@@ -78,4 +78,4 @@ Other script: `scripts/chat.py` (interactive chat, `/mode smart|baseline|none`, 
 | `scripts/` | `evaluate.py` (+ `eval_metrics.py`, `eval_report.py`), `inspect_scores.py`, `chat.py`, `smoke_test.py`; `scenarios/` holds the test sets A–F |
 | `tests/` | `test_actions.py` and `test_gate.py` (pure), `test_write_path.py` and `test_manager.py` (need the DB) |
 | `schema.sql` | full schema for a fresh database; after a schema change, drop and recreate the database from it |
-| `docs/` | A environment, B storage, C model access, D write path, E read path, `findings.md` |
+| `docs/` | Numbered documentation, start at [`docs/README.md`](docs/README.md) |

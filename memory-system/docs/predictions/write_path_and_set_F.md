@@ -1,5 +1,7 @@
 # Predictions for the write-path fixes (written 2026-10-25, before any code change)
 
+> Historical record: written before the run it describes and kept unchanged. File names, paths and numbers may be out of date; see [../README.md](../README.md) for the current docs.
+
 Written before steps 2-5 ran. Nothing below has been checked against data. The retrieval gate
 (`retrieve.py`, config thresholds) is frozen; sets A-E are spent and nothing will be tuned on them.
 

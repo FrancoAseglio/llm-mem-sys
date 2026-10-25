@@ -1,5 +1,7 @@
 # Predictions before set E (written 2026-10-25, before running anything)
 
+> Historical record: written before the run it describes and kept unchanged. File names, paths and numbers may be out of date; see [../README.md](../README.md) for the current docs.
+
 Written after set E was added to `scripts/scenarios.py` and before any of steps 2-5 ran.
 Nothing below has been checked against data.
 
