@@ -18,7 +18,8 @@ import argparse
 
 from scenarios import SCENARIOS
 
-from memory_system.config import MIN_RELEVANCE, PIN_IMPORTANCE, RELATIVE_WINDOW, ROUTING_TOP_N
+from memory_system.config import (MIN_RELEVANCE, PIN_IMPORTANCE, RELATIVE_WINDOW, ROUTING_TOP_N,
+                                  SAFETY_BYPASS, SAFETY_RELATIONS)
 from memory_system.retrieve import retrieve_baseline, score_facts, select_memories
 
 
@@ -32,7 +33,8 @@ def show(user: str, question: str, needs: list[str], k: int) -> None:
 
     print(f"\n{'=' * 96}\nQ: {question}   [user={user}]")
     print(f"   needs: {needs or '-'}   k={k}   gate: raw >= {MIN_RELEVANCE} and within {RELATIVE_WINDOW} of the best, relation rank <= {ROUTING_TOP_N or 'off'}   "
-          f"pinning: {'off' if PIN_IMPORTANCE > 1 else f'importance >= {PIN_IMPORTANCE}'}")
+          f"pinning: {'off' if PIN_IMPORTANCE > 1 else f'importance >= {PIN_IMPORTANCE}'}   "
+          f"safety bypass: {sorted(SAFETY_RELATIONS) if SAFETY_BYPASS and ROUTING_TOP_N else 'off'}")
     if not scored:
         print("   (no active facts, run evaluate.py first)")
     else:

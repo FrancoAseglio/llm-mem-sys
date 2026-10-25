@@ -10,6 +10,8 @@ from memory_system.config import (
     RECENCY_HALF_LIFE_DAYS,
     RELATIVE_WINDOW,
     ROUTING_TOP_N,
+    SAFETY_BYPASS,
+    SAFETY_RELATIONS,
     SIM_CEIL,
     SIM_FLOOR,
     WEIGHTS,
@@ -105,9 +107,6 @@ def score_facts(user_id: str, query: str) -> list[Memory]:
     return scored
 
 
-# TODO(open design question): should allergic_to facts skip the similarity floor?
-# Safety argues yes (an allergy matters even for loosely worded food questions), noise argues
-# no (it would reach unrelated prompts). Not decided; do not change the gate without a fresh blind set.
 def select_memories(scored: list[Memory], k: int) -> tuple[list[Memory], list[Memory]]:
     """Gate, then rank. Returns (pinned, relevant).
 
@@ -117,6 +116,8 @@ def select_memories(scored: list[Memory], k: int) -> tuple[list[Memory], list[Me
                  window  : raw similarity within RELATIVE_WINDOW of the best fact that passed the floor
                  routing : the fact's relation type is among the ROUTING_TOP_N best matches
                            for the question (0 = off)
+               SAFETY_RELATIONS skip the floor and window when routing passes them
+               (SAFETY_BYPASS, needs routing on).
     """
     pinned = [m for m in scored if m.pinned]
     candidates = [m for m in scored if not m.pinned and m.raw_similarity >= MIN_RELEVANCE]
@@ -125,6 +126,13 @@ def select_memories(scored: list[Memory], k: int) -> tuple[list[Memory], list[Me
         candidates = [m for m in candidates if m.raw_similarity >= best - RELATIVE_WINDOW]
     if ROUTING_TOP_N > 0:
         candidates = [m for m in candidates if m.relation_rank <= ROUTING_TOP_N]
+        if SAFETY_BYPASS:
+            passed = {m.id for m in candidates} | {
+                m.id for m in scored
+                if not m.pinned and m.relation in SAFETY_RELATIONS
+                and m.relation_rank <= ROUTING_TOP_N
+            }
+            candidates = [m for m in scored if m.id in passed]  # keeps score order
     return pinned, candidates[:k]
 
 

@@ -33,6 +33,7 @@ Rules:
 - Ignore temporary things (what they ate today, the weather).
 - Keep values short and normalized: 'Milan', 'cycling', 'penicillin'.
 - "I moved to X" or "I now live in X" means lives_in = X.
+- Plans, hopes and things the user is saving for or working towards are durable: goal = X.
 - One item per fact. If there is nothing durable, return {{"facts": []}}.
 
 Examples:

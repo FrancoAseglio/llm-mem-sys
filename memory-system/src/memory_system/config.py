@@ -40,6 +40,11 @@ RELATIVE_WINDOW = 0.08
 # Routing: only facts whose relation type is among the N best matches for the question. 0 = off.
 ROUTING_TOP_N = int(os.environ.get("ROUTING_TOP_N", "2"))
 
+# Safety bypass: these relations skip the floor and window when routing ranks them in the top N,
+# so an allergy is not lost to a loosely worded food question. SAFETY_BYPASS=0 switches it off.
+SAFETY_RELATIONS = {"allergic_to"}
+SAFETY_BYPASS = os.environ.get("SAFETY_BYPASS", "1") != "0"
+
 # Ranking: score = sum(weight * component), each component in [0, 1]. Orders facts and picks the top k.
 WEIGHTS = {
     "similarity": 0.50,

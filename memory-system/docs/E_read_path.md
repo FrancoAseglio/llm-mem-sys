@@ -99,6 +99,8 @@ A fact reaches the prompt only if it passes **all three** parts, applied in this
 | 2 | Window | `raw_similarity >= best - RELATIVE_WINDOW`, where `best` is the top raw similarity among facts that passed the floor | 0.08 | Drops topical neighbours: for a languages question, speaks=Spanish at 0.73 removes lives_in=Rome at 0.50 |
 | 3 | Routing | the fact's `relation_rank <= ROUTING_TOP_N` | 2 (env `ROUTING_TOP_N`, 0 = off) | Only facts of the kinds of information the question is about |
 
+**Safety bypass.** Facts whose relation is in `SAFETY_RELATIONS` (`allergic_to`) skip the floor and the window when routing ranks their relation in the top `ROUTING_TOP_N`, so an allergy reaches a loosely worded food question. It only applies with routing on; `SAFETY_BYPASS=0` switches it off. Cost: an allergy also reaches any question where `allergic_to` routes into the top 2 (e.g. a drug allergy on a dinner question).
+
 Then the survivors are sorted by score and cut to `k`.
 
 Note on the order: the window's `best` is taken *before* routing, so a fact that is later routed out can still set the window for the others.
@@ -133,7 +135,7 @@ Weights come from `WEIGHTS` in `config.py`. Because the gate already decided rel
 
 ### 3.5 Pinning (off)
 
-`select_memories` still supports pinning (always include facts with importance >= `PIN_IMPORTANCE`), but `PIN_IMPORTANCE = 1.01` is above any possible importance, so `pinned` is always empty. It was switched off because a pinned allergy was injected into every unrelated question. Whether `allergic_to` should instead skip only the floor is an open question (TODO in `retrieve.py`).
+`select_memories` still supports pinning (always include facts with importance >= `PIN_IMPORTANCE`), but `PIN_IMPORTANCE = 1.01` is above any possible importance, so `pinned` is always empty. It was switched off because a pinned allergy was injected into every unrelated question; the routing-gated safety bypass (3.3) replaced it.
 
 ### 3.6 Reinforcement ("touch")
 
@@ -196,6 +198,7 @@ Headers: smart mode says "What you currently know about the user:", baseline say
 | Needed fact below the floor | `MIN_RELEVANCE` |
 | Needed fact more than the window below the best | `RELATIVE_WINDOW` |
 | Needed fact "routed out" | `ROUTING_TOP_N`, or a `routing_hint` on that relation |
+| Allergy on an unrelated question | `SAFETY_BYPASS`, `SAFETY_RELATIONS` |
 | Passed the gate but cut by `k` | `--k` |
 | Irrelevant fact in the prompt | the gate part that let it through, never the ranking weights |
 
@@ -223,7 +226,7 @@ Sets A to D are all spent. Any retuning needs a new blind set.
 |---|---|
 | Floor rests on one example per side | `MIN_RELEVANCE` may not transfer to new phrasings. |
 | Routing hints were written after seeing failures | They are a design choice, not validated evidence. |
-| Safety facts can be gated out | A loosely worded food question may miss an allergy (open TODO). |
+| Safety bypass trades noise for recall | Allergies reach any question that routes to `allergic_to`, relevant or not. |
 | Superseded facts are invisible | "Where did I live before?" cannot be answered. |
 | Summaries are not retrieved | Compression is not built yet. |
 | Scoring loads all active facts | Fine for a prototype; the facts HNSW index is unused. |
