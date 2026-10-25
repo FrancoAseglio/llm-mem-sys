@@ -6,7 +6,9 @@ load_dotenv()
 
 DATABASE_URL = os.environ["DATABASE_URL"]
 CHAT_MODEL = os.environ.get("CHAT_MODEL", "llama3.1:8b")
-EMBED_MODEL = os.environ.get("EMBED_MODEL", "nomic-embed-text")  # 768 dims, matches schema.sql
+EMBED_MODEL = os.environ.get(
+    "EMBED_MODEL", "nomic-embed-text"
+)  # 768 dims, matches schema.sql
 
 # Importance per relation type. The small local LLM rates almost everything 1.0, so we don't ask it.
 DEFAULT_IMPORTANCE = {

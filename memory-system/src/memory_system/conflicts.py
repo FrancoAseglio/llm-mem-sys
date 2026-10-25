@@ -59,7 +59,11 @@ def log_event(
 
 
 def _content_words(text: str) -> set[str]:
-    return {w for w in re.findall(r"\w+", text.lower()) if len(w) >= 3 and w not in STOPWORDS}
+    return {
+        w
+        for w in re.findall(r"\w+", text.lower())
+        if len(w) >= 3 and w not in STOPWORDS
+    }
 
 
 def _same_word(a: str, b: str) -> bool:
@@ -100,7 +104,9 @@ def _clause_of(value: str, relation: str, text: str) -> str | None:
     return None
 
 
-def normalize_actions(facts: list, text: str, single_relations: frozenset = frozenset()) -> list:
+def normalize_actions(
+    facts: list, text: str, single_relations: frozenset = frozenset()
+) -> list:
     """Check the extractor's assert/retract labels against the message and fix clear errors.
 
     The 8B model makes three kinds of slip with "not X, but Y" (observed on ~30 messages):
@@ -122,8 +128,11 @@ def normalize_actions(facts: list, text: str, single_relations: frozenset = froz
 
     # 1) a retract of a value the same message asserts
     asserted = {(f.relation, f.value.lower()) for f in facts if f.action == "assert"}
-    facts = [f for f in facts
-             if not (f.action == "retract" and (f.relation, f.value.lower()) in asserted)]
+    facts = [
+        f
+        for f in facts
+        if not (f.action == "retract" and (f.relation, f.value.lower()) in asserted)
+    ]
 
     # 2) every item of a relation labelled retract
     for relation in {f.relation for f in facts}:
@@ -136,8 +145,11 @@ def normalize_actions(facts: list, text: str, single_relations: frozenset = froz
             continue
         for f in retracts:
             clause = clauses[id(f)]
-            if (clause and not _NEGATION.search(clause)
-                    and _OWN_STATEMENT.match(_FILLERS.sub("", clause))):
+            if (
+                clause
+                and not _NEGATION.search(clause)
+                and _OWN_STATEMENT.match(_FILLERS.sub("", clause))
+            ):
                 facts[facts.index(f)] = f.model_copy(update={"action": "assert"})
 
     # 3) several asserts for a single-valued relation
@@ -145,8 +157,11 @@ def normalize_actions(facts: list, text: str, single_relations: frozenset = froz
         asserts = [f for f in facts if f.relation == relation and f.action == "assert"]
         if len(asserts) < 2:
             continue
-        ended = [f for f in asserts
-                 if (c := _clause_of(f.value, relation, text)) and _NEGATION.search(c)]
+        ended = [
+            f
+            for f in asserts
+            if (c := _clause_of(f.value, relation, text)) and _NEGATION.search(c)
+        ]
         if ended and len(ended) < len(asserts):
             for f in ended:
                 facts[facts.index(f)] = f.model_copy(update={"action": "retract"})
@@ -157,15 +172,25 @@ def normalize_actions(facts: list, text: str, single_relations: frozenset = froz
         if key not in seen:
             seen.add(key)
             unique.append(fact)
-    return sorted(unique, key=lambda f: f.action != "retract")  # stable: retractions first
+    return sorted(
+        unique, key=lambda f: f.action != "retract"
+    )  # stable: retractions first
 
 
 def _matching(rows: list[tuple], value: str) -> list[tuple]:
     """Rows (id, value, similarity, ...) holding the same value: equal ignoring case, or close by trigram."""
-    return [r for r in rows if r[1].lower() == value.lower() or r[2] >= DUPLICATE_SIMILARITY]
+    return [
+        r for r in rows if r[1].lower() == value.lower() or r[2] >= DUPLICATE_SIMILARITY
+    ]
 
 
-def _end(conn, ids: list[int], status: str, at: datetime | None, superseded_by: int | None = None) -> None:
+def _end(
+    conn,
+    ids: list[int],
+    status: str,
+    at: datetime | None,
+    superseded_by: int | None = None,
+) -> None:
     """Close facts with a final status. They stay in the table as history."""
     conn.execute(
         """UPDATE facts SET status = %s,
@@ -192,8 +217,13 @@ def _conflict_dependent(
         (at, user_id, dependent),
     ).fetchall()
     for fact_id, value in marked:
-        log_event(conn, user_id, "conflict", fact_id,
-                  {"relation": dependent, "value": value, "because": relation})
+        log_event(
+            conn,
+            user_id,
+            "conflict",
+            fact_id,
+            {"relation": dependent, "value": value, "because": relation},
+        )
 
 
 def apply_fact(
@@ -222,9 +252,18 @@ def apply_fact(
 
     # 0) Grounding: a value with nothing in common with the message was made up.
     if source_text is not None and not is_grounded(value, source_text, relation):
-        log_event(conn, user_id, "reject", None,
-                  {"relation": relation, "value": value, "action": action,
-                   "reason": "no content word in common with the message"})
+        log_event(
+            conn,
+            user_id,
+            "reject",
+            None,
+            {
+                "relation": relation,
+                "value": value,
+                "action": action,
+                "reason": "no content word in common with the message",
+            },
+        )
         return "rejected"
 
     cardinality = conn.execute(
@@ -245,13 +284,23 @@ def apply_fact(
     if action == "retract":
         matched = _matching(active, value)
         if not matched:
-            log_event(conn, user_id, "retract", None,
-                      {"relation": relation, "value": value, "matched": False})
+            log_event(
+                conn,
+                user_id,
+                "retract",
+                None,
+                {"relation": relation, "value": value, "matched": False},
+            )
             return "retract_miss"
         _end(conn, [r[0] for r in matched], "archived", at)
         for fact_id, old_value, *_ in matched:
-            log_event(conn, user_id, "retract", fact_id,
-                      {"relation": relation, "value": old_value})
+            log_event(
+                conn,
+                user_id,
+                "retract",
+                fact_id,
+                {"relation": relation, "value": old_value},
+            )
         _conflict_dependent(conn, user_id, relation, message_relations, at)
         return "retract"
 
@@ -306,14 +355,23 @@ def apply_fact(
         ).fetchall()
         contradicted = _matching(opposite, value)
         if contradicted:
-            _end(conn, [r[0] for r in contradicted], "superseded", at, superseded_by=new_id)
+            _end(
+                conn,
+                [r[0] for r in contradicted],
+                "superseded",
+                at,
+                superseded_by=new_id,
+            )
             log_event(
                 conn,
                 user_id,
                 "contradiction",
                 new_id,
-                {"relation": relation, "value": value,
-                 "old": [f"{r[3]}={r[1]}" for r in contradicted]},
+                {
+                    "relation": relation,
+                    "value": value,
+                    "old": [f"{r[3]}={r[1]}" for r in contradicted],
+                },
             )
             return "contradiction"
 

@@ -1,10 +1,28 @@
 """Shared building blocks for the scenario sets: filler messages, the abstain phrases, helpers."""
 
 ABSTAIN = [
-    "don't know", "do not know", "don't have", "do not have", "haven't told", "have not told",
-    "haven't mentioned", "have not mentioned", "not mentioned", "didn't mention", "did not mention",
-    "haven't shared", "have not shared", "not sure", "no information", "not aware", "don't recall",
-    "no record", "can't say", "cannot say", "i'm not able", "unable to",
+    "don't know",
+    "do not know",
+    "don't have",
+    "do not have",
+    "haven't told",
+    "have not told",
+    "haven't mentioned",
+    "have not mentioned",
+    "not mentioned",
+    "didn't mention",
+    "did not mention",
+    "haven't shared",
+    "have not shared",
+    "not sure",
+    "no information",
+    "not aware",
+    "don't recall",
+    "no record",
+    "can't say",
+    "cannot say",
+    "i'm not able",
+    "unable to",
 ]
 
 # Neutral filler: no word here is used in any "needs", "avoid" or "stale" list.
@@ -60,9 +78,15 @@ def assert_no_leaks(set_name, filler, scenarios, extra_words=()):
     A leaked word would make a filler message look like the needed fact (or like noise),
     which silently corrupts the measurement.
     """
-    tested = {w for sc in scenarios for q in sc["questions"]
-              for w in q.get("needs", []) + q.get("avoid", []) + q.get("stale", [])
-              if isinstance(w, str)} | set(extra_words)
+    tested = {
+        w
+        for sc in scenarios
+        for q in sc["questions"]
+        for w in q.get("needs", []) + q.get("avoid", []) + q.get("stale", [])
+        if isinstance(w, str)
+    } | set(extra_words)
     for text in filler:
         leaks = [w for w in tested if w in text.lower()]
-        assert not leaks, f"set {set_name} filler {text!r} contains tested words {leaks}"
+        assert (
+            not leaks
+        ), f"set {set_name} filler {text!r} contains tested words {leaks}"

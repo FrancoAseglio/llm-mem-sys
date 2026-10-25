@@ -30,10 +30,12 @@ class Memory:
     score: float
     pinned: bool
     parts: dict[str, float]
-    raw_similarity: float = 0.0   # cosine similarity before rescaling (what the gate uses)
-    age_days: float = 0.0         # days since the fact was last created, repeated or used
-    relation_rank: int = 0        # 1 = the relation type that best matches the question
-    relation_sim: float = 0.0     # similarity of the question to that relation type
+    raw_similarity: float = (
+        0.0  # cosine similarity before rescaling (what the gate uses)
+    )
+    age_days: float = 0.0  # days since the fact was last created, repeated or used
+    relation_rank: int = 0  # 1 = the relation type that best matches the question
+    relation_sim: float = 0.0  # similarity of the question to that relation type
 
 
 def _clamp(x: float) -> float:
@@ -54,7 +56,9 @@ def _relation_vectors() -> dict[str, np.ndarray]:
             ).fetchall()
         vecs = {}
         for name, description, hint in rows:
-            text = f"{name.replace('_', ' ')}: {description or ''}" + (f" {hint}" if hint else "")
+            text = f"{name.replace('_', ' ')}: {description or ''}" + (
+                f" {hint}" if hint else ""
+            )
             v = embed(text)
             vecs[name] = v / np.linalg.norm(v)
         _relation_vecs = vecs
@@ -64,8 +68,10 @@ def _relation_vectors() -> dict[str, np.ndarray]:
 def relation_ranks(q: np.ndarray) -> dict[str, tuple[int, float]]:
     """Rank every relation type by how well the question matches it: {name: (rank, similarity)}."""
     qn = q / np.linalg.norm(q)
-    sims = sorted(((float(np.dot(qn, v)), name) for name, v in _relation_vectors().items()),
-                  reverse=True)
+    sims = sorted(
+        ((float(np.dot(qn, v)), name) for name, v in _relation_vectors().items()),
+        reverse=True,
+    )
     return {name: (rank, sim) for rank, (sim, name) in enumerate(sims, 1)}
 
 
@@ -87,7 +93,17 @@ def score_facts(user_id: str, query: str) -> list[Memory]:
         ).fetchall()
 
     scored: list[Memory] = []
-    for fid, relation, value, importance, confidence, access_count, last_touch, since, sim in rows:
+    for (
+        fid,
+        relation,
+        value,
+        importance,
+        confidence,
+        access_count,
+        last_touch,
+        since,
+        sim,
+    ) in rows:
         age_days = max(0.0, (now - last_touch).total_seconds() / 86400)
         parts = {
             "similarity": _clamp((sim - SIM_FLOOR) / (SIM_CEIL - SIM_FLOOR)),
@@ -99,9 +115,19 @@ def score_facts(user_id: str, query: str) -> list[Memory]:
         score = sum(WEIGHTS[name] * value_ for name, value_ in parts.items())
         rank, rsim = ranks.get(relation, (len(ranks) + 1, 0.0))
         scored.append(
-            Memory(fid, relation, value, since, score, importance >= PIN_IMPORTANCE,
-                   parts, raw_similarity=sim, age_days=age_days,
-                   relation_rank=rank, relation_sim=rsim)
+            Memory(
+                fid,
+                relation,
+                value,
+                since,
+                score,
+                importance >= PIN_IMPORTANCE,
+                parts,
+                raw_similarity=sim,
+                age_days=age_days,
+                relation_rank=rank,
+                relation_sim=rsim,
+            )
         )
     scored.sort(key=lambda m: m.score, reverse=True)
     return scored
@@ -120,16 +146,22 @@ def select_memories(scored: list[Memory], k: int) -> tuple[list[Memory], list[Me
                (SAFETY_BYPASS, needs routing on).
     """
     pinned = [m for m in scored if m.pinned]
-    candidates = [m for m in scored if not m.pinned and m.raw_similarity >= MIN_RELEVANCE]
+    candidates = [
+        m for m in scored if not m.pinned and m.raw_similarity >= MIN_RELEVANCE
+    ]
     if candidates:
         best = max(m.raw_similarity for m in candidates)
-        candidates = [m for m in candidates if m.raw_similarity >= best - RELATIVE_WINDOW]
+        candidates = [
+            m for m in candidates if m.raw_similarity >= best - RELATIVE_WINDOW
+        ]
     if ROUTING_TOP_N > 0:
         candidates = [m for m in candidates if m.relation_rank <= ROUTING_TOP_N]
         if SAFETY_BYPASS:
             passed = {m.id for m in candidates} | {
-                m.id for m in scored
-                if not m.pinned and m.relation in SAFETY_RELATIONS
+                m.id
+                for m in scored
+                if not m.pinned
+                and m.relation in SAFETY_RELATIONS
                 and m.relation_rank <= ROUTING_TOP_N
             }
             candidates = [m for m in scored if m.id in passed]  # keeps score order
@@ -153,8 +185,13 @@ def retrieve(user_id: str, query: str, k: int = 4, touch: bool = True) -> list[M
                     "WHERE id = ANY(%s)",
                     (used_ids,),
                 )
-            log_event(conn, user_id, "retrieve", None,
-                      {"query": query, "returned": [m.id for m in chosen]})
+            log_event(
+                conn,
+                user_id,
+                "retrieve",
+                None,
+                {"query": query, "returned": [m.id for m in chosen]},
+            )
     return chosen
 
 

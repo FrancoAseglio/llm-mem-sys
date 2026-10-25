@@ -36,9 +36,9 @@ INSERT INTO relation_types (name, cardinality, description, routing_hint) VALUES
     ('hobby',           'multi',  'Hobbies and interests',                 NULL),
     ('likes',           'multi',  'Things the user likes',                 NULL),
     ('dislikes',        'multi',  'Things the user dislikes',
-        'Relevant to food, meals, recipes, cooking and what to avoid or skip.'),
+                                  'Relevant to food, meals, recipes, cooking and what to avoid or skip.'),
     ('allergic_to',     'multi',  'Allergies',
-        'Relevant to food, snacks, meals, recipes, restaurants, cooking and medicines.'),
+                                  'Relevant to food, snacks, meals, recipes, restaurants, cooking and medicines.'),
     ('family_member',   'multi',  'Family members',                        NULL),
     ('speaks',          'multi',  'Languages spoken',                      NULL),
     ('goal',            'multi',  'Goals and plans',                       NULL)
@@ -125,7 +125,8 @@ CREATE TABLE IF NOT EXISTS memory_events (
     id          BIGSERIAL PRIMARY KEY,
     user_id     TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     event_type  TEXT NOT NULL
-                CHECK (event_type IN ('add', 'duplicate', 'update', 'conflict', 'summarize', 'archive', 'retrieve',
+                CHECK (event_type IN ('add', 'duplicate', 'update', 'conflict', 
+                                      'summarize', 'archive', 'retrieve',
                                       'retract', 'reject', 'contradiction')),
     fact_id     BIGINT REFERENCES facts(id) ON DELETE SET NULL,
     details     JSONB NOT NULL DEFAULT '{}'::jsonb,

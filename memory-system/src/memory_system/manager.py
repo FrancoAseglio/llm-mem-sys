@@ -28,13 +28,23 @@ def ingest_user_message(
         single = frozenset(n for n, (card, _) in relations.items() if card == "single")
         facts = normalize_actions(extract_facts(text, relations), text, single)
         # relations this message really sets (a rejected value does not count)
-        asserted = {f.relation for f in facts
-                    if f.action == "assert" and is_grounded(f.value, text, f.relation)}
+        asserted = {
+            f.relation
+            for f in facts
+            if f.action == "assert" and is_grounded(f.value, text, f.relation)
+        }
         results = []
         for fact in facts:
             outcome = apply_fact(
-                conn, user_id, fact.relation, fact.value, message_id, at,
-                action=fact.action, source_text=text, message_relations=asserted,
+                conn,
+                user_id,
+                fact.relation,
+                fact.value,
+                message_id,
+                at,
+                action=fact.action,
+                source_text=text,
+                message_relations=asserted,
             )
             results.append((outcome, fact.relation, fact.value))
         return results

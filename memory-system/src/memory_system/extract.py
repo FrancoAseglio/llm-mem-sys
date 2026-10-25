@@ -69,5 +69,7 @@ def extract_facts(
         # drop invented relations, empty values and repeats
         if relation in relations and value and key not in seen:
             seen.add(key)
-            clean.append(ExtractedFact(relation=relation, value=value, action=fact.action))
+            clean.append(
+                ExtractedFact(relation=relation, value=value, action=fact.action)
+            )
     return clean
