@@ -126,7 +126,7 @@ def test_grounding_rejects_value_not_in_message(conn):
 
 
 def test_grounding_rejects_value_without_content_word(conn):
-    # "new" and "job" are under 4 letters: nothing to match, so rejected even though present
+    # "new" and "job" are generic words: nothing to check, so rejected even though present
     assert apply(conn, "job_title", "new job",
                  source_text="I just started a new job at Globex!") == "rejected"
 
@@ -169,6 +169,32 @@ def test_dislike_contradicts_like(conn):
     assert apply(conn, "dislikes", "jazz") == "contradiction"
     assert rows(conn, "likes")["jazz"][0] == "superseded"
     assert rows(conn, "dislikes")["jazz"][0] == "active"
+
+
+def test_hobby_contradicts_dislike(conn):
+    apply(conn, "dislikes", "opera")
+    assert apply(conn, "hobby", "opera") == "contradiction"
+    assert rows(conn, "dislikes")["opera"][0] == "superseded"
+    assert rows(conn, "hobby")["opera"][0] == "active"
+
+
+def test_dislike_contradicts_hobby(conn):
+    apply(conn, "hobby", "opera")
+    assert apply(conn, "dislikes", "opera") == "contradiction"
+    assert rows(conn, "hobby")["opera"][0] == "superseded"
+    assert rows(conn, "dislikes")["opera"][0] == "active"
+
+
+def test_unrelated_hobby_does_not_contradict(conn):
+    apply(conn, "dislikes", "opera")
+    assert apply(conn, "hobby", "chess") == "add"
+    assert rows(conn, "dislikes")["opera"][0] == "active"
+
+
+def test_short_values_are_stored(conn):
+    assert apply(conn, "name", "Ana", source_text="Hi, my name is Ana.") == "add"
+    assert apply(conn, "allergic_to", "soy", source_text="I can't eat soy.") == "add"
+    assert apply(conn, "allergic_to", "egg", source_text="I'm allergic to eggs.") == "add"
 
 
 # ---- 4. conflicted ----

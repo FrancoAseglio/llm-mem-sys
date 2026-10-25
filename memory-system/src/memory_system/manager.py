@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from memory_system.conflicts import apply_fact, is_grounded
+from memory_system.conflicts import apply_fact, is_grounded, normalize_actions
 from memory_system.db import get_pool
 from memory_system.extract import extract_facts, load_relation_types
 from memory_system.llm import embed
@@ -25,10 +25,11 @@ def ingest_user_message(
         ).fetchone()[0]
 
         relations = load_relation_types(conn)
-        facts = extract_facts(text, relations)
+        single = frozenset(n for n, (card, _) in relations.items() if card == "single")
+        facts = normalize_actions(extract_facts(text, relations), text, single)
         # relations this message really sets (a rejected value does not count)
         asserted = {f.relation for f in facts
-                    if f.action == "assert" and is_grounded(f.value, text)}
+                    if f.action == "assert" and is_grounded(f.value, text, f.relation)}
         results = []
         for fact in facts:
             outcome = apply_fact(
