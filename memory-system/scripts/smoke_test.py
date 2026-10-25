@@ -4,25 +4,13 @@ Run from the memory-system folder:
     poetry run python scripts/smoke_test.py
 """
 
-import os
-
-import numpy as np
 import ollama
 import psycopg
-from dotenv import load_dotenv
 from pgvector.psycopg import register_vector
 from pydantic import BaseModel
 
-load_dotenv()
-DB_URL = os.environ["DATABASE_URL"]
-EMBED_MODEL = os.environ["EMBED_MODEL"]
-CHAT_MODEL = os.environ["CHAT_MODEL"]
-
-
-def embed(text: str) -> np.ndarray:
-    vec = ollama.embed(model=EMBED_MODEL, input=text)["embeddings"][0]
-    return np.asarray(vec, dtype=np.float32)
-
+from memory_system.config import CHAT_MODEL, DATABASE_URL
+from memory_system.llm import embed
 
 # --- 1. Embeddings + pgvector -------------------------------------------
 print("1) Embeddings + vector search")
@@ -31,7 +19,7 @@ sample = [
     "My favourite food is carbonara.",
     "I work as a data engineer.",
 ]
-with psycopg.connect(DB_URL) as conn:
+with psycopg.connect(DATABASE_URL) as conn:
     register_vector(conn)
     conn.execute("INSERT INTO users (id) VALUES ('smoke') ON CONFLICT DO NOTHING")
     for text in sample:
