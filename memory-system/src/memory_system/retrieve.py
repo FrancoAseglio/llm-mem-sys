@@ -16,8 +16,8 @@ from memory_system.config import (
     SIM_FLOOR,
     WEIGHTS,
 )
-from memory_system.conflicts import log_event
 from memory_system.db import get_pool
+from memory_system.events import log_event
 from memory_system.llm import embed
 
 

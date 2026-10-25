@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from memory_system.conflicts import apply_fact, is_grounded, normalize_actions
+from memory_system.actions import is_grounded, normalize_actions
+from memory_system.conflicts import apply_fact
 from memory_system.db import get_pool
 from memory_system.extract import extract_facts, load_relation_types
 from memory_system.llm import embed

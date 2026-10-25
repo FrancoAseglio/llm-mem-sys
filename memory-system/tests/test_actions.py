@@ -4,7 +4,7 @@
 """
 import pytest
 
-from memory_system.conflicts import is_grounded, normalize_actions
+from memory_system.actions import is_grounded, normalize_actions
 from memory_system.extract import ExtractedFact
 
 
