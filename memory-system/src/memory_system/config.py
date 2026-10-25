@@ -6,11 +6,9 @@ load_dotenv()
 
 DATABASE_URL = os.environ["DATABASE_URL"]
 CHAT_MODEL = os.environ.get("CHAT_MODEL", "llama3.1:8b")
-EMBED_MODEL = os.environ.get("EMBED_MODEL", "nomic-embed-text")
-EMBED_DIM = 768
+EMBED_MODEL = os.environ.get("EMBED_MODEL", "nomic-embed-text")  # 768 dims, matches schema.sql
 
-# The small local LLM rates almost everything as importance 1.0, so importance
-# is decided by relation type here, not by the model.
+# Importance per relation type. The small local LLM rates almost everything 1.0, so we don't ask it.
 DEFAULT_IMPORTANCE = {
     "allergic_to": 0.95,
     "family_member": 0.80,
@@ -30,19 +28,31 @@ DEFAULT_IMPORTANCE = {
 # A new value this similar (trigram similarity) to an existing one counts as a duplicate.
 DUPLICATE_SIMILARITY = 0.8
 
-# ---- Retrieval tuning (start here when results look off) ----
-# score = sum(weight * component), every component is between 0 and 1.
+# ---- Retrieval: a relevance gate (floor, window, routing), then a ranking among what passes ----
+# Evidence for these values: docs/findings.md.
+
+# Floor: a fact needs raw cosine similarity >= this to the question. Fragile (one example per side).
+MIN_RELEVANCE = 0.42
+
+# Window: keep only facts within this of the best candidate, to drop topical neighbours.
+RELATIVE_WINDOW = 0.08
+
+# Routing: only facts whose relation type is among the N best matches for the question. 0 = off.
+ROUTING_TOP_N = int(os.environ.get("ROUTING_TOP_N", "2"))
+
+# Ranking: score = sum(weight * component), each component in [0, 1]. Orders facts and picks the top k.
 WEIGHTS = {
-    "similarity": 0.40,
+    "similarity": 0.50,
     "importance": 0.25,
-    "recency": 0.20,
     "usage": 0.10,
-    "confidence": 0.05,
+    "confidence": 0.10,
+    "recency": 0.05,
 }
-# nomic-embed-text gives compressed cosine similarities (unrelated ~0.4, related ~0.6+),
-# so raw similarity is rescaled from [FLOOR, CEIL] to [0, 1].
+# For ranking only, raw similarity is rescaled from [SIM_FLOOR, SIM_CEIL] to [0, 1].
 SIM_FLOOR = 0.35
 SIM_CEIL = 0.75
-RECENCY_HALF_LIFE_DAYS = 90      # a fact untouched for 90 days counts half as "fresh"
-MIN_SCORE = 0.50                 # facts scoring below this are not injected into the prompt
-PIN_IMPORTANCE = 0.90            # facts at least this important (allergies) are always included
+# A fact untouched for this many days counts as half as fresh.
+RECENCY_HALF_LIFE_DAYS = 90
+
+# Pinning (always include very important facts) is off: 1.01 is above any importance.
+PIN_IMPORTANCE = 1.01

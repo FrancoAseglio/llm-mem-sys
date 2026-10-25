@@ -3,6 +3,7 @@
 Run from the memory-system folder:
     poetry run python scripts/smoke_test.py
 """
+
 import os
 
 import numpy as np

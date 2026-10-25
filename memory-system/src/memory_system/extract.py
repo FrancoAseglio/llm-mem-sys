@@ -13,11 +13,15 @@ class ExtractionResult(BaseModel):
 
 
 def load_relation_types(conn) -> dict[str, tuple[str, str]]:
-    rows = conn.execute("SELECT name, cardinality, description FROM relation_types").fetchall()
+    """Return {name: (cardinality, description)} for every relation type."""
+    rows = conn.execute(
+        "SELECT name, cardinality, description FROM relation_types"
+    ).fetchall()
     return {name: (card, desc) for name, card, desc in rows}
 
 
 def build_prompt(relations: dict[str, tuple[str, str]]) -> str:
+    """System prompt for the extractor, listing the allowed relations."""
     allowed = "\n".join(f"- {name}: {desc}" for name, (_, desc) in relations.items())
     return f"""You extract long-term facts about the USER from one message.
 
@@ -41,13 +45,19 @@ Message: "What's the weather like in Paris?"
 """
 
 
-def extract_facts(text: str, relations: dict[str, tuple[str, str]]) -> list[ExtractedFact]:
-    result = chat_structured(build_prompt(relations), f'Message: "{text}"', ExtractionResult)
+def extract_facts(
+    text: str, relations: dict[str, tuple[str, str]]
+) -> list[ExtractedFact]:
+    """Extract durable facts about the user from one message, deduplicated."""
+    result = chat_structured(
+        build_prompt(relations), f'Message: "{text}"', ExtractionResult
+    )
     clean, seen = [], set()
     for fact in result.facts:
         relation, value = fact.relation.strip(), fact.value.strip()
         key = (relation, value.lower())
-        if relation in relations and value and key not in seen:  # drop invented relations
+        # drop invented relations, empty values and repeats
+        if relation in relations and value and key not in seen:
             seen.add(key)
             clean.append(ExtractedFact(relation=relation, value=value))
     return clean

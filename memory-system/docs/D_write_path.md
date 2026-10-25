@@ -326,5 +326,5 @@ DELETE FROM users WHERE id = 'demo';
 | **B. Storage design** | Writes to `users`, `messages`, `facts`, `memory_events`, and reads `relation_types`. |
 | **C. Model access** | Uses `embed` (message and fact vectors), `chat_structured` (extraction), `get_pool` (transactions), and the importance and duplicate settings in `config.py`. |
 | **E. Read path** | Produces the active and superseded facts that retrieval ranks. Retrieval reads only `status = 'active'` rows. |
-| **F. Experiments** | `chat.py` calls `ingest_user_message` after each answer, so memory updates as you talk. |
-| **G. Not started** | Summaries will consume old `messages`; smarter conflict handling will use the unused `conflicted` status and event type. |
+| **Scripts** | `chat.py` calls `ingest_user_message` after each answer, so memory updates as you talk. |
+| **Not started** | Summaries will consume old `messages`; smarter conflict handling will use the unused `conflicted` status and event type. |

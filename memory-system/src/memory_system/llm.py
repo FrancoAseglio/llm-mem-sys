@@ -8,18 +8,26 @@ from memory_system.config import CHAT_MODEL, EMBED_MODEL
 
 
 def embed(text: str) -> np.ndarray:
+    """Embed one text with the embedding model."""
     vec = ollama.embed(model=EMBED_MODEL, input=text)["embeddings"][0]
     return np.asarray(vec, dtype=np.float32)
 
 
 def chat(messages: list[dict], temperature: float = 0.3) -> str:
-    resp = ollama.chat(model=CHAT_MODEL, messages=messages, options={"temperature": temperature})
+    """Return the chat model's full reply."""
+    resp = ollama.chat(
+        model=CHAT_MODEL, messages=messages, options={"temperature": temperature}
+    )
     return resp.message.content
 
 
 def chat_stream(messages: list[dict], temperature: float = 0.3) -> Iterator[str]:
+    """Yield the chat model's reply token by token."""
     for chunk in ollama.chat(
-        model=CHAT_MODEL, messages=messages, options={"temperature": temperature}, stream=True
+        model=CHAT_MODEL,
+        messages=messages,
+        options={"temperature": temperature},
+        stream=True,
     ):
         yield chunk.message.content
 

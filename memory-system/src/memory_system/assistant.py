@@ -25,28 +25,48 @@ HEADERS = {
 
 
 def format_memory(m: Memory) -> str:
+    """One prompt line for a fact, e.g. 'Lives in: Milan (since 2026-10-24)'."""
     return f"{LABELS.get(m.relation, m.relation)}: {m.value} (since {m.since:%Y-%m-%d})"
 
 
-def recall(mode: str, user_id: str, query: str, k: int = 4, touch: bool = True) -> list[str]:
+def recall(
+    mode: str, user_id: str, query: str, k: int = 4, touch: bool = True
+) -> list[str]:
     """Return the memory lines to inject into the prompt for the given mode."""
     if mode == "smart":
         return [format_memory(m) for m in retrieve(user_id, query, k, touch)]
     if mode == "baseline":
-        return [f'[{created:%Y-%m-%d}] "{content}"'
-                for content, created, _ in retrieve_baseline(user_id, query, k)]
+        return [
+            f'[{created:%Y-%m-%d}] "{content}"'
+            for content, created, _ in retrieve_baseline(user_id, query, k)
+        ]
     return []
 
 
-def build_messages(mode: str, memory_lines: list[str], history: list[dict], user_text: str):
+def build_messages(
+    mode: str, memory_lines: list[str], history: list[dict], user_text: str
+) -> list[dict]:
+    """System prompt (with the memory lines, if any), then the history, then the question."""
     system = (
         "You are a friendly, concise assistant that remembers the user across conversations. "
-        f"Today is {date.today():%A %d %B %Y}."
+        f"Today is {date.today():%A %d %B %Y}. "
+        "You have no access to real-time information such as weather, news or prices, so say so "
+        "instead of guessing. If the user asks about themselves and you do not know the answer, "
+        "say you don't know instead of guessing."
     )
     if memory_lines:
-        system += "\n\n" + HEADERS[mode] + "\n" + "\n".join(f"- {line}" for line in memory_lines)
+        system += (
+            "\n\n"
+            + HEADERS[mode]
+            + "\n"
+            + "\n".join(f"- {line}" for line in memory_lines)
+        )
         system += (
             "\n\nUse this only when it is relevant to the question. Do not list it unprompted "
             "and do not mention having a memory system."
         )
-    return [{"role": "system", "content": system}, *history, {"role": "user", "content": user_text}]
+    return [
+        {"role": "system", "content": system},
+        *history,
+        {"role": "user", "content": user_text},
+    ]

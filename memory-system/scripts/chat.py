@@ -4,6 +4,7 @@
 
 Commands: /mode smart|baseline|none   /facts   /quit
 """
+
 import argparse
 
 from memory_system.assistant import build_messages, recall
@@ -14,7 +15,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--user", default="me")
 parser.add_argument("--mode", choices=["smart", "baseline", "none"], default="smart")
 parser.add_argument("--k", type=int, default=4)
-parser.add_argument("--quiet", action="store_true", help="hide recall/memory debug lines")
+parser.add_argument(
+    "--quiet", action="store_true", help="hide recall/memory debug lines"
+)
 args = parser.parse_args()
 
 mode, history = args.mode, []
@@ -37,22 +40,30 @@ while True:
         continue
     if text == "/facts":
         for relation, value, status, imp, conf, since in list_facts(args.user):
-            print(f"  {relation:<14}{value:<20}{status:<12}imp={imp:.2f} conf={conf:.2f}  {since}")
+            print(
+                f"  {relation:<14}{value:<20}{status:<12}imp={imp:.2f} conf={conf:.2f}  {since}"
+            )
         continue
 
     lines = recall(mode, args.user, text, args.k)
     if lines and not args.quiet:
         print("  [recalled]")
+
         for line in lines:
             print(f"    - {line}")
 
     print("assistant> ", end="", flush=True)
     reply = ""
+
     for token in chat_stream(build_messages(mode, lines, history[-6:], text)):
         print(token, end="", flush=True)
         reply += token
+
     print()
-    history += [{"role": "user", "content": text}, {"role": "assistant", "content": reply}]
+    history += [
+        {"role": "user", "content": text},
+        {"role": "assistant", "content": reply},
+    ]
 
     for outcome, relation, value in ingest_user_message(args.user, text):
         if not args.quiet:

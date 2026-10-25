@@ -3,6 +3,7 @@
 Run from the memory-system folder:
     poetry run python scripts/demo_ingest.py
 """
+
 from memory_system.db import get_pool
 from memory_system.manager import ingest_user_message, list_facts
 
@@ -26,10 +27,12 @@ for text in TURNS:
     results = ingest_user_message(USER, text)
     if not results:
         print("   (nothing durable)")
+
     for outcome, relation, value in results:
         print(f"   {outcome.upper():<9} {relation} = {value}")
 
 print("\n=== Facts in memory ===")
 print(f"{'relation':<14}{'value':<18}{'status':<12}{'imp':<6}{'conf':<6}valid_from")
+
 for relation, value, status, imp, conf, valid_from in list_facts(USER):
     print(f"{relation:<14}{value:<18}{status:<12}{imp:<6.2f}{conf:<6.2f}{valid_from}")

@@ -220,7 +220,7 @@ The log gets an `update` event with `{"old": ["Turin"], "new": "Milan"}`.
 | Baseline retrieval | nothing | `messages` by embedding distance |
 
 Retrieval counts as a write because using a fact reinforces it.  
-The `compare.py` script avoids this on purpose, so comparing does not change memory.
+`evaluate.py` and `inspect_scores.py` avoid this on purpose (`touch=False`), so measuring does not change memory.
 
 ---
 

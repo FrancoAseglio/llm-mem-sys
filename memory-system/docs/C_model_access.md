@@ -17,7 +17,7 @@ How the project code reaches the AI models and the database: three small files t
  manager.py, conflicts.py ─▶ embed() ──────────┤
  retrieve.py ─────────────▶ embed() ───────────┼──▶ llm.py ──▶ Ollama (localhost:11434)
  scripts/chat.py ─────────▶ chat_stream() ─────┤                 ├─ llama3.1:8b
- scripts/compare.py ──────▶ chat() ────────────┘                 └─ nomic-embed-text
+ scripts/evaluate.py ─────▶ chat() ────────────┘                 └─ nomic-embed-text
 
  manager.py, conflicts.py, retrieve.py ──▶ get_pool() ──▶ db.py ──▶ Postgres (memory_db)
 
@@ -34,7 +34,7 @@ Everything goes through `llm.py`, so swapping Ollama for another provider later 
 | Function | Signature | Returns | Used by |
 |---|---|---|---|
 | `embed` | `embed(text: str)` | numpy array, 768 floats (float32) | `manager.py` (message), `conflicts.py` (new fact), `retrieve.py` (query) |
-| `chat` | `chat(messages, temperature=0.3)` | the full reply as a string | `scripts/compare.py` |
+| `chat` | `chat(messages, temperature=0.3)` | the full reply as a string | `scripts/evaluate.py` |
 | `chat_stream` | `chat_stream(messages, temperature=0.3)` | an iterator that yields the reply piece by piece | `scripts/chat.py` |
 | `chat_structured` | `chat_structured(system, user, schema)` | an instance of the pydantic class you pass in | `extract.py` |
 
@@ -180,48 +180,14 @@ print(chat_structured("Return the colour mentioned.", "The sky is blue.", Color)
 | Where | Temperature | Reason |
 |---|---|---|
 | Fact extraction (`chat_structured`) | 0 (fixed) | Repeatable, no creativity wanted |
-| Comparison answers (`compare.py`) | 0 | So differences between modes come from memory, not randomness |
+| Evaluation answers (`evaluate.py`) | 0 | So differences between modes come from memory, not randomness |
 | Interactive chat (`chat`, `chat_stream` default) | 0.3 | Slightly natural-sounding but still fairly steady |
 
 ---
 
 ## 7. `config.py` reference
 
-`config.py` calls `load_dotenv()`, which reads the `.env` file in the project folder, then exposes constants for the rest of the code.
-
-### 7.1 Values from `.env`
-
-| Name | Default | Notes |
-|---|---|---|
-| `DATABASE_URL` | none, **required** | Missing value raises `KeyError: 'DATABASE_URL'` at import time. |
-| `CHAT_MODEL` | `llama3.1:8b` | Used for chat and extraction. |
-| `EMBED_MODEL` | `nomic-embed-text` | Used for every embedding. |
-
-### 7.2 Fixed value
-
-| Name | Value | Notes |
-|---|---|---|
-| `EMBED_DIM` | 768 | Documentation constant. No code reads it yet, and nothing checks that the model's real output size matches. |
-
-### 7.3 Write-path settings
-
-| Name | Value | Effect |
-|---|---|---|
-| `DEFAULT_IMPORTANCE` | dict by relation (allergy 0.95 down to hobby 0.40) | Importance given to each new fact. Raise a relation here to make it matter more in retrieval. |
-| `DUPLICATE_SIMILARITY` | 0.8 | Trigram similarity at which a new value counts as a duplicate of an existing one. Lower catches more near-duplicates but risks merging different values. |
-
-### 7.4 Retrieval settings
-
-| Name | Value | Effect |
-|---|---|---|
-| `WEIGHTS` | similarity 0.40, importance 0.25, recency 0.20, usage 0.10, confidence 0.05 | How much each component contributes to a memory's score. They should sum to 1. |
-| `SIM_FLOOR` | 0.35 | Raw similarity at or below this counts as 0. |
-| `SIM_CEIL` | 0.75 | Raw similarity at or above this counts as 1. |
-| `RECENCY_HALF_LIFE_DAYS` | 90 | A fact untouched for this long scores half as fresh. |
-| `MIN_SCORE` | 0.50 | Facts scoring below this are not shown to the model. |
-| `PIN_IMPORTANCE` | 0.90 | Facts at least this important are always included. |
-
-Practical tuning: if relevant facts are missing, lower `MIN_SCORE` or `SIM_FLOOR`. If irrelevant ones sneak in, raise them. `compare.py` prints each component's value so you can see which one is responsible.
+`config.py` calls `load_dotenv()`, which reads `.env` (`DATABASE_URL` required; `CHAT_MODEL`, `EMBED_MODEL` and `ROUTING_TOP_N` optional), then exposes constants for the rest of the code. Each setting has a one-line explanation in the file itself. Write-path settings (`DEFAULT_IMPORTANCE`, `DUPLICATE_SIMILARITY`) are used in D; retrieval settings in E, section 3.
 
 ---
 
@@ -302,7 +268,7 @@ Existing data is unaffected, because no stored vector depends on the chat model.
 2. Find its dimension (`len(embed("x"))` after changing `.env`).
 3. If it differs from 768, change every `vector(768)` in `schema.sql`.
 4. Rebuild the database and re-embed all stored messages and facts. No re-embedding script exists yet, so the simplest route for a prototype is to wipe the data and re-ingest.
-5. Re-tune `SIM_FLOOR`, `SIM_CEIL` and `MIN_SCORE`, since each model has its own similarity range.
+5. Re-tune `MIN_RELEVANCE`, `RELATIVE_WINDOW`, `SIM_FLOOR` and `SIM_CEIL`, since each model has its own similarity range.
 
 ---
 
@@ -340,11 +306,11 @@ Existing data is unaffected, because no stored vector depends on the chat model.
 | Gap | Impact |
 |---|---|
 | No error handling, retries or timeouts | If Ollama is down or returns bad JSON, the script stops with a traceback. |
-| `EMBED_DIM` is never checked | A model or schema mismatch only shows up as a database error later. |
+| Embedding size is never checked | A model or schema mismatch only shows up as a database error later. |
 | No caching or batching of embeddings | In `chat.py` the same message is embedded twice per turn (once for recall, once for storage). `ollama.embed` accepts a list, so batching is possible. |
 | Database transaction stays open during extraction | `ingest_user_message` holds the transaction while the LLM runs. It keeps the write atomic, but if extraction fails the message is not saved either. |
 | Extraction sees only one message | No surrounding context, so replies like "yes, that's right" yield nothing. |
 | No token or context budgeting | Fine for today's short prompts, but needed once summaries and long histories exist. |
 | Synchronous only | One call at a time, which is fine for a single user. |
 | Prompts live elsewhere | Extraction prompt is in `extract.py`, answer prompt in `assistant.py`, not in `llm.py`. |
-| Embedding prefixes untested | A possible cheap retrieval improvement, as noted in section 4.4. |
+| Embedding prefixes | Tested, no clear gain (`docs/findings.md`). |

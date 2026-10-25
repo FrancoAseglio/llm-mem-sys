@@ -1,4 +1,5 @@
--- Memory system schema (Postgres 17 + pgvector)
+-- Memory system schema (Postgres 17 + pgvector). Single source of truth for a fresh DB.
+-- Existing DBs: apply migrations/*.sql instead.
 -- Embedding dimension 768 = nomic-embed-text. If you change embedding model, change every vector(768).
 
 CREATE EXTENSION IF NOT EXISTS vector;
@@ -15,27 +16,32 @@ CREATE TABLE IF NOT EXISTS users (
 -- ---------------------------------------------------------------
 -- Relation types: tells the conflict detector whether a relation can
 -- hold one value at a time (lives_in) or many (hobby).
+-- routing_hint is extra text appended to the description when retrieval
+-- routes a question to relation types (see retrieve.relation_ranks).
 -- ---------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS relation_types (
-    name         TEXT PRIMARY KEY,
-    cardinality  TEXT NOT NULL CHECK (cardinality IN ('single', 'multi')),
-    description  TEXT
+    name          TEXT PRIMARY KEY,
+    cardinality   TEXT NOT NULL CHECK (cardinality IN ('single', 'multi')),
+    description   TEXT,
+    routing_hint  TEXT
 );
 
-INSERT INTO relation_types (name, cardinality, description) VALUES
-    ('name',            'single', 'The user''s name'),
-    ('lives_in',        'single', 'Current city or country of residence'),
-    ('works_at',        'single', 'Current employer'),
-    ('job_title',       'single', 'Current job title'),
-    ('partner',         'single', 'Current partner or spouse'),
-    ('birthday',        'single', 'Date of birth'),
-    ('hobby',           'multi',  'Hobbies and interests'),
-    ('likes',           'multi',  'Things the user likes'),
-    ('dislikes',        'multi',  'Things the user dislikes'),
-    ('allergic_to',     'multi',  'Allergies'),
-    ('family_member',   'multi',  'Family members'),
-    ('speaks',          'multi',  'Languages spoken'),
-    ('goal',            'multi',  'Goals and plans')
+INSERT INTO relation_types (name, cardinality, description, routing_hint) VALUES
+    ('name',            'single', 'The user''s name',                      NULL),
+    ('lives_in',        'single', 'Current city or country of residence',  NULL),
+    ('works_at',        'single', 'Current employer',                      NULL),
+    ('job_title',       'single', 'Current job title',                     NULL),
+    ('partner',         'single', 'Current partner or spouse',             NULL),
+    ('birthday',        'single', 'Date of birth',                         NULL),
+    ('hobby',           'multi',  'Hobbies and interests',                 NULL),
+    ('likes',           'multi',  'Things the user likes',                 NULL),
+    ('dislikes',        'multi',  'Things the user dislikes',
+        'Relevant to food, meals, recipes, cooking and what to avoid or skip.'),
+    ('allergic_to',     'multi',  'Allergies',
+        'Relevant to food, snacks, meals, recipes, restaurants, cooking and medicines.'),
+    ('family_member',   'multi',  'Family members',                        NULL),
+    ('speaks',          'multi',  'Languages spoken',                      NULL),
+    ('goal',            'multi',  'Goals and plans',                       NULL)
 ON CONFLICT (name) DO NOTHING;
 
 -- ---------------------------------------------------------------
