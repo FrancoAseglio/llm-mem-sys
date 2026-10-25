@@ -23,7 +23,6 @@ brew install postgresql@17 pgvector
 brew services start postgresql@17
 createdb memory_db
 psql memory_db -f schema.sql            # fresh DB; creates the vector and pg_trgm extensions
-# existing DB created before routing hints: psql memory_db -f migrations/001_routing_hint.sql
 
 # Ollama
 brew install ollama
@@ -71,5 +70,5 @@ Other scripts: `scripts/chat.py` (interactive chat, `/mode smart|baseline|none`)
 |---|---|
 | `src/memory_system/` | `extract`, `conflicts`, `manager` (write path); `retrieve`, `assistant` (read path); `llm`, `db`, `config` |
 | `scripts/` | evaluation, inspection, chat, demo, smoke test; `scenarios.py` holds the test sets |
-| `schema.sql` | full schema for a fresh database; `migrations/` only for existing ones |
+| `schema.sql` | full schema for a fresh database; after a schema change, drop and recreate the database from it |
 | `docs/` | A environment, B storage, C model access, D write path, E read path, `findings.md` |
