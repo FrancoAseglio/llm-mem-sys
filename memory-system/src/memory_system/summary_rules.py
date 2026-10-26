@@ -25,6 +25,25 @@ class SummaryRow:
     fresh: bool  # False if a source message produced a fact that is no longer active
 
 
+_QUESTION_START = re.compile(
+    r"^(?:what|how|why|when|where|who|which|can|could|would|should|do|does|did|is|are|will|any)\b"
+)
+_REQUEST_START = re.compile(
+    r"^(?:give me|tell me|show me|help me|explain|recommend|suggest|thanks|thank you)\b"
+)
+
+
+def is_chatter(text: str) -> bool:
+    """True for a message that is only a question, a request or thanks, so it holds nothing to
+    remember about the user. A question starts with a question word and ends with "?"; a request
+    starts with "give me", "explain", "suggest" and the like; thanks start with "thanks".
+    A statement followed by a question ("I moved to Rome, can you suggest places?") is kept."""
+    t = text.strip().lower()
+    if _REQUEST_START.match(t):
+        return True
+    return t.endswith("?") and bool(_QUESTION_START.match(t))
+
+
 def _words(text: str) -> set[str]:
     return content_words(text) - SUMMARY_WORDS
 
@@ -34,7 +53,8 @@ def is_faithful(statement: str, sources: list[str], min_share: float = 0.75) -> 
 
     Every number must appear in the sources, and so must every capitalised word that does not
     start the sentence (a name or a place). At least `min_share` of the remaining content words
-    must match a source word (same_word: egg/eggs, ski/skiing). This catches invented details
+    must match some word of the sources, stopwords included (same_word: egg/eggs, ski/skiing,
+    work/works). This catches invented details
     ("Japan", "900"); a wrong statement made only of source words still passes.
     """
     source_text = " ".join(sources)
@@ -53,8 +73,9 @@ def is_faithful(statement: str, sources: list[str], min_share: float = 0.75) -> 
     words = _words(statement)
     if not words:
         return False
-    source_content = content_words(source_text)
-    matched = sum(any(same_word(w, s) for s in source_content) for w in words)
+    # match against every source word, not only its content words: "works" in a sentence must
+    # match "work" in the message, although "work" is a stopword
+    matched = sum(any(same_word(w, s) for s in source_words) for w in words)
     return matched / len(words) >= min_share
 
 

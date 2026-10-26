@@ -165,3 +165,22 @@ def test_summaries_do_not_use_up_the_room_of_facts(user, monkeypatch):
     summarize.summarize_pending(user)
     four_facts = [f"Fact {i}" for i in range(4)]
     assert summary_retrieve.retrieve_summaries(user, "q", four_facts, k=4, touch=False) == []
+
+
+def test_questions_and_thanks_are_not_sent_to_the_model(user, monkeypatch):
+    add_message("How do I remove a coffee stain?")
+    add_message(TRIP)
+    add_message(FILLER)
+    calls = model_says(monkeypatch)
+    summarize.summarize_pending(user)
+    assert "coffee" not in calls[0] and "helpful" not in calls[0]
+    assert "Norway" in calls[0] and calls[0].count("\n") >= 1
+    assert summarize.pending_count(user) == 0  # all three count as seen
+
+
+def test_a_batch_of_only_questions_makes_no_model_call(user, monkeypatch):
+    add_message("How do I remove a coffee stain?")
+    calls = model_says(monkeypatch)
+    summarize.summarize_pending(user)
+    assert calls == []
+    assert summarize.pending_count(user) == 0

@@ -14,7 +14,7 @@ from memory_system.config import SUMMARY_BATCH, SUMMARY_FAITHFUL_MIN
 from memory_system.db import get_pool
 from memory_system.events import log_event
 from memory_system.llm import chat_structured, embed
-from memory_system.summary_rules import is_faithful
+from memory_system.summary_rules import is_chatter, is_faithful
 
 SYSTEM_PROMPT = """You write short memory notes about the USER from their numbered messages.
 
@@ -74,11 +74,20 @@ def pending_count(user_id: str) -> int:
 
 
 def _summarize_batch(user_id: str, batch: list[tuple]) -> list[str] | None:
-    """Summarise one batch. Returns the kept sentences, or None if the model failed."""
-    numbered = "\n".join(f'{i}. "{text}"' for i, (_, text, _) in enumerate(batch, 1))
+    """Summarise one batch. Returns the kept sentences, or None if the model failed.
+
+    Questions, requests and thanks are never sent to the model (the prompt asks it to skip
+    them, but it did not always). They still count as seen, so the next run starts after them.
+    """
+    usable = [m for m in batch if not is_chatter(m[1])]
+    numbered = "\n".join(f'{i}. "{text}"' for i, (_, text, _) in enumerate(usable, 1))
     try:
-        result = chat_structured(
-            SYSTEM_PROMPT, f"Messages:\n{numbered}\nOutput:", EpisodeList
+        result = (
+            chat_structured(
+                SYSTEM_PROMPT, f"Messages:\n{numbered}\nOutput:", EpisodeList
+            )
+            if usable
+            else EpisodeList(episodes=[])
         )
     except Exception as error:  # model down, timeout or malformed JSON
         with get_pool().connection() as conn:
@@ -91,7 +100,7 @@ def _summarize_batch(user_id: str, batch: list[tuple]) -> list[str] | None:
             )
         return None
 
-    by_number = dict(enumerate(batch, 1))
+    by_number = dict(enumerate(usable, 1))
     kept, kept_ids, dropped, linked = [], [], [], set()
     with get_pool().connection() as conn:
         existing = {
@@ -142,6 +151,7 @@ def _summarize_batch(user_id: str, batch: list[tuple]) -> list[str] | None:
             {
                 "up_to": batch[-1][0],
                 "messages": len(batch),
+                "skipped": len(batch) - len(usable),
                 "kept": kept_ids,
                 "dropped": dropped,
             },

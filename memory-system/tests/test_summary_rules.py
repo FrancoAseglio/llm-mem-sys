@@ -10,6 +10,7 @@ import pytest
 from memory_system.summary_rules import (
     SummaryRow,
     adds_information,
+    is_chatter,
     is_faithful,
     select_summaries,
 )
@@ -35,6 +36,11 @@ TRIP = "Last spring I went hiking in Norway with my cousin Ingrid, and we saw th
                 "I'm thinking about taking a pottery class.",
                 "I signed up for the Tuesday pottery class!",
             ],
+        ),
+        # an inflected stopword in the sentence ("works") matches the message ("work")
+        (
+            "The user works at Brightline Logistics.",
+            ["I work at Brightline Logistics."],
         ),
         # a person other than the user is kept as such
         (
@@ -119,3 +125,35 @@ def test_two_summaries_that_say_the_same_keep_one():
         row(2, "The user baked a loaf of bread.", 0.69),
     ]
     assert pick(rows) == [1]
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "How do I remove a coffee stain?",
+        "Can you suggest a pasta sauce for tonight?",
+        "What's the capital of Australia?",
+        "Any tips for staying focused while studying?",
+        "Give me a tip for sleeping better.",
+        "Explain how tides work.",
+        "Thanks, that was helpful!",
+        "Thanks!",
+    ],
+)
+def test_questions_requests_and_thanks_are_chatter(text):
+    assert is_chatter(text)
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "I moved to Rome, can you suggest places to visit?",  # a statement comes first
+        "I bought a new desk lamp yesterday.",
+        "Last month I built a bookshelf with my dad.",
+        "My sister asked me how to bake bread.",
+        "I'm thinking about adopting a rescue dog.",
+        "Big day today, I finally got the promotion I'd been chasing!",
+    ],
+)
+def test_statements_are_not_chatter(text):
+    assert not is_chatter(text)
