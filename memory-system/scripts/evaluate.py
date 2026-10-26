@@ -41,9 +41,10 @@ from evaluation.report import (
 from evaluation.scenarios import SCENARIOS, SETS
 
 from memory_system.assistant import build_messages, recall
-from memory_system.core.config import SUMMARIES
+from memory_system.core.config import CONSOLIDATE, SUMMARIES
 from memory_system.core.db import get_pool
 from memory_system.core.llm import cache_stats, chat, enable_cache
+from memory_system.summaries.consolidate import consolidate
 from memory_system.summaries.summarize import summarize_pending
 from memory_system.write.manager import ingest_user_message, list_facts
 
@@ -63,13 +64,66 @@ def ingest(scenario: dict) -> None:
 
 
 def print_stored_summaries(user: str) -> None:
+    """Notes in order, each marked [merged into #id] once a digest replaced it; digests last."""
     with get_pool().connection() as conn:
         rows = conn.execute(
-            "SELECT content FROM summaries WHERE user_id = %s ORDER BY id", (user,)
+            "SELECT id, kind, content, digest_id FROM summaries WHERE user_id = %s "
+            "ORDER BY kind DESC, id",
+            (user,),
         ).fetchall()
     print(f"--- summaries stored for {user} ---")
-    for (content,) in rows:
-        print(f"  {content}")
+    for summary_id, kind, content, digest_id in rows:
+        if kind == "digest":
+            print(f"  DIGEST #{summary_id}: {content}")
+        else:
+            merged = f" [merged into #{digest_id}]" if digest_id else ""
+            print(f"  {content}{merged}")
+
+
+def print_compression(users: list[str]) -> None:
+    """Characters of summary text against the messages it came from, per user and in total.
+
+    sources:  the user messages linked to a note (messages.summary_id)
+    notes:    all notes (what the prompt could hold with consolidation off)
+    merged:   the notes a digest replaced, and the digests that replaced them
+    live:     digests plus the notes no digest replaced (what the prompt can hold now)
+    """
+    query = """
+        SELECT
+          (SELECT COALESCE(SUM(LENGTH(content)), 0) FROM messages
+            WHERE user_id = %(u)s AND summary_id IS NOT NULL),
+          COALESCE(SUM(LENGTH(content)) FILTER (WHERE kind = 'note'), 0),
+          COALESCE(SUM(LENGTH(content)) FILTER (WHERE kind = 'note' AND digest_id IS NOT NULL), 0),
+          COALESCE(SUM(LENGTH(content)) FILTER (WHERE kind = 'digest'), 0),
+          COUNT(*) FILTER (WHERE kind = 'digest'),
+          COUNT(*) FILTER (WHERE kind = 'note' AND digest_id IS NOT NULL)
+        FROM summaries WHERE user_id = %(u)s"""
+    totals = [0] * 6
+    print("\nCompression (characters)")
+    print(
+        f"{'user':<28}{'sources':>8}{'notes':>7}{'merged':>8}{'digests':>8}"
+        f"{'live':>7}   digest/merged  notes/src  live/src"
+    )
+    with get_pool().connection() as conn:
+        for user in users:
+            row = conn.execute(query, {"u": user}).fetchone()
+            totals = [t + v for t, v in zip(totals, row, strict=True)]
+            _print_compression_row(user, row)
+    _print_compression_row("TOTAL", totals)
+
+
+def _ratio(a: int, b: int) -> str:
+    return f"{a / b:.2f}" if b else "-"
+
+
+def _print_compression_row(label: str, row) -> None:
+    sources, notes, merged, digests, n_digests, n_merged = row
+    live = notes - merged + digests
+    print(
+        f"{label:<28}{sources:>8}{notes:>7}{merged:>8}{digests:>8}{live:>7}"
+        f"   {_ratio(digests, merged):>13}  {_ratio(notes, sources):>9}  {_ratio(live, sources):>8}"
+        f"   ({n_digests} digests from {n_merged} notes)"
+    )
 
 
 def print_stored_facts(scenario: dict) -> None:
@@ -163,6 +217,9 @@ def main() -> None:
         if SUMMARIES:  # only new messages are summarised, so re-runs change nothing
             kept = summarize_pending(user_of(sc))
             print(f"  summaries written: {len(kept)}", flush=True)
+            if CONSOLIDATE:
+                digests = consolidate(user_of(sc))
+                print(f"  digests written: {len(digests)}", flush=True)
         if args.verbose:
             print_stored_facts(sc)
             if SUMMARIES:
@@ -176,6 +233,8 @@ def main() -> None:
     print_retrieval_problems(results)
     if not args.retrieval_only:
         print_wrong_answers(results)
+    if SUMMARIES:
+        print_compression([user_of(sc) for sc in scenarios])
 
     with open("eval_results.json", "w") as f:
         json.dump(results, f, indent=2, default=str, ensure_ascii=False)

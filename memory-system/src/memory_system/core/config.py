@@ -84,3 +84,15 @@ SUMMARY_EVERY = 6
 
 # A summary sentence is kept only if at least this share of its content words is in its sources.
 SUMMARY_FAITHFUL_MIN = 0.75
+
+# ---- Consolidation: old notes of one user merged into shorter digests (docs/predictions/set_J.md) ----
+# CONSOLIDATE=0 switches it off: nothing is merged and retrieval reads the plain notes, as before.
+CONSOLIDATE = os.environ.get("CONSOLIDATE", "1") != "0"
+
+# A user is consolidated when at least CONSOLIDATE_MIN live notes are older than CONSOLIDATE_AGE_DAYS
+# (by the date of their newest source message). Newer notes are never merged.
+CONSOLIDATE_MIN = 6
+CONSOLIDATE_AGE_DAYS = 30
+
+# Most old notes sent to the model in one call (the oldest first); the rest wait for the next run.
+CONSOLIDATE_BATCH = 40

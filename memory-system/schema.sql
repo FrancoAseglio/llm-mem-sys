@@ -56,6 +56,10 @@ CREATE TABLE IF NOT EXISTS summaries (
     period_end   TIMESTAMPTZ,
     importance   REAL NOT NULL DEFAULT 0.3 CHECK (importance BETWEEN 0 AND 1),
     embedding    vector(768),
+    -- 'note': written from messages; 'digest': merged from old notes (see summaries/consolidate.py)
+    kind         TEXT NOT NULL DEFAULT 'note' CHECK (kind IN ('note', 'digest')),
+    -- set on a note once a digest replaces it; the note is kept, but no longer retrieved
+    digest_id    BIGINT REFERENCES summaries(id) ON DELETE SET NULL,
     created_at   TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
@@ -127,7 +131,8 @@ CREATE TABLE IF NOT EXISTS memory_events (
     event_type  TEXT NOT NULL
                 CHECK (event_type IN ('add', 'duplicate', 'update', 'conflict', 
                                       'summarize', 'archive', 'retrieve',
-                                      'retract', 'reject', 'contradiction')),
+                                      'retract', 'reject', 'contradiction',
+                                      'consolidate')),
     fact_id     BIGINT REFERENCES facts(id) ON DELETE SET NULL,
     details     JSONB NOT NULL DEFAULT '{}'::jsonb,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT now()

@@ -12,6 +12,7 @@ from memory_system.summaries.rules import (
     adds_information,
     is_chatter,
     is_faithful,
+    missing_details,
     select_summaries,
 )
 
@@ -167,3 +168,41 @@ def test_questions_requests_and_thanks_are_chatter(text):
 )
 def test_statements_are_not_chatter(text):
     assert not is_chatter(text)
+
+
+# ---- missing_details: the retention check of consolidation ----
+
+QUOTE = "The user was quoted 18,000 euros for the kitchen by contractor Tobias."
+BILL = "The final bill for the kitchen came to 21,500 euros."
+
+
+def test_a_digest_that_keeps_every_number_and_name_misses_nothing():
+    digest = "Tobias quoted the user 18,000 euros for the kitchen; the final bill was 21,500 euros."
+    assert missing_details(digest, [QUOTE, BILL]) == []
+
+
+def test_numbers_match_with_or_without_separators():
+    digest = "Tobias's quote was 18000 euros and the bill 21500 euros."
+    assert missing_details(digest, [QUOTE, BILL]) == []
+
+
+def test_a_dropped_number_and_a_dropped_name_are_reported():
+    digest = "The user's kitchen cost 21,500 euros."
+    assert missing_details(digest, [QUOTE, BILL]) == ["18000", "tobias"]
+
+
+def test_a_month_or_weekday_may_change_but_a_day_number_may_not():
+    notes = [
+        "The user booked the Hanoi flights for December 12.",
+        "The user moved the Hanoi trip to February.",
+    ]
+    assert missing_details("The user moved the Hanoi trip to February.", notes) == [
+        "12"
+    ]
+    weekly = ["The user's lessons were on Thursdays.", "The lessons moved to Tuesdays."]
+    assert missing_details("The user's lessons are on Tuesdays.", weekly) == []
+
+
+def test_capitalised_stopwords_and_the_first_word_are_not_names():
+    notes = ["The user's band played at The Copper Kettle.", "Twelve people came."]
+    assert missing_details("The user's band played The Copper Kettle.", notes) == []

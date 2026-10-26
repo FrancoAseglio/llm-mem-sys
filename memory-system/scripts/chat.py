@@ -10,6 +10,7 @@ import argparse
 from memory_system.assistant import build_messages, recall
 from memory_system.core.config import SUMMARIES, SUMMARY_EVERY
 from memory_system.core.llm import chat_stream
+from memory_system.summaries.consolidate import consolidate
 from memory_system.summaries.summarize import pending_count, summarize_pending
 from memory_system.write.manager import ingest_user_message, list_facts
 
@@ -79,6 +80,9 @@ def main() -> None:
             for note in summarize_pending(args.user):
                 if not args.quiet:
                     print(f"  [summary] {note}")
+            for digest in consolidate(args.user):
+                if not args.quiet:
+                    print(f"  [digest] {digest}")
 
 
 if __name__ == "__main__":

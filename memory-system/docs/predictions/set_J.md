@@ -34,6 +34,23 @@ messages they came from ([07_summaries.md](../07_summaries.md), section 9). Noth
 7. **Not included:** routing for notes, the "say you don't know" prompt, past questions, removing
    or archiving messages.
 
+## Implementation notes (written while coding, after run 1, before run 2)
+
+Run 1 (consolidation off) was made before the design was explicitly approved; the design above
+was then built as written. These points were not covered by it and were decided while coding.
+None of them is a threshold, and none was chosen by looking at J's results:
+
+- At most 40 old notes per model call (`CONSOLIDATE_BATCH`), oldest first. No J user comes near it.
+- A digest that cites a note already merged by an earlier digest of the same run is dropped
+  ("note already merged"). Checks run in the order: at least 2 notes, overlap, faithful, retention,
+  shorter.
+- A run that would send exactly the notes of the last run is skipped (the model would answer the same).
+- Retention: plural weekdays ("Thursdays") count as weekday names; a capitalised word that starts
+  any sentence of a note is not a name. Both fixes came from my own unit tests, not from J.
+- Consequence of 3b as written, noticed before run 2: a day number is a number, so a digest that
+  turns "December 12" into "February" is rejected for dropping "12". The Hanoi digest will either
+  keep both dates or not exist. Not changed, because the design was frozen.
+
 ## Run protocol
 
 - Run 1, now: `--set J`, modes baseline and smart (notes only), retrieval and answers. Saved to

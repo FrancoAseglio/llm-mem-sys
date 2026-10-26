@@ -79,6 +79,62 @@ def is_faithful(statement: str, sources: list[str], min_share: float = 0.75) -> 
     return matched / len(words) >= min_share
 
 
+# Month and weekday names may change between notes and their digest: a plan moved from
+# "December 12" to "February" keeps only the final month (set_J.md, design point 3b).
+MONTHS_AND_DAYS = frozenset(
+    "january february march april may june july august september october november december "
+    "monday tuesday wednesday thursday friday saturday sunday".split()
+)
+
+
+def _numbers(text: str) -> set[str]:
+    """Numbers with their separators removed, so "21,500" and "21500" are the same number."""
+    return {re.sub(r"[.,]", "", n) for n in re.findall(r"\d+(?:[.,]\d+)*", text)}
+
+
+def _is_month_or_day(word: str) -> bool:
+    """January, Tuesday, and plurals such as Tuesdays."""
+    w = word.lower()
+    return w in MONTHS_AND_DAYS or (w.endswith("s") and w[:-1] in MONTHS_AND_DAYS)
+
+
+def _names(text: str) -> set[str]:
+    """Capitalised words that do not start a sentence (names and places), lower-case, without
+    a possessive ending ("Tobias's" -> "tobias"). Stopwords, the summary words and month and
+    weekday names are not names here."""
+    names = set()
+    starts_sentence = True
+    for token in text.split():
+        word = re.sub(r"\W+", "", re.split(r"['\u2019]", token)[0])
+        if (
+            not starts_sentence
+            and word[:1].isupper()
+            and word.lower() not in STOPWORDS | SUMMARY_WORDS
+            and not _is_month_or_day(word)
+        ):
+            names.add(word.lower())
+        starts_sentence = token.endswith((".", "!", "?"))
+    return names
+
+
+def missing_details(digest: str, notes: list[str]) -> list[str]:
+    """Numbers and names of the notes that the digest left out (empty if it kept them all).
+
+    The retention check of consolidation: a digest must keep every number and every capitalised
+    name of the notes it merges, except month and weekday names. Names match with same_word,
+    so "Tobias" in a note is kept by "Tobias's" in the digest.
+    """
+    digest_numbers = _numbers(digest)
+    digest_words = re.findall(r"\w+", digest.lower())
+    numbers = set().union(*(_numbers(n) for n in notes))
+    names = set().union(*(_names(n) for n in notes))
+    missing = sorted(n for n in numbers if n not in digest_numbers)
+    missing += sorted(
+        n for n in names if not any(same_word(n, w) for w in digest_words)
+    )
+    return missing
+
+
 def adds_information(statement: str, lines: list[str]) -> bool:
     """True if the sentence has a content word that none of the lines already has, so a
     summary that only restates a chosen fact ("The user lives in Milan") is left out."""

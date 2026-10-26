@@ -1,6 +1,7 @@
 """Read side of the summaries layer: the summary lines that pass the gate for a question."""
 
 from memory_system.core.config import (
+    CONSOLIDATE,
     MIN_RELEVANCE,
     RELATIVE_WINDOW,
     SUMMARIES,
@@ -21,6 +22,10 @@ def retrieve_summaries(
     remaining room among k lines, at most SUMMARY_MAX_LINES, and a summary that adds nothing to
     `lines` is skipped. A summary whose source message produced a fact that is no longer active
     (superseded, archived or conflicted) is skipped, so outdated values cannot come back.
+
+    With consolidation on, the candidates are digests and the notes no digest has replaced; a
+    digest is checked through the source messages of all its notes. With CONSOLIDATE=0 only notes
+    are read, all of them, as before consolidation existed.
     """
     room = min(SUMMARY_MAX_LINES, k - len(lines))
     if not SUMMARIES or room <= 0:
@@ -34,10 +39,14 @@ def retrieve_summaries(
                           1 - (s.embedding <=> %s) AS similarity,
                           NOT EXISTS (
                               SELECT 1 FROM messages m JOIN facts f ON f.source_message_id = m.id
-                              WHERE m.summary_id = s.id AND f.status <> 'active') AS fresh
+                              WHERE (m.summary_id = s.id
+                                     OR m.summary_id IN (SELECT n.id FROM summaries n
+                                                         WHERE n.digest_id = s.id))
+                                AND f.status <> 'active') AS fresh
                    FROM summaries s
-                   WHERE s.user_id = %s AND s.embedding IS NOT NULL""",
-                (q, user_id),
+                   WHERE s.user_id = %s AND s.embedding IS NOT NULL
+                     AND CASE WHEN %s THEN s.digest_id IS NULL ELSE s.kind = 'note' END""",
+                (q, user_id, CONSOLIDATE),
             ).fetchall()
         ]
         chosen = select_summaries(rows, lines, room, MIN_RELEVANCE, RELATIVE_WINDOW)
