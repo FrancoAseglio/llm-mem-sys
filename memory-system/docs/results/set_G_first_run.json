@@ -1,0 +1,829 @@
+[
+  {
+    "set": "G",
+    "scenario": "g_trip",
+    "kind": "episode",
+    "question": "What trip did I tell you about?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You mentioned planning a trip to Japan, specifically to visit Tokyo and Kyoto. You were thinking of going in the spring, but we didn't discuss specific dates. Would you like to continue planning?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-05-29] \"Last spring I went hiking in Norway with my cousin Ingrid, and we saw the northern lights.\"",
+        "[2026-06-08] \"How do volcanoes form?\"",
+        "[2026-08-27] \"Why is the sky blue?\"",
+        "[2026-10-06] \"How many moons does Jupiter have?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You told me about a trip you went on last spring to Norway with your cousin Ingrid, where you saw the northern lights.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You mentioned planning a trip to Japan, specifically to visit Tokyo and Kyoto. You were thinking of going in the spring, but we didn't discuss specific dates. Would you like to continue planning?",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_trip",
+    "kind": "episode",
+    "question": "Who did I go hiking with?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. This is our first conversation, and I don't have any prior knowledge about you. Would you like to tell me about your hiking trip?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-05-29] \"Last spring I went hiking in Norway with my cousin Ingrid, and we saw the northern lights.\"",
+        "[2026-07-18] \"What's a good stretching routine for the morning?\"",
+        "[2026-06-08] \"How do volcanoes form?\"",
+        "[2026-08-27] \"Why is the sky blue?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You went hiking in Norway with your cousin Ingrid.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. This is our first conversation, and I don't have any prior knowledge about you. Would you like to tell me about your hiking trip?",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_wedding",
+    "kind": "episode",
+    "question": "Where is my sister's wedding?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We haven't discussed your sister's wedding before, so I don't have any information about it. Would you like to tell me more about it?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-27] \"My sister Marta is getting married in Lisbon this September, and I'm giving a speech.\"",
+        "[2026-09-01] \"Why is the sky blue?\"",
+        "[2026-10-04] \"What's a palindrome?\"",
+        "[2026-10-21] \"How do I remove a coffee stain?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your sister Marta's wedding is in Lisbon, Portugal.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Family member: Marta (since 2026-08-27)"
+      ],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_wedding",
+    "kind": "episode",
+    "question": "What am I doing at the wedding?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We didn't discuss any wedding plans previously. Would you like to tell me about it?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-27] \"My sister Marta is getting married in Lisbon this September, and I'm giving a speech.\"",
+        "[2026-10-04] \"What's a palindrome?\"",
+        "[2026-10-21] \"How do I remove a coffee stain?\"",
+        "[2026-09-01] \"Why is the sky blue?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You're giving a speech at your sister Marta's wedding in Lisbon this September.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Goal: giving a speech (since 2026-08-27)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_diet_misfile",
+    "kind": "misfile",
+    "question": "What are my hobbies?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "I don't know. This is our first conversation, and I don't have any information about you. Would you like to tell me about your hobbies?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-28] \"I play the cello in a small amateur orchestra.\"",
+        "[2026-06-28] \"I'm vegan, so no dairy or eggs for me.\"",
+        "[2026-09-13] \"Can you explain what inflation is?\"",
+        "[2026-08-10] \"How do I remove a coffee stain?\""
+      ],
+      "needed_present": true,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "You play the cello in a small amateur orchestra.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Hobby: playing the cello (since 2026-07-28)",
+        "Hobby: being in an amateur orchestra (since 2026-07-28)"
+      ],
+      "needed_present": true,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "You enjoy playing the cello and being part of an amateur orchestra.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_diet_misfile",
+    "kind": "misfile",
+    "question": "Can you suggest something for dinner?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I'd be happy to help with dinner suggestions. Since I don't have real-time information, I can only suggest popular and classic options. How about trying a hearty beef stew with crusty bread, or a simple yet flavorful pasta with marinara sauce and vegetables? Alternatively, you could consider grilling some chicken or salmon with roasted vegetables. What sounds appealing to you?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-08] \"What's a palindrome?\"",
+        "[2026-07-28] \"I play the cello in a small amateur orchestra.\"",
+        "[2026-06-28] \"I'm vegan, so no dairy or eggs for me.\"",
+        "[2026-08-10] \"How do I remove a coffee stain?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Considering you're vegan, I'd recommend a hearty lentil soup or a stir-fry with tofu and your favorite vegetables. You could also try making a vegan pizza with a plant-based cheese alternative. What sounds appealing to you?",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Dislikes: eggs (since 2026-06-28)",
+        "Dislikes: dairy (since 2026-06-28)"
+      ],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Considering your dietary preferences, I'd recommend trying a stir-fry with vegetables and your choice of protein, such as tofu or chicken. You could also consider making a pasta dish with marinara sauce and roasted vegetables. What sounds appealing to you?",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_past_home",
+    "kind": "past",
+    "question": "Where do I live now?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We just started our conversation, and I don't have any information about you. Would you like to share where you live?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2025-09-21] \"I live in Porto.\"",
+        "[2026-09-11] \"I've just moved to Leeds for a new start.\"",
+        "[2026-10-06] \"Why is the sky blue?\"",
+        "[2025-12-30] \"How do volcanoes form?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": true,
+      "answer": "You live in Leeds.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Lives in: Leeds (since 2026-09-11)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You live in Leeds.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_past_home",
+    "kind": "past",
+    "question": "Where did I live before Leeds?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. This is our first conversation, and I don't have any prior knowledge about you. Would you like to tell me about your previous residences?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-09-11] \"I've just moved to Leeds for a new start.\"",
+        "[2025-09-21] \"I live in Porto.\"",
+        "[2026-10-06] \"Why is the sky blue?\"",
+        "[2026-05-19] \"What's a good stretching routine for the morning?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": false,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Lives in: Leeds (since 2026-09-11)"
+      ],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_training",
+    "kind": "plan",
+    "question": "What am I training for?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We haven't discussed your training goals before, and I don't have any information about your current activities or goals. Would you like to tell me what you're training for?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-07] \"I'm training for a half marathon in November, running three mornings a week.\"",
+        "[2026-09-06] \"What's a palindrome?\"",
+        "[2026-10-16] \"Can you explain what inflation is?\"",
+        "[2026-09-26] \"How do I remove a coffee stain?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You're training for a half marathon in November, running three mornings a week.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We haven't discussed your training goals before, and I don't have any information about your current activities or goals. Would you like to tell me what you're training for?",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_project",
+    "kind": "episode",
+    "question": "What project am I leading at work?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I'm a friendly assistant, but I don't have any information about your work or personal projects. This is our first conversation, and I'm starting from a blank slate. Would you like to tell me about your projects?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-18] \"At work I'm leading the move of our billing system to a new cloud provider, and the deadline is the end of March.\"",
+        "[2026-07-08] \"I work at Brightline Logistics.\"",
+        "[2026-07-28] \"What's a good stretching routine for the morning?\"",
+        "[2026-10-16] \"What's a palindrome?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You're leading the move of your billing system to a new cloud provider, with a deadline at the end of March.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Works at: Brightline Logistics (since 2026-07-08)"
+      ],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_project",
+    "kind": "episode",
+    "question": "When is the deadline for it?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know what \"it\" refers to. Could you please provide more context or clarify what you're asking about?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-18] \"At work I'm leading the move of our billing system to a new cloud provider, and the deadline is the end of March.\"",
+        "[2026-10-16] \"What's a palindrome?\"",
+        "[2026-08-24] \"Why is the sky blue?\"",
+        "[2026-07-28] \"What's a good stretching routine for the morning?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You're referring to the billing system move. The deadline is the end of March.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Goal: move billing system to new cloud provider by end of March (since 2026-07-18)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "The deadline for moving the billing system to the new cloud provider is the end of March 2027.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_jobsearch",
+    "kind": "story",
+    "question": "How did my job search go?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I'm a new assistant and this is our first conversation. I don't have any information about your job search or personal life. Would you like to tell me about it?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-04-09] \"I've started looking for a new job and sent applications to three firms.\"",
+        "[2026-05-09] \"I had an interview at Kestrel Analytics and it went okay.\"",
+        "[2026-07-18] \"Orbital Freight offered me the job and I accepted!\"",
+        "[2026-05-29] \"Kestrel said no, they picked someone with more experience.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You've been looking for a new job. You sent applications to three firms, and one of them, Orbital Freight, offered you the job and you accepted. Kestrel Analytics also interviewed you, but they decided to go with someone else.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I'm a new assistant and this is our first conversation. I don't have any information about your job search or personal life. Would you like to tell me about it?",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_jobsearch",
+    "kind": "story",
+    "question": "Which company turned me down?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I'm a new assistant and we've only just started talking. I don't have any prior knowledge about you. Would you like to tell me about it?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-05-09] \"I had an interview at Kestrel Analytics and it went okay.\"",
+        "[2026-05-29] \"Kestrel said no, they picked someone with more experience.\"",
+        "[2026-04-09] \"I've started looking for a new job and sent applications to three firms.\"",
+        "[2026-07-18] \"Orbital Freight offered me the job and I accepted!\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Kestrel Analytics.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Works at: Orbital Freight (since 2026-06-28)"
+      ],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_jobsearch",
+    "kind": "story",
+    "question": "Where do I work?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We just started our conversation, and I don't have any prior information about you. Would you like to tell me where you work?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-04-09] \"I've started looking for a new job and sent applications to three firms.\"",
+        "[2026-07-18] \"Orbital Freight offered me the job and I accepted!\"",
+        "[2026-07-28] \"I start at Orbital Freight next month.\"",
+        "[2026-05-09] \"I had an interview at Kestrel Analytics and it went okay.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You work at Orbital Freight.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Works at: Orbital Freight (since 2026-06-28)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You work at Orbital Freight.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_control_facts",
+    "kind": "control",
+    "question": "What's my name?",
+    "messages_in_history": 7,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We haven't had a conversation before, so I don't have any information about you. Would you like to introduce yourself?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-04-29] \"My name is Tomas and I'm a baker.\"",
+        "[2026-05-09] \"I speak Czech and English.\"",
+        "[2026-08-27] \"What's a palindrome?\"",
+        "[2026-07-08] \"How many moons does Jupiter have?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": false,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Name: Tomas (since 2026-04-29)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your name is Tomas.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_control_facts",
+    "kind": "control",
+    "question": "Which languages do I speak?",
+    "messages_in_history": 7,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. This is our first conversation, and I don't have any prior information about you. Would you like to tell me about your languages?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-05-09] \"I speak Czech and English.\"",
+        "[2026-04-29] \"My name is Tomas and I'm a baker.\"",
+        "[2026-08-27] \"What's a palindrome?\"",
+        "[2026-10-16] \"How do I remove a coffee stain?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You speak Czech and English.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Speaks: English (since 2026-05-09)",
+        "Speaks: Czech (since 2026-05-09)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You speak English and Czech.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_control_facts",
+    "kind": "control",
+    "question": "Can you suggest a quick snack?",
+    "messages_in_history": 7,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "I'd be happy to suggest a quick snack. How about some fresh fruit, like an apple or banana? Or if you're in the mood for something a bit more savory, you could try a handful of nuts or a small bag of pretzels.",
+      "correct": null,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-27] \"I'm allergic to hazelnuts.\"",
+        "[2026-04-29] \"My name is Tomas and I'm a baker.\"",
+        "[2026-08-27] \"What's a palindrome?\"",
+        "[2026-10-16] \"How do I remove a coffee stain?\""
+      ],
+      "needed_present": true,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "Considering you're a baker, Tomas, I'd recommend something simple like a fruit tart or a batch of shortbread cookies. What do you think?",
+      "correct": null,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Allergic to: hazelnuts (since 2026-08-27)"
+      ],
+      "needed_present": true,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "How about some fresh fruit or a granola bar?",
+      "correct": null,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_abstain",
+    "kind": "abstain",
+    "question": "Do I have any pets?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": null,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I don't have any information about your personal life or pets. Would you like to tell me about them?",
+      "correct": true,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-28] \"My neighbour's dog barks every morning, it drives me crazy.\"",
+        "[2026-08-07] \"I bought a new desk lamp yesterday.\"",
+        "[2026-08-17] \"What's a palindrome?\"",
+        "[2026-10-16] \"What's the tallest mountain in the world?\""
+      ],
+      "needed_present": null,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": null,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I don't have any information about your personal life or pets. Would you like to tell me about them?",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "G",
+    "scenario": "g_abstain",
+    "kind": "abstain",
+    "question": "What's my favourite colour?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": null,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We haven't discussed your favourite colour before, and I don't have any information about you. Would you like to tell me?",
+      "correct": true,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-09-06] \"How do I remove a coffee stain?\"",
+        "[2026-07-28] \"My neighbour's dog barks every morning, it drives me crazy.\"",
+        "[2026-08-07] \"I bought a new desk lamp yesterday.\"",
+        "[2026-08-17] \"What's a palindrome?\""
+      ],
+      "needed_present": null,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": null,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We haven't discussed your favourite colour before, and I don't have any information about you. Would you like to tell me?",
+      "correct": true,
+      "stale": false
+    }
+  }
+]
