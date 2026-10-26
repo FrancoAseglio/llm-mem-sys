@@ -116,6 +116,7 @@ That behaviour matters for the write path: a message, its facts and their events
 | `SIM_FLOOR`, `SIM_CEIL` | 0.35, 0.75 | `read/retrieve.py` | Rescaling range for the similarity component of the ranking |
 | `RECENCY_HALF_LIFE_DAYS` | 90 | `read/retrieve.py` | A fact untouched this long counts as half as fresh |
 | `PIN_IMPORTANCE` | 1.01 | `read/retrieve.py` | Pinning threshold; above any importance, so pinning is off |
+| `LLM_CACHE_PATH` | `.cache/llm.sqlite` | `core/cache.py` | Where the evaluation caches embeddings and temperature-0 replies; the chat never caches |
 | `PAST_FACTS` | on (env `PAST_FACTS=0` turns it off) | `read/past_retrieve.py` | Switch for reading replaced facts on past questions |
 | `PAST_MAX_LINES` | 2 | `read/past_retrieve.py` | Most `Earlier:` lines per question |
 | `SUMMARIES` | on (env `SUMMARIES=0` turns it off) | `summaries/summarize.py`, `summaries/retrieve.py` | Switch for the whole summaries layer |

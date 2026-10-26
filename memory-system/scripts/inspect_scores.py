@@ -108,7 +108,7 @@ def show(user: str, question: str, needs: list[str], k: int) -> None:
 
     rows = retrieve_baseline(user, question, 10)
     print(f"\n   MESSAGES (baseline memory, top {len(rows)} by similarity)")
-    for i, (content, created, sim) in enumerate(rows, 1):
+    for i, (content, _created, sim) in enumerate(rows, 1):
         star = "★" if needed(content) else " "
         cut = "" if i <= k else "   (below the top-k cut)"
         print(f"   {i:>2}  raw {sim:.2f}  {star}  {content[:62]}{cut}")

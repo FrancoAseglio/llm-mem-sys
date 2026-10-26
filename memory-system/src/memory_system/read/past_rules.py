@@ -21,5 +21,6 @@ def drop_active_values(past: list, active_values: set[tuple[str, str]]) -> list:
     return [
         m
         for m in past
-        if (m.relation, m.value.lower()) not in {(r, v.lower()) for r, v in active_values}
+        if (m.relation, m.value.lower())
+        not in {(r, v.lower()) for r, v in active_values}
     ]

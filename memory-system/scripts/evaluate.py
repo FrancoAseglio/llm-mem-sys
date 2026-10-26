@@ -13,6 +13,9 @@ Measured with the LLM (slower, noisier):
     poetry run python scripts/evaluate.py --only b_stale_flood --verbose
 Results are also written to eval_results.json.
 SUMMARIES=0 in the environment switches the summaries layer off (nothing written or shown).
+Deterministic model calls (embeddings, extraction, summaries, temperature-0 answers) are cached in
+.cache/llm.sqlite, so a second run of an unchanged set takes seconds; --no-cache forces fresh calls.
+By default only baseline and smart answers are generated (--answers none baseline smart for all).
 
 Scoring lives in evaluation/metrics.py, printing in evaluation/report.py, the scenarios in evaluation/scenarios/.
 """
@@ -20,7 +23,7 @@ Scoring lives in evaluation/metrics.py, printing in evaluation/report.py, the sc
 import argparse
 import json
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from evaluation.metrics import (
     contains_any,
@@ -40,7 +43,7 @@ from evaluation.scenarios import SCENARIOS, SETS
 from memory_system.assistant import build_messages, recall
 from memory_system.core.config import SUMMARIES
 from memory_system.core.db import get_pool
-from memory_system.core.llm import chat
+from memory_system.core.llm import cache_stats, chat, enable_cache
 from memory_system.summaries.summarize import summarize_pending
 from memory_system.write.manager import ingest_user_message, list_facts
 
@@ -54,7 +57,7 @@ def ingest(scenario: dict) -> None:
     user = user_of(scenario)
     with get_pool().connection() as conn:
         conn.execute("DELETE FROM users WHERE id = %s", (user,))  # cascades
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     for days_ago, text in sorted(scenario["messages"], key=lambda m: -m[0]):
         ingest_user_message(user, text, at=now - timedelta(days=days_ago))
 
@@ -71,7 +74,7 @@ def print_stored_summaries(user: str) -> None:
 
 def print_stored_facts(scenario: dict) -> None:
     print(f"\n--- facts stored for {scenario['id']} ---")
-    for relation, value, status, imp, conf, since in list_facts(user_of(scenario)):
+    for relation, value, status, _imp, _conf, since in list_facts(user_of(scenario)):
         print(f"  {relation:<14}{value:<22}{status:<12}{since}")
 
 
@@ -93,7 +96,7 @@ def ask(scenario: dict, question: dict, args: argparse.Namespace) -> dict:
             "noise_present": noise_present(lines, question),
             "stale_in_prompt": contains_any(" ".join(lines), question.get("stale", [])),
         }
-        if not args.retrieval_only:
+        if not args.retrieval_only and mode in args.answers:
             answer = chat(build_messages(mode, lines, [], question["q"]), temperature=0)
             entry.update(
                 answer=answer,
@@ -122,9 +125,25 @@ def main() -> None:
     parser.add_argument(
         "--retrieval-only", action="store_true", help="skip the LLM answers"
     )
+    parser.add_argument(
+        "--answers",
+        nargs="+",
+        choices=MODES,
+        default=["baseline", "smart"],
+        help="modes whose answers are generated (default: baseline smart; the no-memory "
+        "answers never depend on memory, so they rarely need recomputing)",
+    )
+    parser.add_argument(
+        "--no-cache",
+        action="store_true",
+        help="ask the model every time (use for a final, fresh run); by default "
+        "deterministic calls are cached in .cache/llm.sqlite",
+    )
     parser.add_argument("--verbose", action="store_true")
     parser.add_argument("--k", type=int, default=4)
     args = parser.parse_args()
+    if not args.no_cache:
+        enable_cache()
 
     scenarios = [
         s
@@ -160,7 +179,13 @@ def main() -> None:
 
     with open("eval_results.json", "w") as f:
         json.dump(results, f, indent=2, default=str, ensure_ascii=False)
-    print(f"\nsaved eval_results.json   ({time.perf_counter() - started:.0f}s)")
+    stats = cache_stats()
+    cache_note = (
+        f"   cache: {stats[0]} hits, {stats[1]} misses" if stats else "   cache: off"
+    )
+    print(
+        f"\nsaved eval_results.json   ({time.perf_counter() - started:.0f}s){cache_note}"
+    )
 
 
 if __name__ == "__main__":

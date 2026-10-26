@@ -23,6 +23,7 @@ Question fields
   avoid    : words that must NOT appear in the memory lines (irrelevant noise)
   stale    : outdated words, reported separately (they never fail an answer)
 """
+
 from . import set_a, set_b, set_c, set_d, set_e, set_f, set_g, set_h, set_i
 
 SETS = {

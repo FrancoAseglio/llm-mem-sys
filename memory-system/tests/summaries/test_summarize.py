@@ -65,7 +65,10 @@ def test_a_faithful_episode_is_stored_and_linked_to_its_message(user, monkeypatc
     add_message(FILLER)
     model_says(
         monkeypatch,
-        Episode(text="The user went hiking in Norway with their cousin Ingrid.", messages=[1]),
+        Episode(
+            text="The user went hiking in Norway with their cousin Ingrid.",
+            messages=[1],
+        ),
     )
     kept = summarize.summarize_pending(user)
     assert kept == ["The user went hiking in Norway with their cousin Ingrid."]
@@ -80,7 +83,9 @@ def test_an_invented_detail_is_dropped_and_logged(user, monkeypatch):
     add_message(TRIP)
     model_says(
         monkeypatch,
-        Episode(text="The user went hiking in Japan with their cousin Ingrid.", messages=[1]),
+        Episode(
+            text="The user went hiking in Japan with their cousin Ingrid.", messages=[1]
+        ),
     )
     assert summarize.summarize_pending(user) == []
     assert summaries() == []
@@ -96,7 +101,10 @@ def test_an_episode_without_a_valid_source_is_dropped(user, monkeypatch):
     add_message(TRIP)
     model_says(
         monkeypatch,
-        Episode(text="The user went hiking in Norway with their cousin Ingrid.", messages=[7]),
+        Episode(
+            text="The user went hiking in Norway with their cousin Ingrid.",
+            messages=[7],
+        ),
     )
     assert summarize.summarize_pending(user) == []
 
@@ -134,10 +142,15 @@ def test_a_stored_summary_is_retrieved_for_a_question(user, monkeypatch):
     add_message(TRIP)
     model_says(
         monkeypatch,
-        Episode(text="The user went hiking in Norway with their cousin Ingrid.", messages=[1]),
+        Episode(
+            text="The user went hiking in Norway with their cousin Ingrid.",
+            messages=[1],
+        ),
     )
     summarize.summarize_pending(user)
-    lines = summary_retrieve.retrieve_summaries(user, "What trip did I take?", [], touch=False)
+    lines = summary_retrieve.retrieve_summaries(
+        user, "What trip did I take?", [], touch=False
+    )
     assert len(lines) == 1 and "Norway" in lines[0]
 
 
@@ -154,18 +167,27 @@ def test_a_summary_whose_source_fact_is_outdated_is_not_retrieved(user, monkeypa
             "VALUES (%s, 'lives_in', 'Turin', 'superseded', %s, %s)",
             (USER, message_id, fake_embed("x")),
         )
-    assert summary_retrieve.retrieve_summaries(user, "Where did I hike?", [], touch=False) == []
+    assert (
+        summary_retrieve.retrieve_summaries(user, "Where did I hike?", [], touch=False)
+        == []
+    )
 
 
 def test_summaries_do_not_use_up_the_room_of_facts(user, monkeypatch):
     add_message(TRIP)
     model_says(
         monkeypatch,
-        Episode(text="The user went hiking in Norway with their cousin Ingrid.", messages=[1]),
+        Episode(
+            text="The user went hiking in Norway with their cousin Ingrid.",
+            messages=[1],
+        ),
     )
     summarize.summarize_pending(user)
     four_facts = [f"Fact {i}" for i in range(4)]
-    assert summary_retrieve.retrieve_summaries(user, "q", four_facts, k=4, touch=False) == []
+    assert (
+        summary_retrieve.retrieve_summaries(user, "q", four_facts, k=4, touch=False)
+        == []
+    )
 
 
 def test_questions_and_thanks_are_not_sent_to_the_model(user, monkeypatch):

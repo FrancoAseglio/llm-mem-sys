@@ -5,6 +5,7 @@ from .env. Every test runs against a throwaway user that is deleted afterwards.
 
     poetry run pytest tests/test_write_path.py -v
 """
+
 import numpy as np
 import pytest
 
@@ -58,6 +59,7 @@ def events(conn):
 
 # ---- existing behaviour ----
 
+
 def test_duplicate_strengthens_existing(conn):
     assert apply(conn, "hobby", "cycling") == "add"
     assert apply(conn, "hobby", "Cycling") == "duplicate"
@@ -86,10 +88,13 @@ def test_multi_cardinality_adds(conn):
     apply(conn, "hobby", "cycling")
     assert apply(conn, "hobby", "climbing") == "add"
     assert {v: s[0] for v, s in rows(conn, "hobby").items()} == {
-        "cycling": "active", "climbing": "active"}
+        "cycling": "active",
+        "climbing": "active",
+    }
 
 
 # ---- 1. retraction ----
+
 
 def test_retract_archives_matching_fact(conn):
     apply(conn, "allergic_to", "peanuts")
@@ -112,10 +117,13 @@ def test_not_x_but_y(conn):
     apply(conn, "speaks", "French", action="retract")
     apply(conn, "speaks", "Spanish")
     assert {v: s[0] for v, s in rows(conn, "speaks").items()} == {
-        "French": "archived", "Spanish": "active"}
+        "French": "archived",
+        "Spanish": "active",
+    }
 
 
 # ---- 2. grounding ----
+
 
 def test_grounding_rejects_value_not_in_message(conn):
     text = "Exciting news, I just started a new position at Delta Labs!"
@@ -128,40 +136,78 @@ def test_grounding_rejects_value_not_in_message(conn):
 
 def test_grounding_rejects_value_without_content_word(conn):
     # "new" and "job" are generic words: nothing to check, so rejected even though present
-    assert apply(conn, "job_title", "new job",
-                 source_text="I just started a new job at Globex!") == "rejected"
+    assert (
+        apply(
+            conn,
+            "job_title",
+            "new job",
+            source_text="I just started a new job at Globex!",
+        )
+        == "rejected"
+    )
 
 
 def test_grounding_accepts_inflected_words(conn):
-    assert apply(conn, "allergic_to", "walnut",
-                 source_text="I'm allergic to walnuts.") == "add"
-    assert apply(conn, "goal", "sailing",
-                 source_text="I'd love to learn how to sail one day.") == "add"
-    assert apply(conn, "dislikes", "anchovy",
-                 source_text="I really hate anchovies, the smell is awful.") == "add"
+    assert (
+        apply(conn, "allergic_to", "walnut", source_text="I'm allergic to walnuts.")
+        == "add"
+    )
+    assert (
+        apply(
+            conn,
+            "goal",
+            "sailing",
+            source_text="I'd love to learn how to sail one day.",
+        )
+        == "add"
+    )
+    assert (
+        apply(
+            conn,
+            "dislikes",
+            "anchovy",
+            source_text="I really hate anchovies, the smell is awful.",
+        )
+        == "add"
+    )
 
 
 def test_grounding_ignores_stopwords(conn):
     # "really" is the only shared word of 4+ letters
-    assert apply(conn, "likes", "really nice food",
-                 source_text="I really like this one.") == "rejected"
+    assert (
+        apply(conn, "likes", "really nice food", source_text="I really like this one.")
+        == "rejected"
+    )
 
 
 def test_grounding_applies_to_retractions(conn):
     apply(conn, "allergic_to", "peanuts")
-    assert apply(conn, "allergic_to", "peanuts", action="retract",
-                 source_text="Never mind what I said about shellfish.") == "rejected"
+    assert (
+        apply(
+            conn,
+            "allergic_to",
+            "peanuts",
+            action="retract",
+            source_text="Never mind what I said about shellfish.",
+        )
+        == "rejected"
+    )
     assert rows(conn, "allergic_to")["peanuts"][0] == "active"
 
 
 # ---- 3. likes vs dislikes ----
+
 
 def test_like_contradicts_dislike(conn):
     apply(conn, "dislikes", "coriander")
     assert apply(conn, "likes", "Coriander") == "contradiction"
     likes, dislikes = rows(conn, "likes"), rows(conn, "dislikes")
     assert likes["Coriander"][0] == "active"
-    assert dislikes["coriander"][:3] == ("superseded", dislikes["coriander"][1], likes["Coriander"][1])
+    assert dislikes["coriander"][:3] == (
+        "superseded",
+        dislikes["coriander"][1],
+        likes["Coriander"][1],
+    )
     assert events(conn)[-1][:2] == ("contradiction", likes["Coriander"][1])
 
 
@@ -195,10 +241,13 @@ def test_unrelated_hobby_does_not_contradict(conn):
 def test_short_values_are_stored(conn):
     assert apply(conn, "name", "Ana", source_text="Hi, my name is Ana.") == "add"
     assert apply(conn, "allergic_to", "soy", source_text="I can't eat soy.") == "add"
-    assert apply(conn, "allergic_to", "egg", source_text="I'm allergic to eggs.") == "add"
+    assert (
+        apply(conn, "allergic_to", "egg", source_text="I'm allergic to eggs.") == "add"
+    )
 
 
 # ---- 4. conflicted ----
+
 
 def test_employer_change_marks_job_title_conflicted(conn):
     apply(conn, "works_at", "Acme")
@@ -227,7 +276,10 @@ def test_no_conflict_when_same_message_sets_title(conn):
 
 def test_first_employer_does_not_conflict(conn):
     apply(conn, "job_title", "nurse")
-    assert apply(conn, "works_at", "City Hospital", message_relations={"works_at"}) == "add"
+    assert (
+        apply(conn, "works_at", "City Hospital", message_relations={"works_at"})
+        == "add"
+    )
     assert rows(conn, "job_title")["nurse"][0] == "active"
 
 
@@ -237,7 +289,11 @@ def test_later_title_supersedes_conflicted(conn):
     apply(conn, "works_at", "Globex", message_relations={"works_at"})
     assert apply(conn, "job_title", "designer") == "update"
     facts = rows(conn, "job_title")
-    assert facts["engineer"][:3] == ("superseded", facts["engineer"][1], facts["designer"][1])
+    assert facts["engineer"][:3] == (
+        "superseded",
+        facts["engineer"][1],
+        facts["designer"][1],
+    )
     assert facts["designer"][0] == "active"
 
 

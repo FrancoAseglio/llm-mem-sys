@@ -90,7 +90,10 @@ SCENARIOS = [
                 "q": "What food did I use to dislike?",
                 # 'olive' alone would also match the current like, so the answer and the
                 # memory lines must carry the dislike itself
-                "expect": [["olive"], ["dislike", "hate", "can't stand", "didn't like"]],
+                "expect": [
+                    ["olive"],
+                    ["dislike", "hate", "can't stand", "didn't like"],
+                ],
                 "needs": ["dislike"],
             },
         ],

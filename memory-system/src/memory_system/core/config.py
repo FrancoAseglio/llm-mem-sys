@@ -6,6 +6,8 @@ load_dotenv()
 
 DATABASE_URL = os.environ["DATABASE_URL"]
 CHAT_MODEL = os.environ.get("CHAT_MODEL", "llama3.1:8b")
+# Disk cache of deterministic model calls, used by the evaluation only (see core/cache.py).
+CACHE_PATH = os.environ.get("LLM_CACHE_PATH", ".cache/llm.sqlite")
 EMBED_MODEL = os.environ.get(
     "EMBED_MODEL", "nomic-embed-text"
 )  # 768 dims, matches schema.sql

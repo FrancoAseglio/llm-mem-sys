@@ -1,6 +1,6 @@
 import math
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import numpy as np
 
@@ -81,7 +81,7 @@ def score_facts(user_id: str, query: str, status: str = "active") -> list[Memory
     Changes nothing in the database."""
     q = embed(query)
     ranks = relation_ranks(q)
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
 
     with get_pool().connection() as conn:
         rows = conn.execute(
@@ -191,9 +191,7 @@ def select_memories(scored: list[Memory], k: int) -> tuple[list[Memory], list[Me
     """
     pinned = [m for m in scored if m.pinned]
     best = best_raw(scored)
-    relevant = [
-        m for m in scored if not m.pinned and gate_failure(m, best) is None
-    ]
+    relevant = [m for m in scored if not m.pinned and gate_failure(m, best) is None]
     return pinned, relevant[:k]
 
 

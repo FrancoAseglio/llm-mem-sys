@@ -81,7 +81,7 @@ def print_wrong_answers(results: list[dict]) -> None:
         (r, m)
         for r in results
         for m in ("baseline", "smart")
-        if r[m]["correct"] is False
+        if r[m].get("correct") is False
     ]
     if wrong:
         print("\nWrong answers (baseline and smart)")

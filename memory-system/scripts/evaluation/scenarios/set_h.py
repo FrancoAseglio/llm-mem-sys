@@ -27,7 +27,10 @@ SCENARIOS = [
         "id": "h_bake",
         "kind": "episode",
         "messages": [
-            (70, "Last weekend I baked my first sourdough loaf and it came out completely flat."),
+            (
+                70,
+                "Last weekend I baked my first sourdough loaf and it came out completely flat.",
+            ),
         ]
         + spread(H_FILLER[:4], 10, 65),
         "questions": [
@@ -43,7 +46,10 @@ SCENARIOS = [
         "id": "h_injury",
         "kind": "episode",
         "messages": [
-            (130, "I broke my wrist skiing in February and had a cast on for six weeks."),
+            (
+                130,
+                "I broke my wrist skiing in February and had a cast on for six weeks.",
+            ),
         ]
         + spread(H_FILLER[2:6], 10, 120),
         "questions": [
@@ -64,7 +70,10 @@ SCENARIOS = [
         "id": "h_purchase",
         "kind": "episode",
         "messages": [
-            (95, "I finally bought a second-hand Vespa from my neighbour for 900 euros."),
+            (
+                95,
+                "I finally bought a second-hand Vespa from my neighbour for 900 euros.",
+            ),
         ]
         + spread(H_FILLER[4:8], 10, 85),
         "questions": [
@@ -121,8 +130,16 @@ SCENARIOS = [
         + spread(H_FILLER[:4], 10, 180),
         "questions": [
             {"q": "What's my name?", "expect": [["elena"]], "needs": ["elena"]},
-            {"q": "Which city do I live in?", "expect": [["gdansk"]], "needs": ["gdansk"]},
-            {"q": "What do I do for a living?", "expect": [["welder"]], "needs": ["welder"]},
+            {
+                "q": "Which city do I live in?",
+                "expect": [["gdansk"]],
+                "needs": ["gdansk"],
+            },
+            {
+                "q": "What do I do for a living?",
+                "expect": [["welder"]],
+                "needs": ["welder"],
+            },
             {
                 "q": "Can you suggest a dish for dinner at a restaurant?",
                 "needs": ["shellfish"],

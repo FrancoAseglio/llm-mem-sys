@@ -87,6 +87,6 @@ def assert_no_leaks(set_name, filler, scenarios, extra_words=()):
     } | set(extra_words)
     for text in filler:
         leaks = [w for w in tested if w in text.lower()]
-        assert (
-            not leaks
-        ), f"set {set_name} filler {text!r} contains tested words {leaks}"
+        assert not leaks, (
+            f"set {set_name} filler {text!r} contains tested words {leaks}"
+        )

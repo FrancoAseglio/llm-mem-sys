@@ -1,12 +1,16 @@
 """Past-question rules (pure) and the database path (needs Postgres)."""
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
+import numpy as np
 import pytest
 
+from memory_system.core.db import get_pool
+from memory_system.read import past_retrieve, retrieve
 from memory_system.read.past_retrieve import select_past
 from memory_system.read.past_rules import drop_active_values, is_past_question
 from memory_system.read.retrieve import Memory
+from memory_system.write import conflicts
 
 
 @pytest.mark.parametrize(
@@ -44,9 +48,19 @@ def test_other_questions_do_not_fire(q):
 
 
 def _mem(relation, value, raw, until=None):
-    now = datetime(2026, 1, 1, tzinfo=timezone.utc)
-    return Memory(1, relation, value, now, raw, False, {}, raw_similarity=raw,
-                  relation_rank=1, until=until or now)
+    now = datetime(2026, 1, 1, tzinfo=UTC)
+    return Memory(
+        1,
+        relation,
+        value,
+        now,
+        raw,
+        False,
+        {},
+        raw_similarity=raw,
+        relation_rank=1,
+        until=until or now,
+    )
 
 
 def test_drop_active_values():
@@ -77,12 +91,6 @@ def test_allergy_gets_no_bypass_in_the_past():
 
 # ---- database path ----
 
-import numpy as np
-
-from memory_system.core.db import get_pool
-from memory_system.read import past_retrieve, retrieve
-from memory_system.write import conflicts
-
 USER = "test_past"
 
 
@@ -95,7 +103,9 @@ def conn(monkeypatch):
     monkeypatch.setattr(conflicts, "embed", fake_embed)
     monkeypatch.setattr(retrieve, "embed", fake_embed)
     monkeypatch.setattr(retrieve, "_relation_vecs", None)
-    monkeypatch.setattr(retrieve, "ROUTING_TOP_N", 0)  # identical vectors make routing a tie
+    monkeypatch.setattr(
+        retrieve, "ROUTING_TOP_N", 0
+    )  # identical vectors make routing a tie
     with get_pool().connection() as c:
         c.execute("DELETE FROM users WHERE id = %s", (USER,))
         c.execute("INSERT INTO users (id) VALUES (%s)", (USER,))
@@ -127,19 +137,23 @@ def test_nothing_for_a_present_question(conn):
 def test_nothing_when_nothing_was_replaced(conn):
     conflicts.apply_fact(conn, USER, "lives_in", "Leiden", None)
     conn.commit()
-    assert past_retrieve.retrieve_past(USER, "Where did I live before?", touch=False) == []
+    assert (
+        past_retrieve.retrieve_past(USER, "Where did I live before?", touch=False) == []
+    )
 
 
 def test_switch_off(conn, monkeypatch):
     _moved(conn)
     monkeypatch.setattr(past_retrieve, "PAST_FACTS", False)
-    assert past_retrieve.retrieve_past(USER, "Where did I live before?", touch=False) == []
+    assert (
+        past_retrieve.retrieve_past(USER, "Where did I live before?", touch=False) == []
+    )
 
 
 def test_archived_fact_is_not_a_past_value(conn):
     conflicts.apply_fact(conn, USER, "lives_in", "Bergen", None)
-    conn.execute(
-        "UPDATE facts SET status = 'archived' WHERE user_id = %s", (USER,)
-    )
+    conn.execute("UPDATE facts SET status = 'archived' WHERE user_id = %s", (USER,))
     conn.commit()
-    assert past_retrieve.retrieve_past(USER, "Where did I live before?", touch=False) == []
+    assert (
+        past_retrieve.retrieve_past(USER, "Where did I live before?", touch=False) == []
+    )

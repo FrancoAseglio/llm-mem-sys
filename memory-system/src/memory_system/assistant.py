@@ -42,9 +42,13 @@ def recall(
 ) -> list[str]:
     """Return the memory lines to inject into the prompt for the given mode."""
     if mode == "smart":
-        past = retrieve_past(user_id, query, touch)  # empty unless the question is about the past
+        past = retrieve_past(
+            user_id, query, touch
+        )  # empty unless the question is about the past
         lines = [format_past(m) for m in past]
-        lines += [format_memory(m) for m in retrieve(user_id, query, k - len(past), touch)]
+        lines += [
+            format_memory(m) for m in retrieve(user_id, query, k - len(past), touch)
+        ]
         return lines + retrieve_summaries(user_id, query, lines, k, touch)
     if mode == "baseline":
         return [

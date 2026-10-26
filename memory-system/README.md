@@ -62,6 +62,8 @@ Results are also written to `eval_results.json`. All scenario sets (A to I) have
 so they cannot validate further tuning; a change needs a new set written beforehand.
 The status of each set is in `scripts/evaluation/scenarios/__init__.py`.
 
+`make help` lists shortcuts (`make quick`, `make test`, `make set S=I`, ...); the evaluation caches deterministic model calls in `.cache/` so repeated runs take seconds (`docs/02_setup.md`, "Keeping the Mac cool").
+
 Tests (`tests/` only; the DB tests need the Postgres database from `.env`):
 
 ```bash

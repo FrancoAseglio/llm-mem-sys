@@ -234,7 +234,11 @@ SCENARIOS = [
         ]
         + spread(G_FILLER[4:8], 10, 70),
         "questions": [
-            {"q": "Do I have any pets?", "expect": [ABSTAIN], "avoid": ["dog", "barks"]},
+            {
+                "q": "Do I have any pets?",
+                "expect": [ABSTAIN],
+                "avoid": ["dog", "barks"],
+            },
             {
                 "q": "What's my favourite colour?",
                 "expect": [ABSTAIN],

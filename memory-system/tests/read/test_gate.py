@@ -21,8 +21,15 @@ def gate_settings(monkeypatch):
 
 def mem(id, relation, raw, rank=1, pinned=False):
     return Memory(
-        id, relation, "v", datetime(2026, 1, 1), 0.0, pinned, {},
-        raw_similarity=raw, relation_rank=rank,
+        id,
+        relation,
+        "v",
+        datetime(2026, 1, 1),
+        0.0,
+        pinned,
+        {},
+        raw_similarity=raw,
+        relation_rank=rank,
     )
 
 

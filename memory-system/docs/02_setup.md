@@ -63,7 +63,7 @@ Check that everything is wired up:
 
 ```bash
 poetry run python scripts/smoke_test.py     # ends with "All good."
-poetry run pytest -q                        # 141 passed
+poetry run pytest -q                        # 150 passed
 ```
 
 ## 3. Versions used during development
@@ -336,8 +336,26 @@ If an answer looks wrong, this is where to trace it. The ids in your own databas
 | Run the tests | `poetry run pytest -q` |
 | Run the evaluation without model answers | `poetry run python scripts/evaluate.py --set A B C D E F --retrieval-only` |
 | Re-run on stored data | add `--no-ingest` |
+| See all shortcuts | `make help` (see the next section) |
 | See why each fact was kept or dropped | `poetry run python scripts/inspect_scores.py --scenario b_stale_flood` |
 | Reset one user | `psql memory_db -c "delete from users where id = 'me'"` |
+
+### Keeping the Mac cool
+
+The heavy part is the 8B chat model. A full run of sets A to I would make about 735 calls to it (extraction, summaries, answers), and most calls repeat the previous run exactly. Three things keep this small:
+
+- **The cache.** `evaluate.py` stores embeddings and temperature-0 replies in `.cache/llm.sqlite` (git-ignored). A second run of an unchanged set reads them from disk and finishes in seconds; the last line says `cache: N hits, M misses`. The chat never uses the cache. Add `--no-cache` for a fresh run, and delete `.cache/` after an `ollama pull` of a new version of a model.
+- **Fewer answers.** By default only the baseline and smart answers are generated; `--answers none baseline smart` adds the no-memory ones.
+- **The right command for the change.**
+
+| I changed | Run | Cost |
+|---|---|---|
+| A rule, the gate, ranking or the read path | `make quick` (retrieval only on stored data, all sets) | seconds, no chat model |
+| The write path or a prompt | `make set S=B` (ingest and score one set, retrieval only), then the other sets one at a time | one extraction call per message |
+| Something that changes answers | `make answers S=I` for the set you test, once, at the end of a step | one chat call per question and mode |
+| Nothing, and I want a final, honest run | `make fresh S=I` | everything, no cache |
+
+Also: `make` runs the model at low priority (`nice`), `ollama ps` shows whether it runs fully on the GPU, and the tests (`make test`, about a second) never call a model. Close other heavy apps during a full run, and avoid running two evaluations at once.
 
 ## 10. Troubleshooting
 

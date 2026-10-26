@@ -1,6 +1,6 @@
 """Pure tests for the summaries layer's text rules (no database, no model).
 
-    poetry run pytest tests/summaries/test_rules.py -v
+poetry run pytest tests/summaries/test_rules.py -v
 """
 
 from datetime import datetime
@@ -70,7 +70,9 @@ def test_invented_details_are_rejected(statement, why):
 def test_a_number_must_match_exactly():
     sources = ["I bought a second-hand scooter for 900 euros."]
     assert is_faithful("The user bought a second-hand scooter for 900 euros.", sources)
-    assert not is_faithful("The user bought a second-hand scooter for 90 euros.", sources)
+    assert not is_faithful(
+        "The user bought a second-hand scooter for 90 euros.", sources
+    )
 
 
 def test_a_restated_fact_adds_nothing():
@@ -80,7 +82,9 @@ def test_a_restated_fact_adds_nothing():
 
 def test_a_new_detail_adds_information():
     lines = ["Family member: Marta (since 2026-08-27)"]
-    assert adds_information("The user's sister Marta is getting married in Lisbon.", lines)
+    assert adds_information(
+        "The user's sister Marta is getting married in Lisbon.", lines
+    )
 
 
 def row(id, content, similarity, fresh=True):
@@ -97,7 +101,10 @@ def test_the_floor_drops_weak_matches():
 
 
 def test_the_window_drops_neighbours_of_the_best_match():
-    rows = [row(1, "The user baked bread.", 0.70), row(2, "The user painted a fence.", 0.60)]
+    rows = [
+        row(1, "The user baked bread.", 0.70),
+        row(2, "The user painted a fence.", 0.60),
+    ]
     assert pick(rows) == [1]
 
 
@@ -115,7 +122,10 @@ def test_a_summary_with_an_outdated_source_is_skipped():
 
 
 def test_a_summary_that_restates_a_chosen_fact_is_skipped():
-    rows = [row(1, "The user lives in Milan.", 0.80), row(2, "The user baked bread.", 0.78)]
+    rows = [
+        row(1, "The user lives in Milan.", 0.80),
+        row(2, "The user baked bread.", 0.78),
+    ]
     assert pick(rows, lines=["Lives in: Milan (since 2026-10-24)"]) == [2]
 
 

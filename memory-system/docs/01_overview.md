@@ -121,7 +121,7 @@ The package `src/memory_system/` is split by what happens to information:
 
 | Package | Holds | Modules |
 |---|---|---|
-| `core/` | Shared plumbing | `config` (settings), `db` (connection pool), `llm` (model calls), `events` (audit log) |
+| `core/` | Shared plumbing | `config` (settings), `db` (connection pool), `llm` (model calls), `cache` (disk cache for the evaluation), `events` (audit log) |
 | `write/` | What happens when the user speaks | `extract` (asks the model for facts), `actions` (pure rules that check the extraction), `conflicts` (what each fact does to the database), `manager` (runs the whole write path for one message) |
 | `read/` | What happens when the user asks | `retrieve` (the gate, ranking and the baseline), `past_rules` (pure: is it a question about the past), `past_retrieve` (replaced facts for such questions) |
 | `summaries/` | Episode notes | `summarize` (write side), `rules` (pure checks: chatter filter, faithfulness, gate for notes), `retrieve` (read side) |
@@ -135,4 +135,4 @@ Outside the package:
 | `scripts/evaluation/` | Support for the evaluation: `metrics.py` (scoring), `report.py` (printing) and `scenarios/` (the test sets) |
 | `tests/` | Mirrors the package: `tests/write/`, `tests/read/`, `tests/summaries/` |
 
-141 automated tests: pure rules and the gate need no services, the rest need Postgres.
+150 automated tests: pure rules and the gate need no services, the rest need Postgres.

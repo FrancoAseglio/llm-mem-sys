@@ -97,6 +97,10 @@ poetry run python scripts/evaluate.py --only b_stale_flood --verbose
 poetry run python scripts/inspect_scores.py --scenario b_stale_flood
 ```
 
+`make quick`, `make set S=I`, `make answers S=I` and `make fresh S=I` wrap the common cases ([02_setup.md](02_setup.md), "Keeping the Mac cool").
+
+**Cache and answers.** `evaluate.py` caches embeddings and temperature-0 replies in `.cache/llm.sqlite`, so re-running an unchanged set takes seconds and prints `cache: N hits, M misses`. A first run of a new set misses the cache by construction, so blind sets are unaffected. `--no-cache` forces fresh calls and is the mode for a final comparison. By default only baseline and smart answers are generated (`--answers none baseline smart` for all three); the no-memory column then shows `-`.
+
 Results are also saved to `eval_results.json` (git-ignored). The code is split into `evaluate.py` (arguments, ingest, the loop), `evaluation/metrics.py` (scoring) and `evaluation/report.py` (printing).
 
 To add a set: create `scripts/evaluation/scenarios/set_j.py` (the next letter) with a `SCENARIOS` list, register it in `SETS` and `SET_LABELS` in `scenarios/__init__.py`, and write the predictions first.
