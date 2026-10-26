@@ -24,7 +24,7 @@ Question fields
   stale    : outdated words, reported separately (they never fail an answer)
 """
 
-from . import set_a, set_b, set_c, set_d, set_e, set_f, set_g, set_h, set_i
+from . import set_a, set_b, set_c, set_d, set_e, set_f, set_g, set_h, set_i, set_j
 
 SETS = {
     "A": set_a.SCENARIOS,
@@ -36,6 +36,7 @@ SETS = {
     "G": set_g.SCENARIOS,
     "H": set_h.SCENARIOS,
     "I": set_i.SCENARIOS,
+    "J": set_j.SCENARIOS,
 }
 
 for _letter, _scenarios in SETS.items():
@@ -55,4 +56,5 @@ SET_LABELS = {
     "G": "G (BLIND: beyond the 13 fact types, written before the summaries layer; run once)",
     "H": "H (BLIND: validation of the summaries layer, written before its code; run once)",
     "I": "I (BLIND: questions about the past, written before the mechanism; run once)",
+    "J": "J (BLIND: note consolidation, written before its code; run off once, then on once)",
 }
