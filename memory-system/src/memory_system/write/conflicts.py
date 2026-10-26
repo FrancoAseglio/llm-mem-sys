@@ -2,10 +2,10 @@
 
 from datetime import datetime
 
-from memory_system.actions import is_grounded
-from memory_system.config import DEFAULT_IMPORTANCE, DUPLICATE_SIMILARITY
-from memory_system.events import log_event
-from memory_system.llm import embed
+from memory_system.core.config import DEFAULT_IMPORTANCE, DUPLICATE_SIMILARITY
+from memory_system.core.events import log_event
+from memory_system.core.llm import embed
+from memory_system.write.actions import is_grounded
 
 # A new value for one of these relations contradicts an active value of the relations listed
 # (hobby counts as a positive statement, like likes).

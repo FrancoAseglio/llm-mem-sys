@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 
 import numpy as np
 
-from memory_system.config import (
+from memory_system.core.config import (
     MIN_RELEVANCE,
     PIN_IMPORTANCE,
     RECENCY_HALF_LIFE_DAYS,
@@ -16,9 +16,9 @@ from memory_system.config import (
     SIM_FLOOR,
     WEIGHTS,
 )
-from memory_system.db import get_pool
-from memory_system.events import log_event
-from memory_system.llm import embed
+from memory_system.core.db import get_pool
+from memory_system.core.events import log_event
+from memory_system.core.llm import embed
 
 
 @dataclass

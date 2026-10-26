@@ -63,7 +63,7 @@ Check that everything is wired up:
 
 ```bash
 poetry run python scripts/smoke_test.py     # ends with "All good."
-poetry run pytest -q                        # 73 passed
+poetry run pytest -q                        # 141 passed
 ```
 
 ## 3. Versions used during development
@@ -80,7 +80,7 @@ poetry run pytest -q                        # 73 passed
 Python libraries are pinned in `poetry.lock`.  
 Runtime dependencies: `psycopg` (with binary and pool), `pgvector`, `numpy`, `pydantic`, `ollama`, `python-dotenv`.  
 Development: `pytest`, `ruff`.  
-Python 3.12 or newer is required because `llm.py` uses the generic function syntax `chat_structured[T: BaseModel]`.
+Python 3.12 or newer is required because `core/llm.py` uses the generic function syntax `chat_structured[T: BaseModel]`.
 
 ## 4. The database
 

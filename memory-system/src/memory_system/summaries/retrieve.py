@@ -1,15 +1,15 @@
 """Read side of the summaries layer: the summary lines that pass the gate for a question."""
 
-from memory_system.config import (
+from memory_system.core.config import (
     MIN_RELEVANCE,
     RELATIVE_WINDOW,
     SUMMARIES,
     SUMMARY_MAX_LINES,
 )
-from memory_system.db import get_pool
-from memory_system.events import log_event
-from memory_system.llm import embed
-from memory_system.summary_rules import SummaryRow, select_summaries
+from memory_system.core.db import get_pool
+from memory_system.core.events import log_event
+from memory_system.core.llm import embed
+from memory_system.summaries.rules import SummaryRow, select_summaries
 
 
 def retrieve_summaries(

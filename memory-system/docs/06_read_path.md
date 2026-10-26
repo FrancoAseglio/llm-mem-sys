@@ -4,7 +4,7 @@ Everything between "the user asks something" and "the model answers with memory 
 
 | File | Job |
 |---|---|
-| `src/memory_system/retrieve.py` | Smart retrieval over facts (gate, then rank) and the plain vector baseline over messages |
+| `src/memory_system/read/retrieve.py` | Smart retrieval over facts (gate, then rank) and the plain vector baseline over messages |
 | `src/memory_system/assistant.py` | Formats the chosen memories as text and builds the final prompt |
 
 Used by `scripts/chat.py` (interactive), `scripts/evaluate.py` (measurement) and `scripts/inspect_scores.py` (per-fact breakdown).
@@ -69,7 +69,7 @@ Importance, recency and usage never let an irrelevant fact in. They only order t
 | `retrieve(user_id, query, k=4, touch=True)` | `score_facts`, then `select_memories`, then reinforcement (3.6) |
 | `retrieve_baseline(user_id, query, k=4)` | The control group (section 4) |
 
-`gate_failure` is the single definition of the gate. `select_memories` uses it to choose, and `inspect_scores.py` uses it to explain a miss, so the two cannot drift apart. `tests/test_gate.py` covers it.
+`gate_failure` is the single definition of the gate. `select_memories` uses it to choose, and `inspect_scores.py` uses it to explain a miss, so the two cannot drift apart. `tests/read/test_gate.py` covers it.
 
 ### 3.2 The result type
 
@@ -127,7 +127,7 @@ Each component is between 0 and 1:
 score = 0.50 × similarity + 0.25 × importance + 0.10 × usage + 0.10 × confidence + 0.05 × recency
 ```
 
-Weights are `WEIGHTS` in `config.py`. Because the gate already decided relevance, recency no longer makes old facts disappear; it only nudges the order.
+Weights are `WEIGHTS` in `core/config.py`. Because the gate already decided relevance, recency no longer makes old facts disappear; it only nudges the order.
 
 ### 3.5 Pinning (off)
 
@@ -226,14 +226,14 @@ Proposed but not implemented: a strong-match override (a fact with raw similarit
 | Connects to | How |
 |---|---|
 | [03 Storage](03_storage.md) | Reads active `facts`, `messages` and `relation_types` (including `routing_hint`); writes `access_count`, `last_accessed_at` and `retrieve` events |
-| [04 Models](04_models.md) | Uses `embed` for questions and relation texts, `chat` or `chat_stream` for answers; settings in `config.py` |
+| [04 Models](04_models.md) | Uses `embed` for questions and relation texts, `chat` or `chat_stream` for answers; settings in `core/config.py` |
 | [07 Summaries](07_summaries.md) | Adds up to two note lines after the facts, using the same floor and window |
 | [05 Write path](05_write_path.md) | Retrieval can only return what extraction stored and the conflict logic kept current |
 | [08 Evaluation](08_evaluation.md) | Measures what this document describes |
 
 ## 10. Questions about the past
 
-Active facts answer "now". For a question about what used to be true, the system also reads facts that were replaced. Code: `past_rules.py` (pure) and `past_retrieve.py`; the prompt line is built in `assistant.py`.
+Active facts answer "now". For a question about what used to be true, the system also reads facts that were replaced. Code: `read/past_rules.py` (pure) and `read/past_retrieve.py`; the prompt line is built in `assistant.py`.
 
 1. **Trigger.** `is_past_question(query)`: the question contains one of "used to", "did I use to", "before", "previously", "formerly", "originally", "in the past", "back then", "prior to" as whole words. English only. Everything else behaves as before. It is a keyword list: "Where was home when I was a student?" does not fire, and "How long was I at my job before it closed?" does.
 2. **What is read.** Only facts with status `superseded` (a newer value replaced them, or a like and a dislike flipped). Not `archived` and not `conflicted`.

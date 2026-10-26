@@ -8,8 +8,9 @@ from .env. Every test runs against a throwaway user that is deleted afterwards.
 import numpy as np
 import pytest
 
-from memory_system import conflicts, retrieve
-from memory_system.db import get_pool
+from memory_system.core.db import get_pool
+from memory_system.read import retrieve
+from memory_system.write import conflicts
 
 USER = "test_write_path"
 

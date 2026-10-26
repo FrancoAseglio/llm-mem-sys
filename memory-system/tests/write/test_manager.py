@@ -7,8 +7,8 @@ and the caller is told. Needs the Postgres database from .env; no model calls.
 import numpy as np
 import pytest
 
-from memory_system import manager
-from memory_system.db import get_pool
+from memory_system.core.db import get_pool
+from memory_system.write import manager
 
 USER = "test_manager"
 

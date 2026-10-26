@@ -8,10 +8,10 @@ Commands: /mode smart|baseline|none   /facts   /quit
 import argparse
 
 from memory_system.assistant import build_messages, recall
-from memory_system.config import SUMMARIES, SUMMARY_EVERY
-from memory_system.llm import chat_stream
-from memory_system.manager import ingest_user_message, list_facts
-from memory_system.summarize import pending_count, summarize_pending
+from memory_system.core.config import SUMMARIES, SUMMARY_EVERY
+from memory_system.core.llm import chat_stream
+from memory_system.summaries.summarize import pending_count, summarize_pending
+from memory_system.write.manager import ingest_user_message, list_facts
 
 
 def main() -> None:

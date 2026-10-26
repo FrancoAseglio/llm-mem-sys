@@ -1,7 +1,7 @@
 from pgvector.psycopg import register_vector
 from psycopg_pool import ConnectionPool
 
-from memory_system.config import DATABASE_URL
+from memory_system.core.config import DATABASE_URL
 
 _pool: ConnectionPool | None = None
 

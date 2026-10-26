@@ -34,7 +34,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 
 ## 3. The test sets
 
-56 scenarios, 117 questions, in `scripts/scenarios/` (one module per set; `__init__.py` holds the status labels).
+56 scenarios, 117 questions, in `scripts/evaluation/scenarios/` (one module per set; `__init__.py` holds the status labels).
 
 | Set | Scenarios | Questions | Status | What it tests |
 |---|---|---|---|---|
@@ -66,7 +66,7 @@ A **blind** set is written before the change it tests and run once. After that i
 }
 ```
 
-`expect` may be left out to score retrieval only. Each scenario gets a `set` letter in `scenarios/__init__.py`.
+`expect` may be left out to score retrieval only. Each scenario gets a `set` letter in `scripts/evaluation/scenarios/__init__.py`.
 
 ## 4. Rules of the protocol
 
@@ -97,9 +97,9 @@ poetry run python scripts/evaluate.py --only b_stale_flood --verbose
 poetry run python scripts/inspect_scores.py --scenario b_stale_flood
 ```
 
-Results are also saved to `eval_results.json` (git-ignored). The code is split into `evaluate.py` (arguments, ingest, the loop), `eval_metrics.py` (scoring) and `eval_report.py` (printing).
+Results are also saved to `eval_results.json` (git-ignored). The code is split into `evaluate.py` (arguments, ingest, the loop), `evaluation/metrics.py` (scoring) and `evaluation/report.py` (printing).
 
-To add a set: create `scripts/scenarios/set_i.py` (the next letter) with a `SCENARIOS` list, register it in `SETS` and `SET_LABELS` in `scenarios/__init__.py`, and write the predictions first.
+To add a set: create `scripts/evaluation/scenarios/set_j.py` (the next letter) with a `SCENARIOS` list, register it in `SETS` and `SET_LABELS` in `scenarios/__init__.py`, and write the predictions first.
 
 The summaries layer runs inside the evaluation: after each scenario's ingest, `summarize_pending` writes the notes (printing how many), and `--verbose` prints them. `SUMMARIES=0 poetry run python scripts/evaluate.py ...` is the layer-off control.
 

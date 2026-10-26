@@ -1,8 +1,8 @@
 """Printing for evaluate.py: the per-question table, one summary block per set, and the
 lists of retrieval problems and wrong answers."""
 
-from eval_metrics import tally
-from scenarios import SET_LABELS
+from .metrics import tally
+from .scenarios import SET_LABELS
 
 MODES = ["none", "baseline", "smart"]
 

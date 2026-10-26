@@ -1,13 +1,13 @@
 """Pure tests for the summaries layer's text rules (no database, no model).
 
-    poetry run pytest tests/test_summary_rules.py -v
+    poetry run pytest tests/summaries/test_rules.py -v
 """
 
 from datetime import datetime
 
 import pytest
 
-from memory_system.summary_rules import (
+from memory_system.summaries.rules import (
     SummaryRow,
     adds_information,
     is_chatter,

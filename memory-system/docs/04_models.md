@@ -6,34 +6,34 @@ They decide nothing about memory; they provide the plumbing and the tuning knobs
 
 | File | Job |
 |---|---|
-| `src/memory_system/llm.py` | The only place that talks to Ollama: embeddings, chat, streaming chat, structured JSON output |
-| `src/memory_system/config.py` | Loads `.env` and holds every tunable number |
-| `src/memory_system/db.py` | One shared, pooled connection to Postgres with the vector type enabled |
+| `src/memory_system/core/llm.py` | The only place that talks to Ollama: embeddings, chat, streaming chat, structured JSON output |
+| `src/memory_system/core/config.py` | Loads `.env` and holds every tunable number |
+| `src/memory_system/core/db.py` | One shared, pooled connection to Postgres with the vector type enabled |
 
 ## 1. Big picture
 
 ```
- extract.py ───────────────▶ chat_structured() ─┐
- manager.py, conflicts.py ─▶ embed() ───────────┤
- retrieve.py ──────────────▶ embed() ───────────┼──▶ llm.py ──▶ Ollama (localhost:11434)
+ write/extract.py ───────────────▶ chat_structured() ─┐
+ write/manager.py, write/conflicts.py ─▶ embed() ───────────┤
+ read/retrieve.py ──────────────▶ embed() ───────────┼──▶ core/llm.py ──▶ Ollama (localhost:11434)
  scripts/chat.py ──────────▶ chat_stream() ─────┤                 ├─ llama3.1:8b
  scripts/evaluate.py ──────▶ chat() ────────────┘                 └─ nomic-embed-text
 
- manager.py, conflicts.py, events.py, retrieve.py ─▶ get_pool() ─▶ db.py ─▶ Postgres (memory_db)
+ write/manager.py, write/conflicts.py, core/events.py, read/retrieve.py ─▶ get_pool() ─▶ core/db.py ─▶ Postgres (memory_db)
 
- every module ──▶ config.py ──▶ .env
+ every module ──▶ core/config.py ──▶ .env
 ```
 
-Design rule: no other file imports `ollama` directly. Swapping the provider means editing `llm.py` only.
+Design rule: no other file imports `ollama` directly. Swapping the provider means editing `core/llm.py` only.
 
-## 2. `llm.py`
+## 2. `core/llm.py`
 
 | Function | Signature | Returns | Used by |
 |---|---|---|---|
-| `embed` | `embed(text)` | numpy array, 768 floats (float32) | `manager.py` (message), `conflicts.py` (new fact), `retrieve.py` (question, relation texts) |
+| `embed` | `embed(text)` | numpy array, 768 floats (float32) | `write/manager.py` (message), `write/conflicts.py` (new fact), `read/retrieve.py` (question, relation texts) |
 | `chat` | `chat(messages, temperature=0.3)` | the full reply as a string | `scripts/evaluate.py` |
 | `chat_stream` | `chat_stream(messages, temperature=0.3)` | an iterator yielding the reply piece by piece | `scripts/chat.py` |
-| `chat_structured` | `chat_structured(system, user, schema)` | an instance of the pydantic class passed in | `extract.py`, `summarize.py` |
+| `chat_structured` | `chat_structured(system, user, schema)` | an instance of the pydantic class passed in | `write/extract.py`, `summaries/summarize.py` |
 
 - **`embed`** turns text into 768 numbers that represent its meaning; similar meanings point in similar directions.  
 It returns numpy because the pgvector adapter sends numpy arrays as `vector` values (a list would be treated as an ordinary array and the query would fail).
@@ -47,9 +47,9 @@ Ollama calls: `ollama.embed(model, input)`, `ollama.chat(model, messages, option
 
 | Where | What is embedded | Why |
 |---|---|---|
-| `manager.py` | Every user message | Stored in `messages.embedding`; baseline retrieval |
-| `conflicts.py` | Each new fact, as text like `lives in: Milan` | Stored in `facts.embedding`; smart retrieval |
-| `retrieve.py` | The question; and once per process, the 13 relation texts | Compared with stored vectors and used for routing |
+| `write/manager.py` | Every user message | Stored in `messages.embedding`; baseline retrieval |
+| `write/conflicts.py` | Each new fact, as text like `lives in: Milan` | Stored in `facts.embedding`; smart retrieval |
+| `read/retrieve.py` | The question; and once per process, the 13 relation texts | Compared with stored vectors and used for routing |
 
 pgvector's `<=>` returns cosine distance (0 means identical direction); the code uses `similarity = 1 - distance`. With `nomic-embed-text`, similarities sit in a narrow band: related text scores around 0.5 to 0.7 and unrelated text around 0.35 to 0.45. That is why the gate works on raw similarity with a floor and a window ([06_read_path.md](06_read_path.md)), and why ranking rescales similarity between `SIM_FLOOR` and `SIM_CEIL`.
 
@@ -75,7 +75,7 @@ This gives reliable shape and type checking, and always runs at temperature 0 so
 It does not guarantee the content is right: the model can still pick the wrong relation or miss a fact.  
 That is why the write path checks the extraction afterwards ([05_write_path.md](05_write_path.md)).
 
-## 5. `db.py`: the connection pool
+## 5. `core/db.py`: the connection pool
 
 ```python
 ConnectionPool(DATABASE_URL, min_size=1, max_size=5, configure=register_vector, open=True)
@@ -96,33 +96,33 @@ with get_pool().connection() as conn:
 
 That behaviour matters for the write path: a message, its facts and their events are saved together or not at all.
 
-## 6. Settings (`config.py`)
+## 6. Settings (`core/config.py`)
 
-`config.py` calls `load_dotenv()`. `DATABASE_URL` is required; `CHAT_MODEL`, `EMBED_MODEL`, `ROUTING_TOP_N` and `SAFETY_BYPASS` are optional.
+`core/config.py` calls `load_dotenv()`. `DATABASE_URL` is required; `CHAT_MODEL`, `EMBED_MODEL`, `ROUTING_TOP_N` and `SAFETY_BYPASS` are optional.
 
 | Setting | Value | Used by | Meaning |
 |---|---|---|---|
-| `DATABASE_URL` | from `.env` | `db.py` | Postgres connection string |
-| `CHAT_MODEL` | `llama3.1:8b` | `llm.py` | Chat and extraction model |
-| `EMBED_MODEL` | `nomic-embed-text` | `llm.py` | Embedding model (768 dimensions, matches `schema.sql`) |
-| `DEFAULT_IMPORTANCE` | allergy 0.95 down to hobby 0.40; others in the file | `conflicts.py` | Importance by relation; fallback 0.5 |
-| `DUPLICATE_SIMILARITY` | 0.8 | `conflicts.py` | Trigram similarity at or above which a value counts as the same fact |
-| `MIN_RELEVANCE` | 0.42 | `retrieve.py` | Gate: floor on raw similarity |
-| `RELATIVE_WINDOW` | 0.08 | `retrieve.py` | Gate: distance below the best match still allowed |
-| `ROUTING_TOP_N` | 2 (env; 0 = off) | `retrieve.py` | Gate: how many best-matching relation types are allowed |
-| `SAFETY_RELATIONS` | `{"allergic_to"}` | `retrieve.py` | Relations that skip floor and window when routed in |
-| `SAFETY_BYPASS` | on (env `SAFETY_BYPASS=0` turns it off) | `retrieve.py` | Switch for the allergy pass |
-| `WEIGHTS` | similarity 0.50, importance 0.25, usage 0.10, confidence 0.10, recency 0.05 | `retrieve.py` | Ranking blend |
-| `SIM_FLOOR`, `SIM_CEIL` | 0.35, 0.75 | `retrieve.py` | Rescaling range for the similarity component of the ranking |
-| `RECENCY_HALF_LIFE_DAYS` | 90 | `retrieve.py` | A fact untouched this long counts as half as fresh |
-| `PIN_IMPORTANCE` | 1.01 | `retrieve.py` | Pinning threshold; above any importance, so pinning is off |
-| `PAST_FACTS` | on (env `PAST_FACTS=0` turns it off) | `past_retrieve.py` | Switch for reading replaced facts on past questions |
-| `PAST_MAX_LINES` | 2 | `past_retrieve.py` | Most `Earlier:` lines per question |
-| `SUMMARIES` | on (env `SUMMARIES=0` turns it off) | `summarize.py`, `summary_retrieve.py` | Switch for the whole summaries layer |
-| `SUMMARY_MAX_LINES` | 2 | `summary_retrieve.py` | Most note lines per question |
-| `SUMMARY_BATCH` | 12 | `summarize.py` | Messages per summarising call |
+| `DATABASE_URL` | from `.env` | `core/db.py` | Postgres connection string |
+| `CHAT_MODEL` | `llama3.1:8b` | `core/llm.py` | Chat and extraction model |
+| `EMBED_MODEL` | `nomic-embed-text` | `core/llm.py` | Embedding model (768 dimensions, matches `schema.sql`) |
+| `DEFAULT_IMPORTANCE` | allergy 0.95 down to hobby 0.40; others in the file | `write/conflicts.py` | Importance by relation; fallback 0.5 |
+| `DUPLICATE_SIMILARITY` | 0.8 | `write/conflicts.py` | Trigram similarity at or above which a value counts as the same fact |
+| `MIN_RELEVANCE` | 0.42 | `read/retrieve.py` | Gate: floor on raw similarity |
+| `RELATIVE_WINDOW` | 0.08 | `read/retrieve.py` | Gate: distance below the best match still allowed |
+| `ROUTING_TOP_N` | 2 (env; 0 = off) | `read/retrieve.py` | Gate: how many best-matching relation types are allowed |
+| `SAFETY_RELATIONS` | `{"allergic_to"}` | `read/retrieve.py` | Relations that skip floor and window when routed in |
+| `SAFETY_BYPASS` | on (env `SAFETY_BYPASS=0` turns it off) | `read/retrieve.py` | Switch for the allergy pass |
+| `WEIGHTS` | similarity 0.50, importance 0.25, usage 0.10, confidence 0.10, recency 0.05 | `read/retrieve.py` | Ranking blend |
+| `SIM_FLOOR`, `SIM_CEIL` | 0.35, 0.75 | `read/retrieve.py` | Rescaling range for the similarity component of the ranking |
+| `RECENCY_HALF_LIFE_DAYS` | 90 | `read/retrieve.py` | A fact untouched this long counts as half as fresh |
+| `PIN_IMPORTANCE` | 1.01 | `read/retrieve.py` | Pinning threshold; above any importance, so pinning is off |
+| `PAST_FACTS` | on (env `PAST_FACTS=0` turns it off) | `read/past_retrieve.py` | Switch for reading replaced facts on past questions |
+| `PAST_MAX_LINES` | 2 | `read/past_retrieve.py` | Most `Earlier:` lines per question |
+| `SUMMARIES` | on (env `SUMMARIES=0` turns it off) | `summaries/summarize.py`, `summaries/retrieve.py` | Switch for the whole summaries layer |
+| `SUMMARY_MAX_LINES` | 2 | `summaries/retrieve.py` | Most note lines per question |
+| `SUMMARY_BATCH` | 12 | `summaries/summarize.py` | Messages per summarising call |
 | `SUMMARY_EVERY` | 6 | `scripts/chat.py` | New messages before the chat runs a summary |
-| `SUMMARY_FAITHFUL_MIN` | 0.75 | `summary_rules.py` | Share of a note's content words that must appear in its sources |
+| `SUMMARY_FAITHFUL_MIN` | 0.75 | `summaries/rules.py` | Share of a note's content words that must appear in its sources |
 
 Importance, recency and the other ranking weights live in code, not in the database, so experiments can be tuned and re-run without schema changes.
 
@@ -192,7 +192,7 @@ poetry run python scripts/smoke_test.py
 | Decision | Reason |
 |---|---|
 | One wrapper file for all model calls | One place to change provider or add logging, retries or caching |
-| Settings in `.env` plus `config.py` | Switch models without editing code; tunable numbers together |
+| Settings in `.env` plus `core/config.py` | Switch models without editing code; tunable numbers together |
 | Lazy connection pool | Importing modules never opens a connection, which keeps tests simple |
 | Structured output validated with pydantic | The dependable way to get usable facts from a small local model |
 | Temperature 0 for extraction and comparisons | Repeatability, so experiments are fair |
@@ -209,4 +209,4 @@ poetry run python scripts/smoke_test.py
 | Extraction sees one message only | "Yes, that's right" yields nothing |
 | No token or context budget | Fine for short prompts; needed once summaries and long histories exist |
 | Synchronous only | One call at a time |
-| Prompts live outside `llm.py` | The extraction prompt is in `extract.py`, the answer prompt in `assistant.py` |
+| Prompts live outside `core/llm.py` | The extraction prompt is in `write/extract.py`, the answer prompt in `assistant.py` |

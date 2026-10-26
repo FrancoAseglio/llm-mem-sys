@@ -4,9 +4,9 @@ from datetime import datetime, timezone
 
 import pytest
 
-from memory_system.past_rules import drop_active_values, is_past_question
-from memory_system.past_retrieve import select_past
-from memory_system.retrieve import Memory
+from memory_system.read.past_retrieve import select_past
+from memory_system.read.past_rules import drop_active_values, is_past_question
+from memory_system.read.retrieve import Memory
 
 
 @pytest.mark.parametrize(
@@ -79,8 +79,9 @@ def test_allergy_gets_no_bypass_in_the_past():
 
 import numpy as np
 
-from memory_system import conflicts, past_retrieve, retrieve
-from memory_system.db import get_pool
+from memory_system.core.db import get_pool
+from memory_system.read import past_retrieve, retrieve
+from memory_system.write import conflicts
 
 USER = "test_past"
 

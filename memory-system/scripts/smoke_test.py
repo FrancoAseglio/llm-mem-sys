@@ -9,8 +9,8 @@ import psycopg
 from pgvector.psycopg import register_vector
 from pydantic import BaseModel
 
-from memory_system.config import CHAT_MODEL, DATABASE_URL
-from memory_system.llm import embed
+from memory_system.core.config import CHAT_MODEL, DATABASE_URL
+from memory_system.core.llm import embed
 
 # --- 1. Embeddings + pgvector -------------------------------------------
 print("1) Embeddings + vector search")

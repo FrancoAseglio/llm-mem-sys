@@ -7,9 +7,10 @@ Needs the Postgres database from .env. Every test runs against a throwaway user.
 import numpy as np
 import pytest
 
-from memory_system import summarize, summary_retrieve
-from memory_system.db import get_pool
-from memory_system.summarize import Episode, EpisodeList
+from memory_system.core.db import get_pool
+from memory_system.summaries import retrieve as summary_retrieve
+from memory_system.summaries import summarize
+from memory_system.summaries.summarize import Episode, EpisodeList
 
 USER = "test_summarize"
 TRIP = "Last spring I went hiking in Norway with my cousin Ingrid."

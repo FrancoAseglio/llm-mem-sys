@@ -58,9 +58,9 @@ poetry run python scripts/evaluate.py --set A B C D E F --retrieval-only --no-in
 poetry run python scripts/inspect_scores.py --scenario b_stale_flood
 ```
 
-Results are also written to `eval_results.json`. All scenario sets (A–F) have been seen,
+Results are also written to `eval_results.json`. All scenario sets (A to I) have been seen,
 so they cannot validate further tuning; a change needs a new set written beforehand.
-The status of each set is in `scripts/scenarios/__init__.py`.
+The status of each set is in `scripts/evaluation/scenarios/__init__.py`.
 
 Tests (`tests/` only; the DB tests need the Postgres database from `.env`):
 
@@ -74,8 +74,12 @@ Other script: `scripts/chat.py` (interactive chat, `/mode smart|baseline|none`, 
 
 | Path | What |
 |---|---|
-| `src/memory_system/` | write path: `extract` (LLM), `actions` (pure rules: grounding, assert/retract checks), `conflicts` (DB decisions), `events` (audit log), `manager`; read path: `retrieve` (gate and ranking), `assistant` (prompt); shared: `llm`, `db`, `config` |
-| `scripts/` | `evaluate.py` (+ `eval_metrics.py`, `eval_report.py`), `inspect_scores.py`, `chat.py`, `smoke_test.py`; `scenarios/` holds the test sets A–F |
-| `tests/` | `test_actions.py` and `test_gate.py` (pure), `test_write_path.py` and `test_manager.py` (need the DB) |
+| `src/memory_system/core/` | shared: `config`, `db`, `llm`, `events` (audit log) |
+| `src/memory_system/write/` | write path: `extract` (LLM), `actions` (pure rules), `conflicts` (DB decisions), `manager` |
+| `src/memory_system/read/` | read path: `retrieve` (gate and ranking), `past_rules` and `past_retrieve` (questions about the past) |
+| `src/memory_system/summaries/` | episode notes: `summarize`, `rules` (pure checks), `retrieve` |
+| `src/memory_system/assistant.py` | builds the prompt from the memory lines |
+| `scripts/` | `evaluate.py`, `inspect_scores.py`, `chat.py`, `smoke_test.py`; `evaluation/` holds `metrics.py`, `report.py` and `scenarios/` (test sets A to I) |
+| `tests/` | mirrors the package: `write/`, `read/`, `summaries/`; the pure ones need no services, the rest need Postgres |
 | `schema.sql` | full schema for a fresh database; after a schema change, drop and recreate the database from it |
 | `docs/` | Numbered documentation, start at [`docs/README.md`](docs/README.md) |

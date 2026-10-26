@@ -18,9 +18,9 @@ A note is a short, self-contained sentence about the user, written from one or m
 
 | File | Job |
 |---|---|
-| `src/memory_system/summarize.py` | Write side: finds new messages, asks the model for notes, stores the ones that pass |
-| `src/memory_system/summary_rules.py` | Pure rules, no database or model: the chatter filter, the faithfulness check, the gate for notes |
-| `src/memory_system/summary_retrieve.py` | Read side: the note lines that pass the gate for a question |
+| `src/memory_system/summaries/summarize.py` | Write side: finds new messages, asks the model for notes, stores the ones that pass |
+| `src/memory_system/summaries/rules.py` | Pure rules, no database or model: the chatter filter, the faithfulness check, the gate for notes |
+| `src/memory_system/summaries/retrieve.py` | Read side: the note lines that pass the gate for a question |
 | `src/memory_system/assistant.py` | In smart mode, adds the note lines after the fact lines |
 | `scripts/chat.py`, `scripts/evaluate.py` | Call `summarize_pending` (the chat after every 6 new messages, the evaluation after each ingest) |
 
@@ -56,7 +56,7 @@ Before the model sees a batch, `is_chatter` removes messages that hold nothing t
 
 ### 4.2 The model call
 
-`chat_structured` with temperature 0 returns a list of episodes, each a sentence and the numbers of the messages it used. The prompt (`SYSTEM_PROMPT` in `summarize.py`) asks for:
+`chat_structured` with temperature 0 returns a list of episodes, each a sentence and the numbers of the messages it used. The prompt (`SYSTEM_PROMPT` in `summaries/summarize.py`) asks for:
 
 - only what the messages say, with names, places, numbers and times kept exactly;
 - sentences that start with "The user" or "The user's", in the third person;
@@ -98,7 +98,7 @@ If the call raises (Ollama down, invalid JSON), nothing is stored, a `reject` ev
 
 ## 6. Settings
 
-In `config.py`:
+In `core/config.py`:
 
 | Setting | Value | Meaning |
 |---|---|---|
@@ -220,7 +220,7 @@ The four outdated mentions are true past-tense statements ("The user used to liv
 | Connects to | How |
 |---|---|
 | [03 Storage](03_storage.md) | Uses `summaries`, `messages.summary_id`, and the `summarize` and `reject` events |
-| [05 Write path](05_write_path.md) | The stale-source rule reads `facts.source_message_id` and fact status; `is_faithful` reuses `same_word` and the stopwords of `actions.py` |
+| [05 Write path](05_write_path.md) | The stale-source rule reads `facts.source_message_id` and fact status; `is_faithful` reuses `same_word` and the stopwords of `write/actions.py` |
 | [06 Read path](06_read_path.md) | Notes are added after the facts chosen by the gate |
 | [08 Evaluation](08_evaluation.md) | Sets G and H measure this layer |
 | [10 Limits and roadmap](10_limits_and_roadmap.md) | Consolidation and the other open items |

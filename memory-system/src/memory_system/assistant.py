@@ -1,8 +1,8 @@
 from datetime import date
 
-from memory_system.past_retrieve import retrieve_past
-from memory_system.retrieve import Memory, retrieve, retrieve_baseline
-from memory_system.summary_retrieve import retrieve_summaries
+from memory_system.read.past_retrieve import retrieve_past
+from memory_system.read.retrieve import Memory, retrieve, retrieve_baseline
+from memory_system.summaries.retrieve import retrieve_summaries
 
 LABELS = {
     "name": "Name",

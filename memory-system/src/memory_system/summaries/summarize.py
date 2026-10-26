@@ -10,11 +10,11 @@ id seen, which is where the next run starts. A failed model call changes nothing
 
 from pydantic import BaseModel
 
-from memory_system.config import SUMMARY_BATCH, SUMMARY_FAITHFUL_MIN
-from memory_system.db import get_pool
-from memory_system.events import log_event
-from memory_system.llm import chat_structured, embed
-from memory_system.summary_rules import is_chatter, is_faithful
+from memory_system.core.config import SUMMARY_BATCH, SUMMARY_FAITHFUL_MIN
+from memory_system.core.db import get_pool
+from memory_system.core.events import log_event
+from memory_system.core.llm import chat_structured, embed
+from memory_system.summaries.rules import is_chatter, is_faithful
 
 SYSTEM_PROMPT = """You write short memory notes about the USER from their numbered messages.
 

@@ -4,7 +4,7 @@ import numpy as np
 import ollama
 from pydantic import BaseModel
 
-from memory_system.config import CHAT_MODEL, EMBED_MODEL
+from memory_system.core.config import CHAT_MODEL, EMBED_MODEL
 
 
 def embed(text: str) -> np.ndarray:

@@ -78,7 +78,7 @@ Messages are stored even when they produce no fact, including chit-chat.
 | `subject` | TEXT, default `user` | Who the fact is about. Always `user` today. |
 | `relation` | TEXT, foreign key to `relation_types` | The kind of fact. |
 | `value` | TEXT | The content (`Milan`, `cycling`), free text, not normalised. |
-| `importance` | REAL, 0 to 1, default 0.5 | Set from `DEFAULT_IMPORTANCE` in `config.py` by relation (allergy 0.95, hobby 0.40). Not taken from the model. |
+| `importance` | REAL, 0 to 1, default 0.5 | Set from `DEFAULT_IMPORTANCE` in `core/config.py` by relation (allergy 0.95, hobby 0.40). Not taken from the model. |
 | `confidence` | REAL, 0 to 1, default 0.8 | Rises by 0.05 each time the same fact is repeated, capped at 1. |
 | `status` | TEXT | `active`, `superseded`, `conflicted` or `archived`. See section 4. |
 | `valid_from` | TIMESTAMPTZ | When the fact became true in memory. |
@@ -282,7 +282,7 @@ WHERE f.user_id = 'demo';
 ```
 
 ```sql
--- Add a new kind of fact (needs a DEFAULT_IMPORTANCE entry in config.py)
+-- Add a new kind of fact (needs a DEFAULT_IMPORTANCE entry in core/config.py)
 INSERT INTO relation_types (name, cardinality, description)
 VALUES ('diet', 'single', 'Dietary pattern, e.g. vegetarian, vegan');
 ```

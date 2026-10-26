@@ -1,11 +1,11 @@
 from datetime import datetime
 
-from memory_system.actions import is_grounded, normalize_actions
-from memory_system.conflicts import apply_fact
-from memory_system.db import get_pool
-from memory_system.events import log_event
-from memory_system.extract import extract_facts, load_relation_types
-from memory_system.llm import embed
+from memory_system.core.db import get_pool
+from memory_system.core.events import log_event
+from memory_system.core.llm import embed
+from memory_system.write.actions import is_grounded, normalize_actions
+from memory_system.write.conflicts import apply_fact
+from memory_system.write.extract import extract_facts, load_relation_types
 
 
 def ingest_user_message(

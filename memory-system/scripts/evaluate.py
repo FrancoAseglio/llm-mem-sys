@@ -14,7 +14,7 @@ Measured with the LLM (slower, noisier):
 Results are also written to eval_results.json.
 SUMMARIES=0 in the environment switches the summaries layer off (nothing written or shown).
 
-Scoring lives in eval_metrics.py, printing in eval_report.py, the scenarios in scenarios/.
+Scoring lives in evaluation/metrics.py, printing in evaluation/report.py, the scenarios in evaluation/scenarios/.
 """
 
 import argparse
@@ -22,22 +22,27 @@ import json
 import time
 from datetime import datetime, timedelta, timezone
 
-from eval_metrics import contains_any, is_correct, needed_fact_present, noise_present
-from eval_report import (
+from evaluation.metrics import (
+    contains_any,
+    is_correct,
+    needed_fact_present,
+    noise_present,
+)
+from evaluation.report import (
     MODES,
     print_retrieval_problems,
     print_summaries,
     print_table,
     print_wrong_answers,
 )
-from scenarios import SCENARIOS, SETS
+from evaluation.scenarios import SCENARIOS, SETS
 
 from memory_system.assistant import build_messages, recall
-from memory_system.config import SUMMARIES
-from memory_system.db import get_pool
-from memory_system.llm import chat
-from memory_system.manager import ingest_user_message, list_facts
-from memory_system.summarize import summarize_pending
+from memory_system.core.config import SUMMARIES
+from memory_system.core.db import get_pool
+from memory_system.core.llm import chat
+from memory_system.summaries.summarize import summarize_pending
+from memory_system.write.manager import ingest_user_message, list_facts
 
 
 def user_of(scenario: dict) -> str:

@@ -17,9 +17,9 @@ Columns
 
 import argparse
 
-from scenarios import SCENARIOS
+from evaluation.scenarios import SCENARIOS
 
-from memory_system.config import (
+from memory_system.core.config import (
     MIN_RELEVANCE,
     PIN_IMPORTANCE,
     RELATIVE_WINDOW,
@@ -27,7 +27,7 @@ from memory_system.config import (
     SAFETY_BYPASS,
     SAFETY_RELATIONS,
 )
-from memory_system.retrieve import (
+from memory_system.read.retrieve import (
     best_raw,
     gate_failure,
     retrieve_baseline,

@@ -4,8 +4,8 @@
 """
 import pytest
 
-from memory_system.actions import is_grounded, normalize_actions
-from memory_system.extract import ExtractedFact
+from memory_system.write.actions import is_grounded, normalize_actions
+from memory_system.write.extract import ExtractedFact
 
 
 def F(action, relation, value):

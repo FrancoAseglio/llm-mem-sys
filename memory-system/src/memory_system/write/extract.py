@@ -2,7 +2,7 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from memory_system.llm import chat_structured
+from memory_system.core.llm import chat_structured
 
 
 class ExtractedFact(BaseModel):

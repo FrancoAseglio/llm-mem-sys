@@ -117,18 +117,22 @@ Python 3.12 with Poetry; Postgres 17 with `pgvector` and `pg_trgm`; Ollama runni
 
 ## Code map
 
+The package `src/memory_system/` is split by what happens to information:
+
+| Package | Holds | Modules |
+|---|---|---|
+| `core/` | Shared plumbing | `config` (settings), `db` (connection pool), `llm` (model calls), `events` (audit log) |
+| `write/` | What happens when the user speaks | `extract` (asks the model for facts), `actions` (pure rules that check the extraction), `conflicts` (what each fact does to the database), `manager` (runs the whole write path for one message) |
+| `read/` | What happens when the user asks | `retrieve` (the gate, ranking and the baseline), `past_rules` (pure: is it a question about the past), `past_retrieve` (replaced facts for such questions) |
+| `summaries/` | Episode notes | `summarize` (write side), `rules` (pure checks: chatter filter, faithfulness, gate for notes), `retrieve` (read side) |
+| `assistant.py` | Builds the prompt from the fact lines, past lines and note lines | |
+
+Outside the package:
+
 | Path | Role |
 |---|---|
-| `src/memory_system/extract.py` | Asks the local model for facts (write path) |
-| `src/memory_system/actions.py` | Pure rules that check the extraction (write path) |
-| `src/memory_system/conflicts.py` | Decides what each fact does to the database (write path) |
-| `src/memory_system/summarize.py`, `summary_rules.py` | Write side of the summaries layer: episode notes and the checks on them |
-| `src/memory_system/events.py` | Audit log helper |
-| `src/memory_system/manager.py` | Runs the whole write path for one message |
-| `src/memory_system/retrieve.py` | The gate, ranking and the baseline (read path) |
-| `src/memory_system/summary_retrieve.py` | Reads the episode notes that pass the gate (read path) |
-| `src/memory_system/past_rules.py`, `past_retrieve.py` | Questions about the past: the trigger rule and the replaced facts shown for them (read path) |
-| `src/memory_system/assistant.py` | Builds the prompt from the memory lines (read path) |
-| `src/memory_system/llm.py`, `db.py`, `config.py` | Model calls, database pool, settings |
-| `scripts/` | `evaluate.py`, `inspect_scores.py`, `chat.py`, `smoke_test.py`, and `scenarios/` with the test sets |
-| `tests/` | 141 automated tests: pure rules and the gate need no services, the rest need Postgres |
+| `scripts/` | The commands you run: `chat.py`, `evaluate.py`, `inspect_scores.py`, `smoke_test.py` |
+| `scripts/evaluation/` | Support for the evaluation: `metrics.py` (scoring), `report.py` (printing) and `scenarios/` (the test sets) |
+| `tests/` | Mirrors the package: `tests/write/`, `tests/read/`, `tests/summaries/` |
+
+141 automated tests: pure rules and the gate need no services, the rest need Postgres.

@@ -6,7 +6,7 @@ import re
 from dataclasses import dataclass
 from datetime import datetime
 
-from memory_system.actions import STOPWORDS, content_words, same_word
+from memory_system.write.actions import STOPWORDS, content_words, same_word
 
 # Words a summary sentence uses about the user or the telling itself; they say nothing about
 # the content, so they neither need to be in the sources nor count as new information.

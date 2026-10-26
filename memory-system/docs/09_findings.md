@@ -1,6 +1,6 @@
 # 9. Findings and decisions
 
-The experiments, mistakes and decisions that shaped the current design. Retrieval numbers are exploratory: sets A to C had been seen when they were measured. The one-off scripts used for the retrieval experiments were removed; the settings they produced live in `config.py` and `relation_types.routing_hint`.
+The experiments, mistakes and decisions that shaped the current design. Retrieval numbers are exploratory: sets A to C had been seen when they were measured. The one-off scripts used for the retrieval experiments were removed; the settings they produced live in `core/config.py` and `relation_types.routing_hint`.
 
 ## 1. Retrieval experiments
 
@@ -94,7 +94,7 @@ Full record in [results/past_step_log.md](results/past_step_log.md); the mechani
 
 ## 4. Refactor results
 
-The code was split into smaller modules without changing behaviour: the scenarios into a package, `conflicts.py` into `actions.py`, `events.py` and `conflicts.py`, and `evaluate.py` into three files, with the gate's logic shared by `select_memories` and `inspect_scores.py`. Each step was checked by identical snapshots or outputs: the scenarios by a diff of their data, the gate by a randomised comparison with the old implementation, the evaluation by an identical `eval_results.json`, and the full set A to F by identical tables from an empty database.
+The code was split into smaller modules without changing behaviour: the scenarios into a package, `write/conflicts.py` into `write/actions.py`, `core/events.py` and `write/conflicts.py`, and `evaluate.py` into three files, with the gate's logic shared by `select_memories` and `inspect_scores.py`. Each step was checked by identical snapshots or outputs: the scenarios by a diff of their data, the gate by a randomised comparison with the old implementation, the evaluation by an identical `eval_results.json`, and the full set A to F by identical tables from an empty database.
 
 ## 5. Decision log
 
@@ -106,7 +106,7 @@ The code was split into smaller modules without changing behaviour: the scenario
 | Relevance as a gate, ranking only orders | One blended score | A blended score let weak matches in on importance or recency |
 | Relation routing with two hints | No routing | Removed most irrelevant lines (0.70 to 0.13 per question) |
 | Allergies skip floor and window when routed | Always pin allergies | Pinning flooded unrelated questions |
-| Importance set by relation in `config.py` | Ask the model to rate | The 8B model rated nearly everything 1.0 |
+| Importance set by relation in `core/config.py` | Ask the model to rate | The 8B model rated nearly everything 1.0 |
 | Pure rules separate from database code | Everything in `apply_fact` | Rules testable without services; each past mistake became a test |
 | Retraction archives, `conflicted` for dependents | Delete, or trust newest-wins | Keeps history; avoids asserting that an unknown is false |
 | Keep the message when extraction fails | Roll back everything | Nothing the user said is lost |

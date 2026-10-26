@@ -4,11 +4,11 @@ Everything between "the user sends a message" and "memory is updated". This is t
 
 | File | Job | Needs a database or model? |
 |---|---|---|
-| `src/memory_system/extract.py` | Asks the local model for facts in a fixed JSON shape | Model |
-| `src/memory_system/actions.py` | Pure rules that check what the model returned | No |
-| `src/memory_system/conflicts.py` | Decides what each fact does to the stored facts, and writes it | Database |
-| `src/memory_system/events.py` | Writes one row to the audit log | Database |
-| `src/memory_system/manager.py` | Runs the whole flow for one message; reads facts back for display | Both |
+| `src/memory_system/write/extract.py` | Asks the local model for facts in a fixed JSON shape | Model |
+| `src/memory_system/write/actions.py` | Pure rules that check what the model returned | No |
+| `src/memory_system/write/conflicts.py` | Decides what each fact does to the stored facts, and writes it | Database |
+| `src/memory_system/core/events.py` | Writes one row to the audit log | Database |
+| `src/memory_system/write/manager.py` | Runs the whole flow for one message; reads facts back for display | Both |
 
 ## 1. The flow at a glance
 
@@ -44,17 +44,17 @@ Two kinds of knowledge result from one message:
 
 | # | Step | Where | Writes to | Model calls |
 |---|---|---|---|---|
-| 1 | Ensure the user exists | `manager.py` | `users` | none |
-| 2 | Embed and store the message | `manager.py` | `messages` | 1 embedding |
-| 3 | Read the allowed relations | `extract.py` | nothing | none |
-| 4 | Extract facts as validated JSON | `extract.py` | nothing | 1 structured chat |
-| 5 | Clean the list, then check the labels | `extract.py`, `actions.py` | nothing | none |
-| 6 | Apply each fact | `conflicts.py` | `facts`, `memory_events` | 1 embedding per new fact |
-| 7 | Commit | `manager.py` | all of the above, together | none |
+| 1 | Ensure the user exists | `write/manager.py` | `users` | none |
+| 2 | Embed and store the message | `write/manager.py` | `messages` | 1 embedding |
+| 3 | Read the allowed relations | `write/extract.py` | nothing | none |
+| 4 | Extract facts as validated JSON | `write/extract.py` | nothing | 1 structured chat |
+| 5 | Clean the list, then check the labels | `write/extract.py`, `write/actions.py` | nothing | none |
+| 6 | Apply each fact | `write/conflicts.py` | `facts`, `memory_events` | 1 embedding per new fact |
+| 7 | Commit | `write/manager.py` | all of the above, together | none |
 
 If a step fails with a database error, the transaction rolls back and nothing is saved. If only the model fails at step 4, the message is kept (section 6).
 
-## 3. `extract.py`: from text to facts
+## 3. `write/extract.py`: from text to facts
 
 ### 3.1 Data shapes
 
@@ -93,9 +93,9 @@ The user message is sent separately as `Message: "<text>"`.
 
 `extract_facts` does not trust the answer. It trims whitespace, drops any relation not in `relation_types`, drops empty values, and removes repeats (same relation, value and action, ignoring case).
 
-## 4. `actions.py`: checking the extraction
+## 4. `write/actions.py`: checking the extraction
 
-Pure functions with no database and no model, covered by `tests/test_actions.py`. They exist because the 8B model makes a few predictable slips.
+Pure functions with no database and no model, covered by `tests/write/test_actions.py`. They exist because the 8B model makes a few predictable slips.
 
 ### 4.1 `is_grounded(value, text, relation=None)`
 
@@ -121,7 +121,7 @@ Repeats are then removed and retractions are put first, so a retraction can neve
 
 The "lone retract is never touched" rule exists because an earlier version flipped a real retraction without a negation word ("I moved out of Berlin") into an assert. That mistake is recorded in [09_findings.md](09_findings.md), and it has a regression test.
 
-## 5. `conflicts.py`: from fact to decision
+## 5. `write/conflicts.py`: from fact to decision
 
 ### 5.1 The decision order
 
@@ -143,7 +143,7 @@ Opposites: a new `likes` or `hobby` contradicts an active `dislikes`; a new `dis
 
 When the employer changes (`works_at` replaced at stage 5, or retracted at stage 1), the job title may no longer hold. Unless the same message also states a job title, the active `job_title` becomes `conflicted` and a `conflict` event is logged. It is not superseded, because the system cannot know whether it is still true. Retrieval skips conflicted facts, so a possibly stale title never reaches a prompt. Restating the title later supersedes the conflicted row through stage 5.
 
-The dependency table is `DEPENDENTS = {"works_at": "job_title"}` in `conflicts.py`. Only that pair is defined.
+The dependency table is `DEPENDENTS = {"works_at": "job_title"}` in `write/conflicts.py`. Only that pair is defined.
 
 ### 5.3 Values written on a new fact
 
@@ -171,7 +171,7 @@ Uses `pg_trgm` `similarity()` on lower-case text. Trigram similarity compares ov
 | Superseded rows are never reactivated | Moving back to Turin inserts a new Turin row; the unique index allows it because the old row is not active |
 | A retraction only sees active facts | A `conflicted` fact cannot be retracted |
 
-## 6. `manager.py`: orchestration
+## 6. `write/manager.py`: orchestration
 
 | Function | Purpose |
 |---|---|
@@ -221,11 +221,11 @@ INSERT INTO relation_types (name, cardinality, description)
 VALUES ('diet', 'single', 'Dietary pattern, e.g. vegetarian, vegan');
 ```
 
-Optionally add an importance entry (`"diet": 0.75`) to `DEFAULT_IMPORTANCE` in `config.py`; without it the fallback is 0.5. The extraction prompt picks up the new relation automatically. For retrieval, the description is also used for routing, so restart the process.
+Optionally add an importance entry (`"diet": 0.75`) to `DEFAULT_IMPORTANCE` in `core/config.py`; without it the fallback is 0.5. The extraction prompt picks up the new relation automatically. For retrieval, the description is also used for routing, so restart the process.
 
-**Make duplicates stricter or looser:** change `DUPLICATE_SIMILARITY` in `config.py`. Lower merges more near-matches.
+**Make duplicates stricter or looser:** change `DUPLICATE_SIMILARITY` in `core/config.py`. Lower merges more near-matches.
 
-**Improve extraction:** add a short example to `build_prompt` in `extract.py` for a case it gets wrong. Add the failing sentence as a case in `tests/test_actions.py` if a rule can fix it instead.
+**Improve extraction:** add a short example to `build_prompt` in `write/extract.py` for a case it gets wrong. Add the failing sentence as a case in `tests/write/test_actions.py` if a rule can fix it instead.
 
 **See what was decided:**
 
@@ -259,5 +259,5 @@ SELECT created_at, event_type, details FROM memory_events WHERE user_id = 'demo'
 | [03 Storage](03_storage.md) | Writes `users`, `messages`, `facts`, `memory_events`; reads `relation_types` |
 | [04 Models](04_models.md) | Uses `embed`, `chat_structured`, `get_pool` and the importance and duplicate settings |
 | [06 Read path](06_read_path.md) | Produces the active facts that retrieval ranks; retrieval reads only `status = 'active'` |
-| Tests | `tests/test_actions.py` (pure rules), `tests/test_write_path.py` (`apply_fact` against the database), `tests/test_manager.py` (extraction failure) |
+| Tests | `tests/write/test_actions.py` (pure rules), `tests/write/test_write_path.py` (`apply_fact` against the database), `tests/write/test_manager.py` (extraction failure) |
 | Scripts | `chat.py` calls `ingest_user_message` after each answer |

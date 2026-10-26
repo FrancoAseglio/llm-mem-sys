@@ -5,8 +5,8 @@ from datetime import datetime
 
 import pytest
 
-from memory_system import retrieve
-from memory_system.retrieve import Memory, best_raw, gate_failure, select_memories
+from memory_system.read import retrieve
+from memory_system.read.retrieve import Memory, best_raw, gate_failure, select_memories
 
 
 @pytest.fixture(autouse=True)

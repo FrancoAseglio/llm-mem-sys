@@ -1,10 +1,10 @@
 """Read side for questions about the past: replaced facts, with the date they were replaced."""
 
-from memory_system.config import PAST_FACTS, PAST_MAX_LINES
-from memory_system.db import get_pool
-from memory_system.events import log_event
-from memory_system.past_rules import drop_active_values, is_past_question
-from memory_system.retrieve import Memory, best_raw, gate_failure, score_facts
+from memory_system.core.config import PAST_FACTS, PAST_MAX_LINES
+from memory_system.core.db import get_pool
+from memory_system.core.events import log_event
+from memory_system.read.past_rules import drop_active_values, is_past_question
+from memory_system.read.retrieve import Memory, best_raw, gate_failure, score_facts
 
 
 def select_past(
