@@ -37,7 +37,7 @@ Everything between "the user sends a message" and "memory is updated". This is t
 
 Two kinds of knowledge result from one message:
 
-- The **raw message** is always saved, including chit-chat, for the baseline comparison and future summaries.
+- The **raw message** is always saved, including chit-chat, for the baseline comparison and for the summaries layer.
 - **Facts** are saved only when the message holds something durable.
 
 ## 2. Step by step
@@ -119,7 +119,7 @@ Checks the model's assert/retract labels against the message and fixes clear err
 
 Repeats are then removed and retractions are put first, so a retraction can never archive a fact asserted by the same message.
 
-The "lone retract is never touched" rule exists because an earlier version flipped a real retraction without a negation word ("I moved out of Berlin") into an assert. That mistake is recorded in [08_findings.md](08_findings.md), and it has a regression test.
+The "lone retract is never touched" rule exists because an earlier version flipped a real retraction without a negation word ("I moved out of Berlin") into an assert. That mistake is recorded in [09_findings.md](09_findings.md), and it has a regression test.
 
 ## 5. `conflicts.py`: from fact to decision
 

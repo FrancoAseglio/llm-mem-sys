@@ -1,4 +1,4 @@
-# 8. Findings and decisions
+# 9. Findings and decisions
 
 The experiments, mistakes and decisions that shaped the current design. Retrieval numbers are exploratory: sets A to C had been seen when they were measured. The one-off scripts used for the retrieval experiments were removed; the settings they produced live in `config.py` and `relation_types.routing_hint`.
 
@@ -60,8 +60,23 @@ A new like that matches an active dislike (or the reverse) now supersedes it wit
 | An absolute threshold alone could not separate needed facts from topical neighbours | Sets A to C (section 1.2) | A floor of 0.42 plus a window of 0.08 below the best match |
 | `normalize_actions` flipped a real retraction without a negation word ("I moved out of Berlin") into an assert | A regression test written from the observed output | A lone retract is never changed; two or more are needed, plus a negation clause and an independent clause |
 | The grounding rule rejected short names and allergens | Re-ingest of sets A to E | Three-letter words, verbatim rule for names |
-| `--no-ingest` on stale evaluation data produced a false regression (6/7 instead of 7/7 on set B) | A user's run after a refactor | The scenario's stored data held 2 of 8 messages; re-ingest restored the numbers. Protocol rule 7 in [07_evaluation.md](07_evaluation.md) |
+| `--no-ingest` on stale evaluation data produced a false regression (6/7 instead of 7/7 on set B) | A user's run after a refactor | The scenario's stored data held 2 of 8 messages; re-ingest restored the numbers. Protocol rule 7 in [08_evaluation.md](08_evaluation.md) |
 | `pytest` collected `scripts/smoke_test.py` because of its name and ran it at import | A failure after a refactor | `testpaths = ["tests"]` in `pyproject.toml` |
+
+### Summaries layer
+
+Full record in [results/summaries_dev_log.md](results/summaries_dev_log.md); the design in [07_summaries.md](07_summaries.md).
+
+| Finding | Evidence | Change |
+|---|---|---|
+| Facts alone cannot answer episodic questions | Set G first run: 8/17 needed present against the baseline's 17/17 | Episode notes stored in `summaries`, read after the facts |
+| The model wrote notes about questions and thanks although told not to (about a dozen) | The 48 notes of the first A to F run | `is_chatter` filters them in code before the model |
+| That fix did not remove the extra noise: it stayed at 17/46 | Run 2; the first diagnosis (question notes cause the noise) was incomplete | Read the nine prompts: seven true mentions that the keyword lists score as bad, two real noise (goal notes for a language question, a distractor). Recorded as not met; no threshold changed |
+| The faithfulness check rejected true sentences ("works" against "work") | The dropped-sentence list of the `summarize` event, set G | Match against all source words, stopwords included; three notes recovered; set E also gained a note |
+| A note of a replaced fact would bring the old value back | Design review before building | The stale-source rule: skip a note whose source message produced a non-active fact |
+| Notes did not compress | Compression query: notes 3,061 characters, linked source messages 2,971 | Not fixed; consolidation is on the roadmap |
+
+Two things were disclosed in the record: set G was run before its code was committed, and G was re-run once with summaries, so its second result is labelled a re-run and not blind. Set H was run once.
 
 ## 4. Refactor results
 
@@ -84,6 +99,10 @@ The code was split into smaller modules without changing behaviour: the scenario
 | Temperature 0 for extraction and evaluation | Default sampling | Repeatable experiments |
 | All test sets labelled tuning, spent or blind | Re-using sets freely | Keeps the evidence honest |
 | Strong-match override and rank-3 allergy bypass not implemented | Implement now | Held for a pre-registered test on a fresh set |
+| Episode notes separate from facts | Add relation types for episodes | Episodes have no fixed type; facts stay clean and versioned |
+| Notes use the fact floor and window, with no routing | Tune a separate threshold | All earlier sets were spent, so a threshold could only be fitted on data already seen |
+| Notes are verified sentence by sentence in code | Trust the model | A small model invents details; a failing sentence is dropped and logged |
+| Past-question mechanism and "say you don't know" prompt held out of the summaries step | Add them to the same step | Each is a separate change that needs its own measurement |
 
 ## 6. Manual chat tests (2026-10-25)
 
@@ -110,3 +129,5 @@ What these showed:
 - The 8B model sometimes claims knowledge it does not have ("nice to chat with you again", "I remember you mentioning ...", "we haven't discussed your personal information before"). These come from the model and from the 6-turn chat history, not from the memory, which had recalled nothing or something different.
 - The chat sends the last 6 turns in every mode, so a short chat does not test long-term memory. Quit and restart with the same user to test it.
 - Pasting several lines at once into the chat feeds them one after another and can glue a command to the next message. Send one line at a time.
+
+A further manual test on 2026-10-26 (user `sumtest`) checked the summaries layer: after six messages three notes were written (bookshelf with the dad, the neighbour's bakery, the garage door); "Thanks!", a goldfish-name question and a message already stored as a fact produced none. "What did I build with my dad?" and "Who is opening a bakery?" were answered from the notes, and "Am I opening a bakery?" was answered "No." The full session is in [07_summaries.md](07_summaries.md), section 7.

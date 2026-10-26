@@ -219,9 +219,19 @@ assistant> You live in Milan.
 
 Name and city are answered from memory alone, one recalled line each, after a restart.
 
-The middle question shows a known limit. The fact `lives_in = Turin` is in the database, but it is `superseded`, and retrieval never reads superseded facts. So the system can say where you live now but not where you lived before. This was a design choice (reading old facts for every question would bring back the stale-fact problem) and it is listed in [09_limits_and_roadmap.md](09_limits_and_roadmap.md). A possible fix is to include superseded facts, labelled with their dates, only when the question is about the past ("used to", "before").
+The middle question shows a known limit. The fact `lives_in = Turin` is in the database, but it is `superseded`, and retrieval never reads superseded facts. So the system can say where you live now but not where you lived before. This was a design choice (reading old facts for every question would bring back the stale-fact problem) and it is listed in [10_limits_and_roadmap.md](10_limits_and_roadmap.md). A possible fix is to include superseded facts, labelled with their dates, only when the question is about the past ("used to", "before").
 
 To compare with no memory at all, start a new user (`--user demo2`) and ask the same questions: the assistant knows nothing. Use `/mode baseline` to see raw-message recall for the same user.
+
+### Episode notes in the chat
+
+Facts only cover the 13 relation types. Anything else you say (a plan, a purchase, what happened at the weekend) is turned into a one-sentence episode note. After every sixth new message the chat runs the summariser and prints what it kept:
+
+```
+  [summary] The user's neighbour Greta is opening a bakery in Gothenburg next spring.
+```
+
+Questions and thanks produce no note. Later questions can bring a note into the prompt as `Note from 2026-10-26: ...`. The full session, the checks and the settings are in [07_summaries.md](07_summaries.md). `SUMMARIES=0 poetry run python scripts/chat.py --user me` switches the layer off.
 
 ## 8. Look inside the database
 
@@ -246,14 +256,15 @@ The session produced 9 messages and 4 facts. The 5 extra messages are questions 
  lives_in    | Milan   | active
 ```
 
-### Unused tables
+### Episode notes and the unused table
 
 ```bash
-psql memory_db -c "select count(*) from summaries"
+psql memory_db -c "select content from summaries where user_id='demo1' order by id"
+psql memory_db -c "select details from memory_events where user_id='demo1' and event_type='summarize'"
 psql memory_db -c "select count(*) from relations"
 ```
 
-Both return 0: the tables exist and nothing writes to them yet ([09_limits_and_roadmap.md](09_limits_and_roadmap.md)).
+The first two show the notes written for the user and what each summary run kept and dropped; they are empty until the chat has summarised (after six new messages, see section 7 and [07_summaries.md](07_summaries.md)). `relations` returns 0: nothing writes to it yet ([10_limits_and_roadmap.md](10_limits_and_roadmap.md)).
 
 ### The structure
 

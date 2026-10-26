@@ -1,7 +1,7 @@
 # Summaries layer: development log
 
 What was run, what failed, what was changed. Newest last. Sets A to F are spent, G was run once
-before the layer existed, H has not been run.
+before the layer existed and re-run with it, H was run once (run 5).
 
 ## Run 1: sets A to F with summaries on (2026-10-26, retrieval only, existing data)
 
@@ -122,4 +122,34 @@ Status against the criteria written before building:
   neighbours of notes). Reported as failed.
 - G episode and story questions: 7/9, at the threshold. Past question: not addressed (separate step).
 
-Next: set H, once, with answers.
+## Run 5: set H, once, with answers (blind validation)
+
+Predictions were written before any summaries code (docs/predictions/set_H.md). The set was run once
+on the finished layer (changes 1 and 2), with baseline and smart in the same run. Nothing was changed
+afterwards.
+
+| Set H | Baseline | Smart with summaries |
+|---|---|---|
+| Needed present | 13/13 | 12/13 |
+| Noise present | 3/3 | 2/3 |
+| Stale in prompt | 0 | 0 |
+| Average lines | 4.0 | 1.1 |
+| Answers correct | 13/14 | 13/14 |
+
+- The one needed-fact miss is the cancelled-conference question: the check looks for "cancel", and the
+  correct note says the user is "not going after all". Reported as a miss of the keyword list, not
+  edited.
+- Smart matches the baseline's answers with about a quarter of the lines. H has 15 questions and
+  was run once, so this is encouraging, not conclusive.
+
+Compression, measured on the evaluation users after the run:
+
+| What | Characters |
+|---|---|
+| Notes | 3,061 |
+| Messages linked to a note | 2,971 |
+| All user messages | 10,905 |
+
+Notes are 1.03 times the size of the messages they came from, and 28% of all messages (the saving is
+the questions and filler that are left out). The layer recovers episodes but does not shorten history.
+The roadmap step for this is consolidation of notes into digests (docs/10_limits_and_roadmap.md).

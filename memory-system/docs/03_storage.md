@@ -10,7 +10,7 @@ Memory has three layers, as in the project proposal:
 |---|---|---|---|
 | Recent memory | `messages` | Raw things the user said | In use |
 | Fact memory | `facts` | Clean, dated, versioned statements ("lives in Milan") | In use |
-| Summary memory | `summaries` | Condensed digests of old messages | Table exists, not used yet |
+| Summary memory | `summaries` | One-sentence episode notes written from messages; see [07_summaries.md](07_summaries.md) | In use. Not yet a compression of old history |
 
 Supporting tables hold the rules and the bookkeeping:
 
@@ -62,9 +62,9 @@ This table is what lets the system tell a replacement from an addition: a new `l
 | `role` | TEXT, `user` or `assistant` | Only `user` rows are stored. |
 | `content` | TEXT | The raw text. |
 | `embedding` | vector(768) | Meaning of the text; used by baseline retrieval. |
-| `importance` | REAL, 0 to 1, default 0.2 | Reserved for summarisation. Not used. |
-| `archived` | BOOLEAN, default false | Reserved: set once a message is summarised. Not used. |
-| `summary_id` | BIGINT, foreign key to `summaries` | Reserved: which summary absorbed this message. `ON DELETE SET NULL`. Not used. |
+| `importance` | REAL, 0 to 1, default 0.2 | Reserved. Not used. |
+| `archived` | BOOLEAN, default false | Reserved: would mark a message replaced by a digest. Not used. |
+| `summary_id` | BIGINT, foreign key to `summaries` | The note written from this message; set by the summaries layer, which links a message to one note only. `ON DELETE SET NULL`. The raw message is kept. |
 | `created_at` | TIMESTAMPTZ | When it was said. Evaluation scenarios backdate it. |
 
 Messages are stored even when they produce no fact, including chit-chat.
@@ -90,17 +90,17 @@ Messages are stored even when they produce no fact, including chit-chat.
 | `embedding` | vector(768) | Embedding of text like `lives in: Milan`; used by smart retrieval. |
 | `created_at`, `updated_at` | TIMESTAMPTZ | `updated_at` changes on duplicates, supersession, archiving and conflict marking. |
 
-### 2.5 `summaries` (not used yet)
+### 2.5 `summaries`
 
 | Column | Type | Notes |
 |---|---|---|
 | `id` | BIGSERIAL, primary key | |
 | `user_id` | TEXT, foreign key | Cascade delete. |
-| `topic` | TEXT | Short label. |
-| `content` | TEXT | The summary text. |
-| `period_start`, `period_end` | TIMESTAMPTZ | Date range of the messages it covers. |
-| `importance` | REAL, 0 to 1, default 0.3 | |
-| `embedding` | vector(768) | So summaries can be retrieved by meaning. |
+| `topic` | TEXT | Short label. Not used. |
+| `content` | TEXT | The note: one sentence starting "The user" or "The user's". |
+| `period_start`, `period_end` | TIMESTAMPTZ | Oldest and newest date of the messages it was written from. The newest date is shown in the prompt ("Note from ..."). |
+| `importance` | REAL, 0 to 1, default 0.3 | Not used: notes are not ranked by it. |
+| `embedding` | vector(768) | Embedding of the note; notes are retrieved by meaning. |
 | `created_at` | TIMESTAMPTZ | |
 
 ### 2.6 `relations` (not used yet)
@@ -126,9 +126,10 @@ Edges for a lightweight knowledge graph: `source` -- `relation` --> `target`, wi
 | `contradiction` | A like/hobby meets a matching dislike, or the reverse; the older one is superseded |
 | `retract` | The user said something is not true; the matching fact is archived (or nothing matched) |
 | `conflict` | A dependent fact (job title) is marked conflicted because its key fact (employer) changed |
-| `reject` | A value was thrown away: not grounded in the message, or extraction failed |
-| `retrieve` | A fact was used to answer a question |
-| `summarize`, `archive` | Reserved for the summaries layer. Not written yet. |
+| `reject` | A value was thrown away: not grounded in the message, or extraction failed; also a failed summarisation call (`reason`: `summarization failed`) |
+| `retrieve` | A fact or episode note was used to answer a question (`details` lists the summary ids for notes) |
+| `summarize` | One summary run over a batch of messages. `details`: `up_to` (last message id seen, which is where the next run starts), `messages`, `skipped` (questions, requests and thanks), `kept` (summary ids), `dropped` (sentences thrown away with the reason) |
+| `archive` | Reserved. Not written yet. |
 
 ## 3. Indexes and constraints
 
@@ -136,7 +137,7 @@ Edges for a lightweight knowledge graph: `source` -- `relation` --> `target`, wi
 |---|---|---|
 | `messages_embedding_idx` | `messages.embedding`, HNSW, cosine | Fast nearest-neighbour search over messages (baseline retrieval) |
 | `facts_embedding_idx` | `facts.embedding`, HNSW, cosine | Reserved: smart retrieval currently loads a user's active facts and scores them in Python, which is fine for small data |
-| `summaries_embedding_idx` | `summaries.embedding`, HNSW, cosine | For future summary retrieval |
+| `summaries_embedding_idx` | `summaries.embedding`, HNSW, cosine | Reserved: note retrieval computes the similarity of all of a user's notes in one query and does not use the index |
 | `facts_lookup_idx` | `facts (user_id, subject, relation)` where active | Fast lookups of current values during conflict checks |
 | `facts_value_trgm_idx` | `facts.value`, GIN trigram | Fuzzy text matching |
 | `messages_user_time_idx` | `messages (user_id, created_at DESC)` | Newest-first listing |
@@ -241,7 +242,7 @@ Retrieval counts as a write because using a fact reinforces it. `evaluate.py` an
 |---|---|
 | Only 13 relation types | "I'm vegetarian" is stored as a message and was filed as `hobby = vegetarianism` (seen in a manual chat): information outside the 13 types is dropped or forced into the nearest type. A row in `relation_types` fixes one such case. |
 | `value` is free text | "Milan" and "Milano" count as different unless trigram matching catches them |
-| `summaries`, `relations`, `messages.session_id/importance/archived/summary_id` unused | Waiting for the summaries and graph features |
+| `relations`, `summaries.topic/importance`, `messages.session_id/importance/archived` unused | Waiting for the graph feature and for consolidation of notes |
 | A retraction cannot reach a `conflicted` fact | After an employer change, "I'm not a nurse anymore" logs a miss because the title is no longer active |
 | `subject` is always `user` | No facts about other people |
 | No rule ties `status` to `valid_to` | The code sets them together; the database would not stop an inconsistent row |

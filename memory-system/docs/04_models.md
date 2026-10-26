@@ -33,7 +33,7 @@ Design rule: no other file imports `ollama` directly. Swapping the provider mean
 | `embed` | `embed(text)` | numpy array, 768 floats (float32) | `manager.py` (message), `conflicts.py` (new fact), `retrieve.py` (question, relation texts) |
 | `chat` | `chat(messages, temperature=0.3)` | the full reply as a string | `scripts/evaluate.py` |
 | `chat_stream` | `chat_stream(messages, temperature=0.3)` | an iterator yielding the reply piece by piece | `scripts/chat.py` |
-| `chat_structured` | `chat_structured(system, user, schema)` | an instance of the pydantic class passed in | `extract.py` |
+| `chat_structured` | `chat_structured(system, user, schema)` | an instance of the pydantic class passed in | `extract.py`, `summarize.py` |
 
 - **`embed`** turns text into 768 numbers that represent its meaning; similar meanings point in similar directions.  
 It returns numpy because the pgvector adapter sends numpy arrays as `vector` values (a list would be treated as an ordinary array and the query would fail).
@@ -57,7 +57,7 @@ Rules to remember:
 
 - **One embedding model per database.** Vectors from different models live in different spaces; mixing them makes distances meaningless.
 - **The dimension must match the schema** (768).
-- **Task prefixes** (`search_query:` and `search_document:`, recommended by the model's authors) were tested and gave no clear gain ([08_findings.md](08_findings.md)), so they are not used.
+- **Task prefixes** (`search_query:` and `search_document:`, recommended by the model's authors) were tested and gave no clear gain ([09_findings.md](09_findings.md)), so they are not used.
 
 ## 4. Structured output
 
@@ -116,6 +116,11 @@ That behaviour matters for the write path: a message, its facts and their events
 | `SIM_FLOOR`, `SIM_CEIL` | 0.35, 0.75 | `retrieve.py` | Rescaling range for the similarity component of the ranking |
 | `RECENCY_HALF_LIFE_DAYS` | 90 | `retrieve.py` | A fact untouched this long counts as half as fresh |
 | `PIN_IMPORTANCE` | 1.01 | `retrieve.py` | Pinning threshold; above any importance, so pinning is off |
+| `SUMMARIES` | on (env `SUMMARIES=0` turns it off) | `summarize.py`, `summary_retrieve.py` | Switch for the whole summaries layer |
+| `SUMMARY_MAX_LINES` | 2 | `summary_retrieve.py` | Most note lines per question |
+| `SUMMARY_BATCH` | 12 | `summarize.py` | Messages per summarising call |
+| `SUMMARY_EVERY` | 6 | `scripts/chat.py` | New messages before the chat runs a summary |
+| `SUMMARY_FAITHFUL_MIN` | 0.75 | `summary_rules.py` | Share of a note's content words that must appear in its sources |
 
 Importance, recency and the other ranking weights live in code, not in the database, so experiments can be tuned and re-run without schema changes.
 
@@ -123,7 +128,7 @@ Importance, recency and the other ranking weights live in code, not in the datab
 
 | Where | Temperature | Reason |
 |---|---|---|
-| Fact extraction (`chat_structured`) | 0, fixed | Repeatable; no creativity wanted |
+| Fact extraction and summarising (`chat_structured`) | 0, fixed | Repeatable; no creativity wanted |
 | Evaluation answers (`evaluate.py`) | 0 | Differences between modes come from memory, not randomness |
 | Interactive chat | 0.3 | Natural but steady |
 
@@ -178,7 +183,7 @@ poetry run python scripts/smoke_test.py
 1. `ollama pull <model>` and find its dimension (`len(embed("x"))` after changing `.env`).
 2. If it differs from 768, change every `vector(768)` in `schema.sql`.
 3. Recreate the database and re-ingest; there is no re-embedding script.
-4. Re-tune `MIN_RELEVANCE`, `RELATIVE_WINDOW`, `SIM_FLOOR` and `SIM_CEIL`, since each model has its own similarity range. The test sets are spent, so this needs a new set ([07_evaluation.md](07_evaluation.md)).
+4. Re-tune `MIN_RELEVANCE`, `RELATIVE_WINDOW`, `SIM_FLOOR` and `SIM_CEIL`, since each model has its own similarity range. The test sets are spent, so this needs a new set ([08_evaluation.md](08_evaluation.md)).
 
 ## 12. Design decisions
 

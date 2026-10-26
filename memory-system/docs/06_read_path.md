@@ -34,6 +34,8 @@ Used by `scripts/chat.py` (interactive), `scripts/evaluate.py` (measurement) and
  chat model (Ollama)  ──▶  answer
 ```
 
+In smart mode, `assistant.recall` also adds up to two episode-note lines after the fact lines when there is room among the `k` lines ([07_summaries.md](07_summaries.md), section 5). The rest of this document describes the facts.
+
 Retrieval happens before the model answers. Learning from the same message (write path) happens after, so a question never retrieves itself.
 
 ## 2. The three modes
@@ -107,7 +109,7 @@ The survivors are sorted by score and cut to `k`. The window's `best` is taken b
 "<name with spaces>: <description>[ <routing_hint>]"    e.g. "allergic to: Allergies Relevant to food, snacks, ..."
 ```
 
-The question embedding is compared with these 13 vectors (no extra model call). Only `allergic_to` and `dislikes` have a `routing_hint`; without them, food questions routed to `likes` and missed allergies. Editing `relation_types` needs a process restart. The evidence for the three settings is in [08_findings.md](08_findings.md).
+The question embedding is compared with these 13 vectors (no extra model call). Only `allergic_to` and `dislikes` have a `routing_hint`; without them, food questions routed to `likes` and missed allergies. Editing `relation_types` needs a process restart. The evidence for the three settings is in [09_findings.md](09_findings.md).
 
 ### 3.4 Ranking
 
@@ -186,7 +188,7 @@ Smart mode's header is "What you currently know about the user:"; baseline's is 
 | Passed the gate but cut by `k` | `--k` |
 | Irrelevant fact in the prompt | the gate part that let it through, never the ranking weights |
 
-All test sets are spent, so any retuning needs a new blind set ([07_evaluation.md](07_evaluation.md)).
+All test sets are spent, so any retuning needs a new blind set ([08_evaluation.md](08_evaluation.md)).
 
 ## 7. Smart versus baseline
 
@@ -196,7 +198,7 @@ All test sets are spent, so any retuning needs a new blind set ([07_evaluation.m
 | Handles outdated information | Yes: superseded facts are excluded | No |
 | Can return "nothing relevant" | Yes (the gate) | No: always `k` rows |
 | Depends on extraction quality | Yes: a missed fact is invisible | No: every message is searchable |
-| Can answer about things outside the 13 fact types | No | Partly |
+| Can answer about things outside the 13 fact types | Partly: through episode notes ([07](07_summaries.md)), when one was written and passes the gate | Partly |
 | Can answer about the past ("where did I live before") | No: superseded facts are hidden | Partly |
 | Model calls per retrieval | 1 embedding (plus 13 relation embeddings once per process) | 1 embedding |
 | Database work | Loads all active facts, scores in Python | One indexed nearest-neighbour query |
@@ -212,12 +214,12 @@ All test sets are spent, so any retuning needs a new blind set ([07_evaluation.m
 | The safety bypass trades noise for recall | Allergies reach any question that routes to `allergic_to`, relevant or not |
 | Abstain questions still get lines | A question with no answer in memory can still pull weakly related facts through |
 | Superseded facts are invisible | "Where did I live before?" cannot be answered |
-| Summaries are not retrieved | Compression is not built |
+| Episode notes have no routing | They use the floor and window only; a note about plans can match any question about plans ([07](07_summaries.md), section 9) |
 | Scoring loads all active facts | Fine for a prototype; the facts HNSW index is unused |
 | Memory text is trusted | A stored value is pasted into the prompt as is |
 | Relation vectors are cached per process | Editing `relation_types` needs a restart |
 
-Proposed but not implemented: a strong-match override (a fact with raw similarity of about 0.60 or more skips routing) and an allergy bypass for relation rank up to 3. Both are held back as a pre-registered ablation for a fresh test set, so that set can measure them blind ([09_limits_and_roadmap.md](09_limits_and_roadmap.md)).
+Proposed but not implemented: a strong-match override (a fact with raw similarity of about 0.60 or more skips routing) and an allergy bypass for relation rank up to 3. Both are held back as a pre-registered ablation for a fresh test set, so that set can measure them blind ([10_limits_and_roadmap.md](10_limits_and_roadmap.md)).
 
 ## 9. Connections
 
@@ -225,5 +227,6 @@ Proposed but not implemented: a strong-match override (a fact with raw similarit
 |---|---|
 | [03 Storage](03_storage.md) | Reads active `facts`, `messages` and `relation_types` (including `routing_hint`); writes `access_count`, `last_accessed_at` and `retrieve` events |
 | [04 Models](04_models.md) | Uses `embed` for questions and relation texts, `chat` or `chat_stream` for answers; settings in `config.py` |
+| [07 Summaries](07_summaries.md) | Adds up to two note lines after the facts, using the same floor and window |
 | [05 Write path](05_write_path.md) | Retrieval can only return what extraction stored and the conflict logic kept current |
-| [07 Evaluation](07_evaluation.md) | Measures what this document describes |
+| [08 Evaluation](08_evaluation.md) | Measures what this document describes |

@@ -1,4 +1,4 @@
-# 7. Evaluation
+# 8. Evaluation
 
 How the memory is measured, what the test sets are, the rules that keep the measurement honest, the results so far, and what those results do not prove.
 
@@ -10,7 +10,7 @@ Each scripted life story is replayed message by message with backdated timestamp
 |---|---|
 | `none` | nothing |
 | `baseline` | the 4 most similar past user messages (traditional vector memory) |
-| `smart` | the facts that pass the relevance gate, at most 4 |
+| `smart` | the facts that pass the relevance gate, then up to 2 episode notes in the room left ([07_summaries.md](07_summaries.md)), at most 4 lines in all. `SUMMARIES=0` gives facts only |
 
 ## 2. What is measured
 
@@ -34,7 +34,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 
 ## 3. The test sets
 
-33 scenarios, 71 questions, in `scripts/scenarios/` (one module per set; `__init__.py` holds the status labels).
+49 scenarios, 105 questions, in `scripts/scenarios/` (one module per set; `__init__.py` holds the status labels).
 
 | Set | Scenarios | Questions | Status | What it tests |
 |---|---|---|---|---|
@@ -44,8 +44,10 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 | D | 3 | 19 | **Spent**: blind, written before routing existed | A second rich profile of 18 messages with fifteen questions; a small profile with safety questions; a job switch |
 | E | 3 | 12 | **Spent**: blind, written before the safety bypass and the goal prompt | Food and drug allergies against unrelated questions; goals |
 | F | 7 | 10 | **Spent**: blind, write path only, written after the write-path fixes | Corrections, like-to-dislike flips, an employer change with and without a title, a vague promotion |
+| G | 9 | 19 | **Spent**: blind when written (before any summaries code), run once without summaries, then re-run with them (a labelled re-run) | Episodes, plans and stories that no fact type holds, a question about the past, a story told over several messages |
+| H | 7 | 15 | **Spent**: blind validation of the summaries layer, written before its code, run once | A bake, an injury, a purchase, an adoption, a control profile of plain facts, third-person traps, a cancelled plan |
 
-A **blind** set is written before the change it tests and run once. After that it is **spent**: it has influenced decisions, so it can no longer validate anything. Today every set is spent or tuning.
+A **blind** set is written before the change it tests and run once. After that it is **spent**: it has influenced decisions, so it can no longer validate anything. Today every set is spent or tuning (G was re-run once with the layer, which is why its second result is labelled as a re-run).
 
 ### Scenario format
 
@@ -72,7 +74,7 @@ A **blind** set is written before the change it tests and run once. After that i
 3. **Do not tune on a spent set.** A change to the gate or the extraction needs a new set written beforehand.
 4. **Report misses.** Predictions that failed are kept and discussed, not edited.
 5. **Measuring does not change memory.** `evaluate.py` and `inspect_scores.py` retrieve with `touch=False`.
-6. **Extraction is deterministic** (temperature 0), so a full re-ingest from an empty database reproduced identical numbers on all six sets.
+6. **Extraction is deterministic** (temperature 0), so a full re-ingest from an empty database reproduced identical numbers on sets A to F. Summaries are also written at temperature 0; the layer-on A to G run reproduced the earlier set G numbers.
 7. **`--no-ingest` reads whatever is stored.** If a scenario's data is stale or incomplete (for example after an interrupted ingest), the numbers are wrong. Re-run without `--no-ingest` when in doubt.
 
 ## 5. How to run
@@ -96,7 +98,9 @@ poetry run python scripts/inspect_scores.py --scenario b_stale_flood
 
 Results are also saved to `eval_results.json` (git-ignored). The code is split into `evaluate.py` (arguments, ingest, the loop), `eval_metrics.py` (scoring) and `eval_report.py` (printing).
 
-To add a set: create `scripts/scenarios/set_g.py` with a `SCENARIOS` list, register it in `SETS` and `SET_LABELS` in `scenarios/__init__.py`, and write the predictions first.
+To add a set: create `scripts/scenarios/set_i.py` (the next letter) with a `SCENARIOS` list, register it in `SETS` and `SET_LABELS` in `scenarios/__init__.py`, and write the predictions first.
+
+The summaries layer runs inside the evaluation: after each scenario's ingest, `summarize_pending` writes the notes (printing how many), and `--verbose` prints them. `SUMMARIES=0 poetry run python scripts/evaluate.py ...` is the layer-off control.
 
 ## 6. Results
 
@@ -114,12 +118,42 @@ Smart against baseline, per set. Counts are questions that test the metric.
 
 An outdated value also reached the baseline's answer once (set F); never the smart answer.
 
+### Sets A to F with the summaries layer
+
+Same stored facts; the layer on or off. Criteria were written before the layer was built ([predictions/set_H.md](predictions/set_H.md)). Final numbers, after the two changes described in [results/summaries_dev_log.md](results/summaries_dev_log.md):
+
+| Smart, sets A to F | Layer off | Layer on | Criterion | Result |
+|---|---|---|---|---|
+| Needed present | 55/58 | 56/58 | 55/58 or better | met |
+| Average lines | 0.9 to 1.7 | 1.3 to 1.8 | under 2.0 | met |
+| Stale in prompt | 0 | 4 | 0 | **not met** |
+| Noise present | 14/46 | 16/46 | 14/46 or fewer | **not met** |
+| Answers correct | 57/61 | 58/61 | no regression | met |
+| Stale in answer | 0 | 0 | 0 | met |
+
+The two failed criteria were read prompt by prompt. Of the stale cases, the notes are true past-tense statements ("The user used to live in Turin ...") or restatements that the keyword test counts as stale, because its word lists were written for facts. Part of the extra noise is the same kind (true mentions); the rest is real: notes have no routing step, so a note about goals came back for a question about a language when facts had returned nothing. The failures are reported as failures; no threshold was changed to hide them.
+
+### Sets G and H: questions outside the 13 fact types
+
+| Set | Mode | Needed present | Noise present | Stale in prompt | Avg lines | Answers correct |
+|---|---|---|---|---|---|---|
+| G | baseline | 17/17 | 4/4 | 1 | 4.0 | 16/18 |
+| G | smart, first run (no summaries) | 8/17 | 0/4 | 0 | 0.8 | 8/18 |
+| G | smart, re-run with summaries | 13/17 | 2/4 | 0 | 1.6 | 12/18 |
+| H (run once) | baseline | 13/13 | 3/3 | 0 | 4.0 | 13/14 |
+| H (run once) | smart with summaries | 12/13 | 2/3 | 0 | 1.1 | 13/14 |
+
+- **The layer closes most of the gap on questions that facts cannot hold** (G: 8 to 13 of 17, answers 8 to 12 of 18) but did not reach the baseline on G.
+- **On H, which was blind, smart matches the baseline's answers (13/14 each) with a quarter of the lines** (1.1 against 4.0). Noise is lower in the prompt, not absent (2/3 against 3/3). H has 15 questions, so this is one run on a small set.
+- **One H miss is the metric, not the memory:** the cancelled-conference question needs the word "cancel", while the correct note says the user is "not going after all". It was reported as a miss, not edited.
+- **Compression is not shown.** The notes are as long as the messages they came from: 3,061 characters of notes against 2,971 of linked source messages (1.03). Against all the stored messages of the evaluation users (10,905 characters) the notes are 28%, but most of that saving is questions and filler that are left out. The layer improves recall of episodes; it does not yet shorten history ([07_summaries.md](07_summaries.md), section 9).
+
 ### What the results show
 
 - **Outdated facts never reach the prompt** with smart memory (0 against 15). This is the clearest result and follows directly from the design: superseded, archived and conflicted facts are not read.
 - **Far less irrelevant text:** in 14 of 46 prompts against 42 of 46, and 1.0 to 1.7 lines instead of 2.4 to 4.0.
 - **The needed fact arrives about as often** (55 against 58 possible, baseline 54). Smart lost one needed fact on set E that baseline kept.
-- **Answers are a little better:** 57 against 52 of 61.
+- **Answers are a little better:** 57 against 52 of 61 (58 with summaries).
 
 ### Why the answer gap is small, and what is behind it
 
@@ -139,17 +173,19 @@ Predictions are kept unchanged in [predictions/](predictions/). Outcomes: on set
 
 | Limit | Why it matters |
 |---|---|
-| The questions were written around the 13 fact types | Every scenario asks about something the system stores. Baseline can answer anything the user said, such as "what trip did I mention?". Those questions are untested, so we have not tested where baseline might win |
+| Sets A to F were written around the 13 fact types | Every scenario there asks about something the system stores. Sets G and H test other questions and show where the baseline is stronger (G), but G and H are small and G was seen once before its re-run |
 | All sets are seen | The gate values (0.42, 0.08) and the two routing hints were chosen after seeing sets A to C; D to F were blind but are now spent. Performance on fresh data is probably lower |
-| Small samples | 71 questions, 33 stories; one rich profile carries many of the questions |
+| Small samples | 105 questions, 49 stories; one rich profile carries many of the questions; H was one run of 15 questions |
 | Crude scoring | Keyword matching on lower-cased text |
 | One small model | llama3.1:8b for extraction and answers; results may differ with another model |
 | Single questions | Consistency across several turns is not measured |
+| Keyword scoring of notes | The `needs`, `avoid` and `stale` word lists were written for facts and mis-score true past-tense notes and paraphrases ("not going after all") |
 | A simple baseline | The four most similar messages, as the project defines traditional vector memory; stronger baselines exist |
 | Written by the developers | The scenarios and the system share a designer |
 
 ## 8. Next
 
-- A new set G with questions outside the 13 fact types, including episodic ones, written with predictions before any summaries code ([09_limits_and_roadmap.md](09_limits_and_roadmap.md)).
+- A way to answer questions about the past ("where did I live before?"), which the stale-source rule and the fact statuses currently hide ([10_limits_and_roadmap.md](10_limits_and_roadmap.md)).
+- Consolidation of notes into shorter digests, which would make the compression measurable.
 - A multi-turn consistency measure.
 - One final comparison of none, baseline and smart on a fresh set, with the two pre-registered fixes (strong-match override, wider allergy bypass) measured blind.
