@@ -1,0 +1,1091 @@
+[
+  {
+    "set": "J",
+    "scenario": "j_renovation",
+    "kind": "story",
+    "question": "What are my kitchen cabinets made of?",
+    "messages_in_history": 20,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-04-25] \"We picked dark green cabinets for the kitchen.\"",
+        "[2026-06-18] \"The kitchen countertop is a slab of grey granite.\"",
+        "[2026-05-19] \"We changed our minds and went with oak cabinets instead of the green ones.\"",
+        "[2026-04-09] \"We finally started renovating the kitchen in our old farmhouse.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You changed your mind about the cabinets and went with oak instead of the dark green ones.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Dislikes: green cabinets (since 2026-05-19)",
+        "Note from 2026-05-19: The user and their partner picked dark green cabinets for the kitchen, but later changed their minds to oak cabinets."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your kitchen cabinets are made of oak.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_renovation",
+    "kind": "story",
+    "question": "Why did the kitchen work stop?",
+    "messages_in_history": 20,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-05-11] \"Tobias's crew finished tearing out the old kitchen walls.\"",
+        "[2026-04-09] \"We finally started renovating the kitchen in our old farmhouse.\"",
+        "[2026-05-03] \"The old floor tiles turned out to contain asbestos, so the work stopped for two weeks.\"",
+        "[2026-06-28] \"The final bill for the kitchen came to 21,500 euros, more than the quote.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "The work stopped because the old floor tiles contained asbestos.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 3,
+      "memory": [
+        "Dislikes: green cabinets (since 2026-05-19)",
+        "Note from 2026-05-11: Tobias's crew finished tearing out the old kitchen walls.",
+        "Note from 2026-04-09: The user and their partner started renovating the kitchen in their old farmhouse."
+      ],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't have any information about why the kitchen work stopped.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_renovation",
+    "kind": "story",
+    "question": "How much did the kitchen cost in the end?",
+    "messages_in_history": 20,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-06-28] \"The final bill for the kitchen came to 21,500 euros, more than the quote.\"",
+        "[2026-04-17] \"The contractor, a guy named Tobias, quoted us 18,000 euros for the kitchen.\"",
+        "[2026-04-09] \"We finally started renovating the kitchen in our old farmhouse.\"",
+        "[2026-05-11] \"Tobias's crew finished tearing out the old kitchen walls.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": true,
+      "answer": "The final bill for the kitchen came to 21,500 euros, which was more than the original quote of 18,000 euros.",
+      "correct": true,
+      "stale": true
+    },
+    "smart": {
+      "lines": 3,
+      "memory": [
+        "Dislikes: green cabinets (since 2026-05-19)",
+        "Note from 2026-06-28: The final bill for the kitchen renovation came to 21,500 euros, more than the original quote.",
+        "Note from 2026-04-17: The user and their partner were quoted 18,000 euros for the kitchen by contractor Tobias."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": true,
+      "answer": "The final bill for the kitchen renovation came to 21,500 euros, which was more than the original quote.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_renovation",
+    "kind": "story",
+    "question": "Who hurt himself fixing the barn roof?",
+    "messages_in_history": 20,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-23] \"My brother-in-law Henrik helped me fix the leaking roof over the barn.\"",
+        "[2026-08-02] \"Henrik fell off the ladder while fixing the roof but only sprained his ankle.\"",
+        "[2026-08-17] \"We painted the barn doors red after the roof was done.\"",
+        "[2026-05-11] \"Tobias's crew finished tearing out the old kitchen walls.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your brother-in-law Henrik hurt himself while fixing the barn roof. He sprained his ankle.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 3,
+      "memory": [
+        "Family member: Henrik (since 2026-07-23)",
+        "Note from 2026-07-23: The user's brother-in-law Henrik helped fix the leaking roof over the barn.",
+        "Note from 2026-08-17: The user painted the barn doors red after the roof was fixed."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "It was your brother-in-law Henrik who helped fix the leaking roof over the barn.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_renovation",
+    "kind": "story",
+    "question": "What did I plant last week?",
+    "messages_in_history": 20,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-10-14] \"Last week I planted tomatoes in the vegetable patch behind the farmhouse.\"",
+        "[2026-05-03] \"The old floor tiles turned out to contain asbestos, so the work stopped for two weeks.\"",
+        "[2026-04-25] \"We picked dark green cabinets for the kitchen.\"",
+        "[2026-10-21] \"A hedgehog has started sleeping under our woodpile.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You planted tomatoes in the vegetable patch behind the farmhouse last week.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-10-14: The user planted tomatoes in the vegetable patch behind the farmhouse last week."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You planted tomatoes in the vegetable patch behind the farmhouse last week.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_travels",
+    "kind": "episodes",
+    "question": "Who did I go to Reykjavik with?",
+    "messages_in_history": 16,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": false,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2025-12-30] \"In January I spent a week in Reykjavik with my friend Sunniva and we soaked in the hot springs.\"",
+        "[2026-01-03] \"Our flight to Reykjavik was delayed by nine hours because of a snowstorm.\"",
+        "[2026-04-09] \"In May I took the night train to Vienna with my partner Joel.\"",
+        "[2026-02-18] \"In March I travelled to Marrakech on my own and took a cooking class.\""
+      ],
+      "needed_present": true,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "You went to Reykjavik with your friend Sunniva.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2025-12-30: The user spent a week in Reykjavik with their friend Sunniva in January and they soaked in the hot springs."
+      ],
+      "needed_present": true,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "You went to Reykjavik with your friend Sunniva.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_travels",
+    "kind": "episodes",
+    "question": "What did I learn to cook in Marrakech?",
+    "messages_in_history": 16,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-02-18] \"In March I travelled to Marrakech on my own and took a cooking class.\"",
+        "[2026-02-22] \"At the cooking class in Marrakech I learned to make a lamb tagine.\"",
+        "[2025-12-30] \"In January I spent a week in Reykjavik with my friend Sunniva and we soaked in the hot springs.\"",
+        "[2026-05-29] \"In July I went camping in the Dolomites and we got caught in a hailstorm.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You learned to make a lamb tagine in a cooking class in Marrakech.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Note from 2026-02-18: The user travelled to Marrakech in March and took a cooking class.",
+        "Note from 2026-02-22: The user learned to make a lamb tagine at the cooking class in Marrakech."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You learned to make a lamb tagine in Marrakech.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_travels",
+    "kind": "episodes",
+    "question": "Why was my flight to Reykjavik delayed?",
+    "messages_in_history": 16,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-01-03] \"Our flight to Reykjavik was delayed by nine hours because of a snowstorm.\"",
+        "[2025-12-30] \"In January I spent a week in Reykjavik with my friend Sunniva and we soaked in the hot springs.\"",
+        "[2026-09-04] \"I booked the Hanoi flights, we fly out on December 12.\"",
+        "[2026-10-12] \"We moved the Hanoi trip to February because Joel has a project deadline in December.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your flight to Reykjavik was delayed by nine hours because of a snowstorm.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-01-03: The user's flight to Reykjavik was delayed by nine hours due to a snowstorm."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your flight to Reykjavik was delayed due to a snowstorm. It was delayed by nine hours, specifically.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_travels",
+    "kind": "episodes",
+    "question": "What happened to my camera?",
+    "messages_in_history": 16,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-06-02] \"My camera got soaked and broke in the hailstorm in the Dolomites.\"",
+        "[2026-06-28] \"I bought a replacement camera, a used Fujifilm, for 600 euros.\"",
+        "[2026-02-18] \"In March I travelled to Marrakech on my own and took a cooking class.\"",
+        "[2026-05-29] \"In July I went camping in the Dolomites and we got caught in a hailstorm.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your camera got soaked and broke in the hailstorm in the Dolomites.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Note from 2026-06-02: The user's camera broke in the hailstorm in the Dolomites.",
+        "Note from 2026-06-28: The user bought a replacement camera, a used Fujifilm, for 600 euros."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your camera broke in a hailstorm in the Dolomites.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_travels",
+    "kind": "episodes",
+    "question": "How much did I pay for my new camera?",
+    "messages_in_history": 16,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-06-28] \"I bought a replacement camera, a used Fujifilm, for 600 euros.\"",
+        "[2026-06-02] \"My camera got soaked and broke in the hailstorm in the Dolomites.\"",
+        "[2026-04-13] \"In Vienna we went to a string quartet concert and the tickets were 140 euros each.\"",
+        "[2026-02-18] \"In March I travelled to Marrakech on my own and took a cooking class.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You paid 600 euros for your new camera, a used Fujifilm.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-06-28: The user bought a replacement camera, a used Fujifilm, for 600 euros."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You paid 600 euros for your new camera, a used Fujifilm.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_travels",
+    "kind": "episodes",
+    "question": "When am I going to Hanoi?",
+    "messages_in_history": 16,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-09-04] \"I booked the Hanoi flights, we fly out on December 12.\"",
+        "[2026-08-27] \"I'm planning a trip to Hanoi with Joel at the end of the year.\"",
+        "[2026-10-12] \"We moved the Hanoi trip to February because Joel has a project deadline in December.\"",
+        "[2026-02-18] \"In March I travelled to Marrakech on my own and took a cooking class.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": true,
+      "answer": "You're planning a trip to Hanoi with Joel. You moved the trip to February because Joel has a project deadline in December.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 3,
+      "memory": [
+        "Goal: trip to Hanoi (since 2026-08-27)",
+        "Note from 2026-08-27: The user is planning a trip to Hanoi with Joel at the end of the year.",
+        "Note from 2026-09-04: The user booked the Hanoi flights for December 12."
+      ],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": true,
+      "answer": "You're planning a trip to Hanoi with Joel at the end of the year. You've already booked your flights for December 12.",
+      "correct": false,
+      "stale": true
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_band",
+    "kind": "story",
+    "question": "What instrument do I play in the band?",
+    "messages_in_history": 16,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-02-28] \"I joined a small folk band as the fiddle player.\"",
+        "[2026-09-16] \"The band is taking a break over the winter.\"",
+        "[2026-06-08] \"Since Margit left, I sing lead as well as playing the fiddle.\"",
+        "[2026-03-08] \"Our singer, Margit, writes most of the band's songs.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You play the fiddle in the band.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 4,
+      "memory": [
+        "Hobby: playing the fiddle (since 2026-02-28)",
+        "Hobby: singing (since 2026-06-08)",
+        "Note from 2026-02-28: The user joined a small folk band as the fiddle player.",
+        "Note from 2026-06-08: The user sings lead as well as playing the fiddle since Margit left the band."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You play the fiddle in the band.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_band",
+    "kind": "story",
+    "question": "Who moved to Canada?",
+    "messages_in_history": 16,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-05-29] \"Margit quit the band to move to Canada.\"",
+        "[2026-02-28] \"I joined a small folk band as the fiddle player.\"",
+        "[2026-09-16] \"The band is taking a break over the winter.\"",
+        "[2026-07-03] \"We played the Harbourfest festival and about four hundred people watched us.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Margit moved to Canada.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Lives in: Canada (since 2026-05-29)",
+        "Note from 2026-05-29: The user's band member Margit writes most of the band's songs and quit to move to Canada."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Margit, the band member who writes most of the band's songs, moved to Canada.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_band",
+    "kind": "story",
+    "question": "What is our EP called?",
+    "messages_in_history": 16,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-05-07] \"We called the band's EP Low Tide.\"",
+        "[2026-04-29] \"We recorded a five-song EP in Ansel's garage.\"",
+        "[2026-03-08] \"Our singer, Margit, writes most of the band's songs.\"",
+        "[2026-03-16] \"We played our first gig at a pub called The Copper Kettle.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Our EP is called Low Tide.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-05-07: The user's band recorded a five-song EP called Low Tide in Ansel's garage."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Our EP is called Low Tide. It was recorded in Ansel's garage.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_band",
+    "kind": "story",
+    "question": "Where did we play our first gig?",
+    "messages_in_history": 16,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-03-16] \"We played our first gig at a pub called The Copper Kettle.\"",
+        "[2026-03-20] \"Only twelve people came to the first gig, but they loved it.\"",
+        "[2026-07-03] \"We played the Harbourfest festival and about four hundred people watched us.\"",
+        "[2026-05-07] \"We called the band's EP Low Tide.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "We played our first gig at a pub called The Copper Kettle.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Lives in: Canada (since 2026-05-29)",
+        "Note from 2026-03-20: The user's band played their first gig at The Copper Kettle, but only twelve people came."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your band played its first gig at The Copper Kettle. Only twelve people came to watch.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_band",
+    "kind": "story",
+    "question": "How many people watched us at Harbourfest?",
+    "messages_in_history": 16,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-03] \"We played the Harbourfest festival and about four hundred people watched us.\"",
+        "[2026-03-20] \"Only twelve people came to the first gig, but they loved it.\"",
+        "[2026-07-10] \"Ansel snapped his accordion strap in the middle of the Harbourfest set.\"",
+        "[2026-03-16] \"We played our first gig at a pub called The Copper Kettle.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "About four hundred people watched you at Harbourfest.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-07-03: The user's band played the Harbourfest festival in front of about four hundred people."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "About four hundred people watched your band play at Harbourfest.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_control_mix",
+    "kind": "control",
+    "question": "Which city do I live in?",
+    "messages_in_history": 17,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-02-08] \"My name is Oskar and I live in Aarhus.\"",
+        "[2026-02-13] \"I work as an archivist at the city library.\"",
+        "[2026-05-29] \"I moved to Bergen last week, and the movers scratched my piano.\"",
+        "[2026-05-12] \"What's the difference between weather and climate?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": true,
+      "answer": "You live in Bergen.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Lives in: Bergen (since 2026-05-29)",
+        "Note from 2026-05-29: The user moved to Bergen last week and the movers scratched their piano."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You live in Bergen.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_control_mix",
+    "kind": "control",
+    "question": "What am I allergic to?",
+    "messages_in_history": 17,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-02-18] \"I'm allergic to kiwi.\"",
+        "[2026-02-08] \"My name is Oskar and I live in Aarhus.\"",
+        "[2026-05-12] \"What's the difference between weather and climate?\"",
+        "[2026-03-30] \"I adopted two chickens called Hilde and Rosa.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You're allergic to kiwi.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Allergic to: kiwi (since 2026-02-18)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You're allergic to kiwi.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_control_mix",
+    "kind": "control",
+    "question": "What did the movers damage?",
+    "messages_in_history": 17,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-05-29] \"I moved to Bergen last week, and the movers scratched my piano.\"",
+        "[2026-06-08] \"The removal company paid for a technician to repair the piano scratch.\"",
+        "[2026-07-13] \"The rowing boat needs new oarlocks before it can go in the water.\"",
+        "[2026-08-12] \"The rowing boat went in the water for the first time and didn't leak.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your piano was scratched by the movers when you moved to Bergen last week.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Note from 2026-05-29: The user moved to Bergen last week and the movers scratched their piano.",
+        "Note from 2026-06-08: The removal company paid for a technician to repair the piano scratch."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "The movers scratched your piano.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_control_mix",
+    "kind": "control",
+    "question": "What are my chickens called?",
+    "messages_in_history": 17,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-03-30] \"I adopted two chickens called Hilde and Rosa.\"",
+        "[2026-02-08] \"My name is Oskar and I live in Aarhus.\"",
+        "[2026-07-28] \"I found brass oarlocks for the rowing boat at a flea market for 45 euros.\"",
+        "[2026-02-18] \"I'm allergic to kiwi.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your chickens are called Hilde and Rosa.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Name: Oskar (since 2026-02-08)",
+        "Note from 2026-03-30: The user adopted two chickens called Hilde and Rosa."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your chickens are called Hilde and Rosa.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_control_mix",
+    "kind": "control",
+    "question": "How much did I pay for the oarlocks?",
+    "messages_in_history": 17,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-28] \"I found brass oarlocks for the rowing boat at a flea market for 45 euros.\"",
+        "[2026-07-13] \"The rowing boat needs new oarlocks before it can go in the water.\"",
+        "[2026-06-28] \"I started restoring an old wooden rowing boat.\"",
+        "[2026-05-29] \"I moved to Bergen last week, and the movers scratched my piano.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You paid 45 euros for the brass oarlocks.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Hobby: restoring an old wooden rowing boat (since 2026-06-28)",
+        "Note from 2026-07-28: The user found brass oarlocks for the rowing boat at a flea market for 45 euros."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You paid 45 euros for the brass oarlocks at a flea market.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_control_mix",
+    "kind": "control",
+    "question": "What colour is my bicycle?",
+    "messages_in_history": 17,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-04-29] \"I repainted my bicycle bright yellow.\"",
+        "[2026-07-28] \"I found brass oarlocks for the rowing boat at a flea market for 45 euros.\"",
+        "[2026-07-25] \"Can you explain what a prime number is?\"",
+        "[2026-07-13] \"The rowing boat needs new oarlocks before it can go in the water.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your bicycle is bright yellow.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Hobby: restoring an old wooden rowing boat (since 2026-06-28)",
+        "Note from 2026-04-29: The user repainted their bicycle bright yellow."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your bicycle is bright yellow.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_control_mix",
+    "kind": "control",
+    "question": "What did I name my cat?",
+    "messages_in_history": 17,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": null,
+      "noise_present": false,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-03-30] \"I adopted two chickens called Hilde and Rosa.\"",
+        "[2026-02-08] \"My name is Oskar and I live in Aarhus.\"",
+        "[2026-04-29] \"I repainted my bicycle bright yellow.\"",
+        "[2026-04-09] \"Rosa escaped into the neighbour's garden and ate his lettuce.\""
+      ],
+      "needed_present": null,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 3,
+      "memory": [
+        "Name: Oskar (since 2026-02-08)",
+        "Note from 2026-03-30: The user adopted two chickens called Hilde and Rosa.",
+        "Note from 2026-04-09: The user's chicken Rosa escaped into the neighbour's garden and ate his lettuce."
+      ],
+      "needed_present": null,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_recent",
+    "kind": "control",
+    "question": "Why did my car fail its inspection?",
+    "messages_in_history": 14,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-10-06] \"My car failed its inspection because the brakes were worn out.\"",
+        "[2026-10-04] \"I fixed the washing machine myself by following an online video.\"",
+        "[2026-10-08] \"The garage replaced the brakes for 320 euros.\"",
+        "[2026-10-02] \"We went to a planetarium show about black holes.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your car failed its inspection because the brakes were worn out.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-10-06: The user's car failed its inspection because the brakes were worn out."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your car failed its inspection because the brakes were worn out.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_recent",
+    "kind": "control",
+    "question": "What day are Lotte's swimming lessons?",
+    "messages_in_history": 14,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-10-17] \"I signed Lotte up for swimming lessons on Thursdays.\"",
+        "[2026-10-20] \"The swimming lessons got moved to Tuesdays.\"",
+        "[2026-10-23] \"Lotte swam her first full length of the pool.\"",
+        "[2026-10-11] \"Lotte came second in the school spelling contest.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": true,
+      "answer": "Lotte's swimming lessons are on Tuesdays.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-10-20: The user signed their daughter Lotte up for swimming lessons on Thursdays, which got moved to Tuesdays."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": true,
+      "answer": "Lotte's swimming lessons are on Tuesdays.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "J",
+    "scenario": "j_recent",
+    "kind": "control",
+    "question": "What place did Lotte get in the spelling contest?",
+    "messages_in_history": 14,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-10-11] \"Lotte came second in the school spelling contest.\"",
+        "[2026-10-23] \"Lotte swam her first full length of the pool.\"",
+        "[2026-10-17] \"I signed Lotte up for swimming lessons on Thursdays.\"",
+        "[2026-09-30] \"My daughter Lotte lost her first tooth.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Lotte came second in the school spelling contest.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-10-11: The user's daughter Lotte came second in the school spelling contest."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Lotte came second in the school spelling contest.",
+      "correct": true,
+      "stale": false
+    }
+  }
+]
