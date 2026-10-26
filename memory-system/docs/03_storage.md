@@ -171,7 +171,7 @@ A user cannot have two active facts with the same relation and the same value (i
 | Status | Meaning | Set by | Read by retrieval |
 |---|---|---|---|
 | `active` | Currently believed true | A new, non-duplicate fact | Yes, the only status read |
-| `superseded` | Was true, replaced by a newer value | A new value for a single relation, or a contradicting like/dislike | No |
+| `superseded` | Was true, replaced by a newer value | A new value for a single relation, or a contradicting like/dislike | Only for questions about the past ([06](06_read_path.md), section 10) |
 | `archived` | The user said it is no longer true | A retraction ("I'm not a teacher anymore") | No |
 | `conflicted` | Cannot be trusted any more, but not known to be false | The key fact changed: a new employer makes the job title conflicted | No |
 

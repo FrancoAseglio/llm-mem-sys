@@ -34,7 +34,7 @@ Used by `scripts/chat.py` (interactive), `scripts/evaluate.py` (measurement) and
  chat model (Ollama)  ──▶  answer
 ```
 
-In smart mode, `assistant.recall` also adds up to two episode-note lines after the fact lines when there is room among the `k` lines ([07_summaries.md](07_summaries.md), section 5). The rest of this document describes the facts.
+For a question about the past, `assistant.recall` first adds replaced facts (section 10). In smart mode it also adds up to two episode-note lines after the fact lines when there is room among the `k` lines ([07_summaries.md](07_summaries.md), section 5). The rest of this document describes the facts.
 
 Retrieval happens before the model answers. Learning from the same message (write path) happens after, so a question never retrieves itself.
 
@@ -199,7 +199,7 @@ All test sets are spent, so any retuning needs a new blind set ([08_evaluation.m
 | Can return "nothing relevant" | Yes (the gate) | No: always `k` rows |
 | Depends on extraction quality | Yes: a missed fact is invisible | No: every message is searchable |
 | Can answer about things outside the 13 fact types | Partly: through episode notes ([07](07_summaries.md)), when one was written and passes the gate | Partly |
-| Can answer about the past ("where did I live before") | No: superseded facts are hidden | Partly |
+| Can answer about the past ("where did I live before") | Partly: replaced values, only for questions that ask about the past (section 10) | Partly |
 | Model calls per retrieval | 1 embedding (plus 13 relation embeddings once per process) | 1 embedding |
 | Database work | Loads all active facts, scores in Python | One indexed nearest-neighbour query |
 
@@ -213,7 +213,7 @@ All test sets are spent, so any retuning needs a new blind set ([08_evaluation.m
 | Routing hints were written after seeing failures | A design choice, not validated evidence |
 | The safety bypass trades noise for recall | Allergies reach any question that routes to `allergic_to`, relevant or not |
 | Abstain questions still get lines | A question with no answer in memory can still pull weakly related facts through |
-| Superseded facts are invisible | "Where did I live before?" cannot be answered |
+| Superseded facts are read only for past questions | Values archived by a retraction are still invisible (section 10) |
 | Episode notes have no routing | They use the floor and window only; a note about plans can match any question about plans ([07](07_summaries.md), section 9) |
 | Scoring loads all active facts | Fine for a prototype; the facts HNSW index is unused |
 | Memory text is trusted | A stored value is pasted into the prompt as is |
@@ -230,3 +230,30 @@ Proposed but not implemented: a strong-match override (a fact with raw similarit
 | [07 Summaries](07_summaries.md) | Adds up to two note lines after the facts, using the same floor and window |
 | [05 Write path](05_write_path.md) | Retrieval can only return what extraction stored and the conflict logic kept current |
 | [08 Evaluation](08_evaluation.md) | Measures what this document describes |
+
+## 10. Questions about the past
+
+Active facts answer "now". For a question about what used to be true, the system also reads facts that were replaced. Code: `past_rules.py` (pure) and `past_retrieve.py`; the prompt line is built in `assistant.py`.
+
+1. **Trigger.** `is_past_question(query)`: the question contains one of "used to", "did I use to", "before", "previously", "formerly", "originally", "in the past", "back then", "prior to" as whole words. English only. Everything else behaves as before. It is a keyword list: "Where was home when I was a student?" does not fire, and "How long was I at my job before it closed?" does.
+2. **What is read.** Only facts with status `superseded` (a newer value replaced them, or a like and a dislike flipped). Not `archived` and not `conflicted`.
+3. **Gate.** The same as for active facts (floor 0.42, window 0.08 among the superseded facts, routing top 2), without the allergy bypass. At most `PAST_MAX_LINES` (2) lines, best raw similarity first. A past value that is also active now (a user who moved back) is skipped.
+4. **Prompt.** Past lines come first, then the active facts in the room left of `k`, then notes. Line format: `Earlier: Lives in: Bergen (until 2026-09-01)`. The date is when the value was replaced.
+5. **Switch.** `PAST_FACTS=0`.
+
+Example from set I (`i_two_moves`, question "Where did I live before Gdansk?"):
+
+```
+Earlier: Lives in: Ghent (until 2026-04-29)
+Earlier: Lives in: Valencia (until 2026-09-06)
+Lives in: Gdansk (since 2026-09-06)
+```
+
+Known gaps (measured on set I, [08_evaluation.md](08_evaluation.md)):
+
+| Gap | Impact |
+|---|---|
+| Values archived by a retraction are not read | "I left Halvorsen Marine, I now work at Pelican" and "we split up, I'm with Elena now" archive the old value; "Where did I work previously?" gets no line |
+| Past lines are ordered by similarity, not by date | For "Where did I live originally?" the oldest value came second and the model answered "I don't know" |
+| Keyword trigger | Missed paraphrases and false positives are possible |
+| Notes built on replaced facts stay hidden | The stale-source rule of the notes layer is unchanged ([07_summaries.md](07_summaries.md)) |

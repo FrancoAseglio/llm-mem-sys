@@ -78,6 +78,20 @@ Full record in [results/summaries_dev_log.md](results/summaries_dev_log.md); the
 
 Two things were disclosed in the record: set G was run before its code was committed, and G was re-run once with summaries, so its second result is labelled a re-run and not blind. Set H was run once.
 
+### Questions about the past
+
+Full record in [results/past_step_log.md](results/past_step_log.md); the mechanism in [06_read_path.md](06_read_path.md), section 10.
+
+| Finding | Evidence | Change |
+|---|---|---|
+| Replaced facts were invisible, so "where did I live before?" failed | Set G, `g_past_home` | Replaced (superseded) facts are read when the question matches a keyword list, as `Earlier:` lines |
+| The trigger missed "did I use to dislike" (no d) | A unit test written for the rule, before any run of set I | "did I use to" added to the list; recorded in the predictions file |
+| The rule recovers replaced values but not archived ones | Set I: `i_job` (Halvorsen archived) and `i_partner` (Dario archived) | Not changed: set I is spent. A fresh set must test reading retraction-archived facts for past questions |
+| "I left X, I now work at Y" is stored as a retraction | The stored facts of `i_job` | Recorded as a write-path behaviour; whether the status should be `superseded` in such a case is open |
+| Lines ordered by similarity can bury the oldest value | `i_two_moves`, "originally": Valencia first, Ghent second, answer "I don't know" | Not changed; proposed for the fresh set |
+| A note can answer a past question the rule cannot | `i_partner` passed with the rule off, through the note about Dario | Reported: that criterion was met by the notes layer |
+| Nothing else moved | Sets A to F, H identical; G changed only on its past question | The rule fires on one question in sets A to H |
+
 ## 4. Refactor results
 
 The code was split into smaller modules without changing behaviour: the scenarios into a package, `conflicts.py` into `actions.py`, `events.py` and `conflicts.py`, and `evaluate.py` into three files, with the gate's logic shared by `select_memories` and `inspect_scores.py`. Each step was checked by identical snapshots or outputs: the scenarios by a diff of their data, the gate by a randomised comparison with the old implementation, the evaluation by an identical `eval_results.json`, and the full set A to F by identical tables from an empty database.
@@ -103,6 +117,8 @@ The code was split into smaller modules without changing behaviour: the scenario
 | Notes use the fact floor and window, with no routing | Tune a separate threshold | All earlier sets were spent, so a threshold could only be fitted on data already seen |
 | Notes are verified sentence by sentence in code | Trust the model | A small model invents details; a failing sentence is dropped and logged |
 | Past-question mechanism and "say you don't know" prompt held out of the summaries step | Add them to the same step | Each is a separate change that needs its own measurement |
+| Past lines read only from `superseded` facts | Also read `archived` | Archived also holds facts the user said were never true; a reading of retractions needs its own measurement on a fresh set |
+| A keyword trigger for past questions | A model call to classify each question | No extra model call per question; the trigger is testable and its misses are known |
 
 ## 6. Manual chat tests (2026-10-25)
 

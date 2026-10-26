@@ -197,7 +197,7 @@ The four outdated mentions are true past-tense statements ("The user used to liv
 | The last messages are not summarised | The chat summarises every 6 new messages, so up to 5 recent messages have no note until the next run; the 6-turn chat history covers them |
 | Relative times | "Last month" and "today" stay in the text; the note date helps but does not rewrite them |
 | English only | The chatter rules and the stopword lists are in English |
-| Questions about the past | "Where did I live before?" is not addressed: the stale-source rule hides notes built on replaced facts, by design, and set G's question about the past still fails |
+| Questions about the past | Facts that were replaced are read for such questions ([06_read_path.md](06_read_path.md), section 10). Notes built on replaced facts stay hidden by the stale-source rule |
 | No answer-time guard | When nothing is recalled the model answers from its own wording; the "say you don't know" prompt change was held out |
 
 ## 10. Design decisions
@@ -223,4 +223,4 @@ The four outdated mentions are true past-tense statements ("The user used to liv
 | [05 Write path](05_write_path.md) | The stale-source rule reads `facts.source_message_id` and fact status; `is_faithful` reuses `same_word` and the stopwords of `actions.py` |
 | [06 Read path](06_read_path.md) | Notes are added after the facts chosen by the gate |
 | [08 Evaluation](08_evaluation.md) | Sets G and H measure this layer |
-| [10 Limits and roadmap](10_limits_and_roadmap.md) | Consolidation, the past-question mechanism and the other open items |
+| [10 Limits and roadmap](10_limits_and_roadmap.md) | Consolidation and the other open items |

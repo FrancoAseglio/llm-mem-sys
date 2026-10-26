@@ -34,7 +34,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 
 ## 3. The test sets
 
-49 scenarios, 105 questions, in `scripts/scenarios/` (one module per set; `__init__.py` holds the status labels).
+56 scenarios, 117 questions, in `scripts/scenarios/` (one module per set; `__init__.py` holds the status labels).
 
 | Set | Scenarios | Questions | Status | What it tests |
 |---|---|---|---|---|
@@ -46,6 +46,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 | F | 7 | 10 | **Spent**: blind, write path only, written after the write-path fixes | Corrections, like-to-dislike flips, an employer change with and without a title, a vague promotion |
 | G | 9 | 19 | **Spent**: blind when written (before any summaries code), run once without summaries, then re-run with them (a labelled re-run) | Episodes, plans and stories that no fact type holds, a question about the past, a story told over several messages |
 | H | 7 | 15 | **Spent**: blind validation of the summaries layer, written before its code, run once | A bake, an injury, a purchase, an adoption, a control profile of plain facts, third-person traps, a cancelled plan |
+| I | 7 | 12 | **Spent**: blind validation of the past-question mechanism, written before its code, run once | Past questions after a move, a job change, two moves, a like-to-dislike flip and a partner change; present-tense controls; two "before" traps; a user who never moved |
 
 A **blind** set is written before the change it tests and run once. After that it is **spent**: it has influenced decisions, so it can no longer validate anything. Today every set is spent or tuning (G was re-run once with the layer, which is why its second result is labelled as a re-run).
 
@@ -148,6 +149,29 @@ The two failed criteria were read prompt by prompt. Of the stale cases, the note
 - **One H miss is the metric, not the memory:** the cancelled-conference question needs the word "cancel", while the correct note says the user is "not going after all". It was reported as a miss, not edited.
 - **Compression is not shown.** The notes are as long as the messages they came from: 3,061 characters of notes against 2,971 of linked source messages (1.03). Against all the stored messages of the evaluation users (10,905 characters) the notes are 28%, but most of that saving is questions and filler that are left out. The layer improves recall of episodes; it does not yet shorten history ([07_summaries.md](07_summaries.md), section 9).
 
+### Set I: questions about the past
+
+The mechanism ([06_read_path.md](06_read_path.md), section 10) was written after the predictions, which were committed before the first run. Smart with the mechanism, against the criteria; full diagnosis in [results/past_step_log.md](results/past_step_log.md).
+
+| Measure | Criterion | Result |
+|---|---|---|
+| Past questions, needed present | 5/6 or better | **5/6**, met |
+| Past questions, answers correct | 4/6 or better | **3/6**, not met |
+| Present-tense controls, needed present and no old value | 3/3 and 0 stale | needed 3/3; **1 stale**, not met (a true mention in a note; also present with the rule off) |
+| "Before" traps, nothing from the old city | 2/2 | 2/2 (baseline fails both) |
+| Rule off (`PAST_FACTS=0`): past questions needed present | 0/6 or 1/6 | 1/6 |
+
+| Set I, 12 questions | Needed | Noise | Stale in prompt | Avg lines | Answers |
+|---|---|---|---|---|---|
+| Baseline | 8/9 | 2/2 | 3 | 4.0 | 8/10 |
+| Smart, rule off (retrieval only) | 4/9 | 0/2 | 1 | 1.1 | not run |
+| Smart, rule on | 8/9 | 0/2 | 1 | 1.6 | 7/10 |
+
+- **The rule works where the old value was replaced** (a move, two moves, a like-to-dislike flip): the old value reaches the prompt only for questions that ask for it, and the "before" traps stay clean.
+- **It does not reach values the write path archives.** "I left Halvorsen Marine, I now work at Pelican" and "we split up, I'm with Elena now" store the old value as `archived` (a retraction), and the rule reads only `superseded` facts. This was predicted as a risk for the partner case and missed for the job case.
+- **The answer shortfall is partly the model and the scoring:** one correct answer ("Olives.") lacks the word the check requires; one answer was "I don't know" with the fact in the prompt.
+- **Other sets are unchanged:** A to F and H identical, G changed only on its past question (one more needed fact, one more correct answer).
+
 ### What the results show
 
 - **Outdated facts never reach the prompt** with smart memory (0 against 15). This is the clearest result and follows directly from the design: superseded, archived and conflicted facts are not read.
@@ -175,7 +199,7 @@ Predictions are kept unchanged in [predictions/](predictions/). Outcomes: on set
 |---|---|
 | Sets A to F were written around the 13 fact types | Every scenario there asks about something the system stores. Sets G and H test other questions and show where the baseline is stronger (G), but G and H are small and G was seen once before its re-run |
 | All sets are seen | The gate values (0.42, 0.08) and the two routing hints were chosen after seeing sets A to C; D to F were blind but are now spent. Performance on fresh data is probably lower |
-| Small samples | 105 questions, 49 stories; one rich profile carries many of the questions; H was one run of 15 questions |
+| Small samples | 117 questions, 56 stories; one rich profile carries many of the questions; H and I were one run each (15 and 12 questions) |
 | Crude scoring | Keyword matching on lower-cased text |
 | One small model | llama3.1:8b for extraction and answers; results may differ with another model |
 | Single questions | Consistency across several turns is not measured |
@@ -185,7 +209,7 @@ Predictions are kept unchanged in [predictions/](predictions/). Outcomes: on set
 
 ## 8. Next
 
-- A way to answer questions about the past ("where did I live before?"), which the stale-source rule and the fact statuses currently hide ([10_limits_and_roadmap.md](10_limits_and_roadmap.md)).
+- The two follow-ups to set I, measured on a fresh set: past questions that also read facts archived by a retraction, and past lines ordered oldest first ([10_limits_and_roadmap.md](10_limits_and_roadmap.md)).
 - Consolidation of notes into shorter digests, which would make the compression measurable.
 - A multi-turn consistency measure.
 - One final comparison of none, baseline and smart on a fresh set, with the two pre-registered fixes (strong-match override, wider allergy bypass) measured blind.

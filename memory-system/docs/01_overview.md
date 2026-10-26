@@ -69,7 +69,7 @@ The key ideas:
 | **Gate** | The relevance test a fact must pass to reach the prompt. |
 | **Routing** | The part of the gate that checks the fact's relation type fits the question. |
 | **Smart / baseline / none** | The three memory modes compared: this system, plain vector search over messages, and no memory. |
-| **Scenario / set** | A scripted life history with questions, and a group of scenarios (sets A to H). |
+| **Scenario / set** | A scripted life history with questions, and a group of scenarios (sets A to I). |
 | **Episode note** | A one-sentence summary of what the user said about something that happened or is planned, linked to its source messages. See [07](07_summaries.md). |
 | **Blind / spent** | A blind set was written before the change it tests and run once. After that it is spent: it cannot validate further tuning. |
 
@@ -86,7 +86,7 @@ The key ideas:
 
 ## Results in brief
 
-Measured on 49 scripted life stories with 105 questions (sets A to H), comparing smart memory with baseline (the 4 most similar past messages). Details and caveats in [08_evaluation.md](08_evaluation.md).
+Measured on 56 scripted life stories with 117 questions (sets A to I), comparing smart memory with baseline (the 4 most similar past messages). Details and caveats in [08_evaluation.md](08_evaluation.md).
 
 Sets A to F (33 stories, 71 questions) were built around the 13 fact types and are all spent:
 
@@ -107,6 +107,8 @@ Sets G and H ask about episodes, plans and purchases that no fact type holds. Th
 | H, needed present (13), run once | 13 | not run | 12 |
 | H, answers correct (14) | 13 | not run | 13 |
 
+Set I (12 questions) tests questions about the past. Smart memory with the past rule had the needed value for 5 of 6 past questions (1 of 6 with the rule off), kept every present-tense control and "before" trap free of old values, and answered 3 of 6 past questions correctly (criterion 4). Values that the write path archives, such as a left employer, are not reachable yet ([06](06_read_path.md), section 10).
+
 The clearest result is that no outdated value reached an answer with smart memory. On the new question types, smart memory with summaries matches the baseline on the answers of set H and stays behind it on set G (G had been seen once without summaries, so its second run is labelled a re-run). The gaps are a few questions on small sets, so they are encouraging, not conclusive.
 
 ## The stack
@@ -125,7 +127,8 @@ Python 3.12 with Poetry; Postgres 17 with `pgvector` and `pg_trgm`; Ollama runni
 | `src/memory_system/manager.py` | Runs the whole write path for one message |
 | `src/memory_system/retrieve.py` | The gate, ranking and the baseline (read path) |
 | `src/memory_system/summary_retrieve.py` | Reads the episode notes that pass the gate (read path) |
+| `src/memory_system/past_rules.py`, `past_retrieve.py` | Questions about the past: the trigger rule and the replaced facts shown for them (read path) |
 | `src/memory_system/assistant.py` | Builds the prompt from the memory lines (read path) |
 | `src/memory_system/llm.py`, `db.py`, `config.py` | Model calls, database pool, settings |
 | `scripts/` | `evaluate.py`, `inspect_scores.py`, `chat.py`, `smoke_test.py`, and `scenarios/` with the test sets |
-| `tests/` | 116 automated tests: pure rules and the gate need no services, the rest need Postgres |
+| `tests/` | 141 automated tests: pure rules and the gate need no services, the rest need Postgres |

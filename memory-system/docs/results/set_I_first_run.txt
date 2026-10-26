@@ -1,0 +1,71 @@
+ingesting i_move (6 messages)...
+  summaries written: 1
+  done: i_move: Which city did I live in before Tallinn?
+  done: i_move: Which city do I live in now?
+ingesting i_job (6 messages)...
+  summaries written: 1
+  done: i_job: Where did I work previously?
+  done: i_job: Where do I work now?
+ingesting i_two_moves (7 messages)...
+  summaries written: 1
+  done: i_two_moves: Where did I live originally?
+  done: i_two_moves: Where did I live before Gdansk?
+ingesting i_flip (6 messages)...
+  summaries written: 0
+  done: i_flip: What food did I use to dislike?
+ingesting i_partner (6 messages)...
+  summaries written: 2
+  done: i_partner: Who was my partner before Elena?
+  done: i_partner: Who is my partner?
+ingesting i_trap_before (6 messages)...
+  summaries written: 1
+  done: i_trap_before: Any tips for stretching before a run?
+  done: i_trap_before: What should I cook before my guests arrive?
+ingesting i_never_moved (5 messages)...
+  summaries written: 0
+  done: i_never_moved: Where did I live before?
+
+scenario / question                     kind        hist |  need b/s  noise b/s |    answer n/b/s | lines b/s
+i_move: Which city did I live in befor  past           6 |       ✓/✓        -/- |           ✗/✗/✓ |       4/3
+i_move: Which city do I live in now?    past           6 |       ✓/✓        -/- |           ✗/✓/✓ |       4/2
+i_job: Where did I work previously?     past           6 |       ✓/✗        -/- |           ✗/✓/✗ |       4/1
+i_job: Where do I work now?             past           6 |       ✓/✓        -/- |           ✗/✓/✓ |       4/1
+i_two_moves: Where did I live original  past           7 |       ✓/✓        -/- |           ✗/✗/✗ |       4/3
+i_two_moves: Where did I live before G  past           7 |       ✓/✓        -/- |           ✗/✓/✓ |       4/3
+i_flip: What food did I use to dislike  past           6 |       ✗/✓        -/- |           ✗/✓/✗ |       4/1
+i_partner: Who was my partner before E  past           6 |       ✓/✓        -/- |           ✗/✓/✓ |       4/2
+i_partner: Who is my partner?           past           6 |       ✓/✓        -/- |           ✗/✓/✓ |       4/2
+i_trap_before: Any tips for stretching  trap           6 |       -/-        ✗/✓ |           -/-/- |       4/0
+i_trap_before: What should I cook befo  trap           6 |       -/-        ✗/✓ |           -/-/- |       4/0
+i_never_moved: Where did I live before  abstain        5 |       -/-        -/- |           ✓/✓/✓ |       4/1
+
+SET I (BLIND: questions about the past, written before the mechanism; run once): 12 questions
+mode         needed   noise  stale in    avg   answers  stale in
+            present present    prompt  lines   correct    answer
+baseline        8/9     2/2         3    4.0      8/10      0/12
+smart           8/9     0/2         1    1.6      7/10      0/12
+  (noise present: lower is better; stale in prompt: lower is better)
+
+Retrieval problems
+  [smart] i_job: needed fact missing
+      recalled: ['Works at: Pelican Software (since 2026-08-17)']
+  [baseline] i_flip: needed fact missing
+      recalled: ['[2026-04-09] "I can\'t stand olives."', '[2026-08-27] "Funny thing, I\'ve started to love olives."', '[2026-10-16] "What\'s a good way to learn the guitar?"', '[2026-08-17] "Can you recommend a good podcast about history?"']
+  [baseline] i_trap_before: noise in prompt
+      recalled: ['[2026-10-16] "Any tips for staying focused while studying?"', '[2026-05-09] "How do I convert Celsius to Fahrenheit?"', '[2026-04-29] "I live in Aarhus."', '[2026-07-01] "What\'s the capital of Australia?"']
+  [baseline] i_trap_before: noise in prompt
+      recalled: ['[2026-05-09] "How do I convert Celsius to Fahrenheit?"', '[2026-04-29] "I live in Aarhus."', '[2026-08-24] "How does a refrigerator work?"', '[2026-10-16] "Any tips for staying focused while studying?"']
+
+Wrong answers (baseline and smart)
+  [baseline] i_move: Which city did I live in before Tallinn?   <-- fact WAS in the prompt
+      answer: "You mentioned you moved to Tallinn last month, but I don't know what city you lived in before that."
+  [smart] i_job: Where did I work previously?
+      answer: "I don't know."
+  [baseline] i_two_moves: Where did I live originally?   <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] i_two_moves: Where did I live originally?   <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] i_flip: What food did I use to dislike?   <-- fact WAS in the prompt
+      answer: 'Olives.'
+
+saved eval_results.json   (120s)

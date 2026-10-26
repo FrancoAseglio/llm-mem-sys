@@ -23,7 +23,8 @@ See [08_evaluation.md](08_evaluation.md), section 7, for the full list. In short
 | Retrieval | An allergy outside the top-2 bypass can be lost | Sesame, set E |
 | Retrieval | Abstain questions still get lines | A question with no answer can pull weakly related facts through |
 | Retrieval | The routing cost is about one needed fact per set | Measured across the sets |
-| Retrieval | Superseded facts are invisible | "Where did I live before?" cannot be answered, and the stale-source rule also hides notes built on replaced facts |
+| Retrieval | Archived facts are invisible, and replaced ones are read only for past questions | "I left Halvorsen, I work at Pelican" and "we split up" archive the old value, so "Where did I work previously?" gets no line; the keyword trigger misses paraphrases ([06](06_read_path.md), section 10) |
+| Retrieval | Past lines are ordered by similarity | The oldest value can come second and be missed by the model |
 | Summaries | Not compression | Notes are as long as their sources (3,061 against 2,971 characters); nothing merges old notes ([07](07_summaries.md), section 9) |
 | Summaries | No routing for notes | A note about plans can match any question about plans; noise in sets A to F rose from 14/46 to 16/46 |
 | Summaries | The checks are word-level | The faithfulness check catches invented names, places and numbers, not misattribution; a sentence citing too few messages is dropped; details can be omitted (a wedding speech, a rejection) |
@@ -48,9 +49,9 @@ See [08_evaluation.md](08_evaluation.md), section 7, for the full list. In short
 
 ## 4. Roadmap
 
-In order. Each step is verified before the next begins. Done so far: facts, the write and read paths, and the first version of the summaries layer (sets G and H, [07](07_summaries.md)).
+In order. Each step is verified before the next begins. Done so far: facts, the write and read paths, the first version of the summaries layer (sets G and H, [07](07_summaries.md)) and the first version of the past-question rule (set I).
 
-1. **Questions about the past.** A way to answer "where did I live before?": superseded facts, labelled with their dates, read only when the question asks about the past. This is its own step because it changes what the stale-source rule may hide.
+1. **Questions about the past: first version done, follow-up open.** Replaced facts are read for past questions (set I, [08](08_evaluation.md)): 5 of 6 past questions had the needed value, answers 3 of 6, regression sets unchanged. Two follow-ups come from the misses and need a fresh set, because I is spent: (a) read facts archived by a retraction for past questions, or store "left X, now at Y" as a replacement; (b) order past lines oldest first. A pre-registered comparison with the current version is the test.
 2. **Consolidation.** Merge old notes of one user into shorter digests with their source ids, so the compression goal is measured and not just claimed: summary length against source length, and answers before and after.
 3. **Routing for notes, and the "say you don't know" prompt.** Both address noise and invented answers seen in sets A to H. Each needs a fresh set, because G and H are spent.
 4. **Consistency across turns.** A multi-turn scenario format and a measure of whether the assistant contradicts what it was told or what it said earlier. The assistant's own replies are not stored yet.
@@ -62,6 +63,6 @@ In order. Each step is verified before the next begins. Done so far: facts, the 
 - Would a stronger model remove the need for the correction rules, or only change which slips remain?
 - How much of the gate's performance survives a different embedding model? Every model has its own similarity range ([04](04_models.md), section 11).
 - Are 13 relation types enough, or should unknown kinds of information become free-form facts?
-- Should superseded facts be retrievable for questions about the past?
+- Should a retraction that comes with a new value ("I left X, I work at Y") archive the old value, or supersede it?
 - Can notes be consolidated without losing the details (a price, a duration) that questions ask for?
 - Should an episode be a separate kind of fact with a source message, instead of a free sentence?
