@@ -105,7 +105,9 @@ Messages are stored even when they produce no fact, including chit-chat.
 
 ### 2.6 `relations` (not used yet)
 
-Edges for a lightweight knowledge graph: `source` -- `relation` --> `target`, with `valid_from`, `valid_to` and an optional `fact_id` back to the fact that created it. Nothing reads or writes it; typed facts play the role of the graph for now.
+Edges for a lightweight knowledge graph: `source` -- `relation` --> `target`, with `valid_from`, `valid_to` and an optional `fact_id` back to the fact that created it.
+
+Nothing reads or writes it; typed facts play the role of the graph for now.
 
 ### 2.7 `memory_events`
 
@@ -153,7 +155,9 @@ CREATE UNIQUE INDEX facts_unique_active
     WHERE status = 'active';
 ```
 
-A user cannot have two active facts with the same relation and the same value (ignoring case). Superseded and archived rows are exempt, so history can repeat values (Milan, then Rome, then Milan again).
+A user cannot have two active facts with the same relation and the same value (ignoring case).
+
+Superseded and archived rows are exempt, so history can repeat values (Milan, then Rome, then Milan again).
 
 ### What happens on delete
 
@@ -253,32 +257,33 @@ Retrieval counts as a write because using a fact reinforces it. `evaluate.py` an
 ```sql
 -- Current beliefs about a user
 SELECT relation, value, importance, confidence
-FROM facts  
-WHERE user_id = 'demo' AND status = 'active'  
+FROM facts
+WHERE user_id = 'demo1' AND status = 'active'
 ORDER BY relation;
 ```
 
 ```sql
 -- Full history of one relation
 SELECT id, value, status, valid_from, valid_to, superseded_by
-FROM facts  
-WHERE user_id = 'demo' AND relation = 'lives_in'  
+FROM facts
+WHERE user_id = 'demo1' AND relation = 'lives_in'
 ORDER BY valid_from;
 ```
 
 ```sql
 -- What the system decided, newest first
 SELECT created_at, event_type, details
-FROM memory_events WHERE user_id = 'demo' 
-ORDER BY id 
+FROM memory_events
+WHERE user_id = 'demo1'
+ORDER BY id
 DESC LIMIT 15;
 ```
 
 ```sql
 -- Which message produced each fact
 SELECT f.relation, f.value, f.status, m.content AS source_message
-FROM facts f LEFT JOIN messages m ON m.id = f.source_message_id  
-WHERE f.user_id = 'demo';
+FROM facts f LEFT JOIN messages m ON m.id = f.source_message_id
+WHERE f.user_id = 'demo1';
 ```
 
 ```sql
@@ -289,7 +294,7 @@ VALUES ('diet', 'single', 'Dietary pattern, e.g. vegetarian, vegan');
 
 ```sql
 -- Reset one user completely
-DELETE FROM users WHERE id = 'demo';
+DELETE FROM users WHERE id = 'demo1';
 ```
 
 Use `\x auto` in `psql` for readable wide rows.

@@ -1,6 +1,8 @@
 # 6. Read path (using memory when answering)
 
-Everything between "the user asks something" and "the model answers with memory in its prompt". The write path ([05](05_write_path.md)) builds the memory. The read path decides which small part of it the model gets to see.
+Everything between "the user asks something" and "the model answers with memory in its prompt".  
+The write path ([05](05_write_path.md)) builds the memory.  
+The read path decides which small part of it the model gets to see.
 
 | File | Job |
 |---|---|
@@ -13,30 +15,34 @@ Used by `scripts/chat.py` (interactive), `scripts/evaluate.py` (measurement) and
 
 ```
  user question: "Any ideas for a quick snack?"
-        │
-        ▼
+    │
+    ▼
  assistant.recall(mode, user, question)
-        │
-        ├─ mode = smart ────▶ retrieve.retrieve()           reads: facts (active only)
-        ├─ mode = baseline ─▶ retrieve.retrieve_baseline()  reads: messages (user role)
-        └─ mode = none ─────▶ nothing
-        │
-        ▼
+    │
+    ├─ mode = smart ────▶ read/retrieve.retrieve()      reads: facts (active only)
+    │                     + read/past_retrieve          reads: replaced facts, past questions only
+    │                     + summaries/retrieve          reads: episode notes, in the room left
+    ├─ mode = baseline ─▶ retrieve.retrieve_baseline()  reads: messages (user role)
+    └─ mode = none ─────▶ nothing
+    │
+    ▼
  list of memory lines  ["Allergic to: peanuts (since 2026-03-02)"]
-        │
-        ▼
+    │
+    ▼
  assistant.build_messages(mode, lines, history, question)
-        │
-        ▼
+    │
+    ▼
  [system prompt with memory] + [recent chat history] + [question]
-        │
-        ▼
+    │
+    ▼
  chat model (Ollama)  ──▶  answer
 ```
 
-For a question about the past, `assistant.recall` first adds replaced facts (section 10). In smart mode it also adds up to two episode-note lines after the fact lines when there is room among the `k` lines ([07_summaries.md](07_summaries.md), section 5). The rest of this document describes the facts.
+For a question about the past, `assistant.recall` first adds replaced facts (section 10). In smart mode it also adds up to two episode-note lines after the fact lines when there is room among the `k` lines ([07_summaries.md](07_summaries.md), section 5).  
+The rest of this document describes the facts.
 
-Retrieval happens before the model answers. Learning from the same message (write path) happens after, so a question never retrieves itself.
+Retrieval happens before the model answers.  
+Learning from the same message (write path) happens after, so a question never retrieves itself.
 
 ## 2. The three modes
 
@@ -46,7 +52,8 @@ Retrieval happens before the model answers. Learning from the same message (writ
 | `baseline` | `messages`, role `user` | The top `k` most similar past messages, whatever they are |
 | `none` | nothing | No memory block at all |
 
-`baseline` imitates the common "vector memory" approach and is the control group. `none` shows what the model does without help.
+`baseline` imitates the common "vector memory" approach and is the control group.  
+`none` shows what the model does without help.
 
 ## 3. Smart retrieval
 
@@ -69,7 +76,9 @@ Importance, recency and usage never let an irrelevant fact in. They only order t
 | `retrieve(user_id, query, k=4, touch=True)` | `score_facts`, then `select_memories`, then reinforcement (3.6) |
 | `retrieve_baseline(user_id, query, k=4)` | The control group (section 4) |
 
-`gate_failure` is the single definition of the gate. `select_memories` uses it to choose, and `inspect_scores.py` uses it to explain a miss, so the two cannot drift apart. `tests/read/test_gate.py` covers it.
+`gate_failure` is the single definition of the gate.  
+`select_memories` uses it to choose, and `inspect_scores.py` uses it to explain a miss, so the two cannot drift apart.  
+`tests/read/test_gate.py` covers it.
 
 ### 3.2 The result type
 
@@ -109,7 +118,10 @@ The survivors are sorted by score and cut to `k`. The window's `best` is taken b
 "<name with spaces>: <description>[ <routing_hint>]"    e.g. "allergic to: Allergies Relevant to food, snacks, ..."
 ```
 
-The question embedding is compared with these 13 vectors (no extra model call). Only `allergic_to` and `dislikes` have a `routing_hint`; without them, food questions routed to `likes` and missed allergies. Editing `relation_types` needs a process restart. The evidence for the three settings is in [09_findings.md](09_findings.md).
+The question embedding is compared with these 13 vectors (no extra model call).  
+Only `allergic_to` and `dislikes` have a `routing_hint`; without, food questions routed to `likes` and missed allergies.  
+Editing `relation_types` needs a process restart.  
+The evidence for the three settings is in [09_findings.md](09_findings.md).
 
 ### 3.4 Ranking
 
@@ -127,7 +139,8 @@ Each component is between 0 and 1:
 score = 0.50 × similarity + 0.25 × importance + 0.10 × usage + 0.10 × confidence + 0.05 × recency
 ```
 
-Weights are `WEIGHTS` in `core/config.py`. Because the gate already decided relevance, recency no longer makes old facts disappear; it only nudges the order.
+Weights are `WEIGHTS` in `core/config.py`.  
+Because the gate already decided relevance, recency no longer makes old facts disappear; it only nudges the order.
 
 ### 3.5 Pinning (off)
 
@@ -141,7 +154,8 @@ With `touch=True` (the default, used by `chat.py`), the returned facts get `acce
 
 ```sql
 SELECT content, created_at, 1 - (embedding <=> query) AS similarity
-FROM messages WHERE user_id = ... AND role = 'user'
+FROM messages  
+WHERE user_id = ... AND role = 'user'
 ORDER BY embedding <=> query LIMIT k
 ```
 
@@ -169,7 +183,9 @@ Because it cannot say "nothing is relevant", chit-chat and outdated statements r
 [user]      the current question
 ```
 
-Smart mode's header is "What you currently know about the user:"; baseline's is "Past messages from the user that may be relevant:". With no memory lines there is no memory block at all.
+Smart mode's header is "What you currently know about the user:";  
+baseline's is "Past messages from the user that may be relevant:".  
+With no memory lines there is no memory block at all.
 
 ## 6. Inspecting and tuning
 

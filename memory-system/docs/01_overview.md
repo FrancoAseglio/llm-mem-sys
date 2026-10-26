@@ -10,7 +10,7 @@ A language model forgets everything between conversations, and the usual fix, st
 
 ## The goal
 
-A memory architecture that stores what users say over long periods, returns only what is relevant, detects contradictions, replaces outdated information, compresses old history into summaries, and keeps the assistant consistent.  
+A memory architecture that stores what users say over long periods, returns only what is relevant, detects contradictions, replaces outdated information, compresses old history into summaries, and keeps the assistant consistent.
 _The expected outcome is a prototype that gives better answers than traditional vector storage._
 
 ## The design

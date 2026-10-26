@@ -1,7 +1,7 @@
 # 4. Models, database access and settings
 
-How the code reaches the local models and the database.  
-Three small files that every other module depends on.  
+How the code reaches the local models and the database.
+Three small files that every other module depends on.
 They decide nothing about memory; they provide the plumbing and the tuning knobs.
 
 | File | Job |
@@ -14,10 +14,10 @@ They decide nothing about memory; they provide the plumbing and the tuning knobs
 
 ```
  write/extract.py ───────────────▶ chat_structured() ─┐
- write/manager.py, write/conflicts.py ─▶ embed() ───────────┤
- read/retrieve.py ──────────────▶ embed() ───────────┼──▶ core/llm.py ──▶ Ollama (localhost:11434)
- scripts/chat.py ──────────▶ chat_stream() ─────┤                 ├─ llama3.1:8b
- scripts/evaluate.py ──────▶ chat() ────────────┘                 └─ nomic-embed-text
+ write/manager.py, write/conflicts.py ─▶ embed() ─────┤
+ read/retrieve.py ──────────────▶ embed() ────────────┼──▶ core/llm.py ──▶ Ollama (localhost:11434)
+ scripts/chat.py ──────────▶ chat_stream() ───────────┤                     ├─ llama3.1:8b
+ scripts/evaluate.py ──────▶ chat() ──────────────────┘                     └─ nomic-embed-text
 
  write/manager.py, write/conflicts.py, core/events.py, read/retrieve.py ─▶ get_pool() ─▶ core/db.py ─▶ Postgres (memory_db)
 
@@ -30,16 +30,18 @@ Design rule: no other file imports `ollama` directly. Swapping the provider mean
 
 | Function | Signature | Returns | Used by |
 |---|---|---|---|
-| `embed` | `embed(text)` | numpy array, 768 floats (float32) | `write/manager.py` (message), `write/conflicts.py` (new fact), `read/retrieve.py` (question, relation texts) |
+| `embed` | `embed(text)` | numpy array, 768 floats (float32) | `write/manager.py` (message), `write/conflicts.py` (new fact), `read/retrieve.py` (question, relation texts), `summaries/summarize.py` (note), `summaries/retrieve.py` (question) |
 | `chat` | `chat(messages, temperature=0.3)` | the full reply as a string | `scripts/evaluate.py` |
+| `enable_cache`, `cache_stats` | `enable_cache(path)`, `cache_stats()` | the disk cache; its (hits, misses) | `scripts/evaluate.py` only |
 | `chat_stream` | `chat_stream(messages, temperature=0.3)` | an iterator yielding the reply piece by piece | `scripts/chat.py` |
 | `chat_structured` | `chat_structured(system, user, schema)` | an instance of the pydantic class passed in | `write/extract.py`, `summaries/summarize.py` |
 
-- **`embed`** turns text into 768 numbers that represent its meaning; similar meanings point in similar directions.  
+- **`embed`** turns text into 768 numbers that represent its meaning; similar meanings point in similar directions.
 It returns numpy because the pgvector adapter sends numpy arrays as `vector` values (a list would be treated as an ordinary array and the query would fail).
 - **`chat`** takes the standard message list (`system`, `user`, `assistant` roles) and waits for the whole answer.
 - **`chat_stream`** is the same but yields text as it is generated, so the terminal shows words appearing live.
 - **`chat_structured`** forces the model to answer in a fixed JSON shape and returns a validated Python obj (section 4).
+- **Caching.** `embed` remembers its last 512 texts in memory, so a question embedded by the fact, past and note retrievals is sent to the model once. After `enable_cache()` (the evaluation does this; the chat never does), embeddings, temperature-0 `chat` replies and `chat_structured` replies are also stored in `.cache/llm.sqlite`, keyed by the model name and the whole input (`core/cache.py`). Replies at temperature above 0 and streamed replies are never cached.
 
 Ollama calls: `ollama.embed(model, input)`, `ollama.chat(model, messages, options)`, with `stream=True` for streaming and `format=<JSON schema>` for structured output. The server address is `http://localhost:11434` (override with `OLLAMA_HOST`). Ollama applies its own default context window, which may be smaller than the model's maximum; check with `ollama show llama3.1:8b` and pass `options={"num_ctx": ...}` if prompts ever get cut.
 
@@ -71,8 +73,8 @@ Small models often ignore "reply in JSON" or wrap the JSON in chatter. `chat_str
 3. The reply is parsed with model_validate_json(): a real Python object, or an error.
 ```
 
-This gives reliable shape and type checking, and always runs at temperature 0 so extraction is repeatable.  
-It does not guarantee the content is right: the model can still pick the wrong relation or miss a fact.  
+This gives reliable shape and type checking, and always runs at temperature 0 so extraction is repeatable.
+It does not guarantee the content is right: the model can still pick the wrong relation or miss a fact.
 That is why the write path checks the extraction afterwards ([05_write_path.md](05_write_path.md)).
 
 ## 5. `core/db.py`: the connection pool
@@ -139,13 +141,14 @@ Importance, recency and the other ranking weights live in code, not in the datab
 
 | Step | Model calls |
 |---|---|
-| Recall: embed the question | 1 embedding (plus 13 relation embeddings once per process) |
+| Recall: embed the question | 1 embedding, shared by the facts, past and note retrievals (plus 13 relation embeddings once per process) |
 | Answer | 1 chat, streamed |
 | Remember: embed the message | 1 embedding |
 | Remember: extract facts | 1 structured chat |
 | Remember: each new, non-duplicate fact | 1 embedding each |
+| Every 6th new message (chat only): episode notes | 1 structured chat for the batch, plus 1 embedding per note kept |
 
-A typical turn is three embeddings or fewer plus two chat calls. The chat calls dominate the time; extraction uses the same 8B model as the answer.
+A typical turn is three embeddings or fewer plus two chat calls, and one more chat call every sixth message. The chat calls dominate the time; extraction uses the same 8B model as the answer.
 
 ## 9. Failure behaviour
 

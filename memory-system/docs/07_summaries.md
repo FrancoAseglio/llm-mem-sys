@@ -1,12 +1,18 @@
 # 7. Summaries (episode notes)
 
-The part of memory that holds what typed facts cannot: things that happened, plans, purchases, a story told over several messages. It is written after the write path and read after the facts.
+The part of memory that holds what typed facts cannot: things that happened, plans, purchases, a story told over several messages.
+
+It is written after the write path and read after the facts.
 
 ## 1. Why it exists
 
-Facts hold 13 kinds of information ([03_storage.md](03_storage.md)). Set G ([08_evaluation.md](08_evaluation.md)) asked questions outside them (a trip, a plan, a purchase, a story told over several messages). Without this layer smart memory had the needed information for 8 of 17 questions, the baseline for all 17, because the baseline searches the raw messages. Raw messages bring noise and outdated values with them; a note keeps the information as one clean sentence.
+Facts hold 13 kinds of information ([03_storage.md](03_storage.md)).
+Set G ([08_evaluation.md](08_evaluation.md)) asked questions outside them (a trip, a plan, a purchase, a story told over several messages).
+Without this layer smart memory had the needed information for 8 of 17 questions, the baseline for all 17, because the baseline searches the raw messages.
+Raw messages bring noise and outdated values with them; a note keeps the information as one clean sentence.
 
-A note is a short, self-contained sentence about the user, written from one or more of their messages. Real examples from the chat test ([section 7](#7-using-it)):
+A note is a short, self-contained sentence about the user, written from one or more of their messages.
+Real examples from the chat test ([section 7](#7-using-it)):
 
 | Message | Note |
 |---|---|
@@ -50,7 +56,9 @@ A note is a short, self-contained sentence about the user, written from one or m
 
 ### 4.1 Which messages
 
-`summarize_pending(user_id)` takes the user's messages that came after the last run. Where the last run ended is stored in the `summarize` event (`details.up_to`, the last message id seen), so no schema change was needed. It works through them `SUMMARY_BATCH` (12) at a time, oldest first.
+`summarize_pending(user_id)` takes the user's messages that came after the last run.
+Where the last run ended is stored in the `summarize` event (`details.up_to`, the last message id seen), so no schema change was needed.
+It works through them `SUMMARY_BATCH` (12) at a time, oldest first.
 
 Before the model sees a batch, `is_chatter` removes messages that hold nothing to remember: a message that starts with a question word and ends with "?", one that starts with a request ("give me", "explain", "suggest", "tell me", "show me", "help me", "recommend") or with "thanks" or "thank you". A statement followed by a question ("I moved to Rome, can you suggest places?") is kept. Removed messages still count as seen. The prompt also asks the model to skip them, but in the first run it did not always, so the rule runs in code.
 

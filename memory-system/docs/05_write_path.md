@@ -13,26 +13,27 @@ Everything between "the user sends a message" and "memory is updated". This is t
 ## 1. The flow at a glance
 
 ```
- user message: "Big news: I just moved to Milan!"
-        │
-        ▼
- ┌───────────────────────── manager.ingest_user_message ─────────────────────────┐
- │  1. create the user row if missing                          (users)           │
- │  2. embed the text and save it                              (messages)        │
- │  3. load the allowed relations                              (relation_types)  │
- │  4. extract.extract_facts  ──▶  [ lives_in = Milan ]        (model call)      │
- │         if the model fails: keep the message, log it, stop                    │
- │  5. actions.normalize_actions: fix clear assert/retract slips                 │
- │  6. for each fact: conflicts.apply_fact                                       │
+                user message: "Big news: I just moved to Milan!"
+                                       │
+                                       ▼
+ ┌───────────────────────── manager.ingest_user_message ────────────────────────┐
+ │  1. create the user row if missing                          (users)          │
+ │  2. embed the text and save it                              (messages)       │
+ │  3. load the allowed relations                              (relation_types) │
+ │  4. extract.extract_facts  ──▶  [ lives_in = Milan ]        (model call)     │
+ │         if the model fails: keep the message, log it, stop                   │
+ │  5. actions.normalize_actions: fix clear assert/retract slips                │
+ │  6. for each fact: conflicts.apply_fact                                      │
  │         ├─ not grounded in the message?  ─▶ reject                           │
- │         ├─ retraction?                   ─▶ archive the matching fact         │
- │         ├─ already known?                ─▶ raise confidence                  │
- │         ├─ new?                          ─▶ insert fact + embedding           │
- │         ├─ opposite like/dislike?        ─▶ supersede the opposite            │
- │         └─ replaces a single value?      ─▶ supersede the old one             │
- │  7. return [("update", "lives_in", "Milan")]                                  │
- └───────────────────────────────────────────────────────────────────────────────┘
-        steps 1 to 6 happen in ONE database transaction
+ │         ├─ retraction?                   ─▶ archive the matching fact        │
+ │         ├─ already known?                ─▶ raise confidence                 │
+ │         ├─ new?                          ─▶ insert fact + embedding          │
+ │         ├─ opposite like/dislike?        ─▶ supersede the opposite           │
+ │         └─ replaces a single value?      ─▶ supersede the old one            │
+ │  7. return [("update", "lives_in", "Milan")]                                 │
+ └──────────────────────────────────────────────────────────────────────────────┘
+
+  steps 1 to 6 happen in ONE database transaction
 ```
 
 Two kinds of knowledge result from one message:
@@ -95,11 +96,13 @@ The user message is sent separately as `Message: "<text>"`.
 
 ## 4. `write/actions.py`: checking the extraction
 
-Pure functions with no database and no model, covered by `tests/write/test_actions.py`. They exist because the 8B model makes a few predictable slips.
+Pure functions with no database and no model, covered by `tests/write/test_actions.py`.
+They exist because the 8B model makes a few predictable slips.
 
 ### 4.1 `is_grounded(value, text, relation=None)`
 
-True if the value can be traced to the message it came from. It stops values the model invented out of nothing.
+True if the value can be traced to the message it came from.
+It stops values the model invented out of nothing.
 
 - A **content word** has three or more letters and is not a stopword. So `egg`, `soy` and `ski` count, but "new job" has nothing to check and is rejected. Words match when they are equal, when one is the other plus a short ending (`egg`/`eggs`, `sail`/`sailing`), or when two long words share their first five letters (`anchovy`/`anchovies`).
 - The value is grounded if it shares at least one content word with the message.
@@ -230,7 +233,10 @@ Optionally add an importance entry (`"diet": 0.75`) to `DEFAULT_IMPORTANCE` in `
 **See what was decided:**
 
 ```sql
-SELECT created_at, event_type, details FROM memory_events WHERE user_id = 'demo' ORDER BY id;
+SELECT created_at, event_type, details
+FROM memory_events
+WHERE user_id = 'demo1'
+ORDER BY id;
 ```
 
 **Reset a user:** `DELETE FROM users WHERE id = 'demo';`
