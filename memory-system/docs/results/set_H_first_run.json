@@ -1,0 +1,663 @@
+[
+  {
+    "set": "H",
+    "scenario": "h_bake",
+    "kind": "episode",
+    "question": "What did I bake last weekend?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I'm a friendly assistant, but I don't have any information about your baking activities. Would you like to tell me about it?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-17] \"Last weekend I baked my first sourdough loaf and it came out completely flat.\"",
+        "[2026-08-22] \"What's the boiling point of water at altitude?\"",
+        "[2026-09-09] \"How do bees make honey?\"",
+        "[2026-09-28] \"Can you explain what a mortgage is?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You baked a sourdough loaf last weekend, but it came out completely flat.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-08-17: The user baked their first sourdough loaf last weekend and it came out completely flat."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You baked your first sourdough loaf last weekend, but unfortunately, it came out completely flat.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_injury",
+    "kind": "episode",
+    "question": "How did I hurt my wrist?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I don't have any information about your past or how you might have injured yourself. Would you like to tell me about it?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-06-18] \"I broke my wrist skiing in February and had a cast on for six weeks.\"",
+        "[2026-10-16] \"What's a good way to memorise a poem?\"",
+        "[2026-06-28] \"Can you explain what a mortgage is?\"",
+        "[2026-09-09] \"How does a rainbow form?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You broke your wrist skiing in February.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-06-18: The user broke their wrist skiing in February and had a cast on for six weeks."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You broke your wrist skiing in February.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_injury",
+    "kind": "episode",
+    "question": "How long did I wear the cast?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I'm a friendly assistant, but I don't have any information about you or your past. Each time you talk to me, it's a new conversation. Would you like to tell me about your cast?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-06-18] \"I broke my wrist skiing in February and had a cast on for six weeks.\"",
+        "[2026-09-09] \"How does a rainbow form?\"",
+        "[2026-08-04] \"What's the longest river in Africa?\"",
+        "[2026-10-16] \"What's a good way to memorise a poem?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You wore the cast on your wrist for six weeks.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-06-18: The user broke their wrist skiing in February and had a cast on for six weeks."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You wore the cast for six weeks.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_purchase",
+    "kind": "episode",
+    "question": "What did I buy from my neighbour?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I'm a friendly assistant, but I don't have any prior knowledge or memory of our previous conversations. Each time you interact with me, it's a new conversation. Would you like to tell me what you bought from your neighbour?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-23] \"I finally bought a second-hand Vespa from my neighbour for 900 euros.\"",
+        "[2026-10-16] \"What does a thermostat do?\"",
+        "[2026-08-27] \"What's a good way to memorise a poem?\"",
+        "[2026-09-21] \"How many bones are in the human body?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You bought a second-hand Vespa from your neighbour for 900 euros.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-07-23: The user bought a second-hand Vespa from their neighbour for 900 euros."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You bought a second-hand Vespa from your neighbour for 900 euros.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_purchase",
+    "kind": "episode",
+    "question": "How much did it cost?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know what you're referring to. This conversation just started, and I don't have any prior knowledge or context. Could you please provide more information about what you're asking about?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-23] \"I finally bought a second-hand Vespa from my neighbour for 900 euros.\"",
+        "[2026-09-21] \"How many bones are in the human body?\"",
+        "[2026-08-02] \"How does a rainbow form?\"",
+        "[2026-08-27] \"What's a good way to memorise a poem?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You bought a second-hand Vespa from your neighbour for 900 euros.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-07-23: The user bought a second-hand Vespa from their neighbour for 900 euros."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "The Vespa you bought from your neighbour cost 900 euros.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_adoption",
+    "kind": "story",
+    "question": "What kind of animal did I adopt?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. This is our first conversation, and I don't have any prior knowledge about you or your life. Would you like to tell me about the animal you adopted?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-04-29] \"I'm thinking about adopting a rescue greyhound.\"",
+        "[2026-05-29] \"I visited the shelter today and met a greyhound called Biscuit.\"",
+        "[2026-06-28] \"The adoption paperwork got approved!\"",
+        "[2026-07-28] \"Biscuit already chewed one of my slippers.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You adopted a greyhound.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-05-29: The user visited the shelter today and met a greyhound called Biscuit."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You adopted a greyhound called Biscuit.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_adoption",
+    "kind": "story",
+    "question": "What is my dog called?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We haven't discussed your dog before, so I don't have any information about it. Would you like to tell me about your dog?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-05-29] \"I visited the shelter today and met a greyhound called Biscuit.\"",
+        "[2026-04-29] \"I'm thinking about adopting a rescue greyhound.\"",
+        "[2026-07-18] \"Biscuit comes home on Saturday, I can't wait.\"",
+        "[2026-07-28] \"Biscuit already chewed one of my slippers.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your dog is called Biscuit.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-05-29: The user visited the shelter today and met a greyhound called Biscuit."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_adoption",
+    "kind": "story",
+    "question": "What did my dog chew?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I'm a friendly assistant, but I don't have any information about your dog or its activities. Would you like to tell me about your dog?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-28] \"Biscuit already chewed one of my slippers.\"",
+        "[2026-05-29] \"I visited the shelter today and met a greyhound called Biscuit.\"",
+        "[2026-07-18] \"Biscuit comes home on Saturday, I can't wait.\"",
+        "[2026-04-29] \"I'm thinking about adopting a rescue greyhound.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "One of your slippers.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-07-28: The user's greyhound Biscuit already chewed one of their slippers."
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "One of your slippers.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_control_facts",
+    "kind": "control",
+    "question": "What's my name?",
+    "messages_in_history": 7,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We haven't had a conversation before, so I don't have any information about you. Would you like to introduce yourself?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-04-09] \"My name is Elena and I live in Gdansk.\"",
+        "[2026-04-19] \"I work at a shipyard as a welder.\"",
+        "[2026-08-20] \"Can you explain what a mortgage is?\"",
+        "[2026-10-16] \"What's the longest river in Africa?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": false,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Name: Elena (since 2026-04-09)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your name is Elena.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_control_facts",
+    "kind": "control",
+    "question": "Which city do I live in?",
+    "messages_in_history": 7,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We haven't discussed your location before, and I don't have any information about you. Would you like to tell me where you live?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-04-09] \"My name is Elena and I live in Gdansk.\"",
+        "[2026-04-19] \"I work at a shipyard as a welder.\"",
+        "[2026-10-16] \"What's the longest river in Africa?\"",
+        "[2026-08-20] \"Can you explain what a mortgage is?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You live in Gdansk.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Lives in: Gdansk (since 2026-04-09)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You live in Gdansk.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_control_facts",
+    "kind": "control",
+    "question": "What do I do for a living?",
+    "messages_in_history": 7,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We haven't discussed your occupation before, and I don't have any information about you. Would you like to tell me about your job?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-04-19] \"I work at a shipyard as a welder.\"",
+        "[2026-04-09] \"My name is Elena and I live in Gdansk.\"",
+        "[2026-06-25] \"How do bees make honey?\"",
+        "[2026-08-20] \"Can you explain what a mortgage is?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You work as a welder at a shipyard.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Works at: shipyard (since 2026-04-19)",
+        "Job title: welder (since 2026-04-19)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You work as a welder at a shipyard.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_control_facts",
+    "kind": "control",
+    "question": "Can you suggest a dish for dinner at a restaurant?",
+    "messages_in_history": 7,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "I'd be happy to help with dinner suggestions. Since I don't have real-time information, I can suggest some popular dishes that are often well-received at restaurants. How about trying a classic Grilled Chicken Fettuccine Alfredo or a Pan-Seared Salmon with Roasted Vegetables? Both options are generally safe choices and can be found on many restaurant menus. Would you like more suggestions or have any specific preferences (e.g., cuisine, dietary restrictions)?",
+      "correct": null,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-04-29] \"What's the boiling point of water at altitude?\"",
+        "[2026-04-09] \"My name is Elena and I live in Gdansk.\"",
+        "[2026-04-19] \"I work at a shipyard as a welder.\"",
+        "[2026-08-27] \"I'm allergic to shellfish.\""
+      ],
+      "needed_present": true,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "I'd be happy to help with dinner suggestions. Considering your shellfish allergy, I'd recommend a dish that's shellfish-free. How about a classic grilled steak with roasted vegetables or a pasta dish with a non-seafood sauce?",
+      "correct": null,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Allergic to: shellfish (since 2026-08-27)"
+      ],
+      "needed_present": true,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "Considering you're allergic to shellfish, I'd recommend a dish that's shellfish-free. How about a classic grilled steak with roasted vegetables or a pasta dish with a non-seafood sauce? Those options should be safe and delicious.",
+      "correct": null,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_third_person",
+    "kind": "trap",
+    "question": "Where am I travelling next month?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": null,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We haven't discussed your travel plans before, so I don't have any information about your upcoming trips. Would you like to tell me about your plans?",
+      "correct": true,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-27] \"My friend Raul is travelling through Peru next month.\"",
+        "[2026-09-01] \"Raul sent me a photo of his hotel in Cusco.\"",
+        "[2026-09-19] \"What's a good way to memorise a poem?\"",
+        "[2026-10-16] \"What does a thermostat do?\""
+      ],
+      "needed_present": null,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-09-01: The user's friend Raul is travelling through Peru next month and sent a photo of his hotel in Cusco."
+      ],
+      "needed_present": null,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_third_person",
+    "kind": "trap",
+    "question": "What's my brother's name?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": null,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I don't have any information about you or your family. This is our first conversation, and I'm starting from a blank slate. Would you like to tell me about your brother?",
+      "correct": true,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-27] \"My friend Raul is travelling through Peru next month.\"",
+        "[2026-09-01] \"Raul sent me a photo of his hotel in Cusco.\"",
+        "[2026-09-19] \"What's a good way to memorise a poem?\"",
+        "[2026-10-03] \"How many bones are in the human body?\""
+      ],
+      "needed_present": null,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-09-01: The user's friend Raul is travelling through Peru next month and sent a photo of his hotel in Cusco."
+      ],
+      "needed_present": null,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "H",
+    "scenario": "h_cancelled",
+    "kind": "stale",
+    "question": "Am I going to the Lyon conference?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I don't have any information about your plans or upcoming events. Would you like to tell me about the conference?",
+      "correct": false,
+      "stale": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-18] \"I'm going to the Lyon conference in May.\"",
+        "[2026-08-27] \"The Lyon conference got cancelled, so I'm not going after all.\"",
+        "[2026-09-06] \"What's the longest river in Africa?\"",
+        "[2026-10-16] \"How does a rainbow form?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You told me that the Lyon conference got cancelled, so you're not going after all.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Note from 2026-08-27: The user is not going to the Lyon conference after all."
+      ],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "No, you're not going to the Lyon conference. I have a note from August 27th that says you've cancelled your plans to attend.",
+      "correct": true,
+      "stale": false
+    }
+  }
+]
