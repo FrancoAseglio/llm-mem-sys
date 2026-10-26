@@ -34,7 +34,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 
 ## 3. The test sets
 
-56 scenarios, 117 questions, in `scripts/evaluation/scenarios/` (one module per set; `__init__.py` holds the status labels).
+61 scenarios, 143 questions, in `scripts/evaluation/scenarios/` (one module per set; `__init__.py` holds the status labels).
 
 | Set | Scenarios | Questions | Status | What it tests |
 |---|---|---|---|---|
@@ -47,6 +47,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 | G | 9 | 19 | **Spent**: blind when written (before any summaries code), run once without summaries, then re-run with them (a labelled re-run) | Episodes, plans and stories that no fact type holds, a question about the past, a story told over several messages |
 | H | 7 | 15 | **Spent**: blind validation of the summaries layer, written before its code, run once | A bake, an injury, a purchase, an adoption, a control profile of plain facts, third-person traps, a cancelled plan |
 | I | 7 | 12 | **Spent**: blind validation of the past-question mechanism, written before its code, run once | Past questions after a move, a job change, two moves, a like-to-dislike flip and a partner change; present-tense controls; two "before" traps; a user who never moved |
+| J | 5 | 26 | **Spent**: blind validation of consolidation, written before its code; run once without it and once with it | Users with 10 to 16 episode messages: a renovation story, a year of trips, a band story with other people, typed facts mixed with episodes, and a control user whose messages are all under 30 days old |
 
 A **blind** set is written before the change it tests and run once. After that it is **spent**: it has influenced decisions, so it can no longer validate anything. Today every set is spent or tuning (G was re-run once with the layer, which is why its second result is labelled as a re-run).
 
@@ -176,6 +177,36 @@ The mechanism ([06_read_path.md](06_read_path.md), section 10) was written after
 - **The answer shortfall is partly the model and the scoring:** one correct answer ("Olives.") lacks the word the check requires; one answer was "I don't know" with the fact in the prompt.
 - **Other sets are unchanged:** A to F and H identical, G changed only on its past question (one more needed fact, one more correct answer).
 
+### Set J: consolidation of notes
+
+Run once on the system without consolidation (run 1), then once with it (run 2), with the model calls cached so the notes were identical in both runs. Predictions and the frozen design: [predictions/set_J.md](predictions/set_J.md).
+
+| Set J, 26 questions | Needed | Noise | Stale in prompt | Avg lines | Answers |
+|---|---|---|---|---|---|
+| Baseline | 25/25 | 2/2 | 4 | 4.0 | 26/26 |
+| Smart, consolidation off (run 1) | 23/25 | 1/2 | 3 | 1.9 | 24/26 |
+| Smart, consolidation on (run 2) | 24/25 | 1/2 | 3 | 1.7 | 25/26 |
+
+| Compression on the J users | Characters | Ratio |
+|---|---|---|
+| Notes / their source messages | 3,451 / 3,133 | 1.10 |
+| Digests / the notes they replaced (9 digests from 19 notes) | 1,092 / 1,388 | **0.79** |
+| Summary text in use / source messages | 3,155 / 3,133 | **1.01** |
+
+| Criterion (set before building) | Result |
+|---|---|
+| 1. Compression: digests at most 0.70 of their notes, text in use below 0.85 of sources | **Failed** (0.79, 1.01) |
+| 2. Retention: needed present with consolidation within 2 of without | Passed (24 against 23) |
+| 3. Final state: oak cabinets, no "December 12" in the Hanoi answer | Passed |
+| 4. Attribution: no digest makes the user the one who fell or moved | Passed, weakly: those notes were never merged or never written |
+| 5. Age rule: nothing merged in `j_recent`, no note under 30 days merged | Passed |
+| 6. Faithfulness checked by hand (10 digests, including one in set B) | No invented detail; one wrong inference (the removal company "repaired" the piano it paid a technician to repair); one inherited invented "partner" |
+| 7. No regression on A to I | Passed: identical to the last regression, except B (stale in prompt 1 to 0, a side effect explained in [07](07_summaries.md), section 12.4) |
+
+- **The baseline was perfect on J.** One clear message per episode is the easy case for vector search over messages.
+- **My prediction for consolidation was too pessimistic** (about 17.5 needed present predicted, 24 found), and too optimistic for compression (0.65 predicted, 0.79 found).
+- **The two smart misses in run 1 had other causes.** The asbestos note was dropped by the notes' faithfulness check (a true paraphrase failed the 75% word share), and the "moved to February" note lost the window to the two December notes. Consolidation fixed the second only because one digest took the place of two notes.
+
 ### What the results show
 
 - **Outdated facts never reach the prompt** with smart memory (0 against 15). This is the clearest result and follows directly from the design: superseded, archived and conflicted facts are not read.
@@ -203,7 +234,7 @@ Predictions are kept unchanged in [predictions/](predictions/). Outcomes: on set
 |---|---|
 | Sets A to F were written around the 13 fact types | Every scenario there asks about something the system stores. Sets G and H test other questions and show where the baseline is stronger (G), but G and H are small and G was seen once before its re-run |
 | All sets are seen | The gate values (0.42, 0.08) and the two routing hints were chosen after seeing sets A to C; D to F were blind but are now spent. Performance on fresh data is probably lower |
-| Small samples | 117 questions, 56 stories; one rich profile carries many of the questions; H and I were one run each (15 and 12 questions) |
+| Small samples | 143 questions, 61 stories; one rich profile carries many of the questions; H, I and J were one run each (15, 12 and 26 questions) |
 | Crude scoring | Keyword matching on lower-cased text |
 | One small model | llama3.1:8b for extraction and answers; results may differ with another model |
 | Single questions | Consistency across several turns is not measured |
@@ -214,6 +245,6 @@ Predictions are kept unchanged in [predictions/](predictions/). Outcomes: on set
 ## 8. Next
 
 - The two follow-ups to set I, measured on a fresh set: past questions that also read facts archived by a retraction, and past lines ordered oldest first ([10_limits_and_roadmap.md](10_limits_and_roadmap.md)).
-- Consolidation of notes into shorter digests, which would make the compression measurable.
+- A second version of consolidation that compresses more, measured on a fresh set (J is spent); see [10_limits_and_roadmap.md](10_limits_and_roadmap.md).
 - A multi-turn consistency measure.
 - One final comparison of none, baseline and smart on a fresh set, with the two pre-registered fixes (strong-match override, wider allergy bypass) measured blind.

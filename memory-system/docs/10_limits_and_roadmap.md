@@ -6,7 +6,7 @@ Everything known to be missing or weak, in one place, and the planned work. Each
 
 | Goal | State | What is missing |
 |---|---|---|
-| Compress history into summaries | Partly | Episode notes are written, checked and retrieved ([07](07_summaries.md)); they recover most episodic questions (set G 8 to 13 of 17 needed, set H 12 of 13). But they are not shorter than their sources (ratio 1.03): there is no consolidation of old notes into digests, and nothing archives or removes messages |
+| Compress history into summaries | Partly | Episode notes are written, checked and retrieved ([07](07_summaries.md)); they recover most episodic questions (set G 8 to 13 of 17 needed, set H 12 of 13). Old notes are merged into digests (set J) without losing answers, but the saving is small: digests are 0.79 of the notes they replace and summary text in use is 1.01 of its sources, so the pre-registered target failed. Nothing archives or removes messages |
 | Improve conversational consistency | Partly | Answers to single questions are measured. There is no multi-turn test, and the assistant's own replies are not stored |
 | Knowledge graph | Not used | The `relations` table is empty and unused. Typed facts play the role of the graph |
 
@@ -25,7 +25,10 @@ See [08_evaluation.md](08_evaluation.md), section 7, for the full list. In short
 | Retrieval | The routing cost is about one needed fact per set | Measured across the sets |
 | Retrieval | Archived facts are invisible, and replaced ones are read only for past questions | "I left Halvorsen, I work at Pelican" and "we split up" archive the old value, so "Where did I work previously?" gets no line; the keyword trigger misses paraphrases ([06](06_read_path.md), section 10) |
 | Retrieval | Past lines are ordered by similarity | The oldest value can come second and be missed by the model |
-| Summaries | Not compression | Notes are as long as their sources (3,061 against 2,971 characters); nothing merges old notes ([07](07_summaries.md), section 9) |
+| Summaries | Little compression | Notes are as long as their sources; digests save about a fifth of the notes they replace, and most notes are never merged because the model proposes one-note digests ([07](07_summaries.md), section 12) |
+| Summaries | A stale note hides a whole digest | The stale-source rule checks a digest through all its notes, so one note built on a replaced fact hides the harmless notes merged with it (set B) |
+| Summaries | Day numbers block a final state | The retention rule exempts month and weekday names but not day numbers, so "December 12" cannot become "February" in a digest |
+| Summaries | A wrong inference can pass into a digest | "Paid for a technician to repair" became "repaired by the removal company"; the checks are word-level |
 | Summaries | No routing for notes | A note about plans can match any question about plans; noise in sets A to F rose from 14/46 to 16/46 |
 | Summaries | The checks are word-level | The faithfulness check catches invented names, places and numbers, not misattribution; a sentence citing too few messages is dropped; details can be omitted (a wedding speech, a rejection) |
 | Summaries | One note per message, frozen relative times | A message shared by two sentences is linked to the first; "last month" stays in the text (the note date is shown) |
@@ -49,9 +52,9 @@ See [08_evaluation.md](08_evaluation.md), section 7, for the full list. In short
 
 ## 4. Roadmap
 
-In order. Each step is verified before the next begins. Done so far: facts, the write and read paths, the first version of the summaries layer (sets G and H, [07](07_summaries.md)) and the first version of the past-question rule (set I).
+In order. Each step is verified before the next begins. Done so far: facts, the write and read paths, the first version of the summaries layer (sets G and H, [07](07_summaries.md)), the first version of the past-question rule (set I) and the first version of consolidation (set J).
 
-1. **Consolidation (next).** Merge old notes of one user into shorter digests with their source ids, so the compression goal is measured and not just claimed: summary length against source length, and answers before and after. Compression is the one project goal still unmet. Set J and the predictions, with the proposed design, are written first ([predictions/set_J.md](predictions/set_J.md)); J is run once without consolidation and once with it.
+1. **Consolidation: first version done, compression target failed.** On set J digests did not cost answers (smart 24/26 without, 25/26 with; [08](08_evaluation.md)) but saved little (0.79 of the notes they replace; text in use 1.01 of sources). The causes are known ([07](07_summaries.md), section 12.4): one-note digests, the retention rule on day numbers, and notes that are as long as their messages. A second version needs a fresh set, because J is spent.
 2. **Questions about the past: first version done, follow-up open.** Replaced facts are read for past questions (set I, [08](08_evaluation.md)): 5 of 6 past questions had the needed value, answers 3 of 6, regression sets unchanged. Two follow-ups come from the misses and need a fresh set, because I is spent: (a) read facts archived by a retraction for past questions, or store "left X, now at Y" as a replacement; (b) order past lines oldest first. A pre-registered comparison with the current version is the test.
 3. **Routing for notes, and the "say you don't know" prompt.** Both address noise and invented answers seen in sets A to H. Each needs a fresh set, because G and H are spent.
 4. **Consistency across turns.** A multi-turn scenario format and a measure of whether the assistant contradicts what it was told or what it said earlier. The assistant's own replies are not stored yet.

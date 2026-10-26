@@ -125,7 +125,11 @@ That behaviour matters for the write path: a message, its facts and their events
 | `SUMMARY_MAX_LINES` | 2 | `summaries/retrieve.py` | Most note lines per question |
 | `SUMMARY_BATCH` | 12 | `summaries/summarize.py` | Messages per summarising call |
 | `SUMMARY_EVERY` | 6 | `scripts/chat.py` | New messages before the chat runs a summary |
-| `SUMMARY_FAITHFUL_MIN` | 0.75 | `summaries/rules.py` | Share of a note's content words that must appear in its sources |
+| `SUMMARY_FAITHFUL_MIN` | 0.75 | `summaries/rules.py`, `summaries/consolidate.py` | Share of a note's (or a digest's) content words that must appear in its source messages |
+| `CONSOLIDATE` | on (env `CONSOLIDATE=0` turns it off) | `summaries/consolidate.py`, `summaries/retrieve.py` | Switch for merging old notes into digests; off also makes retrieval read all notes |
+| `CONSOLIDATE_MIN` | 6 | `summaries/consolidate.py` | Old notes a user needs before a consolidation run |
+| `CONSOLIDATE_AGE_DAYS` | 30 | `summaries/consolidate.py` | A note is old when its newest source message is older than this |
+| `CONSOLIDATE_BATCH` | 40 | `summaries/consolidate.py` | Most old notes sent to the model in one call |
 
 Importance, recency and the other ranking weights live in code, not in the database, so experiments can be tuned and re-run without schema changes.
 

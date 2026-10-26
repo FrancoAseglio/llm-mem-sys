@@ -1,6 +1,6 @@
 # Everyday commands. Run from this folder. `nice` keeps the Mac responsive while the model works.
 RUN = nice -n 10 poetry run
-ALL = A B C D E F G H I
+ALL = A B C D E F G H I J
 
 .PHONY: help test quick set answers fresh lint format
 

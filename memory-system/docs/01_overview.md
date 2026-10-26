@@ -21,7 +21,7 @@ Memory has three layers in one Postgres database:
 |---|---|---|
 | **Messages** | Everything the user said, untouched | In use |
 | **Facts** | Short structured statements extracted from messages, such as `lives_in = Milan`, each with a status and dates | In use |
-| **Summaries** | One-sentence notes about episodes, plans and stories, written from messages ("episode notes") | In use, see [07](07_summaries.md); not yet a compression of old history |
+| **Summaries** | One-sentence notes about episodes, plans and stories, written from messages ("episode notes"); old notes merged into digests | In use, see [07](07_summaries.md); digests shorten the notes they replace by about a fifth, not enough to call it compression |
 
 Two paths move information through it:
 
@@ -47,7 +47,7 @@ Two paths move information through it:
                                                    model answers
 ```
 
-A second, smaller write path runs after the first: every few messages, the messages not yet looked at are turned into one-sentence episode notes, which are checked and stored. The read path adds those notes after the fact lines when there is room. See [07_summaries.md](07_summaries.md).
+A second, smaller write path runs after the first: every few messages, the messages not yet looked at are turned into one-sentence episode notes, which are checked and stored. Notes older than 30 days are then merged by topic into digests, which are checked again and replace them. The read path adds notes and digests after the fact lines when there is room. See [07_summaries.md](07_summaries.md).
 
 The key ideas:
 
@@ -69,8 +69,9 @@ The key ideas:
 | **Gate** | The relevance test a fact must pass to reach the prompt. |
 | **Routing** | The part of the gate that checks the fact's relation type fits the question. |
 | **Smart / baseline / none** | The three memory modes compared: this system, plain vector search over messages, and no memory. |
-| **Scenario / set** | A scripted life history with questions, and a group of scenarios (sets A to I). |
+| **Scenario / set** | A scripted life history with questions, and a group of scenarios (sets A to J). |
 | **Episode note** | A one-sentence summary of what the user said about something that happened or is planned, linked to its source messages. See [07](07_summaries.md). |
+| **Digest** | One or two sentences that replace several old notes on one topic; the notes are kept but no longer read. See [07](07_summaries.md), section 12. |
 | **Blind / spent** | A blind set was written before the change it tests and run once. After that it is spent: it cannot validate further tuning. |
 
 ## Status against the project goals
@@ -81,12 +82,12 @@ The key ideas:
 | Prioritise relevant information | Done | [06](06_read_path.md) |
 | Detect contradictory facts | Done: likes against dislikes, retractions, employer change | [05](05_write_path.md) |
 | Update outdated information | Done: supersede, never overwrite | [05](05_write_path.md) |
-| Compress history into summaries | **Partly**: episode notes are written, checked and retrieved, but they do not shorten anything yet (notes are 1.03 times the size of the messages they came from) | [07](07_summaries.md), [10](10_limits_and_roadmap.md) |
+| Compress history into summaries | **Partly**: old notes are merged into digests (set J), but the saving is small: digests are 0.79 of the notes they replace, and summary text in use is still about the size of its source messages (1.01). The pre-registered target failed | [07](07_summaries.md), [10](10_limits_and_roadmap.md) |
 | Improve conversational consistency | **Partly**: single questions are measured; consistency across turns is not | [08](08_evaluation.md), [10](10_limits_and_roadmap.md) |
 
 ## Results in brief
 
-Measured on 56 scripted life stories with 117 questions (sets A to I), comparing smart memory with baseline (the 4 most similar past messages). Details and caveats in [08_evaluation.md](08_evaluation.md).
+Measured on 61 scripted life stories with 143 questions (sets A to J), comparing smart memory with baseline (the 4 most similar past messages). Details and caveats in [08_evaluation.md](08_evaluation.md).
 
 Sets A to F (33 stories, 71 questions) were built around the 13 fact types and are all spent:
 
@@ -109,6 +110,8 @@ Sets G and H ask about episodes, plans and purchases that no fact type holds. Th
 
 Set I (12 questions) tests questions about the past. Smart memory with the past rule had the needed value for 5 of 6 past questions (1 of 6 with the rule off), kept every present-tense control and "before" trap free of old values, and answered 3 of 6 past questions correctly (criterion 4). Values that the write path archives, such as a left employer, are not reachable yet ([06](06_read_path.md), section 10).
 
+Set J (26 questions) tests merging old notes into digests on users with 10 to 16 episode messages. Consolidation did not cost answers (smart 24/26 without it, 25/26 with it; baseline 26/26), but it saved little text: the digests are 0.79 of the length of the notes they replaced, against a target of 0.70 ([07](07_summaries.md), section 12).
+
 The clearest result is that no outdated value reached an answer with smart memory. On the new question types, smart memory with summaries matches the baseline on the answers of set H and stays behind it on set G (G had been seen once without summaries, so its second run is labelled a re-run). The gaps are a few questions on small sets, so they are encouraging, not conclusive.
 
 ## The stack
@@ -124,7 +127,7 @@ The package `src/memory_system/` is split by what happens to information:
 | `core/` | Shared plumbing | `config` (settings), `db` (connection pool), `llm` (model calls), `cache` (disk cache for the evaluation), `events` (audit log) |
 | `write/` | What happens when the user speaks | `extract` (asks the model for facts), `actions` (pure rules that check the extraction), `conflicts` (what each fact does to the database), `manager` (runs the whole write path for one message) |
 | `read/` | What happens when the user asks | `retrieve` (the gate, ranking and the baseline), `past_rules` (pure: is it a question about the past), `past_retrieve` (replaced facts for such questions) |
-| `summaries/` | Episode notes | `summarize` (write side), `rules` (pure checks: chatter filter, faithfulness, gate for notes), `retrieve` (read side) |
+| `summaries/` | Episode notes and digests | `summarize` (write side), `consolidate` (merges old notes into digests), `rules` (pure checks: chatter filter, faithfulness, retention, gate for notes), `retrieve` (read side) |
 | `assistant.py` | Builds the prompt from the fact lines, past lines and note lines | |
 
 Outside the package:
@@ -135,4 +138,4 @@ Outside the package:
 | `scripts/evaluation/` | Support for the evaluation: `metrics.py` (scoring), `report.py` (printing) and `scenarios/` (the test sets) |
 | `tests/` | Mirrors the package: `tests/write/`, `tests/read/`, `tests/summaries/` |
 
-150 automated tests: pure rules and the gate need no services, the rest need Postgres.
+167 automated tests: pure rules and the gate need no services, the rest need Postgres.

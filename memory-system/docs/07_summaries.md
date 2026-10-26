@@ -25,7 +25,8 @@ Real examples from the chat test ([section 7](#7-using-it)):
 | File | Job |
 |---|---|
 | `src/memory_system/summaries/summarize.py` | Write side: finds new messages, asks the model for notes, stores the ones that pass |
-| `src/memory_system/summaries/rules.py` | Pure rules, no database or model: the chatter filter, the faithfulness check, the gate for notes |
+| `src/memory_system/summaries/consolidate.py` | Merges notes older than 30 days into digests ([section 12](#12-consolidation-digests)) |
+| `src/memory_system/summaries/rules.py` | Pure rules, no database or model: the chatter filter, the faithfulness check, the retention check for digests, the gate for notes |
 | `src/memory_system/summaries/retrieve.py` | Read side: the note lines that pass the gate for a question |
 | `src/memory_system/assistant.py` | In smart mode, adds the note lines after the fact lines |
 | `scripts/chat.py`, `scripts/evaluate.py` | Call `summarize_pending` (the chat after every 6 new messages, the evaluation after each ingest) |
@@ -115,6 +116,10 @@ In `core/config.py`:
 | `SUMMARY_BATCH` | 12 | Messages per model call |
 | `SUMMARY_EVERY` | 6 | New messages that trigger a summary run in the chat |
 | `SUMMARY_FAITHFUL_MIN` | 0.75 | Share of a sentence's content words that must be in its sources |
+| `CONSOLIDATE` | on (`CONSOLIDATE=0` switches it off) | Merging old notes into digests; off means retrieval reads every note, as before |
+| `CONSOLIDATE_MIN` | 6 | Old notes needed before a consolidation run |
+| `CONSOLIDATE_AGE_DAYS` | 30 | Age of a note (its newest source message) before it can be merged |
+| `CONSOLIDATE_BATCH` | 40 | Old notes per consolidation call |
 
 The floor and window are the fact settings (`MIN_RELEVANCE`, `RELATIVE_WINDOW`); notes were not tuned separately.
 
@@ -187,14 +192,16 @@ Details and caveats in [08_evaluation.md](08_evaluation.md); the full record of 
 | Sets A to F, outdated value in the prompt | 0 | 4 |
 | Outdated value in an answer, all sets | 0 | 0 |
 
+Consolidation was measured on set J ([section 12](#12-consolidation-digests)): no loss of answers, little compression.
+
 The four outdated mentions are true past-tense statements ("The user used to live in Turin ...") that the keyword test counts as stale; no answer used them wrongly.
 
 ## 9. Known gaps
 
 | Gap | Impact |
 |---|---|
-| It is not compression | Kept information is not shorter: the notes of the evaluation users are 3,061 characters against 2,971 characters of the messages they came from (ratio 1.03), because each note restates one sentence in the third person. Against all stored messages the notes are 28% (10,905 to 3,061), but that saving is the questions and filler that are left out |
-| No consolidation | Old notes are never merged into shorter digests |
+| Little compression | Notes restate one sentence each in the third person, so they are as long as their sources (1.03 over the evaluation users, 1.10 on set J). Digests cut the notes they replace to 0.79 of their length, and on set J summary text in use is still 1.01 of its source messages. The saving against all stored messages comes from the questions and filler that are left out |
+| Most notes are never merged | On set J the model proposed 24 digests, 14 of them a single note (dropped by the rules); 19 of the 36 old notes sent were merged |
 | No routing for notes | A note about plans can match any question about plans. Seen in sets A to F: goal notes (marathon, house) came back for "Which language am I trying to learn?" |
 | Truthful mentions of old values | "Used to live in Turin" can reach a prompt next to `Lives in: Milan` |
 | The stale-source rule needs a fact | It covers only notes whose source messages produced facts |
@@ -232,3 +239,52 @@ The four outdated mentions are true past-tense statements ("The user used to liv
 | [06 Read path](06_read_path.md) | Notes are added after the facts chosen by the gate |
 | [08 Evaluation](08_evaluation.md) | Sets G and H measure this layer |
 | [10 Limits and roadmap](10_limits_and_roadmap.md) | Consolidation and the other open items |
+
+## 12. Consolidation (digests)
+
+Old notes of one user are merged into shorter digests. The design was frozen before any code ([predictions/set_J.md](predictions/set_J.md)) and measured on set J.
+
+### 12.1 Write side
+
+`consolidate(user_id)` runs right after `summarize_pending` (in the evaluation after each scenario, in the chat after each summary run).
+
+1. **Trigger.** At least `CONSOLIDATE_MIN` (6) live notes whose newest source message is older than `CONSOLIDATE_AGE_DAYS` (30). Newer notes are never sent. A run that would send exactly the notes of the last run is skipped.
+2. **Model call.** The old notes, numbered oldest first, go to the model (temperature 0), which returns digests of one or two sentences, each citing the notes it merges. The prompt (`SYSTEM_PROMPT` in `summaries/consolidate.py`) asks for every name, place, number and time kept, the final state when something changed, other people's actions kept as theirs, and at least two notes per digest.
+3. **Checks**, in this order. A digest that fails one is dropped and logged; its notes stay live.
+
+| Check | Rule | Drop reason |
+|---|---|---|
+| Two notes | It cites at least 2 of the notes sent | `fewer than 2 notes` |
+| No overlap | None of its notes was merged by an earlier digest of the same run | `note already merged` |
+| Faithful | `is_faithful` against the source messages of its notes (the notes' own rule) | `not faithful` |
+| Retention | `missing_details`: every number and every capitalised name of its notes is in the digest; month and weekday names may change. Numbers match without separators (21,500 = 21500) | `dropped details` (with what is missing) |
+| Shorter | Shorter than its notes together | `not shorter` |
+
+4. **Storing.** A digest is a `summaries` row with `kind = 'digest'`; its notes get `digest_id`. Nothing is deleted, and messages are not touched. One `consolidate` event per run ([03_storage.md](03_storage.md)).
+
+### 12.2 Read side
+
+With consolidation on, retrieval reads digests and the notes no digest replaced, through the same gate and the same room as notes (section 5). The stale-source rule checks a digest through the source messages of all its notes. With `CONSOLIDATE=0` retrieval reads every note and ignores digests, so the same data can be measured both ways.
+
+### 12.3 Results (set J and the regression)
+
+| Measure | Off | On |
+|---|---|---|
+| Set J, needed present, smart (25) | 23 | 24 (baseline 25) |
+| Set J, answers correct, smart (26) | 24 | 25 (baseline 26) |
+| Set J, average lines, smart | 1.9 | 1.7 |
+| Digests / notes they replaced (characters) | | 0.79 (1,092 / 1,388) |
+| Summary text in use / its source messages, set J | 1.10 | 1.01 |
+| Sets A to I | | Identical to the last regression, except B: stale in prompt 1 to 0 |
+
+Of the seven pre-registered criteria, compression failed (targets 0.70 and 0.85); retention, final state, the age rule and the regression passed; attribution passed but was weakly tested. Checked by hand, no digest invents a detail, but one turns "the removal company paid for a technician to repair the piano" into "it was repaired by the removal company", and one keeps a "partner" that its notes had invented. Details in [08_evaluation.md](08_evaluation.md) and `results/set_J_log.md`.
+
+### 12.4 What was learned
+
+- **The model rarely groups.** 14 of its 24 proposed digests cited a single note. The rule drops them, so those notes are never merged.
+- **Retention works as intended and costs merges.** The only group in the band story was dropped because it lost the name "Margit".
+- **One line instead of two helps.** The Hanoi question was answered correctly only with consolidation: a digest of the two December notes left room for the newer February note. This is a side effect of the line budget, not of the final-state rule; the February note was too recent to merge.
+- **The stale-source rule hides a whole digest.** In set B a digest merged "The user lives in Turin" (a note that should not exist) with five harmless notes about Turin. The superseded city hides all six. That removed a stale line from the B prompts, but also five pieces of information.
+- **Day numbers block a final state.** The retention rule exempts month names but not day numbers, so a digest that replaces "December 12" with "February" would be dropped. On J the model kept the old date instead.
+- **Consolidation cannot recover what notes lost.** The asbestos answer of set J was lost at note time: the faithfulness check dropped a true sentence that paraphrased its message.
+

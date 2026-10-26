@@ -101,6 +101,8 @@ Messages are stored even when they produce no fact, including chit-chat.
 | `period_start`, `period_end` | TIMESTAMPTZ | Oldest and newest date of the messages it was written from. The newest date is shown in the prompt ("Note from ..."). |
 | `importance` | REAL, 0 to 1, default 0.3 | Not used: notes are not ranked by it. |
 | `embedding` | vector(768) | Embedding of the note; notes are retrieved by meaning. |
+| `kind` | TEXT, `note` or `digest`, default `note` | A digest merges several old notes ([07](07_summaries.md), section 12). |
+| `digest_id` | BIGINT, foreign key to `summaries` | Set on a note once a digest replaces it. The note is kept but no longer retrieved. `ON DELETE SET NULL`. |
 | `created_at` | TIMESTAMPTZ | |
 
 ### 2.6 `relations` (not used yet)
@@ -128,9 +130,10 @@ Nothing reads or writes it; typed facts play the role of the graph for now.
 | `contradiction` | A like/hobby meets a matching dislike, or the reverse; the older one is superseded |
 | `retract` | The user said something is not true; the matching fact is archived (or nothing matched) |
 | `conflict` | A dependent fact (job title) is marked conflicted because its key fact (employer) changed |
-| `reject` | A value was thrown away: not grounded in the message, or extraction failed; also a failed summarisation call (`reason`: `summarization failed`) |
+| `reject` | A value was thrown away: not grounded in the message, or extraction failed; also a failed summarisation or consolidation call (`reason`: `summarization failed`, `consolidation failed`) |
 | `retrieve` | A fact or episode note was used to answer a question (`details` lists the summary ids for notes) |
 | `summarize` | One summary run over a batch of messages. `details`: `up_to` (last message id seen, which is where the next run starts), `messages`, `skipped` (questions, requests and thanks), `kept` (summary ids), `dropped` (sentences thrown away with the reason) |
+| `consolidate` | One consolidation run over a user's old notes. `details`: `notes` and `considered` (the notes sent to the model), `kept` (digest ids), `digested` (note ids replaced), `dropped` (digests thrown away, with the notes they cited, the reason and, for `dropped details`, what was missing) |
 | `archive` | Reserved. Not written yet. |
 
 ## 3. Indexes and constraints

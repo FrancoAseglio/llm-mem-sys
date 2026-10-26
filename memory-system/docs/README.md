@@ -12,7 +12,7 @@ Prototype long-term memory for an LLM assistant. These documents explain what th
 | 4 | [04_models.md](04_models.md) | How the code talks to the local models and the database, and every tunable setting |
 | 5 | [05_write_path.md](05_write_path.md) | What happens when the user says something: extraction, checks, updates |
 | 6 | [06_read_path.md](06_read_path.md) | What happens when the user asks something: the relevance gate, ranking, the prompt |
-| 7 | [07_summaries.md](07_summaries.md) | The summaries layer: episode notes written after the facts and read after them, the faithfulness check, results and gaps |
+| 7 | [07_summaries.md](07_summaries.md) | The summaries layer: episode notes written after the facts and read after them, the faithfulness check, consolidation into digests, results and gaps |
 | 8 | [08_evaluation.md](08_evaluation.md) | How memory is measured, the test sets, the protocol, the results and what they do not prove |
 | 9 | [09_findings.md](09_findings.md) | The experiments and mistakes that shaped the design, and the decision log |
 | 10 | [10_limits_and_roadmap.md](10_limits_and_roadmap.md) | Everything known to be missing or weak, and what comes next |
