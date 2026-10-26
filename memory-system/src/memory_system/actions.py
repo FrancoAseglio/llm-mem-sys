@@ -34,7 +34,7 @@ _FILLERS = re.compile(
 _OWN_STATEMENT = re.compile(r"^(?:i|my|it|we)\b")
 
 
-def _content_words(text: str) -> set[str]:
+def content_words(text: str) -> set[str]:
     return {
         w
         for w in re.findall(r"\w+", text.lower())
@@ -42,7 +42,7 @@ def _content_words(text: str) -> set[str]:
     }
 
 
-def _same_word(a: str, b: str) -> bool:
+def same_word(a: str, b: str) -> bool:
     """Equal, or one is the other plus a short ending (egg/eggs, sail/sailing), or both long
     words share their first 5 letters (anchovy/anchovies)."""
     short, long_ = sorted((a, b), key=len)
@@ -56,7 +56,7 @@ def is_grounded(value: str, text: str, relation: str | None = None) -> bool:
 
     Normally: the value shares at least one content word with the message. A content word has
     3+ letters and is not a stopword, so egg, soy and ski count but "new job" has nothing to
-    check and is rejected. Words match as in _same_word (walnut/walnuts, sail/sailing).
+    check and is rejected. Words match as in same_word (walnut/walnuts, sail/sailing).
 
     For names, places and dates (VERBATIM_RELATIONS) it is enough that every word of the
     value appears in the message, so Ana, Li, Rio or 5 May are accepted.
@@ -68,8 +68,8 @@ def is_grounded(value: str, text: str, relation: str | None = None) -> bool:
         value_words = re.findall(r"\w+", value.lower())
         if value_words and set(value_words) <= set(re.findall(r"\w+", text.lower())):
             return True
-    message = _content_words(text)
-    return any(_same_word(v, m) for v in _content_words(value) for m in message)
+    message = content_words(text)
+    return any(same_word(v, m) for v in content_words(value) for m in message)
 
 
 def _clause_of(value: str, relation: str, text: str) -> str | None:

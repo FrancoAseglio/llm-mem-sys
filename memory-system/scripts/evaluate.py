@@ -12,6 +12,7 @@ Measured with the LLM (slower, noisier):
     poetry run python scripts/evaluate.py --set A --no-ingest --retrieval-only   # seconds
     poetry run python scripts/evaluate.py --only b_stale_flood --verbose
 Results are also written to eval_results.json.
+SUMMARIES=0 in the environment switches the summaries layer off (nothing written or shown).
 
 Scoring lives in eval_metrics.py, printing in eval_report.py, the scenarios in scenarios/.
 """
@@ -32,9 +33,11 @@ from eval_report import (
 from scenarios import SCENARIOS, SETS
 
 from memory_system.assistant import build_messages, recall
+from memory_system.config import SUMMARIES
 from memory_system.db import get_pool
 from memory_system.llm import chat
 from memory_system.manager import ingest_user_message, list_facts
+from memory_system.summarize import summarize_pending
 
 
 def user_of(scenario: dict) -> str:
@@ -49,6 +52,16 @@ def ingest(scenario: dict) -> None:
     now = datetime.now(timezone.utc)
     for days_ago, text in sorted(scenario["messages"], key=lambda m: -m[0]):
         ingest_user_message(user, text, at=now - timedelta(days=days_ago))
+
+
+def print_stored_summaries(user: str) -> None:
+    with get_pool().connection() as conn:
+        rows = conn.execute(
+            "SELECT content FROM summaries WHERE user_id = %s ORDER BY id", (user,)
+        ).fetchall()
+    print(f"--- summaries stored for {user} ---")
+    for (content,) in rows:
+        print(f"  {content}")
 
 
 def print_stored_facts(scenario: dict) -> None:
@@ -123,8 +136,13 @@ def main() -> None:
                 f"ingesting {sc['id']} ({len(sc['messages'])} messages)...", flush=True
             )
             ingest(sc)
+        if SUMMARIES:  # only new messages are summarised, so re-runs change nothing
+            kept = summarize_pending(user_of(sc))
+            print(f"  summaries written: {len(kept)}", flush=True)
         if args.verbose:
             print_stored_facts(sc)
+            if SUMMARIES:
+                print_stored_summaries(user_of(sc))
         for q in sc["questions"]:
             results.append(ask(sc, q, args))
             print(f"  done: {sc['id']}: {q['q'][:60]}", flush=True)

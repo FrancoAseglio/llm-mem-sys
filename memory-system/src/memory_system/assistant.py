@@ -1,6 +1,7 @@
 from datetime import date
 
 from memory_system.retrieve import Memory, retrieve, retrieve_baseline
+from memory_system.summary_retrieve import retrieve_summaries
 
 LABELS = {
     "name": "Name",
@@ -34,7 +35,8 @@ def recall(
 ) -> list[str]:
     """Return the memory lines to inject into the prompt for the given mode."""
     if mode == "smart":
-        return [format_memory(m) for m in retrieve(user_id, query, k, touch)]
+        lines = [format_memory(m) for m in retrieve(user_id, query, k, touch)]
+        return lines + retrieve_summaries(user_id, query, lines, k, touch)
     if mode == "baseline":
         return [
             f'[{created:%Y-%m-%d}] "{content}"'

@@ -8,8 +8,10 @@ Commands: /mode smart|baseline|none   /facts   /quit
 import argparse
 
 from memory_system.assistant import build_messages, recall
+from memory_system.config import SUMMARIES, SUMMARY_EVERY
 from memory_system.llm import chat_stream
 from memory_system.manager import ingest_user_message, list_facts
+from memory_system.summarize import pending_count, summarize_pending
 
 
 def main() -> None:
@@ -72,6 +74,11 @@ def main() -> None:
         for outcome, relation, value in ingest_user_message(args.user, text):
             if not args.quiet:
                 print(f"  [memory] {outcome.upper()} {relation} = {value}")
+
+        if SUMMARIES and pending_count(args.user) >= SUMMARY_EVERY:
+            for note in summarize_pending(args.user):
+                if not args.quiet:
+                    print(f"  [summary] {note}")
 
 
 if __name__ == "__main__":
