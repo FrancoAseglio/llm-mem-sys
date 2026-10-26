@@ -23,7 +23,7 @@ Question fields
   avoid    : words that must NOT appear in the memory lines (irrelevant noise)
   stale    : outdated words, reported separately (they never fail an answer)
 """
-from . import set_a, set_b, set_c, set_d, set_e, set_f, set_g, set_h
+from . import set_a, set_b, set_c, set_d, set_e, set_f, set_g, set_h, set_i
 
 SETS = {
     "A": set_a.SCENARIOS,
@@ -34,6 +34,7 @@ SETS = {
     "F": set_f.SCENARIOS,
     "G": set_g.SCENARIOS,
     "H": set_h.SCENARIOS,
+    "I": set_i.SCENARIOS,
 }
 
 for _letter, _scenarios in SETS.items():
@@ -52,4 +53,5 @@ SET_LABELS = {
     "F": "F (BLIND: write path only, written after the write-path fixes; run once)",
     "G": "G (BLIND: beyond the 13 fact types, written before the summaries layer; run once)",
     "H": "H (BLIND: validation of the summaries layer, written before its code; run once)",
+    "I": "I (BLIND: questions about the past, written before the mechanism; run once)",
 }

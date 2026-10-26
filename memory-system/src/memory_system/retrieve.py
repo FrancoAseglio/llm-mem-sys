@@ -36,6 +36,7 @@ class Memory:
     age_days: float = 0.0  # days since the fact was last created, repeated or used
     relation_rank: int = 0  # 1 = the relation type that best matches the question
     relation_sim: float = 0.0  # similarity of the question to that relation type
+    until: datetime | None = None  # when a superseded fact was replaced (valid_to)
 
 
 def _clamp(x: float) -> float:
@@ -75,8 +76,9 @@ def relation_ranks(q: np.ndarray) -> dict[str, tuple[int, float]]:
     return {name: (rank, sim) for rank, (sim, name) in enumerate(sims, 1)}
 
 
-def score_facts(user_id: str, query: str) -> list[Memory]:
-    """Score EVERY active fact for this query, best first. Changes nothing in the database."""
+def score_facts(user_id: str, query: str, status: str = "active") -> list[Memory]:
+    """Score EVERY fact of this status (default active) for the query, best first.
+    Changes nothing in the database."""
     q = embed(query)
     ranks = relation_ranks(q)
     now = datetime.now(timezone.utc)
@@ -85,11 +87,11 @@ def score_facts(user_id: str, query: str) -> list[Memory]:
         rows = conn.execute(
             """SELECT id, relation, value, importance, confidence, access_count,
                       GREATEST(updated_at, COALESCE(last_accessed_at, updated_at)) AS last_touch,
-                      valid_from,
+                      valid_from, valid_to,
                       1 - (embedding <=> %s) AS similarity
                FROM facts
-               WHERE user_id = %s AND subject = 'user' AND status = 'active'""",
-            (q, user_id),
+               WHERE user_id = %s AND subject = 'user' AND status = %s""",
+            (q, user_id, status),
         ).fetchall()
 
     scored: list[Memory] = []
@@ -102,6 +104,7 @@ def score_facts(user_id: str, query: str) -> list[Memory]:
         access_count,
         last_touch,
         since,
+        until,
         sim,
     ) in rows:
         age_days = max(0.0, (now - last_touch).total_seconds() / 86400)
@@ -127,6 +130,7 @@ def score_facts(user_id: str, query: str) -> list[Memory]:
                 age_days=age_days,
                 relation_rank=rank,
                 relation_sim=rsim,
+                until=until,
             )
         )
     scored.sort(key=lambda m: m.score, reverse=True)
@@ -146,7 +150,9 @@ def best_raw(scored: list[Memory]) -> float:
     )
 
 
-def gate_failure(m: Memory, best: float) -> tuple[str, float] | None:
+def gate_failure(
+    m: Memory, best: float, safety: bool = True
+) -> tuple[str, float] | None:
     """Why the relevance gate drops this fact, or None if it passes.
 
     Returns ("floor", gap below MIN_RELEVANCE), ("window", gap below the best fact) or
@@ -156,7 +162,8 @@ def gate_failure(m: Memory, best: float) -> tuple[str, float] | None:
     """
     routed = ROUTING_TOP_N <= 0 or m.relation_rank <= ROUTING_TOP_N
     if (
-        ROUTING_TOP_N > 0
+        safety
+        and ROUTING_TOP_N > 0
         and SAFETY_BYPASS
         and m.relation in SAFETY_RELATIONS
         and routed

@@ -1,5 +1,6 @@
 from datetime import date
 
+from memory_system.past_retrieve import retrieve_past
 from memory_system.retrieve import Memory, retrieve, retrieve_baseline
 from memory_system.summary_retrieve import retrieve_summaries
 
@@ -30,12 +31,20 @@ def format_memory(m: Memory) -> str:
     return f"{LABELS.get(m.relation, m.relation)}: {m.value} (since {m.since:%Y-%m-%d})"
 
 
+def format_past(m: Memory) -> str:
+    """One prompt line for a replaced fact, e.g. 'Earlier: Lives in: Bergen (until 2026-09-01)'."""
+    when = f" (until {m.until:%Y-%m-%d})" if m.until else ""
+    return f"Earlier: {LABELS.get(m.relation, m.relation)}: {m.value}{when}"
+
+
 def recall(
     mode: str, user_id: str, query: str, k: int = 4, touch: bool = True
 ) -> list[str]:
     """Return the memory lines to inject into the prompt for the given mode."""
     if mode == "smart":
-        lines = [format_memory(m) for m in retrieve(user_id, query, k, touch)]
+        past = retrieve_past(user_id, query, touch)  # empty unless the question is about the past
+        lines = [format_past(m) for m in past]
+        lines += [format_memory(m) for m in retrieve(user_id, query, k - len(past), touch)]
         return lines + retrieve_summaries(user_id, query, lines, k, touch)
     if mode == "baseline":
         return [

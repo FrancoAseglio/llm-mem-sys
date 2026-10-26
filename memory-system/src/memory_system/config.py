@@ -64,6 +64,11 @@ RECENCY_HALF_LIFE_DAYS = 90
 # Pinning (always include very important facts) is off: 1.01 is above any importance.
 PIN_IMPORTANCE = 1.01
 
+# ---- Questions about the past: replaced (superseded) facts, read only for such questions ----
+# PAST_FACTS=0 switches it off. At most this many past lines, placed before the active ones.
+PAST_FACTS = os.environ.get("PAST_FACTS", "1") != "0"
+PAST_MAX_LINES = 2
+
 # ---- Summaries: episode notes written from messages, shown when they pass the same gate ----
 # SUMMARIES=0 switches the layer off (nothing is written or shown), for ablations.
 SUMMARIES = os.environ.get("SUMMARIES", "1") != "0"
