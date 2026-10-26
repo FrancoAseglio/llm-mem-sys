@@ -23,7 +23,7 @@ Question fields
   avoid    : words that must NOT appear in the memory lines (irrelevant noise)
   stale    : outdated words, reported separately (they never fail an answer)
 """
-from . import set_a, set_b, set_c, set_d, set_e, set_f
+from . import set_a, set_b, set_c, set_d, set_e, set_f, set_g
 
 SETS = {
     "A": set_a.SCENARIOS,
@@ -32,6 +32,7 @@ SETS = {
     "D": set_d.SCENARIOS,
     "E": set_e.SCENARIOS,
     "F": set_f.SCENARIOS,
+    "G": set_g.SCENARIOS,
 }
 
 for _letter, _scenarios in SETS.items():
@@ -48,4 +49,5 @@ SET_LABELS = {
     "D": "D (BLIND: written before routing existed in the pipeline; run once)",
     "E": "E (BLIND: written before the safety bypass and goal prompt; run once)",
     "F": "F (BLIND: write path only, written after the write-path fixes; run once)",
+    "G": "G (BLIND: beyond the 13 fact types, written before the summaries layer; run once)",
 }
