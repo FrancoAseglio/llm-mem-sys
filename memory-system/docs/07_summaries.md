@@ -179,7 +179,7 @@ The second query shows `up_to`, the kept ids and every dropped sentence with its
 
 ## 8. Results in brief
 
-Details and caveats in [08_evaluation.md](08_evaluation.md); the full record of runs, failures and changes in `results/summaries_dev_log.md`.
+Details and caveats in [08_evaluation.md](08_evaluation.md); the full record of runs, failures and changes in `results/logs/summaries_dev.md`.
 
 | Measure (smart) | Layer off | Layer on |
 |---|---|---|
@@ -277,7 +277,7 @@ With consolidation on, retrieval reads digests and the notes no digest replaced,
 | Summary text in use / its source messages, set J | 1.10 | 1.01 |
 | Sets A to I | | Identical to the last regression, except B: stale in prompt 1 to 0 |
 
-Of the seven pre-registered criteria, compression failed (targets 0.70 and 0.85); retention, final state, the age rule and the regression passed; attribution passed but was weakly tested. Checked by hand, no digest invents a detail, but one turns "the removal company paid for a technician to repair the piano" into "it was repaired by the removal company", and one keeps a "partner" that its notes had invented. Details in [08_evaluation.md](08_evaluation.md) and `results/set_J_log.md`.
+Of the seven pre-registered criteria, compression failed (targets 0.70 and 0.85); retention, final state, the age rule and the regression passed; attribution passed but was weakly tested. Checked by hand, no digest invents a detail, but one turns "the removal company paid for a technician to repair the piano" into "it was repaired by the removal company", and one keeps a "partner" that its notes had invented. Details in [08_evaluation.md](08_evaluation.md) and `results/set_J/log.md`.
 
 ### 12.4 What was learned
 

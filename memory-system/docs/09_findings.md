@@ -65,7 +65,7 @@ A new like that matches an active dislike (or the reverse) now supersedes it wit
 
 ### Summaries layer
 
-Full record in [results/summaries_dev_log.md](results/summaries_dev_log.md); the design in [07_summaries.md](07_summaries.md).
+Full record in [results/logs/summaries_dev.md](results/logs/summaries_dev.md); the design in [07_summaries.md](07_summaries.md).
 
 | Finding | Evidence | Change |
 |---|---|---|
@@ -80,7 +80,7 @@ Two things were disclosed in the record: set G was run before its code was commi
 
 ### Questions about the past
 
-Full record in [results/past_step_log.md](results/past_step_log.md); the mechanism in [06_read_path.md](06_read_path.md), section 10.
+Full record in [results/logs/past_step.md](results/logs/past_step.md); the mechanism in [06_read_path.md](06_read_path.md), section 10.
 
 | Finding | Evidence | Change |
 |---|---|---|

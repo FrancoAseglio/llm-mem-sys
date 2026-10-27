@@ -2,7 +2,7 @@
 
 Status: SPENT. Written after the write-path fixes and before running it; run once.
 Covers: corrections, a hallucination-prone message, likes/dislikes flips, employer changes.
-The stored facts (evaluate.py --verbose) are the main check; predictions in docs/predictions/write_path_and_set_F.md.
+The stored facts (evaluate.py --verbose) are the main check; predictions in docs/predictions/set_F.md.
 """
 
 from .common import assert_no_leaks, spread

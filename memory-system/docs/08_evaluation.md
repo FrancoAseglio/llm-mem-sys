@@ -126,7 +126,7 @@ An outdated value also reached the baseline's answer once (set F); never the sma
 
 ### Sets A to F with the summaries layer
 
-Same stored facts; the layer on or off. Criteria were written before the layer was built ([predictions/set_H.md](predictions/set_H.md)). Final numbers, after the two changes described in [results/summaries_dev_log.md](results/summaries_dev_log.md):
+Same stored facts; the layer on or off. Criteria were written before the layer was built ([predictions/set_H.md](predictions/set_H.md)). Final numbers, after the two changes described in [results/logs/summaries_dev.md](results/logs/summaries_dev.md):
 
 | Smart, sets A to F | Layer off | Layer on | Criterion | Result |
 |---|---|---|---|---|
@@ -156,7 +156,7 @@ The two failed criteria were read prompt by prompt. Of the stale cases, the note
 
 ### Set I: questions about the past
 
-The mechanism ([06_read_path.md](06_read_path.md), section 10) was written after the predictions, which were committed before the first run. Smart with the mechanism, against the criteria; full diagnosis in [results/past_step_log.md](results/past_step_log.md).
+The mechanism ([06_read_path.md](06_read_path.md), section 10) was written after the predictions, which were committed before the first run. Smart with the mechanism, against the criteria; full diagnosis in [results/logs/past_step.md](results/logs/past_step.md).
 
 | Measure | Criterion | Result |
 |---|---|---|

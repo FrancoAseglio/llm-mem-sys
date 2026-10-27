@@ -17,7 +17,7 @@ Prototype long-term memory for an LLM assistant. These documents explain what th
 | 9 | [09_findings.md](09_findings.md) | The experiments and mistakes that shaped the design, and the decision log |
 | 10 | [10_limits_and_roadmap.md](10_limits_and_roadmap.md) | Everything known to be missing or weak, and what comes next |
 
-Written predictions, made before runs, are kept unchanged in [predictions/](predictions/). The predictions and the files in `results/` are historical records: the file paths they mention are those of the time, before the package was split into `core/`, `write/`, `read/` and `summaries/` ([01_overview.md](01_overview.md), code map).
+Written predictions, made before runs, are kept unchanged in [predictions/](predictions/README.md). The predictions and the files in [results/](results/README.md) are historical records: the file paths they mention are those of the time, before the package was split into `core/`, `write/`, `read/` and `summaries/` ([01_overview.md](01_overview.md), code map).
 
 ## Quick paths
 

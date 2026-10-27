@@ -1,6 +1,6 @@
 # Set J log: consolidation of notes (2026-10-26)
 
-Record of what was run, in order, with what was found. Predictions and the frozen design: [../predictions/set_J.md](../predictions/set_J.md). Raw results: `set_J_off.json`, `set_J_on.json`, `regress_A_to_I_consolidation.txt`.
+Record of what was run, in order, with what was found. Predictions and the frozen design: [../../predictions/set_J.md](../../predictions/set_J.md). Raw results: `set_J_off.json`, `set_J_on.json`, `regress_A_to_I_consolidation.txt`.
 
 ## 1. Run 1: consolidation not built (`set_J_off.json`)
 
