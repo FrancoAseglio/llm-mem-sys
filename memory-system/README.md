@@ -60,7 +60,7 @@ poetry run python scripts/inspect_scores.py --scenario b_stale_flood
 
 Results are also written to `eval_results.json`. All scenario sets (A to I) have been seen,
 so they cannot validate further tuning; a change needs a new set written beforehand.
-The status of each set is in `scripts/evaluation/scenarios/__init__.py`.
+The status of each set is the `label` in its file under `scripts/evaluation/scenarios/sets/`.
 
 `make help` lists shortcuts (`make quick`, `make test`, `make set S=I`, ...); the evaluation caches deterministic model calls in `.cache/` so repeated runs take seconds (`docs/02_setup.md`, "Keeping the Mac cool").
 
@@ -82,6 +82,6 @@ Other script: `scripts/chat.py` (interactive chat, `/mode smart|baseline|none`, 
 | `src/memory_system/summaries/` | episode notes: `summarize`, `rules` (pure checks), `retrieve` |
 | `src/memory_system/assistant.py` | builds the prompt from the memory lines |
 | `scripts/` | `evaluate.py`, `inspect_scores.py`, `chat.py`, `smoke_test.py`; `evaluation/` holds `metrics.py`, `report.py` and `scenarios/` (test sets A to I) |
-| `tests/` | mirrors the package: `write/`, `read/`, `summaries/`; the pure ones need no services, the rest need Postgres |
+| `tests/` | mirrors the package: `write/`, `read/`, `summaries/` (and `evaluation/` for the scenario files); the pure ones need no services, the rest need Postgres |
 | `schema.sql` | full schema for a fresh database; after a schema change, drop and recreate the database from it |
 | `docs/` | Numbered documentation, start at [`docs/README.md`](docs/README.md) |

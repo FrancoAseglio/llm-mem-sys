@@ -1,0 +1,277 @@
+{
+  "set": "G",
+  "label": "G (BLIND: beyond the 13 fact types, written before the summaries layer; run once)",
+  "description": "SET G: beyond the 13 fact types. 19 questions. Status: BLIND. Written before any summaries code exists; run once on the current system (step \"baseline for G\"), and once more after the summaries layer. Predictions are in docs/predictions/set_G.md and were written before the first run. Unlike sets A-F, many questions here are NOT answerable from the 13 typed facts: episodes (a trip, a wedding), details of a project, a job-search story, questions about the past, information that fits no type (a diet). The baseline (raw messages) may win on those; that is what this set is for. Control questions check that nothing else breaks. All people, places and topics are new; none appear in sets A-F.",
+  "scenarios": [
+    {
+      "id": "g_trip",
+      "kind": "episode",
+      "messages": [
+        [150, "Last spring I went hiking in Norway with my cousin Ingrid, and we saw the northern lights."],
+        [140, "How do volcanoes form?"],
+        [100, "What's a good stretching routine for the morning?"],
+        [60, "Why is the sky blue?"],
+        [20, "How many moons does Jupiter have?"]
+      ],
+      "questions": [
+        {
+          "q": "What trip did I tell you about?",
+          "expect": [["norway"]],
+          "needs": ["norway"]
+        },
+        {
+          "q": "Who did I go hiking with?",
+          "expect": [["ingrid"]],
+          "needs": ["ingrid"]
+        }
+      ]
+    },
+    {
+      "id": "g_wedding",
+      "kind": "episode",
+      "messages": [
+        [60, "My sister Marta is getting married in Lisbon this September, and I'm giving a speech."],
+        [55, "Why is the sky blue?"],
+        [38, "How many moons does Jupiter have?"],
+        [22, "What's a palindrome?"],
+        [5, "How do I remove a coffee stain?"]
+      ],
+      "questions": [
+        {
+          "q": "Where is my sister's wedding?",
+          "expect": [["lisbon"]],
+          "needs": ["lisbon"]
+        },
+        {
+          "q": "What am I doing at the wedding?",
+          "expect": [["speech"]],
+          "needs": ["speech"]
+        }
+      ]
+    },
+    {
+      "id": "g_diet_misfile",
+      "kind": "misfile",
+      "messages": [
+        [120, "I'm vegan, so no dairy or eggs for me."],
+        [90, "I play the cello in a small amateur orchestra."],
+        [110, "What's a palindrome?"],
+        [77, "How do I remove a coffee stain?"],
+        [43, "Can you explain what inflation is?"],
+        [10, "What's the tallest mountain in the world?"]
+      ],
+      "questions": [
+        {
+          "q": "What are my hobbies?",
+          "expect": [["cello"]],
+          "needs": ["cello"],
+          "avoid": ["vegan"]
+        },
+        {
+          "q": "Can you suggest something for dinner?",
+          "expect": [["vegan", "plant", "dairy"]],
+          "needs": ["vegan"]
+        }
+      ]
+    },
+    {
+      "id": "g_past_home",
+      "kind": "past",
+      "messages": [
+        [400, "I live in Porto."],
+        [45, "I've just moved to Leeds for a new start."],
+        [300, "How do volcanoes form?"],
+        [160, "What's a good stretching routine for the morning?"],
+        [20, "Why is the sky blue?"]
+      ],
+      "questions": [
+        {
+          "q": "Where do I live now?",
+          "expect": [["leeds"]],
+          "needs": ["leeds"],
+          "stale": ["porto"]
+        },
+        {
+          "q": "Where did I live before Leeds?",
+          "expect": [["porto"]],
+          "needs": ["porto"]
+        }
+      ]
+    },
+    {
+      "id": "g_training",
+      "kind": "plan",
+      "messages": [
+        [80, "I'm training for a half marathon in November, running three mornings a week."],
+        [70, "How many moons does Jupiter have?"],
+        [50, "What's a palindrome?"],
+        [30, "How do I remove a coffee stain?"],
+        [10, "Can you explain what inflation is?"]
+      ],
+      "questions": [
+        {
+          "q": "What am I training for?",
+          "expect": [["marathon"]],
+          "needs": ["marathon"]
+        }
+      ]
+    },
+    {
+      "id": "g_project",
+      "kind": "episode",
+      "messages": [
+        [110, "I work at Brightline Logistics."],
+        [100, "At work I'm leading the move of our billing system to a new cloud provider, and the deadline is the end of March."],
+        [90, "What's a good stretching routine for the morning?"],
+        [63, "Why is the sky blue?"],
+        [37, "How many moons does Jupiter have?"],
+        [10, "What's a palindrome?"]
+      ],
+      "questions": [
+        {
+          "q": "What project am I leading at work?",
+          "expect": [["billing"]],
+          "needs": ["billing"]
+        },
+        {
+          "q": "When is the deadline for it?",
+          "expect": [["march"]],
+          "needs": ["march"]
+        }
+      ]
+    },
+    {
+      "id": "g_jobsearch",
+      "kind": "story",
+      "messages": [
+        [200, "I've started looking for a new job and sent applications to three firms."],
+        [170, "I had an interview at Kestrel Analytics and it went okay."],
+        [150, "Kestrel said no, they picked someone with more experience."],
+        [120, "Second interview, this time at Orbital Freight."],
+        [100, "Orbital Freight offered me the job and I accepted!"],
+        [90, "I start at Orbital Freight next month."]
+      ],
+      "questions": [
+        {
+          "q": "How did my job search go?",
+          "expect": [["orbital"]],
+          "needs": ["orbital"]
+        },
+        {
+          "q": "Which company turned me down?",
+          "expect": [["kestrel"]],
+          "needs": ["kestrel"]
+        },
+        {
+          "q": "Where do I work?",
+          "expect": [["orbital"]],
+          "needs": ["orbital"]
+        }
+      ]
+    },
+    {
+      "id": "g_control_facts",
+      "kind": "control",
+      "messages": [
+        [180, "My name is Tomas and I'm a baker."],
+        [170, "I speak Czech and English."],
+        [60, "I'm allergic to hazelnuts."],
+        [160, "Why is the sky blue?"],
+        [110, "How many moons does Jupiter have?"],
+        [60, "What's a palindrome?"],
+        [10, "How do I remove a coffee stain?"]
+      ],
+      "questions": [
+        {
+          "q": "What's my name?",
+          "expect": [["tomas"]],
+          "needs": ["tomas"]
+        },
+        {
+          "q": "Which languages do I speak?",
+          "expect": [["czech"]],
+          "needs": ["czech"]
+        },
+        {
+          "q": "Can you suggest a quick snack?",
+          "needs": ["hazelnut"],
+          "avoid": ["czech", "baker"]
+        }
+      ]
+    },
+    {
+      "id": "g_abstain",
+      "kind": "abstain",
+      "messages": [
+        [90, "My neighbour's dog barks every morning, it drives me crazy."],
+        [80, "I bought a new desk lamp yesterday."],
+        [70, "What's a palindrome?"],
+        [50, "How do I remove a coffee stain?"],
+        [30, "Can you explain what inflation is?"],
+        [10, "What's the tallest mountain in the world?"]
+      ],
+      "questions": [
+        {
+          "q": "Do I have any pets?",
+          "expect": [
+            [
+              "don't know",
+              "do not know",
+              "don't have",
+              "do not have",
+              "haven't told",
+              "have not told",
+              "haven't mentioned",
+              "have not mentioned",
+              "not mentioned",
+              "didn't mention",
+              "did not mention",
+              "haven't shared",
+              "have not shared",
+              "not sure",
+              "no information",
+              "not aware",
+              "don't recall",
+              "no record",
+              "can't say",
+              "cannot say",
+              "i'm not able",
+              "unable to"
+            ]
+          ],
+          "avoid": ["dog", "barks"]
+        },
+        {
+          "q": "What's my favourite colour?",
+          "expect": [
+            [
+              "don't know",
+              "do not know",
+              "don't have",
+              "do not have",
+              "haven't told",
+              "have not told",
+              "haven't mentioned",
+              "have not mentioned",
+              "not mentioned",
+              "didn't mention",
+              "did not mention",
+              "haven't shared",
+              "have not shared",
+              "not sure",
+              "no information",
+              "not aware",
+              "don't recall",
+              "no record",
+              "can't say",
+              "cannot say",
+              "i'm not able",
+              "unable to"
+            ]
+          ],
+          "avoid": ["lamp", "dog"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "set": "B",
+  "label": "B (spent: the floor and window were chosen after seeing it)",
+  "description": "SET B: 8 scenarios. Status: SPENT. It was held out when written, but the floor and window were chosen after looking at it. Covers: indirect dislikes, allergies (safety and noise), paraphrases, flooded history, precision, a correction, name recall.",
+  "scenarios": [
+    {
+      "id": "b_indirect_dislike",
+      "kind": "indirect",
+      "messages": [
+        [200, "I can't stand olives, the taste is awful."],
+        [190, "What's a good way to cook rice?"],
+        [164, "Can you suggest a vegetarian lasagna?"],
+        [139, "How many calories are in a banana?"],
+        [113, "How long should I bake bread?"],
+        [87, "What's a quick breakfast idea?"],
+        [61, "How do I make a good tomato sauce?"],
+        [36, "Can you explain how compound interest works?"],
+        [10, "Thanks, that was helpful!"]
+      ],
+      "questions": [
+        {
+          "q": "I'm making a pizza for friends tonight. What toppings should I skip for myself?",
+          "expect": [["olive"]],
+          "needs": ["olive"]
+        }
+      ]
+    },
+    {
+      "id": "b_food_allergy",
+      "kind": "safety",
+      "messages": [
+        [220, "I'm allergic to peanuts."],
+        [200, "Can you explain how compound interest works?"],
+        [173, "Thanks, that was helpful!"],
+        [146, "What's the difference between a virus and a bacterium?"],
+        [119, "Give me a tip for sleeping better."],
+        [91, "How do I convert Celsius to Fahrenheit?"],
+        [64, "What's the capital of Australia?"],
+        [37, "How does a refrigerator work?"],
+        [10, "Any tips for staying focused while studying?"]
+      ],
+      "questions": [
+        {
+          "q": "Can you suggest a quick snack for me?",
+          "needs": ["peanut"]
+        }
+      ]
+    },
+    {
+      "id": "b_drug_allergy_noise",
+      "kind": "noise",
+      "messages": [
+        [150, "I'm allergic to penicillin."],
+        [140, "What's a good way to cook rice?"],
+        [121, "Can you suggest a vegetarian lasagna?"],
+        [103, "How many calories are in a banana?"],
+        [84, "How long should I bake bread?"],
+        [66, "What's a quick breakfast idea?"],
+        [47, "How do I make a good tomato sauce?"],
+        [29, "Can you explain how compound interest works?"],
+        [10, "Thanks, that was helpful!"]
+      ],
+      "questions": [
+        {
+          "q": "Can you suggest a dinner recipe for me?",
+          "avoid": ["penicillin"]
+        }
+      ]
+    },
+    {
+      "id": "b_paraphrase_job",
+      "kind": "paraphrase",
+      "messages": [
+        [180, "I work as a pediatric nurse at the city hospital."],
+        [170, "Can you explain how compound interest works?"],
+        [147, "Thanks, that was helpful!"],
+        [124, "What's the difference between a virus and a bacterium?"],
+        [101, "Give me a tip for sleeping better."],
+        [79, "How do I convert Celsius to Fahrenheit?"],
+        [56, "What's the capital of Australia?"],
+        [33, "How does a refrigerator work?"],
+        [10, "Any tips for staying focused while studying?"]
+      ],
+      "questions": [
+        {
+          "q": "What do I do for a living?",
+          "expect": [["nurse"]],
+          "needs": ["nurse"]
+        }
+      ]
+    },
+    {
+      "id": "b_stale_flood",
+      "kind": "flood",
+      "messages": [
+        [300, "I live in Turin."],
+        [290, "Turin is lovely in autumn."],
+        [272, "The Turin derby was great last night."],
+        [254, "I had coffee in Turin city centre today."],
+        [236, "My favourite Turin bakery just closed down."],
+        [218, "Public transport in Turin is quite decent."],
+        [200, "I walked along the Po river in Turin."],
+        [60, "I moved to Rome last month!"]
+      ],
+      "questions": [
+        {
+          "q": "Which city do I live in?",
+          "expect": [["rome"]],
+          "needs": ["rome"],
+          "stale": ["turin"]
+        }
+      ]
+    },
+    {
+      "id": "b_precision",
+      "kind": "noise",
+      "messages": [
+        [200, "I live in Rome, I'm a teacher and I love painting."],
+        [150, "I also speak Spanish."],
+        [140, "Can you explain how compound interest works?"],
+        [118, "Thanks, that was helpful!"],
+        [97, "What's the difference between a virus and a bacterium?"],
+        [75, "Give me a tip for sleeping better."],
+        [53, "How do I convert Celsius to Fahrenheit?"],
+        [32, "What's the capital of Australia?"],
+        [10, "How does a refrigerator work?"]
+      ],
+      "questions": [
+        {
+          "q": "Which languages do I speak?",
+          "expect": [["spanish"]],
+          "needs": ["spanish"],
+          "avoid": ["rome", "teacher", "painting"]
+        }
+      ]
+    },
+    {
+      "id": "b_correction",
+      "kind": "correction",
+      "messages": [
+        [200, "I'm allergic to peanuts."],
+        [190, "Can you explain how compound interest works?"],
+        [160, "Thanks, that was helpful!"],
+        [130, "What's the difference between a virus and a bacterium?"],
+        [100, "Give me a tip for sleeping better."],
+        [70, "How do I convert Celsius to Fahrenheit?"],
+        [40, "What's the capital of Australia?"],
+        [30, "Actually I was wrong earlier, I'm not allergic to peanuts, I'm allergic to walnuts."]
+      ],
+      "questions": [
+        {
+          "q": "Which nuts am I allergic to?",
+          "expect": [["walnut"]],
+          "needs": ["walnut"],
+          "stale": ["peanut"]
+        }
+      ]
+    },
+    {
+      "id": "b_name_recall",
+      "kind": "noise",
+      "messages": [
+        [250, "My name is Franco."],
+        [240, "What's a good name for a cat?"],
+        [207, "How do I pronounce quinoa?"],
+        [174, "Can you suggest names for a bakery?"],
+        [141, "What does the name Sofia mean?"],
+        [109, "Who painted the Mona Lisa?"],
+        [76, "Can you explain how compound interest works?"],
+        [43, "Thanks, that was helpful!"],
+        [10, "What's the difference between a virus and a bacterium?"]
+      ],
+      "questions": [
+        {
+          "q": "What's my name?",
+          "expect": [["franco"]],
+          "needs": ["franco"]
+        }
+      ]
+    }
+  ]
+}

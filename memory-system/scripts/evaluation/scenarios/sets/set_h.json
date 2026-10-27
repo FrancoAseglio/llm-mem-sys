@@ -1,0 +1,226 @@
+{
+  "set": "H",
+  "label": "H (BLIND: validation of the summaries layer, written before its code; run once)",
+  "description": "SET H: validation of the summaries layer. 15 questions. Status: BLIND. Written after the summaries design was approved and BEFORE any summaries code exists. To be run once, after the layer is built. Predictions: docs/predictions/set_H.md. Mostly episodes that no typed fact holds (the layer's job), plus guards for what it could break: third-person statements turned into the user's, a cancelled plan kept as live, and typed-fact questions that summaries could pollute. All people, places and topics are new.",
+  "scenarios": [
+    {
+      "id": "h_bake",
+      "kind": "episode",
+      "messages": [
+        [70, "Last weekend I baked my first sourdough loaf and it came out completely flat."],
+        [65, "What's the boiling point of water at altitude?"],
+        [47, "How do bees make honey?"],
+        [28, "Can you explain what a mortgage is?"],
+        [10, "What's the longest river in Africa?"]
+      ],
+      "questions": [
+        {
+          "q": "What did I bake last weekend?",
+          "expect": [["sourdough"]],
+          "needs": ["sourdough"]
+        }
+      ]
+    },
+    {
+      "id": "h_injury",
+      "kind": "episode",
+      "messages": [
+        [130, "I broke my wrist skiing in February and had a cast on for six weeks."],
+        [120, "Can you explain what a mortgage is?"],
+        [83, "What's the longest river in Africa?"],
+        [47, "How does a rainbow form?"],
+        [10, "What's a good way to memorise a poem?"]
+      ],
+      "questions": [
+        {
+          "q": "How did I hurt my wrist?",
+          "expect": [["ski"]],
+          "needs": ["ski"]
+        },
+        {
+          "q": "How long did I wear the cast?",
+          "expect": [["six"]],
+          "needs": ["six"]
+        }
+      ]
+    },
+    {
+      "id": "h_purchase",
+      "kind": "episode",
+      "messages": [
+        [95, "I finally bought a second-hand Vespa from my neighbour for 900 euros."],
+        [85, "How does a rainbow form?"],
+        [60, "What's a good way to memorise a poem?"],
+        [35, "How many bones are in the human body?"],
+        [10, "What does a thermostat do?"]
+      ],
+      "questions": [
+        {
+          "q": "What did I buy from my neighbour?",
+          "expect": [["vespa"]],
+          "needs": ["vespa"]
+        },
+        {
+          "q": "How much did it cost?",
+          "expect": [["900"]],
+          "needs": ["900"]
+        }
+      ]
+    },
+    {
+      "id": "h_adoption",
+      "kind": "story",
+      "messages": [
+        [180, "I'm thinking about adopting a rescue greyhound."],
+        [150, "I visited the shelter today and met a greyhound called Biscuit."],
+        [120, "The adoption paperwork got approved!"],
+        [100, "Biscuit comes home on Saturday, I can't wait."],
+        [90, "Biscuit already chewed one of my slippers."]
+      ],
+      "questions": [
+        {
+          "q": "What kind of animal did I adopt?",
+          "expect": [["greyhound"]],
+          "needs": ["greyhound"]
+        },
+        {
+          "q": "What is my dog called?",
+          "expect": [["biscuit"]],
+          "needs": ["biscuit"]
+        },
+        {
+          "q": "What did my dog chew?",
+          "expect": [["slipper"]],
+          "needs": ["slipper"]
+        }
+      ]
+    },
+    {
+      "id": "h_control_facts",
+      "kind": "control",
+      "messages": [
+        [200, "My name is Elena and I live in Gdansk."],
+        [190, "I work at a shipyard as a welder."],
+        [60, "I'm allergic to shellfish."],
+        [180, "What's the boiling point of water at altitude?"],
+        [123, "How do bees make honey?"],
+        [67, "Can you explain what a mortgage is?"],
+        [10, "What's the longest river in Africa?"]
+      ],
+      "questions": [
+        {
+          "q": "What's my name?",
+          "expect": [["elena"]],
+          "needs": ["elena"]
+        },
+        {
+          "q": "Which city do I live in?",
+          "expect": [["gdansk"]],
+          "needs": ["gdansk"]
+        },
+        {
+          "q": "What do I do for a living?",
+          "expect": [["welder"]],
+          "needs": ["welder"]
+        },
+        {
+          "q": "Can you suggest a dish for dinner at a restaurant?",
+          "needs": ["shellfish"],
+          "avoid": ["gdansk", "welder"]
+        }
+      ]
+    },
+    {
+      "id": "h_third_person",
+      "kind": "trap",
+      "messages": [
+        [60, "My friend Raul is travelling through Peru next month."],
+        [55, "Raul sent me a photo of his hotel in Cusco."],
+        [50, "How does a rainbow form?"],
+        [37, "What's a good way to memorise a poem?"],
+        [23, "How many bones are in the human body?"],
+        [10, "What does a thermostat do?"]
+      ],
+      "questions": [
+        {
+          "q": "Where am I travelling next month?",
+          "expect": [
+            [
+              "don't know",
+              "do not know",
+              "don't have",
+              "do not have",
+              "haven't told",
+              "have not told",
+              "haven't mentioned",
+              "have not mentioned",
+              "not mentioned",
+              "didn't mention",
+              "did not mention",
+              "haven't shared",
+              "have not shared",
+              "not sure",
+              "no information",
+              "not aware",
+              "don't recall",
+              "no record",
+              "can't say",
+              "cannot say",
+              "i'm not able",
+              "unable to"
+            ]
+          ],
+          "avoid": ["peru", "cusco"]
+        },
+        {
+          "q": "What's my brother's name?",
+          "expect": [
+            [
+              "don't know",
+              "do not know",
+              "don't have",
+              "do not have",
+              "haven't told",
+              "have not told",
+              "haven't mentioned",
+              "have not mentioned",
+              "not mentioned",
+              "didn't mention",
+              "did not mention",
+              "haven't shared",
+              "have not shared",
+              "not sure",
+              "no information",
+              "not aware",
+              "don't recall",
+              "no record",
+              "can't say",
+              "cannot say",
+              "i'm not able",
+              "unable to"
+            ]
+          ],
+          "avoid": ["raul"]
+        }
+      ]
+    },
+    {
+      "id": "h_cancelled",
+      "kind": "stale",
+      "messages": [
+        [100, "I'm going to the Lyon conference in May."],
+        [60, "The Lyon conference got cancelled, so I'm not going after all."],
+        [90, "Can you explain what a mortgage is?"],
+        [50, "What's the longest river in Africa?"],
+        [10, "How does a rainbow form?"]
+      ],
+      "questions": [
+        {
+          "q": "Am I going to the Lyon conference?",
+          "expect": [["cancel", "not going"]],
+          "needs": ["cancel"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,298 @@
+{
+  "set": "C",
+  "label": "C (spent: written before the relative window ran on it)",
+  "description": "SET C: one user with a rich profile (11 facts) plus two small scenarios. Status: SPENT. Blind when written, before the relative window was run on it. Many facts compete for the same question, and abstain questions test the floor.",
+  "scenarios": [
+    {
+      "id": "c_rich_profile",
+      "kind": "rich",
+      "messages": [
+        [330, "My name is Giulia and I live in Bologna."],
+        [320, "I work as an architect at Studio Verdi."],
+        [300, "My partner is Marco."],
+        [280, "I speak Italian and English."],
+        [260, "I love running, I usually go out before sunrise."],
+        [240, "I also enjoy photography."],
+        [220, "I'm allergic to shellfish."],
+        [200, "I really dislike coriander, it tastes like soap."],
+        [180, "I like jazz music a lot."],
+        [160, "I'd love to learn how to sail one day."],
+        [140, "My brother's name is Luca."],
+        [130, "Can you explain how compound interest works?"],
+        [108, "Thanks, that was helpful!"],
+        [86, "What's the difference between a virus and a bacterium?"],
+        [64, "Give me a tip for sleeping better."],
+        [42, "How do I convert Celsius to Fahrenheit?"],
+        [20, "What's the capital of Australia?"]
+      ],
+      "questions": [
+        {
+          "q": "What's my name?",
+          "expect": [["giulia"]],
+          "needs": ["giulia"],
+          "avoid": [
+            "architect",
+            "marco",
+            "italian",
+            "running",
+            "photography",
+            "shellfish",
+            "coriander",
+            "jazz",
+            "sail",
+            "luca"
+          ]
+        },
+        {
+          "q": "Which city do I live in?",
+          "expect": [["bologna"]],
+          "needs": ["bologna"],
+          "avoid": [
+            "architect",
+            "marco",
+            "italian",
+            "running",
+            "photography",
+            "shellfish",
+            "coriander",
+            "jazz",
+            "sail",
+            "luca"
+          ]
+        },
+        {
+          "q": "What do I do for work?",
+          "expect": [["architect"]],
+          "needs": ["architect"],
+          "avoid": [
+            "giulia",
+            "bologna",
+            "marco",
+            "italian",
+            "running",
+            "photography",
+            "shellfish",
+            "coriander",
+            "jazz",
+            "sail",
+            "luca"
+          ]
+        },
+        {
+          "q": "Who is my partner?",
+          "expect": [["marco"]],
+          "needs": ["marco"],
+          "avoid": [
+            "giulia",
+            "bologna",
+            "architect",
+            "italian",
+            "running",
+            "photography",
+            "shellfish",
+            "coriander",
+            "jazz",
+            "sail",
+            "luca"
+          ]
+        },
+        {
+          "q": "Which languages do I speak?",
+          "expect": [["italian"], ["english"]],
+          "needs": ["italian", "english"],
+          "avoid": [
+            "giulia",
+            "bologna",
+            "architect",
+            "marco",
+            "running",
+            "photography",
+            "shellfish",
+            "coriander",
+            "jazz",
+            "sail",
+            "luca"
+          ]
+        },
+        {
+          "q": "I'm booking a restaurant for tonight. What should I avoid eating?",
+          "expect": [["shellfish"], ["coriander"]],
+          "needs": ["shellfish", "coriander"],
+          "avoid": [
+            "giulia",
+            "bologna",
+            "architect",
+            "marco",
+            "italian",
+            "running",
+            "photography",
+            "jazz",
+            "sail",
+            "luca"
+          ]
+        },
+        {
+          "q": "What's my brother called?",
+          "expect": [["luca"]],
+          "needs": ["luca"],
+          "avoid": [
+            "giulia",
+            "bologna",
+            "architect",
+            "marco",
+            "italian",
+            "running",
+            "photography",
+            "shellfish",
+            "coriander",
+            "jazz",
+            "sail"
+          ]
+        },
+        {
+          "q": "What kind of music do I like?",
+          "expect": [["jazz"]],
+          "needs": ["jazz"],
+          "avoid": [
+            "giulia",
+            "bologna",
+            "architect",
+            "marco",
+            "italian",
+            "running",
+            "photography",
+            "shellfish",
+            "coriander",
+            "sail",
+            "luca"
+          ]
+        },
+        {
+          "q": "What is my favourite colour?",
+          "expect": [
+            [
+              "don't know",
+              "do not know",
+              "don't have",
+              "do not have",
+              "haven't told",
+              "have not told",
+              "haven't mentioned",
+              "have not mentioned",
+              "not mentioned",
+              "didn't mention",
+              "did not mention",
+              "haven't shared",
+              "have not shared",
+              "not sure",
+              "no information",
+              "not aware",
+              "don't recall",
+              "no record",
+              "can't say",
+              "cannot say",
+              "i'm not able",
+              "unable to"
+            ]
+          ],
+          "avoid": [
+            "giulia",
+            "bologna",
+            "architect",
+            "marco",
+            "italian",
+            "running",
+            "photography",
+            "shellfish",
+            "coriander",
+            "jazz",
+            "sail",
+            "luca"
+          ]
+        },
+        {
+          "q": "What's my pet's name?",
+          "expect": [
+            [
+              "don't know",
+              "do not know",
+              "don't have",
+              "do not have",
+              "haven't told",
+              "have not told",
+              "haven't mentioned",
+              "have not mentioned",
+              "not mentioned",
+              "didn't mention",
+              "did not mention",
+              "haven't shared",
+              "have not shared",
+              "not sure",
+              "no information",
+              "not aware",
+              "don't recall",
+              "no record",
+              "can't say",
+              "cannot say",
+              "i'm not able",
+              "unable to"
+            ]
+          ],
+          "avoid": [
+            "giulia",
+            "bologna",
+            "architect",
+            "marco",
+            "italian",
+            "running",
+            "photography",
+            "shellfish",
+            "coriander",
+            "jazz",
+            "sail",
+            "luca"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c_double_move",
+      "kind": "stale",
+      "messages": [
+        [300, "I live in Genoa."],
+        [180, "I've just moved to Bologna."],
+        [60, "Big news, I'm now living in Verona!"],
+        [170, "How do I convert Celsius to Fahrenheit?"],
+        [132, "What's the capital of Australia?"],
+        [95, "How does a refrigerator work?"],
+        [58, "Any tips for staying focused while studying?"],
+        [20, "Can you recommend a good podcast about history?"]
+      ],
+      "questions": [
+        {
+          "q": "Which city do I live in?",
+          "expect": [["verona"]],
+          "needs": ["verona"],
+          "stale": ["genoa", "bologna"]
+        }
+      ]
+    },
+    {
+      "id": "c_new_job",
+      "kind": "write-bug",
+      "messages": [
+        [200, "I work at Fabbrica Rossi as a designer."],
+        [30, "Exciting news, I just started a new position at Delta Labs!"]
+      ],
+      "questions": [
+        {
+          "q": "Where do I work?",
+          "expect": [["delta"]],
+          "needs": ["delta"],
+          "stale": ["rossi"],
+          "avoid": ["new position", "new job"]
+        }
+      ]
+    }
+  ]
+}

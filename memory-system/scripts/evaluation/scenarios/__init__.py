@@ -1,20 +1,17 @@
-"""Test scenarios for the evaluation.
+"""Test scenarios for the evaluation, stored as data in `sets/set_<letter>.json`.
 
 Each scenario replays a short life history, with messages dated N days ago,
 then asks questions that can be answered from memory alone.
 
-Sets (one module each; every scenario gets a "set" letter here):
-  A  set_a  TUNING. The retrieval gate was tuned on these, so they can NOT validate it.
-  B  set_b  SPENT. Held out when written, but the floor and window were chosen after looking at it.
-  C  set_c  SPENT. Blind when written (before the relative window); one rich profile plus abstain questions.
-  D  set_d  SPENT. Blind, written before relation routing existed. Second rich profile, safety, job switch.
-  E  set_e  SPENT. Blind, written before the safety bypass and the goal-extraction change.
-  F  set_f  SPENT. Blind, write path only: corrections, flips, employer changes.
-A blind set can be run once. After that it is spent: write a new one to validate a change.
+A set file holds:
+  set          the letter (A, B, ...)
+  label        one line shown in the evaluation summary: what the set is and how it may be used
+  description  what the set covers
+  scenarios    the list below
 
 Scenario fields
   id, kind : name, and what the scenario is designed to test
-  messages : (days_ago, text)  -- order does not matter, the runner sorts them
+  messages : [days_ago, text]  -- order does not matter, the runner sorts them
 Question fields
   q        : the question
   expect   : list of groups; every group needs at least one of its words in the ANSWER
@@ -22,39 +19,26 @@ Question fields
   needs    : words that must appear in the memory lines sent to the model
   avoid    : words that must NOT appear in the memory lines (irrelevant noise)
   stale    : outdated words, reported separately (they never fail an answer)
+
+A blind set can be run once. After that it is spent: write a new one to validate a change.
+Once a set's predictions are committed its file is frozen: its SHA-256 goes into `frozen.json`
+and tests/evaluation/test_scenarios.py fails if the file changes afterwards.
 """
 
-from . import set_a, set_b, set_c, set_d, set_e, set_f, set_g, set_h, set_i, set_j
+import json
+from pathlib import Path
 
-SETS = {
-    "A": set_a.SCENARIOS,
-    "B": set_b.SCENARIOS,
-    "C": set_c.SCENARIOS,
-    "D": set_d.SCENARIOS,
-    "E": set_e.SCENARIOS,
-    "F": set_f.SCENARIOS,
-    "G": set_g.SCENARIOS,
-    "H": set_h.SCENARIOS,
-    "I": set_i.SCENARIOS,
-    "J": set_j.SCENARIOS,
-}
+DATA_DIR = Path(__file__).with_name("sets")
 
-for _letter, _scenarios in SETS.items():
-    for _scenario in _scenarios:
+SETS: dict[str, list[dict]] = {}
+SET_LABELS: dict[str, str] = {}
+
+for _path in sorted(DATA_DIR.glob("set_*.json")):
+    _doc = json.loads(_path.read_text(encoding="utf-8"))
+    _letter = _doc["set"]
+    SETS[_letter] = _doc["scenarios"]
+    SET_LABELS[_letter] = _doc["label"]
+    for _scenario in _doc["scenarios"]:
         _scenario["set"] = _letter
 
 SCENARIOS = [scenario for scenarios in SETS.values() for scenario in scenarios]
-
-# One-line status of each set, shown in the evaluation summary.
-SET_LABELS = {
-    "A": "A (tuning set, cannot validate)",
-    "B": "B (spent: the floor and window were chosen after seeing it)",
-    "C": "C (spent: written before the relative window ran on it)",
-    "D": "D (BLIND: written before routing existed in the pipeline; run once)",
-    "E": "E (BLIND: written before the safety bypass and goal prompt; run once)",
-    "F": "F (BLIND: write path only, written after the write-path fixes; run once)",
-    "G": "G (BLIND: beyond the 13 fact types, written before the summaries layer; run once)",
-    "H": "H (BLIND: validation of the summaries layer, written before its code; run once)",
-    "I": "I (BLIND: questions about the past, written before the mechanism; run once)",
-    "J": "J (BLIND: note consolidation, written before its code; run off once, then on once)",
-}

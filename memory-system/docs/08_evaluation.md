@@ -34,7 +34,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 
 ## 3. The test sets
 
-61 scenarios, 143 questions, in `scripts/evaluation/scenarios/` (one module per set; `__init__.py` holds the status labels).
+61 scenarios, 143 questions, in `scripts/evaluation/scenarios/sets/` (one JSON file per set, with its status label).
 
 | Set | Scenarios | Questions | Status | What it tests |
 |---|---|---|---|---|
@@ -67,7 +67,7 @@ A **blind** set is written before the change it tests and run once. After that i
 }
 ```
 
-`expect` may be left out to score retrieval only. Each scenario gets a `set` letter in `scripts/evaluation/scenarios/__init__.py`.
+`expect` may be left out to score retrieval only. The loader in `scripts/evaluation/scenarios/__init__.py` adds the `set` letter.
 
 ## 4. Rules of the protocol
 
@@ -104,7 +104,7 @@ poetry run python scripts/inspect_scores.py --scenario b_stale_flood
 
 Results are also saved to `eval_results.json` (git-ignored). The code is split into `evaluate.py` (arguments, ingest, the loop), `evaluation/metrics.py` (scoring) and `evaluation/report.py` (printing).
 
-To add a set: create `scripts/evaluation/scenarios/set_j.py` (the next letter) with a `SCENARIOS` list, register it in `SETS` and `SET_LABELS` in `scenarios/__init__.py`, and write the predictions first.
+To add a set: write `scripts/evaluation/scenarios/sets/set_k.json` (the next letter; copy the shape of an existing file) with its `label`, and write the predictions first. Nothing needs registering, the loader reads every `set_*.json`. When the predictions are committed, freeze the set: add `"set_k.json": "<hash>"` to `scenarios/frozen.json` (the hash is `shasum -a 256 set_k.json`). `tests/evaluation/test_scenarios.py` then fails if the file is edited afterwards, and checks the shape of every set.
 
 The summaries layer runs inside the evaluation: after each scenario's ingest, `summarize_pending` writes the notes (printing how many), and `--verbose` prints them. `SUMMARIES=0 poetry run python scripts/evaluate.py ...` is the layer-off control.
 
