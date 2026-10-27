@@ -337,7 +337,9 @@ If an answer looks wrong, this is where to trace it. The ids in your own databas
 | Run the evaluation without model answers | `poetry run python scripts/evaluate.py --set A B C D E F --retrieval-only` |
 | Re-run on stored data | add `--no-ingest` |
 | See all shortcuts | `make help` (see the next section) |
-| See why each fact was kept or dropped | `poetry run python scripts/inspect_scores.py --scenario b_stale_flood` |
+| Fix and check everything before a commit | `make format` (fixes lint, formats, then runs `make check`: ruff check, ruff format check, tests). `make check` alone changes nothing |
+| List the scenarios and their ids | `make scenarios` (one set: `make scenarios SET=J`) |
+| See why each fact was kept or dropped | `make inspect SCENARIO=b_stale_flood` (or `poetry run python scripts/inspect_scores.py --scenario b_stale_flood`) |
 | Reset one user | `psql memory_db -c "delete from users where id = 'me'"` |
 
 ### Colours
@@ -355,9 +357,9 @@ The heavy part is the 8B chat model. A full run of sets A to I would make about 
 | I changed | Run | Cost |
 |---|---|---|
 | A rule, the gate, ranking or the read path | `make quick` (retrieval only on stored data, all sets) | seconds, no chat model |
-| The write path or a prompt | `make set S=B` (ingest and score one set, retrieval only), then the other sets one at a time | one extraction call per message |
-| Something that changes answers | `make answers S=I` for the set you test, once, at the end of a step | one chat call per question and mode |
-| Nothing, and I want a final, honest run | `make fresh S=I` | everything, no cache |
+| The write path or a prompt | `make set SET=B` (ingest and score one set, retrieval only), then the other sets one at a time | one extraction call per message |
+| Something that changes answers | `make answers SET=I` for the set you test, once, at the end of a step | one chat call per question and mode |
+| Nothing, and I want a final, honest run | `make fresh SET=I` | everything, no cache |
 
 Also: `make` runs the model at low priority (`nice`), `ollama ps` shows whether it runs fully on the GPU, and the tests (`make test`, about a second) never call a model. Close other heavy apps during a full run, and avoid running two evaluations at once.
 

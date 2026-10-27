@@ -56,3 +56,8 @@ def test_status_prints_plain_line_when_not_a_terminal(capsys):
     style.status("working")
     style.status_clear()
     assert capsys.readouterr().out == "working\n"
+
+
+def test_purple_uses_the_256_colour_palette():
+    style.set_enabled(True)
+    assert style.paint("x", "purple") == "\033[38;5;183mx\033[0m"

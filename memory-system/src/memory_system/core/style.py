@@ -20,6 +20,7 @@ _CODES = {
     "blue": "34",
     "magenta": "35",
     "cyan": "36",
+    "purple": "38;5;183",  # 256-colour palette: a light violet that reads well on dark
 }
 _override: bool | None = None
 

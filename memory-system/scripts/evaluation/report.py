@@ -56,12 +56,13 @@ def print_table(results: list[dict]) -> None:
 
     for line in (
         "base = baseline vector memory   smart = this system   none = no memory",
-        "✓ good   ✗ bad   - not measured",
+        "✓ good   ✗ bad   - not measured   bold name = smart has a ✗",
         "NOISE ✓ = no unwanted text   LINES = lines in the prompt",
     ):
         print(paint("  " + line, "dim") if line else "")
-    head = f"{'':<48}"
-    sub = f"{'scenario / question':<38}{'kind':<10}"
+    kw = max([10] + [len(r["kind"]) + 1 for r in results])  # width of the kind column
+    head = f"{'':<{38 + kw}}"
+    sub = f"{'scenario / question':<38}{'kind':<{kw}}"
     for title, idx in groups.items():
         head += BAR + _group(title, len(idx))
         sub += BAR + "".join(f"{columns[i][1]:^{W}}" for i in idx)
@@ -72,13 +73,17 @@ def print_table(results: list[dict]) -> None:
     for r, row in zip(results, cells, strict=True):
         if last_set is not None and r["set"] != last_set:
             print(
-                paint("-" * (48 + sum(3 + W * len(v) for v in groups.values())), "dim")
+                paint(
+                    "-" * (38 + kw + sum(3 + W * len(v) for v in groups.values())),
+                    "dim",
+                )
             )
         last_set = r["set"]
         label = f"{r['scenario']}: {r['question']}"[:36]
-        bad = any(row[i] == "✗" for i in keep)
+        # bold only when the smart column fails: that is the system's own miss
+        bad = any(row[i] == "✗" for i in keep if columns[i][1] == "smart")
         line = paint(f"{label:<38}", "bold") if bad else f"{label:<38}"
-        line += paint(f"{r['kind']:<10}", "dim")
+        line += paint(f"{r['kind']:<{kw}}", "blue")
         for idx in groups.values():
             line += BAR + _cells([row[i] for i in idx])
         print(line)
@@ -181,7 +186,7 @@ def print_retrieval_problems(results: list[dict]) -> None:
         print(paint("\nRetrieval problems", "bold", "red"))
         for r, m, why in misses:
             style = "red" if why.startswith("needed") else "yellow"
-            print(f"  [{m}] {r['scenario']}:", paint(why, style))
+            print(f"  {paint(f'[{m}]', 'purple')} {r['scenario']}:", paint(why, style))
             print(paint("      recalled:", "dim"), "" if r[m]["memory"] else "nothing")
             for line in r[m]["memory"]:
                 print(f"        - {line[:100]}")
@@ -199,7 +204,7 @@ def print_wrong_answers(results: list[dict]) -> None:
         for r, m in wrong:
             note = "   <-- fact WAS in the prompt" if r[m]["needed_present"] else ""
             print(
-                f"  [{m}] {r['scenario']}: {r['question'][:60]}",
+                f"  {paint(f'[{m}]', 'purple')} {r['scenario']}: {r['question'][:60]}",
                 paint(note.strip(), "yellow"),
             )
             print(f"      answer: {r[m]['answer'][:200]!r}")

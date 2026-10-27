@@ -62,7 +62,7 @@ Results are also written to `eval_results.json`. All scenario sets (A to I) have
 so they cannot validate further tuning; a change needs a new set written beforehand.
 The status of each set is the `label` in its file under `scripts/evaluation/scenarios/sets/`.
 
-`make help` lists shortcuts (`make quick`, `make test`, `make set S=I`, ...); the evaluation caches deterministic model calls in `.cache/` so repeated runs take seconds (`docs/02_setup.md`, "Keeping the Mac cool").
+`make help` lists shortcuts (`make test`, `make format`, `make scenarios`, `make inspect SCENARIO=dislike_noise`, `make quick`, `make set SET=I`, ...); the evaluation caches deterministic model calls in `.cache/` so repeated runs take seconds (`docs/02_setup.md`, "Keeping the Mac cool").
 
 Tests (`tests/` only; the DB tests need the Postgres database from `.env`):
 
@@ -81,7 +81,7 @@ Other script: `scripts/chat.py` (interactive chat, `/mode smart|baseline|none`, 
 | `src/memory_system/read/` | read path: `retrieve` (gate and ranking), `past_rules` and `past_retrieve` (questions about the past) |
 | `src/memory_system/summaries/` | episode notes: `summarize`, `rules` (pure checks), `retrieve` |
 | `src/memory_system/assistant.py` | builds the prompt from the memory lines |
-| `scripts/` | `evaluate.py`, `inspect_scores.py`, `chat.py`, `smoke_test.py`; `evaluation/` holds `metrics.py`, `report.py` and `scenarios/` (test sets A to I) |
+| `scripts/` | `evaluate.py`, `inspect_scores.py`, `list_scenarios.py`, `chat.py`, `smoke_test.py`; `evaluation/` holds `metrics.py`, `report.py` and `scenarios/` (test sets A to J, as JSON) |
 | `tests/` | mirrors the package: `write/`, `read/`, `summaries/` (and `evaluation/` for the scenario files); the pure ones need no services, the rest need Postgres |
 | `schema.sql` | full schema for a fresh database; after a schema change, drop and recreate the database from it |
 | `docs/` | Numbered documentation, start at [`docs/README.md`](docs/README.md) |
