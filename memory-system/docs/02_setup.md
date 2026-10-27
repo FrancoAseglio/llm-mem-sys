@@ -340,6 +340,10 @@ If an answer looks wrong, this is where to trace it. The ids in your own databas
 | See why each fact was kept or dropped | `poetry run python scripts/inspect_scores.py --scenario b_stale_flood` |
 | Reset one user | `psql memory_db -c "delete from users where id = 'me'"` |
 
+### Colours
+
+`chat.py` and `evaluate.py` colour their output when printing to a terminal: green for added or active, yellow for updates and conflicts, red for retractions, rejections and wrong answers, magenta for `Earlier:` lines, blue for notes and digests, dim for progress. Colour is off when the output is piped or saved (`| tee file`), when `NO_COLOR=1` is set, or with `--no-color`. The text itself is the same either way. The code is `src/memory_system/core/style.py`.
+
 ### Keeping the Mac cool
 
 The heavy part is the 8B chat model. A full run of sets A to I would make about 735 calls to it (extraction, summaries, answers), and most calls repeat the previous run exactly. Three things keep this small:

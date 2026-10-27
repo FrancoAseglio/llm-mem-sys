@@ -44,6 +44,7 @@ from memory_system.assistant import build_messages, recall
 from memory_system.core.config import CONSOLIDATE, SUMMARIES
 from memory_system.core.db import get_pool
 from memory_system.core.llm import cache_stats, chat, enable_cache
+from memory_system.core.style import paint, set_enabled, status, status_clear
 from memory_system.summaries.consolidate import consolidate
 from memory_system.summaries.summarize import summarize_pending
 from memory_system.write.manager import ingest_user_message, list_facts
@@ -99,37 +100,64 @@ def print_compression(users: list[str]) -> None:
           COUNT(*) FILTER (WHERE kind = 'note' AND digest_id IS NOT NULL)
         FROM summaries WHERE user_id = %(u)s"""
     totals = [0] * 6
-    print("\nCompression (characters)")
+    print(paint("\nCompression (characters)", "bold"))
     print(
-        f"{'user':<28}{'sources':>8}{'notes':>7}{'merged':>8}{'digests':>8}"
-        f"{'live':>7}   digest/merged  notes/src  live/src"
+        paint(
+            f"{'user':<28}{'sources':>8}{'notes':>7}{'merged':>8}{'digests':>8}"
+            f"{'live':>7}   digest/merged  notes/src  live/src",
+            "bold",
+        )
     )
+    empty = 0
     with get_pool().connection() as conn:
         for user in users:
             row = conn.execute(query, {"u": user}).fetchone()
             totals = [t + v for t, v in zip(totals, row, strict=True)]
+            if row[0] == 0 and row[1] == 0:  # no notes for this user: nothing to show
+                empty += 1
+                continue
             _print_compression_row(user, row)
-    _print_compression_row("TOTAL", totals)
+    _print_compression_row("TOTAL", totals, bold=True)
+    if empty:
+        print(paint(f"  ({empty} users without notes not listed)", "dim"))
 
 
 def _ratio(a: int, b: int) -> str:
     return f"{a / b:.2f}" if b else "-"
 
 
-def _print_compression_row(label: str, row) -> None:
+def _ratio_cell(a: int, b: int, width: int) -> str:
+    """Ratio padded first, then coloured: green below 1.0 (shorter than the source), red above."""
+    text = f"{_ratio(a, b):>{width}}"
+    if not b:
+        return paint(text, "dim")
+    return paint(text, "green" if a < b else "red")
+
+
+def _print_compression_row(label: str, row, bold: bool = False) -> None:
     sources, notes, merged, digests, n_digests, n_merged = row
     live = notes - merged + digests
+    left = f"{label:<28}{sources:>8}{notes:>7}{merged:>8}{digests:>8}{live:>7}"
+    tail = (
+        paint(f"   ({n_digests} digests from {n_merged} notes)", "dim")
+        if n_digests
+        else ""
+    )
     print(
-        f"{label:<28}{sources:>8}{notes:>7}{merged:>8}{digests:>8}{live:>7}"
-        f"   {_ratio(digests, merged):>13}  {_ratio(notes, sources):>9}  {_ratio(live, sources):>8}"
-        f"   ({n_digests} digests from {n_merged} notes)"
+        paint(left, "bold") if bold else left,
+        f"   {_ratio(digests, merged):>13}  ",
+        _ratio_cell(notes, sources, 9),
+        "  ",
+        _ratio_cell(live, sources, 8),
+        tail,
+        sep="",
     )
 
 
 def print_stored_facts(scenario: dict) -> None:
     print(f"\n--- facts stored for {scenario['id']} ---")
-    for relation, value, status, _imp, _conf, since in list_facts(user_of(scenario)):
-        print(f"  {relation:<14}{value:<22}{status:<12}{since}")
+    for relation, value, state, _imp, _conf, since in list_facts(user_of(scenario)):
+        print(f"  {relation:<14}{value:<22}{state:<12}{since}")
 
 
 def ask(scenario: dict, question: dict, args: argparse.Namespace) -> dict:
@@ -195,7 +223,12 @@ def main() -> None:
     )
     parser.add_argument("--verbose", action="store_true")
     parser.add_argument("--k", type=int, default=4)
+    parser.add_argument(
+        "--no-color", action="store_true", help="plain text (also: NO_COLOR=1)"
+    )
     args = parser.parse_args()
+    if args.no_color:
+        set_enabled(False)
     if not args.no_cache:
         enable_cache()
 
@@ -206,28 +239,33 @@ def main() -> None:
         and (not args.set or s["set"] in args.set)
     ]
     results = []
+    total = sum(len(sc["questions"]) for sc in scenarios)
     started = time.perf_counter()
 
     for sc in scenarios:
         if not args.no_ingest:
-            print(
-                f"ingesting {sc['id']} ({len(sc['messages'])} messages)...", flush=True
-            )
+            status(f"ingesting {sc['id']} ({len(sc['messages'])} messages)...")
             ingest(sc)
         if SUMMARIES:  # only new messages are summarised, so re-runs change nothing
             kept = summarize_pending(user_of(sc))
-            print(f"  summaries written: {len(kept)}", flush=True)
+            if kept:  # silent when nothing is new
+                status(f"{sc['id']}: {len(kept)} summaries written")
             if CONSOLIDATE:
                 digests = consolidate(user_of(sc))
-                print(f"  digests written: {len(digests)}", flush=True)
+                if digests:
+                    status(f"{sc['id']}: {len(digests)} digests written")
         if args.verbose:
+            status_clear()
             print_stored_facts(sc)
             if SUMMARIES:
                 print_stored_summaries(user_of(sc))
         for q in sc["questions"]:
             results.append(ask(sc, q, args))
-            print(f"  done: {sc['id']}: {q['q'][:60]}", flush=True)
+            status(f"[{len(results)}/{total}] {sc['id']}: {q['q'][:60]}")
+            if args.verbose:
+                status_clear()
 
+    status_clear()
     print_table(results)
     print_summaries(results)
     print_retrieval_problems(results)
@@ -243,7 +281,10 @@ def main() -> None:
         f"   cache: {stats[0]} hits, {stats[1]} misses" if stats else "   cache: off"
     )
     print(
-        f"\nsaved eval_results.json   ({time.perf_counter() - started:.0f}s){cache_note}"
+        paint(
+            f"\nsaved eval_results.json   ({time.perf_counter() - started:.0f}s){cache_note}",
+            "dim",
+        )
     )
 
 
