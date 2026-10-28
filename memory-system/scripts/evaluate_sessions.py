@@ -32,6 +32,7 @@ from memory_system.core.style import (
     colour_marks,
     memory_line,
     paint,
+    paint_all,
     set_enabled,
     status,
     status_clear,
@@ -138,11 +139,20 @@ def mark(value) -> str:
     return "✓" if value else "✗"
 
 
+LEGEND = (
+    "n = none (no memory)   b = baseline vector memory   s = smart (this system)",
+    "CORRECT  ✓ right answer   ✗ wrong   bold name = smart has a ✗",
+    "FORBID   ! outdated or wrong value in the answer   . clean   - not tested",
+)
+
+
 def print_table(probes: list[dict]) -> None:
     status_clear()
-    print(paint("\nprobe", "bold"))
+    print()
+    for line in LEGEND:
+        print(paint("  " + line, "dim"))
     head = f"{'story / probe':<52}{'type':<10}{'correct n/b/s':>15}{'forbid n/b/s':>15}"
-    print(paint(head, "dim"))
+    print(paint(head, "bold"))
     for p in probes:
         name = f"{p['scenario']}: {p['user']}"[:50]
         correct = "/".join(mark(p[m]["correct"]) for m in MODES)
@@ -150,13 +160,13 @@ def print_table(probes: list[dict]) -> None:
             "-" if p[m]["forbid_raw"] is None else ("!" if p[m]["forbid_raw"] else ".")
             for m in MODES
         )
-        print(f"{name:<52}{p['type']:<10}{colour_marks(f'{correct:>15}')}{forbid:>15}")
-    print(
-        paint(
-            "  forbid: '!' a forbidden word is in the answer, '.' none, '-' not tested",
-            "dim",
+        miss = not p["smart"]["correct"] or bool(p["smart"]["forbid_raw"])
+        cells = colour_marks(f"{correct:>15}") + paint_all(
+            f"{forbid:>15}", {"!": "red"}
         )
-    )
+        print(
+            f"{paint(f'{name:<52}', *(('bold',) if miss else ()))}{p['type']:<10}{cells}"
+        )
 
 
 def print_totals(probes: list[dict], label: str) -> dict:
@@ -170,11 +180,35 @@ def print_totals(probes: list[dict], label: str) -> dict:
         ("stable facts", "stable", "groups"),
         ("indirect correct", "indirect_correct", "indirect"),
     ]
-    print(paint(f"  {'':<28}" + "".join(f"{m:>12}" for m in MODES), "dim"))
+    print(paint(f"  {'':<28}" + "".join(f"{m:>12}" for m in MODES), "bold"))
     for label_, key, of in rows:
-        cells = "".join(f"{t[m][key]}/{t[m][of]:<}".rjust(12) for m in MODES)
+        higher_is_better = key in ("correct", "stable", "indirect_correct")
+        styles = _better(t["baseline"][key], t["smart"][key], higher_is_better)
+        cells = paint(f"{t['none'][key]}/{t['none'][of]}".rjust(12), "dim")
+        for m, style in zip(("baseline", "smart"), styles, strict=True):
+            cells += paint(
+                f"{t[m][key]}/{t[m][of]}".rjust(12), *([style] if style else [])
+            )
         print(f"  {label_:<28}{cells}")
+    print(
+        paint("  ", "dim")
+        + paint("green", "green")
+        + paint(" = better than the other memory mode, ", "dim")
+        + paint("red", "red")
+        + paint(" = worse; none is shown for reference", "dim")
+    )
+    print(
+        paint("  lower is better for: contradictions, forbidden word in prompt", "dim")
+    )
     return t
+
+
+def _better(base: int, smart: int, higher_is_better: bool) -> tuple[str, str]:
+    """Styles for baseline and smart in one row: the better value green, the worse red."""
+    if base == smart:
+        return "", ""
+    base_wins = (base > smart) == higher_is_better
+    return ("green", "red") if base_wins else ("red", "green")
 
 
 def print_review(probes: list[dict]) -> None:
