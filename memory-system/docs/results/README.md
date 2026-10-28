@@ -11,6 +11,8 @@ Saved outputs of the evaluation runs, one folder per test set. They are historic
 | `set_I/` | `off.txt` | set I control, `PAST_FACTS=0` |
 | `set_J/` | `off.json`, `on.json` | set J without and with consolidation |
 | `set_J/` | `log.md` | what was run and found for set J |
+| `set_K/` | `first_run.txt`, `first_run.json` | set K, consistency across sessions, run once (`evaluate_sessions.py`) |
+| `set_K/` | `log.md` | the hand review, results and observations for set K |
 | `regressions/` | `A_to_G_after_fix2.json` | sets A to G after the second fix |
 | `regressions/` | `A_to_H.txt` | sets A to H with the past rule on |
 | `regressions/` | `A_to_I_consolidation.txt` | sets A to I with consolidation on |

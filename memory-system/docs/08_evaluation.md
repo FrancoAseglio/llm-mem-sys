@@ -48,7 +48,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 | H | 7 | 15 | **Spent**: blind validation of the summaries layer, written before its code, run once | A bake, an injury, a purchase, an adoption, a control profile of plain facts, third-person traps, a cancelled plan |
 | I | 7 | 12 | **Spent**: blind validation of the past-question mechanism, written before its code, run once | Past questions after a move, a job change, two moves, a like-to-dislike flip and a partner change; present-tense controls; two "before" traps; a user who never moved |
 | J | 5 | 26 | **Spent**: blind validation of consolidation, written before its code; run once without it and once with it | Users with 10 to 16 episode messages: a renovation story, a year of trips, a band story with other people, typed facts mixed with episodes, and a control user whose messages are all under 30 days old |
-| K | 6 | 23 probes | **Blind**, not yet run: consistency across sessions, written before its runner; in its own format (`"format": "sessions"`), run by `scripts/evaluate_sessions.py`, not by `evaluate.py` | Multi-session stories: a move, an allergy, an employer change, a partner with a distractor, a move inside one session, a control where nothing changes; direct and indirect probes |
+| K | 6 | 23 probes | **Spent**: blind, consistency across sessions, written before its runner, run once; in its own format (`"format": "sessions"`), run by `scripts/evaluate_sessions.py`, not by `evaluate.py` | Multi-session stories: a move, an allergy, an employer change, a partner with a distractor, a move inside one session, a control where nothing changes; direct and indirect probes |
 
 A **blind** set is written before the change it tests and run once. After that it is **spent**: it has influenced decisions, so it can no longer validate anything. Today every set is spent or tuning (G was re-run once with the layer, which is why its second result is labelled as a re-run).
 
@@ -210,6 +210,23 @@ Run once on the system without consolidation (run 1), then once with it (run 2),
 - **My prediction for consolidation was too pessimistic** (about 17.5 needed present predicted, 24 found), and too optimistic for compression (0.65 predicted, 0.79 found).
 - **The two smart misses in run 1 had other causes.** The asbestos note was dropped by the notes' faithfulness check (a true paraphrase failed the 75% word share), and the "moved to February" note lost the window to the two December notes. Consolidation fixed the second only because one digest took the place of two notes.
 
+### Set K: consistency across sessions
+
+Six stories told over several sessions; each session starts with no chat history, so only memory carries facts between them. The three modes answer every turn side by side. Predictions and design: [predictions/set_K.md](predictions/set_K.md); hand review and details: `results/set_K/log.md`.
+
+| Set K, 23 probes (after the hand review) | none | baseline | smart |
+|---|---|---|---|
+| Correct | 1 | 16 | 17 |
+| Contradictions (13 probes with an outdated or wrong value) | 0 | 1 | 0 |
+| Forbidden word in the memory lines (13) | 0 | 10 | 4 |
+| Stable facts (7: every probe of one fact right) | 0 | 2 | 2 |
+| Indirect probes correct (10) | 0 | 6 | 5 |
+
+- **About even.** Smart answered one more probe and never used an outdated value; baseline did once ("You live in Ljubljana" after the move). One case is not a difference. The stability criterion failed (2 against 2), and the predictions overrated smart (19.5 correct predicted).
+- **Smart loses at the gate on indirect questions.** Four of its six misses had the fact in memory but not in the prompt: a note signed "with my name", an email signature, a vinaigrette (the allergy pass did not fire), the second of two languages.
+- **Baseline loses to its own questions and to "I don't know".** Its past questions fill its four lines over time, which caused its one contradiction; three times it said "I don't know" with the fact in its lines.
+- **Outside the scores:** the `(since date)` label of a fact was read as a start date ("which you started learning on March 2"), and smart replies to a change one turn late, because facts are stored after the reply.
+
 ### What the results show
 
 - **Outdated facts never reach the prompt** with smart memory (0 against 15). This is the clearest result and follows directly from the design: superseded, archived and conflicted facts are not read.
@@ -240,7 +257,7 @@ Predictions are kept unchanged in [predictions/](predictions/). Outcomes: on set
 | Small samples | 143 questions, 61 stories; one rich profile carries many of the questions; H, I and J were one run each (15, 12 and 26 questions) |
 | Crude scoring | Keyword matching on lower-cased text |
 | One small model | llama3.1:8b for extraction and answers; results may differ with another model |
-| Single questions | Consistency across several turns is not measured |
+| Few multi-turn data | Consistency across sessions was measured once (set K, 23 probes); consistency with the assistant's own replies is not measured |
 | Keyword scoring of notes | The `needs`, `avoid` and `stale` word lists were written for facts and mis-score true past-tense notes and paraphrases ("not going after all") |
 | A simple baseline | The four most similar messages, as the project defines traditional vector memory; stronger baselines exist |
 | Written by the developers | The scenarios and the system share a designer |
@@ -249,5 +266,4 @@ Predictions are kept unchanged in [predictions/](predictions/). Outcomes: on set
 
 - The two follow-ups to set I, measured on a fresh set: past questions that also read facts archived by a retraction, and past lines ordered oldest first ([10_limits_and_roadmap.md](10_limits_and_roadmap.md)).
 - A second version of consolidation that compresses more, measured on a fresh set (J is spent); see [10_limits_and_roadmap.md](10_limits_and_roadmap.md).
-- A multi-turn consistency measure.
 - One final comparison of none, baseline and smart on a fresh set, with the two pre-registered fixes (strong-match override, wider allergy bypass) measured blind.

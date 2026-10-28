@@ -1,0 +1,1069 @@
+{
+  "K": {
+    "probes": [
+      {
+        "set": "K",
+        "scenario": "k_move",
+        "session": 2,
+        "fact": "city_before",
+        "type": "direct",
+        "expect": [
+          [
+            "ljubljana"
+          ]
+        ],
+        "forbid": [],
+        "user": "Which city do I live in?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know. We haven't discussed your location before, and I don't have any information about you. Would you like to tell me where you live?",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "baseline": {
+          "lines": [
+            "[2026-04-11] \"Hi, I'm Lukas. I live in Ljubljana and I work from home as a translator.\"",
+            "[2026-04-11] \"I usually cycle along the river on weekends.\""
+          ],
+          "answer": "You live in Ljubljana.",
+          "correct": true,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "smart": {
+          "lines": [
+            "Lives in: Ljubljana (since 2026-04-11)"
+          ],
+          "answer": "You live in Ljubljana.",
+          "correct": true,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_move",
+        "session": 4,
+        "fact": "city",
+        "type": "direct",
+        "expect": [
+          [
+            "bilbao"
+          ]
+        ],
+        "forbid": [
+          "ljubljana",
+          "slovenia",
+          "postojna",
+          "bohinj"
+        ],
+        "user": "Where do I live these days?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know. We just started our conversation, and I don't have any prior information about you. Would you like to share where you live?",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "baseline": {
+          "lines": [
+            "[2026-05-11] \"Which city do I live in?\"",
+            "[2026-06-30] \"Big news: I've moved to Bilbao for good, the new flat is lovely.\"",
+            "[2026-04-11] \"Hi, I'm Lukas. I live in Ljubljana and I work from home as a translator.\"",
+            "[2026-04-11] \"I usually cycle along the river on weekends.\""
+          ],
+          "answer": "You live in Bilbao.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": true
+        },
+        "smart": {
+          "lines": [
+            "Lives in: Bilbao (since 2026-06-30)",
+            "Note from 2026-06-30: The user moved to Bilbao for good and the new flat is lovely."
+          ],
+          "answer": "You live in Bilbao.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_move",
+        "session": 5,
+        "fact": "city",
+        "type": "indirect",
+        "expect": [
+          [
+            "bilbao",
+            "san sebasti",
+            "donostia",
+            "gernika",
+            "guernica",
+            "getxo",
+            "gaztelugatxe",
+            "vitoria",
+            "basque"
+          ]
+        ],
+        "forbid": [
+          "ljubljana",
+          "slovenia",
+          "postojna",
+          "bohinj"
+        ],
+        "user": "Can you suggest a day trip from my city?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know your city. Could you please tell me where you're located? That way, I can suggest a day trip that's relevant to your area.",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "baseline": {
+          "lines": [
+            "[2026-05-11] \"Which city do I live in?\"",
+            "[2026-07-30] \"Where do I live these days?\"",
+            "[2026-06-30] \"Big news: I've moved to Bilbao for good, the new flat is lovely.\"",
+            "[2026-04-11] \"I usually cycle along the river on weekends.\""
+          ],
+          "answer": "You live in Bilbao, don't you? There are plenty of great options for day trips from Bilbao. One idea is to visit the Guggenheim Museum in Bilbao itself, but if you'd like to get out of the city, you could consider visiting the beautiful coastal town of Getxo, with its stunning beaches and scenic views. Alternatively, you could head to the nearby mountains and visit the picturesque village of Ondarroa. Which one of these options sounds appealing to you?",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "smart": {
+          "lines": [
+            "Lives in: Bilbao (since 2026-06-30)",
+            "Note from 2026-06-30: The user moved to Bilbao for good and the new flat is lovely."
+          ],
+          "answer": "Bilbao is a great base for exploring the Basque Country. One popular day trip option is to visit the Guggenheim Museum in Bilbao itself, but if you're looking to get out of the city, I'd suggest visiting the nearby town of Getxo. It's a charming coastal town with a beautiful beach and a historic lighthouse. You can also visit the nearby Urdaibai Biosphere Reserve, a UNESCO World Heritage Site with stunning natural beauty and a variety of wildlife.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_move",
+        "session": 6,
+        "fact": "city",
+        "type": "direct",
+        "expect": [
+          [
+            "bilbao"
+          ]
+        ],
+        "forbid": [
+          "ljubljana",
+          "slovenia",
+          "postojna",
+          "bohinj"
+        ],
+        "user": "Remind me, which city am I based in?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know. We haven't discussed your location before, so I don't have any information about where you're based. Would you like to tell me?",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "baseline": {
+          "lines": [
+            "[2026-05-11] \"Which city do I live in?\"",
+            "[2026-07-30] \"Where do I live these days?\"",
+            "[2026-08-29] \"Can you suggest a day trip from my city?\"",
+            "[2026-04-11] \"Hi, I'm Lukas. I live in Ljubljana and I work from home as a translator.\""
+          ],
+          "answer": "You live in Ljubljana.",
+          "correct": false,
+          "forbid_raw": true,
+          "forbid_in_prompt": true
+        },
+        "smart": {
+          "lines": [
+            "Lives in: Bilbao (since 2026-06-30)",
+            "Note from 2026-06-30: The user moved to Bilbao for good and the new flat is lovely."
+          ],
+          "answer": "You live in Bilbao.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_move",
+        "session": 6,
+        "fact": "city",
+        "type": "indirect",
+        "expect": [
+          [
+            "bilbao",
+            "casco viejo",
+            "abando",
+            "deusto",
+            "indautxu"
+          ]
+        ],
+        "forbid": [
+          "ljubljana",
+          "slovenia",
+          "postojna",
+          "bohinj"
+        ],
+        "user": "Any good neighbourhoods to explore in my city?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know your city or its neighborhoods. You mentioned earlier that I don't know where you're based. Could you tell me which city you're in, and I can try to help you with neighborhood suggestions?",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "baseline": {
+          "lines": [
+            "[2026-08-29] \"Can you suggest a day trip from my city?\"",
+            "[2026-05-11] \"Which city do I live in?\"",
+            "[2026-06-30] \"Big news: I've moved to Bilbao for good, the new flat is lovely.\"",
+            "[2026-07-30] \"Where do I live these days?\""
+          ],
+          "answer": "You live in Bilbao. As for neighbourhoods, I've heard that the Old Town (Casco Viejo) and the Ensanche area are popular among tourists and locals alike.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "smart": {
+          "lines": [
+            "Lives in: Bilbao (since 2026-06-30)",
+            "Note from 2026-06-30: The user moved to Bilbao for good and the new flat is lovely."
+          ],
+          "answer": "Bilbao has some lovely neighbourhoods. I've heard that the Deusto and Abandoibarra areas are popular with locals and visitors alike. They offer a mix of culture, shopping, and dining options.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_allergy",
+        "session": 2,
+        "fact": "allergy",
+        "type": "indirect",
+        "expect": [
+          [
+            "mustard",
+            "allerg"
+          ]
+        ],
+        "forbid": [],
+        "user": "Is a ham sandwich with Dijon a good lunch for me?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know your dietary preferences or restrictions, but a ham sandwich with Dijon mustard is a classic and popular choice for lunch. It's a simple, satisfying option that combines protein, carbs, and flavor. If you enjoy ham and mustard, it could be a good choice for you.",
+          "correct": true,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "baseline": {
+          "lines": [
+            "[2026-04-01] \"I'm trying to cook more at home this year.\"",
+            "[2026-04-01] \"Quick thing to know about me: I'm allergic to mustard.\""
+          ],
+          "answer": "Considering your allergy to mustard, a ham sandwich with Dijon might not be the best choice for you.",
+          "correct": true,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "smart": {
+          "lines": [
+            "Allergic to: mustard (since 2026-04-01)"
+          ],
+          "answer": "I don't think that's a good idea. Dijon mustard is a type of mustard, and you're allergic to mustard.",
+          "correct": true,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_allergy",
+        "session": 4,
+        "fact": "allergy",
+        "type": "indirect",
+        "expect": [
+          [
+            "mustard"
+          ]
+        ],
+        "forbid": [],
+        "user": "I'm making a vinaigrette for a salad tonight, any tips?",
+        "none": {
+          "lines": [],
+          "answer": "Making vinaigrette from scratch can be a bit tricky, but I'd be happy to help. What type of vinaigrette are you making (e.g. balsamic, olive oil and vinegar, etc.)? And do you have a specific ratio of oil to acid in mind?",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "baseline": {
+          "lines": [
+            "[2026-04-01] \"I'm trying to cook more at home this year.\"",
+            "[2026-07-20] \"I bought a new set of kitchen knives.\"",
+            "[2026-05-31] \"Is a ham sandwich with Dijon a good lunch for me?\"",
+            "[2026-07-20] \"How do I keep a wooden chopping board clean?\""
+          ],
+          "answer": "Making a vinaigrette sounds like a great project. I don't know your personal taste preferences, but a general tip is to start with a simple ratio of 3 parts oil to 1 part acid (such as vinegar or lemon juice). You can adjust this to taste. Also, consider adding a pinch of salt and any other seasonings you like.",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "smart": {
+          "lines": [
+            "Note from 2026-07-20: The user bought a new set of kitchen knives."
+          ],
+          "answer": "For a vinaigrette, I'd recommend using a 3:1 or 4:1 ratio of oil to acid (such as vinegar or lemon juice). You can also add a pinch of salt and any desired herbs or spices to taste. What type of vinaigrette are you trying to make (e.g. balsamic, Italian, etc.)?",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_allergy",
+        "session": 5,
+        "fact": "allergy",
+        "type": "direct",
+        "expect": [
+          [
+            "mustard"
+          ]
+        ],
+        "forbid": [],
+        "user": "What am I allergic to?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know. I'm a friendly assistant, but I don't have any information about your personal health or allergies. If you'd like to share, I'd be happy to help you remember or provide general information about allergies.",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "baseline": {
+          "lines": [
+            "[2026-04-01] \"Quick thing to know about me: I'm allergic to mustard.\"",
+            "[2026-05-31] \"Is a ham sandwich with Dijon a good lunch for me?\"",
+            "[2026-04-01] \"I'm trying to cook more at home this year.\"",
+            "[2026-07-20] \"I bought a new set of kitchen knives.\""
+          ],
+          "answer": "You're allergic to mustard.",
+          "correct": true,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "smart": {
+          "lines": [
+            "Allergic to: mustard (since 2026-04-01)"
+          ],
+          "answer": "You're allergic to mustard.",
+          "correct": true,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_job",
+        "session": 2,
+        "fact": "employer_before",
+        "type": "indirect",
+        "expect": [
+          [
+            "brantley"
+          ]
+        ],
+        "forbid": [],
+        "user": "Write a one-line email signature for me.",
+        "none": {
+          "lines": [],
+          "answer": "Here is a one-line email signature for you: \"Best regards, [Your Name]\".",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "baseline": {
+          "lines": [
+            "[2026-03-22] \"I work at Brantley Analytics as a data engineer.\""
+          ],
+          "answer": "I don't know your name or job title, so I'll need more information to create a suitable email signature.",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "smart": {
+          "lines": [],
+          "answer": "Here is a one-line email signature for you: \"Best regards, [Your Name]\".",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_job",
+        "session": 4,
+        "fact": "employer",
+        "type": "direct",
+        "expect": [
+          [
+            "fernhill"
+          ]
+        ],
+        "forbid": [
+          "brantley"
+        ],
+        "user": "Where do I work now?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know. This is our first conversation, and I don't have any prior knowledge about you. Would you like to tell me about your job or is there something else I can help you with?",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "baseline": {
+          "lines": [
+            "[2026-06-20] \"I left Brantley Analytics. I've started at Fernhill Bank, still as a data engineer.\"",
+            "[2026-03-22] \"I work at Brantley Analytics as a data engineer.\"",
+            "[2026-05-01] \"Write a one-line email signature for me.\""
+          ],
+          "answer": "You work at Fernhill Bank as a data engineer.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": true
+        },
+        "smart": {
+          "lines": [
+            "Works at: Fernhill Bank (since 2026-06-20)",
+            "Job title: data engineer (since 2026-03-22)",
+            "Note from 2026-06-20: The user started at Fernhill Bank as a data engineer.",
+            "Note from 2026-06-20: The user left Brantley Analytics."
+          ],
+          "answer": "You work at Fernhill Bank, as a data engineer.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": true
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_job",
+        "session": 5,
+        "fact": "employer",
+        "type": "indirect",
+        "expect": [
+          [
+            "fernhill"
+          ]
+        ],
+        "forbid": [
+          "brantley"
+        ],
+        "user": "Write a one-line email signature for me.",
+        "none": {
+          "lines": [],
+          "answer": "I don't know your name or contact information, so I'll suggest a generic signature: \"Best regards, [Your Name]\"",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "baseline": {
+          "lines": [
+            "[2026-05-01] \"Write a one-line email signature for me.\"",
+            "[2026-03-22] \"I work at Brantley Analytics as a data engineer.\"",
+            "[2026-06-20] \"I left Brantley Analytics. I've started at Fernhill Bank, still as a data engineer.\"",
+            "[2026-09-18] \"Any tips for a long commute?\""
+          ],
+          "answer": "Here's a one-line email signature: \"Best regards, [Your Name]\"",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": true
+        },
+        "smart": {
+          "lines": [
+            "Note from 2026-06-20: The user started at Fernhill Bank as a data engineer."
+          ],
+          "answer": "I don't know your job title or contact information, so I'll suggest a generic signature: \"Best regards, [Your Name]\".",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_job",
+        "session": 6,
+        "fact": "employer",
+        "type": "direct",
+        "expect": [
+          [
+            "fernhill"
+          ]
+        ],
+        "forbid": [
+          "brantley"
+        ],
+        "user": "Which company am I with?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know. We haven't discussed your work or company before, so I don't have any information about that. Would you like to tell me about it?",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "baseline": {
+          "lines": [
+            "[2026-07-30] \"Where do I work now?\"",
+            "[2026-03-22] \"I work at Brantley Analytics as a data engineer.\"",
+            "[2026-06-20] \"I left Brantley Analytics. I've started at Fernhill Bank, still as a data engineer.\"",
+            "[2026-09-18] \"Write a one-line email signature for me.\""
+          ],
+          "answer": "You work at Fernhill Bank as a data engineer.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": true
+        },
+        "smart": {
+          "lines": [
+            "Works at: Fernhill Bank (since 2026-06-20)",
+            "Note from 2026-06-20: The user started at Fernhill Bank as a data engineer.",
+            "Note from 2026-06-20: The user left Brantley Analytics."
+          ],
+          "answer": "You work at Fernhill Bank.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": true
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_partner",
+        "session": 3,
+        "fact": "partner",
+        "type": "indirect",
+        "expect": [
+          [
+            "dagny"
+          ]
+        ],
+        "forbid": [
+          "wilhelmina"
+        ],
+        "user": "Write a two-line birthday message for my partner.",
+        "none": {
+          "lines": [],
+          "answer": "\"Happy birthday to an amazing partner! Wishing you a day filled with love, laughter, and all your favorite things.\"",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "baseline": {
+          "lines": [
+            "[2026-04-21] \"My partner Dagny and I just celebrated five years together.\"",
+            "[2026-05-21] \"My colleague Wilhelmina keeps asking me to join her book club.\"",
+            "[2026-05-21] \"What's a good novel for a book club?\""
+          ],
+          "answer": "\"Happy birthday to Dagny, five years together and many more adventures to come! Wishing you a day as bright and beautiful as you are.\"",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": true
+        },
+        "smart": {
+          "lines": [
+            "Partner: Dagny (since 2026-04-21)",
+            "Note from 2026-04-21: The user celebrated five years with their partner Dagny."
+          ],
+          "answer": "\"Happy birthday to the love of my life, Dagny! Five more years together and I'm still amazed by your sparkle.\"",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_partner",
+        "session": 4,
+        "fact": "partner",
+        "type": "direct",
+        "expect": [
+          [
+            "dagny"
+          ]
+        ],
+        "forbid": [
+          "wilhelmina"
+        ],
+        "user": "What's my partner's name?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know. I'm a friendly assistant, but I don't have any information about your personal life. This is our first conversation, and I don't retain any information from previous conversations. Would you like to tell me about your partner?",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "baseline": {
+          "lines": [
+            "[2026-07-10] \"Write a two-line birthday message for my partner.\"",
+            "[2026-04-21] \"My partner Dagny and I just celebrated five years together.\"",
+            "[2026-05-21] \"My colleague Wilhelmina keeps asking me to join her book club.\"",
+            "[2026-05-21] \"What's a good novel for a book club?\""
+          ],
+          "answer": "I don't know.",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": true
+        },
+        "smart": {
+          "lines": [
+            "Partner: Dagny (since 2026-04-21)",
+            "Note from 2026-04-21: The user celebrated five years with their partner Dagny.",
+            "Note from 2026-05-21: The user's colleague Wilhelmina keeps asking the user to join her book club."
+          ],
+          "answer": "Your partner's name is Dagny.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": true
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_partner",
+        "session": 5,
+        "fact": "partner",
+        "type": "indirect",
+        "expect": [
+          [
+            "dagny"
+          ]
+        ],
+        "forbid": [
+          "wilhelmina"
+        ],
+        "user": "Suggest a gift for my partner and write the card, with their name.",
+        "none": {
+          "lines": [],
+          "answer": "To suggest a gift, I'll need to know a bit more about your partner's interests. Do they have any hobbies or favorite things?\n\nAlso, what's their name? I'll make sure to include it in the card.\n\n(And don't worry, I'll remember this for our next conversation!)",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "baseline": {
+          "lines": [
+            "[2026-07-10] \"Write a two-line birthday message for my partner.\"",
+            "[2026-08-19] \"What's my partner's name?\"",
+            "[2026-04-21] \"My partner Dagny and I just celebrated five years together.\"",
+            "[2026-05-21] \"My colleague Wilhelmina keeps asking me to join her book club.\""
+          ],
+          "answer": "I remember that your partner's name is Dagny.\n\nFor a gift, I suggest a personalized item that shows you've been paying attention to their interests. Since I don't know Dagny's specific hobbies or preferences, I'll suggest a more general idea: a customized photo album or frame with pictures from your five years together (you mentioned celebrating that milestone on April 21st).\n\nHere's a two-line birthday message for Dagny (assuming it's her birthday today, October 28th):\n\n\"Happy birthday, Dagny! Five more years of love, laughter, and adventure together – I'm so grateful for you.\"\n\nPlease let me know if you'd like me to adjust the message or gift idea!",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": true
+        },
+        "smart": {
+          "lines": [
+            "Partner: Dagny (since 2026-04-21)",
+            "Note from 2026-04-21: The user celebrated five years with their partner Dagny.",
+            "Note from 2026-05-21: The user's colleague Wilhelmina keeps asking the user to join her book club."
+          ],
+          "answer": "Considering your partner's name is Dagny, I'd suggest a gift that's personal and thoughtful.\n\nA gift idea could be a customized piece of jewelry, such as a necklace or a pair of earrings, with a special message or a symbol that holds meaning for the two of you. Alternatively, you could consider a beautiful piece of artwork or a painting that reflects Dagny's interests or tastes.\n\nFor the card, I'd suggest the following:\n\n\"Dear Dagny,\n\nFive years have passed since we celebrated our love, and every day since then has only made our bond stronger. You bring joy and light into my life, and I'm grateful for every moment we share.\n\nWith all my love,\n[Your Name]\"\n\nFeel free to modify it to fit your personal style and preferences!",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": true
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_same_session",
+        "session": 2,
+        "fact": "city_before",
+        "type": "direct",
+        "expect": [
+          [
+            "tartu"
+          ]
+        ],
+        "forbid": [],
+        "user": "Which city do I live in?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know. We haven't discussed your location before, and I don't have any information about you. Would you like to tell me where you live?",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "baseline": {
+          "lines": [
+            "[2026-05-31] \"I live in Tartu and teach music at a primary school.\""
+          ],
+          "answer": "You live in Tartu.",
+          "correct": true,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "smart": {
+          "lines": [
+            "Lives in: Tartu (since 2026-05-31)"
+          ],
+          "answer": "You live in Tartu.",
+          "correct": true,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_same_session",
+        "session": 2,
+        "fact": "city",
+        "type": "direct",
+        "expect": [
+          [
+            "pärnu",
+            "parnu"
+          ]
+        ],
+        "forbid": [
+          "tartu"
+        ],
+        "user": "So where do I live now?",
+        "none": {
+          "lines": [],
+          "answer": "You live in Pärnu now.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "baseline": {
+          "lines": [
+            "[2026-09-28] \"Which city do I live in?\"",
+            "[2026-09-28] \"Actually, I'm moving out today: as of tonight I live in Pärnu.\"",
+            "[2026-05-31] \"I live in Tartu and teach music at a primary school.\""
+          ],
+          "answer": "You live in Pärnu.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": true
+        },
+        "smart": {
+          "lines": [
+            "Lives in: Pärnu (since 2026-09-28)"
+          ],
+          "answer": "You live in Pärnu.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_same_session",
+        "session": 3,
+        "fact": "city",
+        "type": "indirect",
+        "expect": [
+          [
+            "pärnu",
+            "parnu"
+          ]
+        ],
+        "forbid": [
+          "tartu"
+        ],
+        "user": "Recommend a café near where I live.",
+        "none": {
+          "lines": [],
+          "answer": "I don't know your location. Could you please tell me where you live? I'll do my best to recommend a café nearby.",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "baseline": {
+          "lines": [
+            "[2026-09-28] \"Which city do I live in?\"",
+            "[2026-09-28] \"So where do I live now?\"",
+            "[2026-05-31] \"I live in Tartu and teach music at a primary school.\"",
+            "[2026-09-28] \"Actually, I'm moving out today: as of tonight I live in Pärnu.\""
+          ],
+          "answer": "You live in Pärnu. I don't have information about specific cafes in Pärnu, but I can suggest checking online review sites or asking locals for recommendations.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": true
+        },
+        "smart": {
+          "lines": [
+            "Lives in: Pärnu (since 2026-09-28)",
+            "Note from 2026-09-28: The user moved out today and now lives in Pärnu."
+          ],
+          "answer": "I don't have information about current cafes or their locations. However, I can suggest checking online review sites or asking locals for recommendations.",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_same_session",
+        "session": 4,
+        "fact": "city",
+        "type": "direct",
+        "expect": [
+          [
+            "pärnu",
+            "parnu"
+          ]
+        ],
+        "forbid": [
+          "tartu"
+        ],
+        "user": "Which city do I live in?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know. We haven't discussed your location before, and I don't have any information about you. Would you like to tell me where you live?",
+          "correct": false,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "baseline": {
+          "lines": [
+            "[2026-09-28] \"Which city do I live in?\"",
+            "[2026-09-28] \"So where do I live now?\"",
+            "[2026-10-18] \"Recommend a café near where I live.\"",
+            "[2026-09-28] \"Actually, I'm moving out today: as of tonight I live in Pärnu.\""
+          ],
+          "answer": "You live in Pärnu.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        },
+        "smart": {
+          "lines": [
+            "Lives in: Pärnu (since 2026-09-28)",
+            "Note from 2026-09-28: The user moved out today and now lives in Pärnu."
+          ],
+          "answer": "You live in Pärnu.",
+          "correct": true,
+          "forbid_raw": false,
+          "forbid_in_prompt": false
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_control",
+        "session": 3,
+        "fact": "languages",
+        "type": "direct",
+        "expect": [
+          [
+            "french"
+          ],
+          [
+            "breton"
+          ]
+        ],
+        "forbid": [],
+        "user": "Which languages do I speak?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know. We haven't had a conversation before, so I don't have any information about you. Would you like to tell me about yourself?",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "baseline": {
+          "lines": [
+            "[2026-03-02] \"My name is Oriane and I speak French and Breton.\"",
+            "[2026-04-11] \"I'm reading a long novel about whaling.\"",
+            "[2026-04-11] \"How do lighthouses work?\""
+          ],
+          "answer": "You speak French and Breton.",
+          "correct": true,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "smart": {
+          "lines": [
+            "Speaks: French (since 2026-03-02)"
+          ],
+          "answer": "You speak French, since March 2, 2026.",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_control",
+        "session": 4,
+        "fact": "name",
+        "type": "direct",
+        "expect": [
+          [
+            "oriane"
+          ]
+        ],
+        "forbid": [],
+        "user": "What's my name?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know. We haven't had a conversation before, so I don't have any information about you. Would you like to introduce yourself?",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "baseline": {
+          "lines": [
+            "[2026-03-02] \"My name is Oriane and I speak French and Breton.\"",
+            "[2026-06-30] \"Which languages do I speak?\"",
+            "[2026-04-11] \"I'm reading a long novel about whaling.\"",
+            "[2026-04-11] \"How do lighthouses work?\""
+          ],
+          "answer": "I don't know.",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "smart": {
+          "lines": [
+            "Name: Oriane (since 2026-03-02)"
+          ],
+          "answer": "Your name is Oriane.",
+          "correct": true,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_control",
+        "session": 5,
+        "fact": "languages",
+        "type": "direct",
+        "expect": [
+          [
+            "french"
+          ],
+          [
+            "breton"
+          ]
+        ],
+        "forbid": [],
+        "user": "Remind me which languages I know?",
+        "none": {
+          "lines": [],
+          "answer": "I don't know. This is our first conversation, and I don't have any prior knowledge about you. Would you like to tell me about your language skills?",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "baseline": {
+          "lines": [
+            "[2026-06-30] \"Which languages do I speak?\"",
+            "[2026-03-02] \"My name is Oriane and I speak French and Breton.\"",
+            "[2026-08-29] \"What's my name?\"",
+            "[2026-04-11] \"I'm reading a long novel about whaling.\""
+          ],
+          "answer": "You speak French and Breton.",
+          "correct": true,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "smart": {
+          "lines": [
+            "Speaks: French (since 2026-03-02)",
+            "Speaks: Breton (since 2026-03-02)",
+            "Note from 2026-04-11: The user is reading a long novel about whaling."
+          ],
+          "answer": "You know French and Breton, which you started learning on March 2, 2026.",
+          "correct": true,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        }
+      },
+      {
+        "set": "K",
+        "scenario": "k_control",
+        "session": 5,
+        "fact": "name",
+        "type": "indirect",
+        "expect": [
+          [
+            "oriane"
+          ]
+        ],
+        "forbid": [],
+        "user": "Sign this short thank-you note with my name: 'Thanks for the lovely dinner.'",
+        "none": {
+          "lines": [],
+          "answer": "I don't know your name. Would you like to tell me so I can sign the note for you?",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "baseline": {
+          "lines": [
+            "[2026-03-02] \"My name is Oriane and I speak French and Breton.\"",
+            "[2026-10-23] \"Remind me which languages I know?\"",
+            "[2026-08-29] \"What's my name?\"",
+            "[2026-04-11] \"I'm reading a long novel about whaling.\""
+          ],
+          "answer": "I don't know your name.",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        },
+        "smart": {
+          "lines": [
+            "Note from 2026-04-11: The user is reading a long novel about whaling."
+          ],
+          "answer": "I don't know your name.",
+          "correct": false,
+          "forbid_raw": null,
+          "forbid_in_prompt": null
+        }
+      }
+    ],
+    "totals": {
+      "none": {
+        "correct": 2,
+        "probes": 23,
+        "contradictions_raw": 0,
+        "forbid_probes": 13,
+        "forbid_in_prompt": 0,
+        "stable": 0,
+        "groups": 7,
+        "indirect_correct": 1,
+        "indirect": 10
+      },
+      "baseline": {
+        "correct": 16,
+        "probes": 23,
+        "contradictions_raw": 1,
+        "forbid_probes": 13,
+        "forbid_in_prompt": 10,
+        "stable": 2,
+        "groups": 7,
+        "indirect_correct": 6,
+        "indirect": 10
+      },
+      "smart": {
+        "correct": 17,
+        "probes": 23,
+        "contradictions_raw": 0,
+        "forbid_probes": 13,
+        "forbid_in_prompt": 4,
+        "stable": 2,
+        "groups": 7,
+        "indirect_correct": 5,
+        "indirect": 10
+      }
+    }
+  }
+}

@@ -83,11 +83,11 @@ The key ideas:
 | Detect contradictory facts | Done: likes against dislikes, retractions, employer change | [05](05_write_path.md) |
 | Update outdated information | Done: supersede, never overwrite | [05](05_write_path.md) |
 | Compress history into summaries | **Partly**: old notes are merged into digests (set J), but the saving is small: digests are 0.79 of the notes they replace, and summary text in use is still about the size of its source messages (1.01). The pre-registered target failed | [07](07_summaries.md), [10](10_limits_and_roadmap.md) |
-| Improve conversational consistency | **Partly**: single questions are measured; consistency across turns is not | [08](08_evaluation.md), [10](10_limits_and_roadmap.md) |
+| Improve conversational consistency | **Partly**: measured across sessions (set K); smart and baseline about even, smart with no contradiction; stability not better | [08](08_evaluation.md), [10](10_limits_and_roadmap.md) |
 
 ## Results in brief
 
-Measured on 61 scripted life stories with 143 questions (sets A to J), comparing smart memory with baseline (the 4 most similar past messages). Details and caveats in [08_evaluation.md](08_evaluation.md).
+Measured on 61 scripted life stories with 143 questions (sets A to J) and 6 multi-session stories with 23 probes (set K), comparing smart memory with baseline (the 4 most similar past messages). Details and caveats in [08_evaluation.md](08_evaluation.md).
 
 Sets A to F (33 stories, 71 questions) were built around the 13 fact types and are all spent:
 
@@ -111,6 +111,8 @@ Sets G and H ask about episodes, plans and purchases that no fact type holds. Th
 Set I (12 questions) tests questions about the past. Smart memory with the past rule had the needed value for 5 of 6 past questions (1 of 6 with the rule off), kept every present-tense control and "before" trap free of old values, and answered 3 of 6 past questions correctly (criterion 4). Values that the write path archives, such as a left employer, are not reachable yet ([06](06_read_path.md), section 10).
 
 Set J (26 questions) tests merging old notes into digests on users with 10 to 16 episode messages. Consolidation did not cost answers (smart 24/26 without it, 25/26 with it; baseline 26/26), but it saved little text: the digests are 0.79 of the length of the notes they replaced, against a target of 0.70 ([07](07_summaries.md), section 12).
+
+Set K (23 probes) tests consistency across sessions, where each session starts with no chat history and only memory carries facts. Smart answered 17, baseline 16; smart never used an outdated value, baseline once; each kept 2 of 7 facts stable. Most of smart's misses were indirect questions ("sign this with my name") whose fact did not pass the gate ([08](08_evaluation.md)).
 
 The clearest result is that no outdated value reached an answer with smart memory. On the new question types, smart memory with summaries matches the baseline on the answers of set H and stays behind it on set G (G had been seen once without summaries, so its second run is labelled a re-run). The gaps are a few questions on small sets, so they are encouraging, not conclusive.
 
@@ -138,4 +140,4 @@ Outside the package:
 | `scripts/evaluation/` | Support for the evaluation: `metrics.py` (scoring), `report.py` (printing) and `scenarios/` (the test sets, one JSON file each) |
 | `tests/` | Mirrors the package: `tests/write/`, `tests/read/`, `tests/summaries/`, plus `tests/evaluation/` for the scenario files |
 
-167 automated tests: pure rules and the gate need no services, the rest need Postgres.
+189 automated tests: pure rules and the gate need no services, the rest need Postgres.

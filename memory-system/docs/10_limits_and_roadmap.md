@@ -7,7 +7,7 @@ Everything known to be missing or weak, in one place, and the planned work. Each
 | Goal | State | What is missing |
 |---|---|---|
 | Compress history into summaries | Partly | Episode notes are written, checked and retrieved ([07](07_summaries.md)); they recover most episodic questions (set G 8 to 13 of 17 needed, set H 12 of 13). Old notes are merged into digests (set J) without losing answers, but the saving is small: digests are 0.79 of the notes they replace and summary text in use is 1.01 of its sources, so the pre-registered target failed. Keeping every detail caps it: merging every old note at that rate would still give 0.92. Nothing archives or removes messages |
-| Improve conversational consistency | Partly | Answers to single questions are measured. There is no multi-turn test, and the assistant's own replies are not stored |
+| Improve conversational consistency | Partly | Measured across sessions on set K: smart 17 of 23 correct and no contradiction, baseline 16 and one; stability tied (2 of 7 facts each), so the pre-registered stability criterion failed. Consistency with the assistant's own replies is not measured (replies are not stored) |
 | Knowledge graph | Not used | The `relations` table is empty and unused. Typed facts play the role of the graph |
 
 ## 2. Limits of the evidence
@@ -35,6 +35,10 @@ See [08_evaluation.md](08_evaluation.md), section 7, for the full list. In short
 | Summaries | The newest messages have no note yet | The chat summarises after 6 new messages, so up to 5 wait |
 | Summaries | English-only rules | The chatter filter and stopwords |
 | Model | No "say you don't know" instruction | When memory returns nothing the model answers freely; the prompt change was held out |
+| Model | The `(since date)` label is misread | Set K: "which you started learning on March 2" from `Speaks: Breton (since 2026-03-02)` |
+| Model | The real-time instruction blocks local suggestions | Set K: with `Lives in: Pärnu` in the prompt, a café suggestion was declined |
+| Read path | Replies come one turn late after a change | Facts are stored after the reply, so the reply to "I've moved" still sees the old city (set K) |
+| Retrieval | Indirect questions lose the fact | Set K: 4 of smart's 6 misses had the fact in memory but not past the gate |
 | Write path | Junk made of message words passes grounding | "new position" ([05](05_write_path.md)) |
 | Write path | An achieved goal stays a goal | "I got the promotion" |
 | Write path | An abandoned hobby can be filed as a dislike | "I'm done with chess" |
@@ -55,9 +59,9 @@ See [08_evaluation.md](08_evaluation.md), section 7, for the full list. In short
 In order. Each step is verified before the next begins. Done so far: facts, the write and read paths, the first version of the summaries layer (sets G and H, [07](07_summaries.md)), the first version of the past-question rule (set I) and consolidation (set J, then closed).
 
 1. **Consolidation: closed.** On set J digests did not cost answers (smart 24/26 without, 25/26 with; [08](08_evaluation.md)) but saved little (0.79 of the notes they replace; text in use 1.01 of sources). A time-boxed look at grouping by code showed that grouping is not the limit: with every detail kept, merging every old note would still leave 0.92 ([results/logs/consolidation_v2_exploration.md](results/logs/consolidation_v2_exploration.md)). Two options remain, not planned: shorter notes without the "The user …" framing (14% of note text; changes the notes layer for every set), or digests allowed to drop details (trades answers for length).
-2. **Consistency across turns (next).** A multi-turn scenario format and a measure of whether the assistant contradicts what it was told or what it said earlier. The assistant's own replies are not stored yet.
+2. **Consistency across turns: measured (set K).** A session format and runner (`evaluate_sessions.py`). Smart and baseline about even (17 and 16 of 23; 0 and 1 contradictions; 2 and 2 stable facts). Smart's misses are mostly the gate on indirect questions, which belongs to step 4. Not done: consistency with the assistant's own replies.
 3. **Questions about the past: first version done, follow-up open.** Replaced facts are read for past questions (set I, [08](08_evaluation.md)): 5 of 6 past questions had the needed value, answers 3 of 6, regression sets unchanged. Two follow-ups come from the misses and need a fresh set, because I is spent: (a) read facts archived by a retraction for past questions, or store "left X, now at Y" as a replacement; (b) order past lines oldest first. A pre-registered comparison with the current version is the test.
-4. **Routing for notes, and the "say you don't know" prompt.** Both address noise and invented answers seen in sets A to H. Each needs a fresh set, because G and H are spent.
+4. **Routing for notes, the gate on indirect questions, and the "say you don't know" prompt.** Noise and invented answers seen in sets A to H, and the indirect questions set K lost at the gate (a signature, a note signed with the user's name, a vinaigrette for a mustard allergy). Each needs a fresh set.
 5. **Final comparison on a fresh set.** None, baseline and smart (with and without summaries), run once. The two held-back fixes (a strong-match override at about 0.60 raw similarity, and an allergy bypass up to relation rank 3) are measured blind as an ablation in the same run.
 6. **Report.** The results with their limits, the decision log, and the known failures listed above.
 
