@@ -18,6 +18,9 @@ Saved outputs of the evaluation runs, one folder per test set. They are historic
 | `regressions/` | `A_to_I_consolidation.txt` | sets A to I with consolidation on |
 | `logs/` | `past_step.md` | the past-question step: runs, diagnosis |
 | `logs/` | `summaries_dev.md` | development record of the summaries layer |
+| `regressions/` | `A_to_J_nocache.txt` | sets A to J re-run from scratch, cache off (noise check) |
+| `set_K/` | `rerun_nocache.txt` | set K re-run, cache off (noise check) |
+| `logs/` | `noise_check.md` | the noise check: what changed between runs, and what it shows |
 | `logs/` | `consolidation_v2_exploration.md` | grouping notes by code, on set J as a practice set; why consolidation stopped |
 
 ## Old names
