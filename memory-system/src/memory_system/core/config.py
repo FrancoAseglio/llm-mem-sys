@@ -79,6 +79,10 @@ ABOUT_USER = os.environ.get("ABOUT_USER", "1") != "0"
 # SUMMARIES=0 switches the layer off (nothing is written or shown), for ablations.
 SUMMARIES = os.environ.get("SUMMARIES", "1") != "0"
 
+# Each message sent to the notes model shows the facts already stored from it ("[stored: ...]"),
+# so notes skip only what facts really hold. NOTE_TAGS=0 restores the untagged prompt.
+NOTE_TAGS = os.environ.get("NOTE_TAGS", "1") != "0"
+
 # At most this many summary lines per question; facts keep priority within the k lines.
 SUMMARY_MAX_LINES = 2
 

@@ -25,6 +25,16 @@ class SummaryRow:
     fresh: bool  # False if a source message produced a fact that is no longer active
 
 
+def tag_message(number: int, text: str, stored: list[tuple[str, str]]) -> str:
+    """One numbered line for the notes model: the message and the facts stored from it.
+
+    `1. "I live in Rome." [stored: lives_in = Rome]`, or `[stored: nothing]` when the write
+    path kept no fact from it, so the model knows what facts already hold.
+    """
+    tag = "; ".join(f"{relation} = {value}" for relation, value in stored) or "nothing"
+    return f'{number}. "{text}" [stored: {tag}]'
+
+
 _QUESTION_START = re.compile(
     r"^(?:what|how|why|when|where|who|which|can|could|would|should|do|does|did|is|are|will|any)\b"
 )

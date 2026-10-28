@@ -10,13 +10,49 @@ id seen, which is where the next run starts. A failed model call changes nothing
 
 from pydantic import BaseModel
 
-from memory_system.core.config import SUMMARY_BATCH, SUMMARY_FAITHFUL_MIN
+from memory_system.core.config import NOTE_TAGS, SUMMARY_BATCH, SUMMARY_FAITHFUL_MIN
 from memory_system.core.db import get_pool
 from memory_system.core.events import log_event
 from memory_system.core.llm import chat_structured, embed
-from memory_system.summaries.rules import is_chatter, is_faithful
+from memory_system.summaries.rules import is_chatter, is_faithful, tag_message
 
 SYSTEM_PROMPT = """You write short memory notes about the USER from their numbered messages.
+
+Each message ends with the facts already stored from it, in brackets: [stored: lives_in = Rome], or [stored: nothing].
+
+Write one sentence per distinct thing the user did, experienced, bought, planned, learned or went through, and per event in the life of the people they mention.
+Rules:
+- Only what the messages say. Keep names, places, numbers and times exactly as written. Add nothing.
+- Start every sentence with "The user" or "The user's" and write in the third person.
+- Combine related messages into one sentence when they tell one story. If a later message changes or cancels an earlier one, write only the final state.
+- If a message is about another person, the note is about that person, not about the user.
+- Skip questions, thanks and chit-chat.
+- Skip only what the stored facts of a message already say. A message with [stored: nothing] that tells something about the user or their people needs a note: a hobby, a course or lessons, a pet, a family event, where something ended up.
+- Never copy the brackets or the relation names into a note.
+- For every sentence give the numbers of the messages it uses.
+- If nothing qualifies, return {"episodes": []}.
+
+Examples:
+Messages:
+1. "Yesterday I fixed the kitchen tap myself, it took two hours." [stored: nothing]
+2. "My colleague Dana is moving to Oslo next week." [stored: nothing]
+Output:
+{"episodes": [{"text": "The user fixed the kitchen tap themselves yesterday and it took two hours.", "messages": [1]}, {"text": "The user's colleague Dana is moving to Oslo next week.", "messages": [2]}]}
+
+Messages:
+1. "I live in Rome and I've just started violin lessons." [stored: lives_in = Rome]
+2. "My name is Ada." [stored: name = Ada]
+Output:
+{"episodes": [{"text": "The user has just started violin lessons.", "messages": [1]}]}
+
+Messages:
+1. "I'm planning a trip to Crete in May with my friend Tom." [stored: goal = trip to Crete in May]
+2. "Tom can't come to Crete anymore, so my sister Lea is joining me instead." [stored: family_member = Lea]
+Output:
+{"episodes": [{"text": "The user is planning a trip to Crete in May with their sister Lea.", "messages": [1, 2]}]}
+"""
+
+SYSTEM_PROMPT_UNTAGGED = """You write short memory notes about the USER from their numbered messages.
 
 Write one sentence per distinct thing the user did, experienced, bought, planned or went through.
 Rules:
@@ -73,6 +109,23 @@ def pending_count(user_id: str) -> int:
         return len(_pending(conn, user_id))
 
 
+def _stored_facts(message_ids: list[int]) -> dict[int, list[tuple[str, str]]]:
+    """{message id: [(relation, value), ...]} for the facts first stored from each message,
+    whatever their status now. A repeated fact keeps the id of its first message."""
+    if not message_ids:
+        return {}
+    with get_pool().connection() as conn:
+        rows = conn.execute(
+            "SELECT source_message_id, relation, value FROM facts "
+            "WHERE source_message_id = ANY(%s) ORDER BY id",
+            (message_ids,),
+        ).fetchall()
+    stored: dict[int, list[tuple[str, str]]] = {}
+    for message_id, relation, value in rows:
+        stored.setdefault(message_id, []).append((relation, value))
+    return stored
+
+
 def _summarize_batch(user_id: str, batch: list[tuple]) -> list[str] | None:
     """Summarise one batch. Returns the kept sentences, or None if the model failed.
 
@@ -80,12 +133,21 @@ def _summarize_batch(user_id: str, batch: list[tuple]) -> list[str] | None:
     them, but it did not always). They still count as seen, so the next run starts after them.
     """
     usable = [m for m in batch if not is_chatter(m[1])]
-    numbered = "\n".join(f'{i}. "{text}"' for i, (_, text, _) in enumerate(usable, 1))
+    if NOTE_TAGS:
+        stored = _stored_facts([m[0] for m in usable])
+        numbered = "\n".join(
+            tag_message(i, text, stored.get(mid, []))
+            for i, (mid, text, _) in enumerate(usable, 1)
+        )
+        system = SYSTEM_PROMPT
+    else:
+        numbered = "\n".join(
+            f'{i}. "{text}"' for i, (_, text, _) in enumerate(usable, 1)
+        )
+        system = SYSTEM_PROMPT_UNTAGGED
     try:
         result = (
-            chat_structured(
-                SYSTEM_PROMPT, f"Messages:\n{numbered}\nOutput:", EpisodeList
-            )
+            chat_structured(system, f"Messages:\n{numbered}\nOutput:", EpisodeList)
             if usable
             else EpisodeList(episodes=[])
         )

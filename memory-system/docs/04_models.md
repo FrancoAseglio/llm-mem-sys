@@ -123,6 +123,7 @@ That behaviour matters for the write path: a message, its facts and their events
 | `ABOUT_USER` | on (env `ABOUT_USER=0` turns it off) | `write/conflicts.py`, `write/manager.py` | Switch for the check that drops facts the message gives to someone else ([05](05_write_path.md), section 4.3) |
 | `PAST_MAX_LINES` | 2 | `read/past_retrieve.py` | Most `Earlier:` lines per question |
 | `SUMMARIES` | on (env `SUMMARIES=0` turns it off) | `summaries/summarize.py`, `summaries/retrieve.py` | Switch for the whole summaries layer |
+| `NOTE_TAGS` | on (env `NOTE_TAGS=0` turns it off) | `summaries/summarize.py` | Show the notes model the facts stored from each message ([07](07_summaries.md), section 4.2) |
 | `SUMMARY_MAX_LINES` | 2 | `summaries/retrieve.py` | Most note lines per question |
 | `SUMMARY_BATCH` | 12 | `summaries/summarize.py` | Messages per summarising call |
 | `SUMMARY_EVERY` | 6 | `scripts/chat.py` | New messages before the chat runs a summary |

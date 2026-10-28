@@ -207,3 +207,30 @@ def test_a_batch_of_only_questions_makes_no_model_call(user, monkeypatch):
     summarize.summarize_pending(user)
     assert calls == []
     assert summarize.pending_count(user) == 0
+
+
+def add_fact(message_id: int, relation: str, value: str) -> None:
+    with get_pool().connection() as c:
+        c.execute(
+            "INSERT INTO facts (user_id, relation, value, source_message_id) "
+            "VALUES (%s, %s, %s, %s)",
+            (USER, relation, value, message_id),
+        )
+
+
+def test_the_model_sees_which_facts_each_message_stored(user, monkeypatch):
+    home = add_message("I live in Rome now.")
+    add_fact(home, "lives_in", "Rome")
+    add_message(TRIP)
+    calls = model_says(monkeypatch)
+    summarize.summarize_pending(user)
+    assert '"I live in Rome now." [stored: lives_in = Rome]' in calls[0]
+    assert f'"{TRIP}" [stored: nothing]' in calls[0]
+
+
+def test_with_tags_off_the_prompt_is_untagged(user, monkeypatch):
+    monkeypatch.setattr(summarize, "NOTE_TAGS", False)
+    add_message(TRIP)
+    calls = model_says(monkeypatch)
+    summarize.summarize_pending(user)
+    assert "[stored" not in calls[0] and "Norway" in calls[0]

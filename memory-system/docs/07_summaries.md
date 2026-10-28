@@ -71,8 +71,11 @@ Before the model sees a batch, `is_chatter` removes messages that hold nothing t
 - sentences that start with "The user" or "The user's", in the third person;
 - related messages combined into one sentence, and the final state if a later message changes or cancels an earlier one;
 - a note about another person to stay about that person, not about the user;
-- no notes about questions, thanks, or plain personal facts stored elsewhere (name, home city, job, allergies, languages, likes, dislikes);
-- two worked examples (one combines two messages about a pottery class into one sentence).
+- no notes about questions or thanks;
+- **no notes about what the facts of a message already hold, and nothing else skipped.** Each message is shown with the facts first stored from it (`tag_message` in `summaries/rules.py`): `1. "I live in Rome." [stored: lives_in = Rome]`, or `[stored: nothing]`. A message with `[stored: nothing]` that tells something about the user or their people gets a note (a hobby, lessons, a pet, a family event, where something ended up);
+- three worked examples: an episode and another person's news; a message whose fact is stored but whose lessons are not; a plan whose companion changes, written in its final state.
+
+Before the tags (set L, 2026-10-28) the prompt said "skip plain personal facts stored elsewhere (name, home city, job, allergies, languages, likes, dislikes)". The model cannot know what was stored, and it skipped cello lessons, learning Finnish and a brother's wedding that extraction had not stored either, so nothing kept them. `NOTE_TAGS=0` restores that prompt (`SYSTEM_PROMPT_UNTAGGED`) for comparison.
 
 ### 4.3 The faithfulness check
 
@@ -116,6 +119,7 @@ In `core/config.py`:
 | `SUMMARY_BATCH` | 12 | Messages per model call |
 | `SUMMARY_EVERY` | 6 | New messages that trigger a summary run in the chat |
 | `SUMMARY_FAITHFUL_MIN` | 0.75 | Share of a sentence's content words that must be in its sources |
+| `NOTE_TAGS` | on (`NOTE_TAGS=0` switches it off) | Show the notes model the facts stored from each message (section 4.2) |
 | `CONSOLIDATE` | on (`CONSOLIDATE=0` switches it off) | Merging old notes into digests; off means retrieval reads every note, as before |
 | `CONSOLIDATE_MIN` | 6 | Old notes needed before a consolidation run |
 | `CONSOLIDATE_AGE_DAYS` | 30 | Age of a note (its newest source message) before it can be merged |
@@ -205,6 +209,7 @@ The four outdated mentions are true past-tense statements ("The user used to liv
 | No routing for notes | A note about plans can match any question about plans. Seen in sets A to F: goal notes (marathon, house) came back for "Which language am I trying to learn?" |
 | Truthful mentions of old values | "Used to live in Turin" can reach a prompt next to `Lives in: Milan` |
 | The stale-source rule needs a fact | It covers only notes whose source messages produced facts |
+| A repeated fact is tagged on its first message only | A message that repeats a stored fact is tagged `[stored: nothing]` (a duplicate stores no row), so the model may write a note that restates the fact |
 | One summary per message | A message shared by two sentences is linked to the first, so the rule above sees only part of the sources of the second |
 | Incomplete citations lose sentences | A sentence that combines two messages but cites one is dropped if a name comes from the other (the billing-project sentence of set G) |
 | Details are dropped | The wedding speech, a rejection in a job search. A story may become several sentences, or none |

@@ -14,6 +14,7 @@ from memory_system.summaries.rules import (
     is_faithful,
     missing_details,
     select_summaries,
+    tag_message,
 )
 
 TRIP = "Last spring I went hiking in Norway with my cousin Ingrid, and we saw the northern lights."
@@ -206,3 +207,23 @@ def test_a_month_or_weekday_may_change_but_a_day_number_may_not():
 def test_capitalised_stopwords_and_the_first_word_are_not_names():
     notes = ["The user's band played at The Copper Kettle.", "Twelve people came."]
     assert missing_details("The user's band played The Copper Kettle.", notes) == []
+
+
+# ---- the stored-facts tag shown to the notes model ----
+
+
+def test_a_message_is_tagged_with_the_facts_stored_from_it():
+    line = tag_message(
+        2,
+        "I live in Rome and I'm a nurse.",
+        [("lives_in", "Rome"), ("job_title", "nurse")],
+    )
+    assert (
+        line
+        == '2. "I live in Rome and I\'m a nurse." [stored: lives_in = Rome; job_title = nurse]'
+    )
+
+
+def test_a_message_without_facts_is_tagged_nothing():
+    line = tag_message(1, "I've started taking cello lessons.", [])
+    assert line.endswith("[stored: nothing]")
