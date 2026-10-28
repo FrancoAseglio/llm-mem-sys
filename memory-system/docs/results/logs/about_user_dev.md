@@ -32,6 +32,48 @@ Runs, cache off so they compare with the noise check (`../regressions/A_to_J_noc
 
 The rule is kept if no true user fact is rejected anywhere and no set loses a needed fact. If one is, it is reported here with the message that caused it.
 
-## Results
+## Results (2026-10-28)
 
-(filled in after the runs)
+Outputs: `about_user_L.txt` (this folder), `../regressions/A_to_J_about_user.txt`, `../set_K/about_user.txt`. The `.json` files were not kept (each run overwrites `eval_results.json`).
+
+### Values the rule rejected (every eval user)
+
+| User | Relation | Value | Right? |
+|---|---|---|---|
+| `eval_l_suitcase` | lives_in | Frankfurt | yes: where the suitcase ended up |
+| `eval_l_hiking_plan` | partner | Pieter | yes: "my friend Pieter" |
+| `eval_l_sister_trap` | lives_in | Montreal | yes: the sister's city |
+| `eval_l_sister_trap` | job_title | airline pilot | yes: the sister's job |
+| `eval_j_travels` | partner | Joel | harmless: Joel is the user's partner, already stored from "my partner Joel"; this was a repeat from a later message without a partner word ("a trip to Hanoi with Joel" or "because Joel has a project deadline"), so only a duplicate count was lost |
+
+Five rejections, four on set L as predicted, one elsewhere; none removed a fact the user had.
+
+### Set L (development re-run, labelled)
+
+| Set L | Needed | Noise | Stale in prompt | Avg lines | Answers | Stale in answer |
+|---|---|---|---|---|---|---|
+| Baseline | 28/28 | 3/3 | 5 | 4.0 | 28/30 | 0 |
+| Smart, first run | 20/28 | 2/3 | 2 | 1.7 | 20/30 | 1 |
+| Smart, with the rule | 20/28 | 2/3 | 2 | 1.6 | **22/30** | 1 |
+
+- **Fixed:** "Which city do I live in?" (Nantes stays active; answer "You live in Nantes") and "What's my job?" (no job stored; answer "I don't know", the sister's note in the prompt did not mislead the model).
+- **Needed present did not move, and that is right:** the suitcase question had counted as "needed present" only because the wrong fact `Lives in: Frankfurt` contained the word. Now that line is gone, and the notes still lack Frankfurt.
+- **Still wrong, as predicted:** the hiking companion. Pieter is no longer a partner, but the only note says "with Pieter", so the answer is still Pieter (smart's one stale answer). That is the notes layer (a changed plan keeps its first state), not the write path.
+
+### Regression
+
+- **Sets A to J:** every summary line (needed, noise, stale, lines, answers, stale in answer, both modes) is identical to the noise check.
+- **Set K:** identical totals (none 2, baseline 16, smart 17; contradictions 0 and 1; stable 2 and 2; indirect 6 and 5) and the same hand-review list.
+
+### Against the predictions
+
+| Prediction | Result |
+|---|---|
+| 4 to 6 rejections on L, all about someone else | 4, all right |
+| 0 to 4 elsewhere, all about someone else | 1, a harmless repeat of the user's real partner |
+| L smart 20 to 22 | 22 |
+| L stale in answer 0 or 1 | 1 (Pieter, from the note) |
+| L baseline 28 | 28 |
+| A to J and K within noise | identical |
+
+**Decision: the rule is kept.** It removed every wrong fact it was built for on set L and changed nothing on sets A to K. This shows the rule does what it was built for on the stories that revealed the problem; whether it generalises is for set M.
