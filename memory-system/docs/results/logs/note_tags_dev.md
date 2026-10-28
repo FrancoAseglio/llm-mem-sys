@@ -135,6 +135,45 @@ Outputs: `note_tags_v2b_L.txt`, `../regressions/A_to_J_note_tags_v2b.txt` (verbo
 
 Kept if noise on A to F falls to 22 or below and set L keeps at least 24 answers and A to J at least 114. Otherwise reported and reworked or reverted.
 
-## Results of iteration 3
+## Results of iteration 3 (2026-10-28)
+
+Outputs: `note_window_L.txt`, `../regressions/A_to_J_note_window.txt` (verbose), `../set_K/note_window.txt`. Run with `--no-ingest` on the data of iteration 2b, so the facts and notes are the same and every change comes from the window.
+
+| Measure | Iteration 2b | Predicted | Iteration 3 |
+|---|---|---|---|
+| Sets A to F, smart noise present | 27/46 | 17 to 22 | **19/46** (B 1, C 3, D 10, E 3, F 2) |
+| Sets C and D, smart average lines | 2.4, 2.4 | 1.6 to 1.9 each | 1.7, **2.1** |
+| Set L, smart answers | 26/30 | 24 to 26 | **26/30** (noise 2/3, stale in prompt 1, 1.5 lines) |
+| Sets A to J, smart answers (sum) | 115 | 114 to 118 | **113** |
+| Sets A to J, smart stale in prompt | 5 (A 2, B 1, I 1, J 1) | | **0** |
+| Set K, smart correct | 17/23 | 16 to 18 | 17/23 (stable 2/7) |
+
+- **Noise is back near the reference** (19 against 16 before step 2) and smart's prompts on A to J no longer hold any outdated value: the stale notes were weak notes riding along with a strong fact.
+- **Set J lost 2 answers, for two different reasons:**
+  - "When am I going to Hanoi?": `Goal: trip to Hanoi` matches the question strongly, while the answer (the trip moved to February) is in the notes, which now fall outside the window. **A real cost of the rule:** a fact can name the topic without holding the answer.
+  - "Who moved to Canada?": "Margit quit the band to move to Canada" had stored `lives_in = Canada` for the user, a wrong fact that `about_user` missed (no subject word before Canada). Before, the Margit note rescued the answer; now the strong wrong fact wins ("You moved to Canada"). **A step 1 gap, exposed.**
+- **Against the criteria:** noise 19 (met), set L 26 (met), **A to J 113 (missed by 1)**.
+
+## Iteration 4: `about_user` needs a first-person word
+
+The Canada case is fixed where it starts: a self fact (`lives_in`, `works_at`, `job_title`, `birthday`, `partner`) is rejected when the message has no first-person word at all (I, me, my, we, our ...). [05](../../05_write_path.md), section 4.3. Checked offline before any run: of the 41 statements in sets A to L without a first-person word, none gives the user a fact (they are thanks, other people's news and things: "Margit quit the band", "Turin is lovely in autumn", "Second interview, this time at Orbital Freight"), and the 16 sample sentences of step 1 keep their verdicts. The Hanoi cost is kept and reported; it is not tuned away.
+
+This changes the write path, so everything is ingested again.
+
+### Predictions for iteration 4 (written before the runs)
+
+| Measure | Iteration 3 | Prediction |
+|---|---|---|
+| Values rejected as "about someone else" (all sets) | 5 (step 1) | 6 to 10, every one about someone else or not a fact about the user; Canada among them |
+| Set J, "Who moved to Canada?" | wrong | right (about 80%) |
+| Set J, "When am I going to Hanoi?" | wrong | still wrong (about 70%) |
+| Sets A to J, smart answers (sum) | 113 | 114 (112 to 116; notes are written again, so run-to-run variation returns) |
+| Sets A to F, smart noise present | 19/46 | 17 to 22 |
+| Set L, smart answers | 26/30 | 25 to 26 |
+| Set K, smart correct | 17/23 | 16 to 18 |
+
+Kept if noise on A to F stays at 22 or below, set L at 24 or more and A to J at 114 or more. If A to J is again 113 because of note variation alone, that is reported as such and step 2 is closed with its trade written down, not tuned further.
+
+## Results of iteration 4
 
 (filled in after the runs)

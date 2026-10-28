@@ -90,6 +90,11 @@ _OTHER_PEOPLE = frozenset(
     "daughter kids children cousin aunt uncle niece nephew grandmother grandfather grandma "
     "grandpa granny neighbour neighbor flatmate roommate housemate".split()
 )
+# A message that gives the user a fact names the user somewhere ("Margit quit the band to move
+# to Canada" does not).
+_ANY_FIRST_PERSON = re.compile(
+    r"\b(?:i|i'm|im|i've|ive|i'd|i'll|me|my|mine|myself|we|we're|we've|we'd|we'll|us|our|ours)\b"
+)
 # A partner is named with one of these words somewhere in the message.
 _PARTNER_WORDS = re.compile(
     r"\b(?:boyfriend|girlfriend|partner|wife|husband|fianc\w*|spouse|seeing|dating|"
@@ -123,11 +128,17 @@ def about_user(value: str, relation: str, text: str) -> bool:
     - partner: the message must contain a partner word (boyfriend, wife, seeing, dating ...),
       so "my friend Pieter" is not a partner.
 
+    - Both: the message must have a first-person word somewhere (I, me, my, we, our ...).
+      "Margit quit the band to move to Canada" names no subject word before Canada, so the
+      clause rule alone would give Canada to the user (set J, found 2026-10-28).
+
     English only, word lists. It can be wrong both ways: "I visited my sister, she lives in
     Lyon" is blocked as intended, but "I live with my sister in Lyon" is kept only because
     "I" comes first.
     """
     lower = text.lower().replace("\u2019", "'")
+    if relation in SELF_RELATIONS | {"partner"} and not _ANY_FIRST_PERSON.search(lower):
+        return False
     if relation == "partner":
         return bool(_PARTNER_WORDS.search(lower))
     if relation not in SELF_RELATIONS:

@@ -266,6 +266,7 @@ def test_multi_valued_asserts_are_untouched():
             "The airline finally tracked down my suitcase: it had ended up in Frankfurt.",
         ),
         ("Lyon", "lives_in", "I visited my sister, she lives in Lyon."),
+        ("Canada", "lives_in", "Margit quit the band to move to Canada."),
         (
             "Pieter",
             "partner",

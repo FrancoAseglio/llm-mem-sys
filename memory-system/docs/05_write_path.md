@@ -132,6 +132,7 @@ True unless the message gives the value to someone or something other than the u
 |---|---|
 | `lives_in`, `works_at`, `job_title`, `birthday` | In each clause that mentions the value, the last subject word before it decides: `I`, `I'm`, `we` ... mean the user; `he`, `she`, `it`, `who`, `their` or a word for another person (`sister`, `friend`, `colleague` ...) mean someone else; no subject word ("My birthday is 5 May") means the user. The value is kept if any clause gives it to the user |
 | `partner` | The message must contain a partner word: `boyfriend`, `girlfriend`, `partner`, `wife`, `husband`, `seeing`, `dating`, `married`, `I'm with`, `split up` ... |
+| both of the above | The message must also contain a first-person word (`I`, `me`, `my`, `we`, `our` ...). "Margit quit the band to move to Canada" has none, so Canada is not the user's city (set J, added 2026-10-28) |
 | all others | Not checked: `family_member`, `hobby` and the rest can describe anyone |
 
 Only asserted facts are checked, and the manager uses the same check when it lists the relations a message really sets (so a rejected `works_at` does not mark `job_title` as conflicted). `ABOUT_USER=0` switches it off. It is a word list, English only: "I live with my sister in Lyon" is kept only because "I" comes first, and "I work with my friend at Acme" would lose Acme.

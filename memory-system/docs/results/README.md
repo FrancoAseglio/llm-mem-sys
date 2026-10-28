@@ -33,6 +33,9 @@ Saved outputs of the evaluation runs, one folder per test set. They are historic
 | `logs/` | `note_tags_v2b_L.txt` | set L, iteration 2b |
 | `regressions/` | `A_to_J_note_tags_v2b.txt` | sets A to J, iteration 2b (verbose) |
 | `set_K/` | `note_tags_v2b.txt` | set K, iteration 2b |
+| `logs/` | `note_window_L.txt` | set L, iteration 3 (note window counts the best fact) |
+| `regressions/` | `A_to_J_note_window.txt` | sets A to J, iteration 3 (verbose, `--no-ingest`) |
+| `set_K/` | `note_window.txt` | set K, iteration 3 |
 | `logs/` | `about_user_L.txt` | set L re-run with the check (development, labelled) |
 | `regressions/` | `A_to_J_about_user.txt` | sets A to J re-run with the check, cache off |
 | `set_K/` | `about_user.txt` | set K re-run with the check, cache off |
