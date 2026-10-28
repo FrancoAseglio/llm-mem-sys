@@ -36,6 +36,9 @@ Saved outputs of the evaluation runs, one folder per test set. They are historic
 | `logs/` | `note_window_L.txt` | set L, iteration 3 (note window counts the best fact) |
 | `regressions/` | `A_to_J_note_window.txt` | sets A to J, iteration 3 (verbose, `--no-ingest`) |
 | `set_K/` | `note_window.txt` | set K, iteration 3 |
+| `logs/` | `first_person_L.txt` | set L, iteration 4 (`about_user` needs a first-person word) |
+| `regressions/` | `A_to_J_first_person.txt` | sets A to J, iteration 4 (verbose) |
+| `set_K/` | `first_person.txt` | set K, iteration 4 |
 | `logs/` | `about_user_L.txt` | set L re-run with the check (development, labelled) |
 | `regressions/` | `A_to_J_about_user.txt` | sets A to J re-run with the check, cache off |
 | `set_K/` | `about_user.txt` | set K re-run with the check, cache off |

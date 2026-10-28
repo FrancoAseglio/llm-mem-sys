@@ -77,3 +77,7 @@ Five rejections, four on set L as predicted, one elsewhere; none removed a fact 
 | A to J and K within noise | identical |
 
 **Decision: the rule is kept.** It removed every wrong fact it was built for on set L and changed nothing on sets A to K. This shows the rule does what it was built for on the stories that revealed the problem; whether it generalises is for set M.
+
+## Addendum (2026-10-28): a first-person word is required
+
+Set J showed a gap: "Margit quit the band to move to Canada" stored `lives_in = Canada` for the user, because no subject word stood before Canada. `about_user` now also requires a first-person word (I, me, my, we, our ...) anywhere in the message for a self fact or a partner. Checked offline on the 41 statements of sets A to L without one (none gives the user a fact) and measured in [note_tags_dev.md](note_tags_dev.md), iteration 4: 7 rejections in all, every one right, including Canada and "Second interview, this time at Orbital Freight".

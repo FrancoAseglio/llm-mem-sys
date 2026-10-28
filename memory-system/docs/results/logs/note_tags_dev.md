@@ -174,6 +174,40 @@ This changes the write path, so everything is ingested again.
 
 Kept if noise on A to F stays at 22 or below, set L at 24 or more and A to J at 114 or more. If A to J is again 113 because of note variation alone, that is reported as such and step 2 is closed with its trade written down, not tuned further.
 
-## Results of iteration 4
+## Results of iteration 4 (2026-10-28)
 
-(filled in after the runs)
+Outputs: `first_person_L.txt`, `../regressions/A_to_J_first_person.txt` (verbose), `../set_K/first_person.txt`. Everything ingested again.
+
+| Measure | Iteration 3 | Predicted | Iteration 4 |
+|---|---|---|---|
+| Values rejected as "about someone else" | 5 (step 1) | 6 to 10, all right | **7**, all right: the 5 of step 1, Canada ("Margit quit the band to move to Canada") and Orbital Freight ("Second interview, this time at Orbital Freight": an interview, not an employer) |
+| Set J, "Who moved to Canada?" | wrong ("You moved to Canada") | right (about 80%) | **still wrong, but no longer a wrong fact**: `lives_in = Canada` is gone, and this run's notes have no Margit-moved-to-Canada note, so the answer is "I don't know" |
+| Set J, "When am I going to Hanoi?" | wrong | still wrong | still wrong |
+| Sets A to J, smart answers | 113 | about 114 | **113** |
+| Sets A to F, smart noise present | 19/46 | 17 to 22 | 19/46 |
+| Set L, smart answers | 26/30 | 25 to 26 | 26/30 |
+| Set K, smart correct | 17/23 | 16 to 18 | 17/23 |
+
+Every per-question result on A to J is the same as iteration 3 except the Canada question, which went from a wrong answer to "I don't know". As written in advance, A to J at 113 because of note variation closes step 2 with its trade written down; it is not tuned further.
+
+## Step 2 closed: what it changed
+
+Against the step 1 reference (`about_user_L.txt`, `../regressions/A_to_J_about_user.txt`, `../set_K/about_user.txt`), smart memory:
+
+| Measure | Step 1 | Step 2 (iteration 4) |
+|---|---|---|
+| Set L, answers | 22/30 | **26/30** |
+| Set L, needed present | 20/28 | **25/28** |
+| Set L, stale in answer | 1 | **0** |
+| Sets A to J, answers | 117/133 | 113/133 |
+| Sets A to J, needed present | 114/123 | 110/123 |
+| Sets A to J, stale in prompt | 7 | **0** |
+| Sets A to J, stale in answer | 1 | **0** |
+| Sets A to F, noise present | 16/46 | 19/46 |
+| Set K, correct | 17/23 | 17/23 |
+
+What it does: messages that facts do not hold (lessons, a pet, a family event, where something ended up, a changed plan) now get notes, and notes never restate facts or ride along with a stronger fact. What it costs: four questions on sets I and J whose answer lives in a note next to a strong fact or in a note that a run did not write:
+
+- "When am I going to Hanoi?" (J): `Goal: trip to Hanoi` sets the window, the date notes fall outside it. **The rule's real cost**, and the pattern long stories will have often (a plan with details that change). To revisit with the gate work (step 3), for example by letting a note through when it is about the same thing as the fact that sets the window.
+- "What are my kitchen cabinets?" and "Who moved to Canada?" (J): the notes that held the answer were not written in these runs (note variation).
+- "Who was my partner before Elena?" (I): the old partner is archived; the note that carried him was not written. Belongs to the archived-values step.
