@@ -72,6 +72,89 @@ def is_grounded(value: str, text: str, relation: str | None = None) -> bool:
     return any(same_word(v, m) for v in content_words(value) for m in message)
 
 
+# ---- Is the fact about the user? (set L: a sister's city, a friend as partner) ----
+
+# Facts that can only describe the user: a value for them must be said about the user.
+SELF_RELATIONS = frozenset({"lives_in", "works_at", "job_title", "birthday"})
+
+# Subjects that point to the user, and words that point to someone or something else.
+_FIRST_PERSON = frozenset(
+    "i i'm im i've ive i'd i'll we we're we've we'd we'll".split()
+)
+_THIRD_PERSON = frozenset(
+    "he she they it who his her their its he's she's they're it's they've".split()
+)
+_OTHER_PEOPLE = frozenset(
+    "sister brother mother mum mom father dad parents parent friend friends colleague "
+    "colleagues coworker boss partner wife husband boyfriend girlfriend fiance fiancee son "
+    "daughter kids children cousin aunt uncle niece nephew grandmother grandfather grandma "
+    "grandpa granny neighbour neighbor flatmate roommate housemate".split()
+)
+# A partner is named with one of these words somewhere in the message.
+_PARTNER_WORDS = re.compile(
+    r"\b(?:boyfriend|girlfriend|partner|wife|husband|fianc\w*|spouse|seeing|dating|"
+    r"married|engaged|going out with|together with|i'?m with|split up|broke up)\b"
+)
+
+
+def _speaker(tokens: list[str]) -> str | None:
+    """'user' or 'other' for the last subject word in tokens, None if there is none."""
+    for token in reversed(tokens):
+        word = token.removesuffix("'s")
+        if token in _FIRST_PERSON:
+            return "user"
+        if token in _THIRD_PERSON or word in _OTHER_PEOPLE:
+            return "other"
+    return None
+
+
+def about_user(value: str, relation: str, text: str) -> bool:
+    """True unless the message gives this value to someone or something other than the user.
+
+    Only for asserted facts that can describe the user alone (SELF_RELATIONS) and for
+    `partner`. The 8B extractor gives the user what the message says about others:
+    "My sister Agathe lives in Montreal and works as a pilot" -> lives_in = Montreal,
+    job_title = pilot; "my suitcase ... it had ended up in Frankfurt" -> lives_in = Frankfurt.
+
+    - SELF_RELATIONS: in each clause that mentions the value, the last subject word before it
+      decides. "I", "I'm", "we" ... -> the user; "he", "she", "it", "who", "my sister" ...
+      -> someone else; no subject word ("My birthday is 5 May") -> the user. The value is
+      kept if any clause gives it to the user. A value not found is left to grounding.
+    - partner: the message must contain a partner word (boyfriend, wife, seeing, dating ...),
+      so "my friend Pieter" is not a partner.
+
+    English only, word lists. It can be wrong both ways: "I visited my sister, she lives in
+    Lyon" is blocked as intended, but "I live with my sister in Lyon" is kept only because
+    "I" comes first.
+    """
+    lower = text.lower().replace("\u2019", "'")
+    if relation == "partner":
+        return bool(_PARTNER_WORDS.search(lower))
+    if relation not in SELF_RELATIONS:
+        return True
+    words = re.findall(r"\w+", value.lower())
+    # locate the value by its content words ("St Veit Hospital in Linz": not by "in")
+    value_words = {w for w in words if len(w) >= 3 and w not in STOPWORDS} or set(words)
+    found = False
+    for clause in _CLAUSE_SPLIT.split(lower):
+        tokens = re.findall(r"[\w']+", clause)
+        index = next(
+            (
+                i
+                for i, token in enumerate(tokens)
+                if (word := token.removesuffix("'s")) in value_words
+                or any(len(v) >= 4 and same_word(v, word) for v in value_words)
+            ),
+            None,
+        )
+        if index is None:
+            continue
+        found = True
+        if _speaker(tokens[:index]) != "other":
+            return True
+    return not found
+
+
 def _clause_of(value: str, relation: str, text: str) -> str | None:
     """The first clause of the message that mentions the value (lower-case), or None."""
     for clause in _CLAUSE_SPLIT.split(text.lower().replace("\u2019", "'")):

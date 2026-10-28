@@ -147,6 +147,15 @@ def test_grounding_rejects_value_without_content_word(conn):
     )
 
 
+def test_fact_about_someone_else_is_rejected(conn):
+    text = "My sister Agathe lives in Montreal and works as an airline pilot."
+    assert apply(conn, "lives_in", "Montreal", source_text=text) == "rejected"
+    assert rows(conn, "lives_in") == {}
+    event_type, fact_id, details = events(conn)[-1]
+    assert (event_type, fact_id) == ("reject", None)
+    assert details["reason"] == "about someone else"
+
+
 def test_grounding_accepts_inflected_words(conn):
     assert (
         apply(conn, "allergic_to", "walnut", source_text="I'm allergic to walnuts.")

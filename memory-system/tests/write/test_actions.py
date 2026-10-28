@@ -5,7 +5,7 @@ poetry run pytest tests/test_actions.py -v
 
 import pytest
 
-from memory_system.write.actions import is_grounded, normalize_actions
+from memory_system.write.actions import about_user, is_grounded, normalize_actions
 from memory_system.write.extract import ExtractedFact
 
 
@@ -242,3 +242,73 @@ def test_multi_valued_asserts_are_untouched():
         text, [F("assert", "dislikes", "mushrooms"), F("assert", "likes", "olives")]
     )
     assert got == [("assert", "dislikes", "mushrooms"), ("assert", "likes", "olives")]
+
+
+# ---- is the fact about the user? (set L) ----
+
+
+@pytest.mark.parametrize(
+    "value, relation, text",
+    [
+        (
+            "Montreal",
+            "lives_in",
+            "My sister Agathe lives in Montreal and works as an airline pilot.",
+        ),
+        (
+            "airline pilot",
+            "job_title",
+            "My sister Agathe lives in Montreal and works as an airline pilot.",
+        ),
+        (
+            "Frankfurt",
+            "lives_in",
+            "The airline finally tracked down my suitcase: it had ended up in Frankfurt.",
+        ),
+        ("Lyon", "lives_in", "I visited my sister, she lives in Lyon."),
+        (
+            "Pieter",
+            "partner",
+            "I'm planning a hiking trip next spring with my friend Pieter.",
+        ),
+    ],
+)
+def test_about_someone_else(value, relation, text):
+    assert not about_user(value, relation, text)
+
+
+@pytest.mark.parametrize(
+    "value, relation, text",
+    [
+        ("Nantes", "lives_in", "I live in Nantes, a short walk from the Loire."),
+        ("Graz", "lives_in", "Hi, I'm Zuzana. I'm a nurse at Hollbach Clinic in Graz."),
+        (
+            "St Veit Hospital in Linz",
+            "works_at",
+            "I left Hollbach Clinic. I'm now a nurse at St Veit Hospital in Linz.",
+        ),
+        (
+            "9th of August",
+            "birthday",
+            "My birthday is on the 9th of August, I always take the day off.",
+        ),
+        ("Lyon", "lives_in", "My partner and I moved to Lyon."),
+        ("Odile", "partner", "I've started seeing someone new, her name is Odile."),
+        (
+            "Corentin",
+            "partner",
+            "My boyfriend Corentin and I adopted a cat called Pip.",
+        ),
+        ("Elena", "partner", "Dario and I split up. I'm with Elena now."),
+        ("Marco", "partner", "My partner is Marco."),
+    ],
+)
+def test_about_the_user(value, relation, text):
+    assert about_user(value, relation, text)
+
+
+def test_other_relations_are_not_checked():
+    # family_member and hobby describe others or anything: the check does not apply
+    text = "My sister Agathe lives in Montreal."
+    assert about_user("Agathe", "family_member", text)
+    assert about_user("Montreal", "hobby", text)

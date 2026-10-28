@@ -71,6 +71,10 @@ PIN_IMPORTANCE = 1.01
 PAST_FACTS = os.environ.get("PAST_FACTS", "1") != "0"
 PAST_MAX_LINES = 2
 
+# ---- Write path: drop facts the message gives to someone else (write/actions.about_user) ----
+# ABOUT_USER=0 switches the check off, for ablations.
+ABOUT_USER = os.environ.get("ABOUT_USER", "1") != "0"
+
 # ---- Summaries: episode notes written from messages, shown when they pass the same gate ----
 # SUMMARIES=0 switches the layer off (nothing is written or shown), for ablations.
 SUMMARIES = os.environ.get("SUMMARIES", "1") != "0"

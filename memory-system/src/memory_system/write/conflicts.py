@@ -2,10 +2,14 @@
 
 from datetime import datetime
 
-from memory_system.core.config import DEFAULT_IMPORTANCE, DUPLICATE_SIMILARITY
+from memory_system.core.config import (
+    ABOUT_USER,
+    DEFAULT_IMPORTANCE,
+    DUPLICATE_SIMILARITY,
+)
 from memory_system.core.events import log_event
 from memory_system.core.llm import embed
-from memory_system.write.actions import is_grounded
+from memory_system.write.actions import about_user, is_grounded
 
 # A new value for one of these relations contradicts an active value of the relations listed
 # (hobby counts as a positive statement, like likes).
@@ -231,6 +235,27 @@ def apply_fact(
                 "value": value,
                 "action": action,
                 "reason": "no content word in common with the message",
+            },
+        )
+        return "rejected"
+
+    # 0b) About someone else: "My sister lives in Montreal" is not the user's city.
+    if (
+        ABOUT_USER
+        and action == "assert"
+        and source_text is not None
+        and not about_user(value, relation, source_text)
+    ):
+        log_event(
+            conn,
+            user_id,
+            "reject",
+            None,
+            {
+                "relation": relation,
+                "value": value,
+                "action": action,
+                "reason": "about someone else",
             },
         )
         return "rejected"

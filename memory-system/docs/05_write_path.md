@@ -124,6 +124,18 @@ Repeats are then removed and retractions are put first, so a retraction can neve
 
 The "lone retract is never touched" rule exists because an earlier version flipped a real retraction without a negation word ("I moved out of Berlin") into an assert. That mistake is recorded in [09_findings.md](09_findings.md), and it has a regression test.
 
+### 4.3 `about_user(value, relation, text)`
+
+True unless the message gives the value to someone or something other than the user. Added after set L, where the model stored "My sister Agathe lives in Montreal and works as an airline pilot" as the user's city and job (Montreal replaced the user's real city), "it had ended up in Frankfurt" (a suitcase) as the user's city, and "my friend Pieter" as the user's partner.
+
+| Relations | Rule |
+|---|---|
+| `lives_in`, `works_at`, `job_title`, `birthday` | In each clause that mentions the value, the last subject word before it decides: `I`, `I'm`, `we` ... mean the user; `he`, `she`, `it`, `who`, `their` or a word for another person (`sister`, `friend`, `colleague` ...) mean someone else; no subject word ("My birthday is 5 May") means the user. The value is kept if any clause gives it to the user |
+| `partner` | The message must contain a partner word: `boyfriend`, `girlfriend`, `partner`, `wife`, `husband`, `seeing`, `dating`, `married`, `I'm with`, `split up` ... |
+| all others | Not checked: `family_member`, `hobby` and the rest can describe anyone |
+
+Only asserted facts are checked, and the manager uses the same check when it lists the relations a message really sets (so a rejected `works_at` does not mark `job_title` as conflicted). `ABOUT_USER=0` switches it off. It is a word list, English only: "I live with my sister in Lyon" is kept only because "I" comes first, and "I work with my friend at Acme" would lose Acme.
+
 ## 5. `write/conflicts.py`: from fact to decision
 
 ### 5.1 The decision order
@@ -133,6 +145,7 @@ The "lone retract is never touched" rule exists because an earlier version flipp
 | # | Stage | Condition | Result | Event |
 |---|---|---|---|---|
 | 0 | Grounding | `source_text` is given and the value is not grounded in it | `rejected`; nothing stored | `reject` |
+| 0b | About someone else | `action` is `assert`, `source_text` is given, `ABOUT_USER` is on and `about_user` (section 4.3) says the message gives the value to someone else | `rejected`; nothing stored | `reject`, reason "about someone else" |
 | 1 | Retraction | `action` is `retract` | An active fact with the same value (equal, or trigram similarity of 0.8 or more) becomes `archived`, `valid_to` set. Returns `retract`; or `retract_miss` when nothing matches | `retract` |
 | 2 | Duplicate | An active fact with the same relation and a matching value exists | Confidence +0.05, `updated_at` set. Returns `duplicate`; no new row, no embedding call | `duplicate` |
 | 3 | Insert | otherwise | A new active row with its embedding | held until the outcome is known |
@@ -209,7 +222,7 @@ Notes:
 | An abandoned hobby can be filed as a dislike | "I'm done with chess" |
 | A negated like may be read as a retraction | "I don't like jazz" can be labelled retract, so the dislike is not stored. The prompt tells the model that disliking is not a retraction, but it does not always follow it |
 | The rules know English phrasing only | Negation words and fillers are English; other languages are untested |
-| Past, hypothetical and third-person statements rely on the model | "I used to live in...", "My sister lives in..." are handled by the prompt, not by a rule |
+| Past and hypothetical statements rely on the model | "I used to live in..." is handled by the prompt, not by a rule. Third-person statements are checked by `about_user` (4.3) only for `lives_in`, `works_at`, `job_title`, `birthday` and `partner` |
 | Single-message extraction | "No, I meant Rome" is not recognised as a correction of the previous message |
 | Confidence is a counter | Repetition adds 0.05; it says nothing about how certain the statement was |
 | User text goes into the prompt unescaped | A crafted message could try to steer the extractor; relation validation limits the damage |

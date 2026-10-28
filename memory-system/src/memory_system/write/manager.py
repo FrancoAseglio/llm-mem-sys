@@ -1,9 +1,10 @@
 from datetime import datetime
 
+from memory_system.core.config import ABOUT_USER
 from memory_system.core.db import get_pool
 from memory_system.core.events import log_event
 from memory_system.core.llm import embed
-from memory_system.write.actions import is_grounded, normalize_actions
+from memory_system.write.actions import about_user, is_grounded, normalize_actions
 from memory_system.write.conflicts import apply_fact
 from memory_system.write.extract import extract_facts, load_relation_types
 
@@ -46,7 +47,9 @@ def ingest_user_message(
         asserted = {
             f.relation
             for f in facts
-            if f.action == "assert" and is_grounded(f.value, text, f.relation)
+            if f.action == "assert"
+            and is_grounded(f.value, text, f.relation)
+            and (not ABOUT_USER or about_user(f.value, f.relation, text))
         }
         results = []
         for fact in facts:

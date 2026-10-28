@@ -120,6 +120,7 @@ That behaviour matters for the write path: a message, its facts and their events
 | `PIN_IMPORTANCE` | 1.01 | `read/retrieve.py` | Pinning threshold; above any importance, so pinning is off |
 | `LLM_CACHE_PATH` | `.cache/llm.sqlite` | `core/cache.py` | Where the evaluation caches embeddings and temperature-0 replies; the chat never caches |
 | `PAST_FACTS` | on (env `PAST_FACTS=0` turns it off) | `read/past_retrieve.py` | Switch for reading replaced facts on past questions |
+| `ABOUT_USER` | on (env `ABOUT_USER=0` turns it off) | `write/conflicts.py`, `write/manager.py` | Switch for the check that drops facts the message gives to someone else ([05](05_write_path.md), section 4.3) |
 | `PAST_MAX_LINES` | 2 | `read/past_retrieve.py` | Most `Earlier:` lines per question |
 | `SUMMARIES` | on (env `SUMMARIES=0` turns it off) | `summaries/summarize.py`, `summaries/retrieve.py` | Switch for the whole summaries layer |
 | `SUMMARY_MAX_LINES` | 2 | `summaries/retrieve.py` | Most note lines per question |
