@@ -35,6 +35,63 @@ def tag_message(number: int, text: str, stored: list[tuple[str, str]]) -> str:
     return f'{number}. "{text}" [stored: {tag}]'
 
 
+# Words a message uses to state a fact of each kind ("My wife is called Ines" is all partner).
+# Used only to decide whether a message says more than the facts stored from it.
+RELATION_WORDS = {
+    "name": "name named called",
+    "lives_in": "live lives living lived home based moved",
+    "works_at": "work works working job company employer",
+    "job_title": "work works working job",
+    "partner": "partner wife husband boyfriend girlfriend fiance fiancee spouse called named",
+    "birthday": "birthday born",
+    "hobby": "enjoy enjoys hobby play plays",
+    "likes": "enjoy enjoys favourite favorite",
+    "dislikes": "dislike dislikes hate hates stand",
+    "allergic_to": "allergic allergy",
+    "family_member": "family brother sister mother mum mom father dad son daughter cousin aunt "
+    "uncle niece nephew grandmother grandfather called named name",
+    "speaks": "speak speaks language languages fluent",
+    "goal": "want hope plan plans saving dream",
+}
+
+
+def _names(text: str) -> list[str]:
+    """Capitalised words that do not start a sentence (names, places), lower-case, without 's."""
+    names = []
+    for sentence in re.split(r"[.!?]+", text):
+        tokens = re.findall(r"[\w']+", sentence)
+        names += [
+            t.lower().removesuffix("'s")
+            for t in tokens[1:]
+            if t[0].isupper() and t != "I" and not t.lower().startswith("i'")
+        ]
+    return names
+
+
+def only_stored(text: str, stored: list[tuple[str, str]], min_share: float) -> bool:
+    """True if the facts stored from a message hold everything it says, so a note on it would
+    only restate them ("My wife is called Ines" with partner = Ines).
+
+    Every name in the message must be in a stored value, and at least `min_share` of its
+    content words must match a stored value or a word that states that kind of fact
+    (RELATION_WORDS). "I love running, I usually go out before sunrise" with hobby = running
+    says more (sunrise), and a message with no stored fact is never only stored.
+    """
+    if not stored:
+        return False
+    known: set[str] = set()
+    for relation, value in stored:
+        known |= content_words(value) | set(RELATION_WORDS.get(relation, "").split())
+
+    def is_known(word: str) -> bool:
+        return any(same_word(word, k) for k in known)
+
+    if not all(is_known(n) for n in _names(text)):
+        return False
+    words = content_words(text)
+    return not words or sum(map(is_known, words)) / len(words) >= min_share
+
+
 _QUESTION_START = re.compile(
     r"^(?:what|how|why|when|where|who|which|can|could|would|should|do|does|did|is|are|will|any)\b"
 )

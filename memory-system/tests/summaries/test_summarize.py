@@ -234,3 +234,20 @@ def test_with_tags_off_the_prompt_is_untagged(user, monkeypatch):
     calls = model_says(monkeypatch)
     summarize.summarize_pending(user)
     assert "[stored" not in calls[0] and "Norway" in calls[0]
+
+
+def test_a_note_that_only_restates_stored_facts_is_dropped(user, monkeypatch):
+    wife = add_message("My wife is called Ines.")
+    add_fact(wife, "partner", "Ines")
+    trip = add_message(TRIP)
+    model_says(
+        monkeypatch,
+        Episode(text="The user's wife is called Ines.", messages=[1]),
+        Episode(
+            text="The user went hiking in Norway with their cousin Ingrid.",
+            messages=[2],
+        ),
+    )
+    kept = summarize.summarize_pending(user)
+    assert kept == ["The user went hiking in Norway with their cousin Ingrid."]
+    assert trip  # the trip message has no stored fact, so its note stays

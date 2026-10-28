@@ -82,6 +82,10 @@ SUMMARIES = os.environ.get("SUMMARIES", "1") != "0"
 # Each message sent to the notes model shows the facts already stored from it ("[stored: ...]"),
 # so notes skip only what facts really hold. NOTE_TAGS=0 restores the untagged prompt.
 NOTE_TAGS = os.environ.get("NOTE_TAGS", "1") != "0"
+# With tags on, a note is dropped when every message it cites is already held by its stored facts:
+# each name in the message is in a stored value and this share of its content words is covered.
+# The same share as SUMMARY_FAITHFUL_MIN; not tuned.
+NOTE_STORED_MIN = 0.75
 
 # At most this many summary lines per question; facts keep priority within the k lines.
 SUMMARY_MAX_LINES = 2

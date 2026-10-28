@@ -24,6 +24,9 @@ Saved outputs of the evaluation runs, one folder per test set. They are historic
 | `logs/` | `consolidation_v2_exploration.md` | grouping notes by code, on set J as a practice set; why consolidation stopped |
 | `logs/` | `about_user_dev.md` | the check that drops facts about other people: predictions, development runs on spent sets |
 | `logs/` | `note_tags_dev.md` | notes tagged with the facts stored from each message: predictions, development runs |
+| `logs/` | `note_tags_L.txt` | set L re-run with tags, iteration 1 (development) |
+| `regressions/` | `A_to_J_note_tags.txt` | sets A to J with tags, iteration 1 |
+| `set_K/` | `note_tags.txt` | set K with tags, iteration 1 |
 | `logs/` | `about_user_L.txt` | set L re-run with the check (development, labelled) |
 | `regressions/` | `A_to_J_about_user.txt` | sets A to J re-run with the check, cache off |
 | `set_K/` | `about_user.txt` | set K re-run with the check, cache off |

@@ -77,6 +77,8 @@ Before the model sees a batch, `is_chatter` removes messages that hold nothing t
 
 Before the tags (set L, 2026-10-28) the prompt said "skip plain personal facts stored elsewhere (name, home city, job, allergies, languages, likes, dislikes)". The model cannot know what was stored, and it skipped cello lessons, learning Finnish and a brother's wedding that extraction had not stored either, so nothing kept them. `NOTE_TAGS=0` restores that prompt (`SYSTEM_PROMPT_UNTAGGED`) for comparison.
 
+With the tags the model also wrote profile notes that only restate stored facts ("The user lives in Bologna and works as an architect at Studio Verdi"); they matched many questions and raised noise. So, with tags on, a note is dropped (reason "only stored facts") when every message it cites is held by its stored facts: `only_stored` in `summaries/rules.py` requires every name of the message to be in a stored value and `NOTE_STORED_MIN` (0.75) of its content words to match a stored value or a word that states that kind of fact (`RELATION_WORDS`: "wife", "called" for `partner`). Development record: [results/logs/note_tags_dev.md](results/logs/note_tags_dev.md).
+
 ### 4.3 The faithfulness check
 
 `is_faithful(statement, sources)` decides, per sentence, using only the messages the model cited:
@@ -119,7 +121,8 @@ In `core/config.py`:
 | `SUMMARY_BATCH` | 12 | Messages per model call |
 | `SUMMARY_EVERY` | 6 | New messages that trigger a summary run in the chat |
 | `SUMMARY_FAITHFUL_MIN` | 0.75 | Share of a sentence's content words that must be in its sources |
-| `NOTE_TAGS` | on (`NOTE_TAGS=0` switches it off) | Show the notes model the facts stored from each message (section 4.2) |
+| `NOTE_TAGS` | on (`NOTE_TAGS=0` switches it off) | Show the notes model the facts stored from each message, and drop notes that only restate them (section 4.2) |
+| `NOTE_STORED_MIN` | 0.75 | Share of a message's content words its stored facts must cover for the message to count as only stored |
 | `CONSOLIDATE` | on (`CONSOLIDATE=0` switches it off) | Merging old notes into digests; off means retrieval reads every note, as before |
 | `CONSOLIDATE_MIN` | 6 | Old notes needed before a consolidation run |
 | `CONSOLIDATE_AGE_DAYS` | 30 | Age of a note (its newest source message) before it can be merged |

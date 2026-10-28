@@ -13,6 +13,7 @@ from memory_system.summaries.rules import (
     is_chatter,
     is_faithful,
     missing_details,
+    only_stored,
     select_summaries,
     tag_message,
 )
@@ -227,3 +228,45 @@ def test_a_message_is_tagged_with_the_facts_stored_from_it():
 def test_a_message_without_facts_is_tagged_nothing():
     line = tag_message(1, "I've started taking cello lessons.", [])
     assert line.endswith("[stored: nothing]")
+
+
+# ---- a message whose stored facts hold everything it says ----
+
+
+@pytest.mark.parametrize(
+    "text, stored",
+    [
+        ("My wife is called Ines.", [("partner", "Ines")]),
+        (
+            "I work as an architect at Studio Verdi.",
+            [("job_title", "architect"), ("works_at", "Studio Verdi")],
+        ),
+        (
+            "I speak Portuguese, English and a little German.",
+            [("speaks", "Portuguese"), ("speaks", "English"), ("speaks", "German")],
+        ),
+        ("My brother's name is Luca.", [("family_member", "Luca")]),
+    ],
+)
+def test_a_message_held_by_its_facts_is_only_stored(text, stored):
+    assert only_stored(text, stored, 0.75)
+
+
+@pytest.mark.parametrize(
+    "text, stored",
+    [
+        ("I've started taking cello lessons on Thursday evenings.", []),
+        ("I love running, I usually go out before sunrise.", [("hobby", "running")]),
+        (
+            "My brother Fintan is getting married next June.",
+            [("family_member", "Fintan")],
+        ),
+        # a name the facts do not hold (Pieter) means the message says more
+        (
+            "I'm planning a hiking trip to the Julian Alps next spring with my friend Pieter.",
+            [("goal", "hiking trip to the Julian Alps next spring")],
+        ),
+    ],
+)
+def test_a_message_that_says_more_is_not_only_stored(text, stored):
+    assert not only_stored(text, stored, 0.75)

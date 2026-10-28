@@ -10,11 +10,21 @@ id seen, which is where the next run starts. A failed model call changes nothing
 
 from pydantic import BaseModel
 
-from memory_system.core.config import NOTE_TAGS, SUMMARY_BATCH, SUMMARY_FAITHFUL_MIN
+from memory_system.core.config import (
+    NOTE_STORED_MIN,
+    NOTE_TAGS,
+    SUMMARY_BATCH,
+    SUMMARY_FAITHFUL_MIN,
+)
 from memory_system.core.db import get_pool
 from memory_system.core.events import log_event
 from memory_system.core.llm import chat_structured, embed
-from memory_system.summaries.rules import is_chatter, is_faithful, tag_message
+from memory_system.summaries.rules import (
+    is_chatter,
+    is_faithful,
+    only_stored,
+    tag_message,
+)
 
 SYSTEM_PROMPT = """You write short memory notes about the USER from their numbered messages.
 
@@ -133,6 +143,7 @@ def _summarize_batch(user_id: str, batch: list[tuple]) -> list[str] | None:
     them, but it did not always). They still count as seen, so the next run starts after them.
     """
     usable = [m for m in batch if not is_chatter(m[1])]
+    stored: dict[int, list[tuple[str, str]]] = {}
     if NOTE_TAGS:
         stored = _stored_facts([m[0] for m in usable])
         numbered = "\n".join(
@@ -180,6 +191,12 @@ def _summarize_batch(user_id: str, batch: list[tuple]) -> list[str] | None:
             sources = [by_number[n] for n in numbers]
             if not is_faithful(text, [s[1] for s in sources], SUMMARY_FAITHFUL_MIN):
                 dropped.append({"text": text, "reason": "not faithful"})
+                continue
+            if NOTE_TAGS and all(
+                only_stored(s[1], stored.get(s[0], []), NOTE_STORED_MIN)
+                for s in sources
+            ):
+                dropped.append({"text": text, "reason": "only stored facts"})
                 continue
             if text.lower() in existing:
                 continue
