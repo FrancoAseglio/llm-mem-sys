@@ -10,5 +10,6 @@ Written before the run they describe, committed first, and kept unchanged. One f
 | `set_H.md` | set H (blind, with notes) |
 | `set_I.md` | set I (past questions) |
 | `set_J.md` | set J (consolidation) |
+| `set_K.md` | set K (consistency across sessions) |
 
 The result files they mention are listed with their new names in [../results/README.md](../results/README.md).

@@ -56,7 +56,37 @@ def test_scenario_shape():
             assert set(q) <= {"q", "expect", "needs", "avoid", "stale"}, sc["id"]
 
 
+def test_session_scenario_shape():
+    """Session sets (consistency across turns): sessions oldest first, turns with optional probes."""
+    ids = {sc["id"] for sc in scenarios.SCENARIOS}
+    for items in scenarios.SESSION_SETS.values():
+        for sc in items:
+            assert sc["id"] not in ids, f"duplicate scenario id {sc['id']}"
+            ids.add(sc["id"])
+            assert set(sc) <= {"id", "kind", "sessions", "set"}, sc["id"]
+            days = [s["days_ago"] for s in sc["sessions"]]
+            assert days and days == sorted(days, reverse=True), sc["id"]
+            for session in sc["sessions"]:
+                assert set(session) == {"days_ago", "turns"} and session["turns"]
+                for turn in session["turns"]:
+                    assert set(turn) <= {"user", "probe"}, sc["id"]
+                    assert isinstance(turn["user"], str) and turn["user"].strip()
+                    probe = turn.get("probe")
+                    if probe is None:
+                        continue
+                    assert set(probe) <= {"fact", "type", "expect", "forbid"}, sc["id"]
+                    assert probe["fact"] and probe["type"] in ("direct", "indirect")
+                    assert probe.get("expect") or probe.get("forbid"), sc["id"]
+                    for group in probe.get("expect", []):
+                        assert group and all(isinstance(w, str) for w in group)
+                    assert all(isinstance(w, str) for w in probe.get("forbid", []))
+
+
+def test_session_sets_are_kept_out_of_the_single_question_sets():
+    assert not set(scenarios.SESSION_SETS) & set(scenarios.SETS)
+
+
 def test_loader_adds_the_set_letter():
-    for letter, items in scenarios.SETS.items():
+    for letter, items in {**scenarios.SETS, **scenarios.SESSION_SETS}.items():
         assert all(sc["set"] == letter for sc in items)
     assert len(scenarios.SCENARIOS) == sum(len(v) for v in scenarios.SETS.values())

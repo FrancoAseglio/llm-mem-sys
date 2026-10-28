@@ -1,0 +1,611 @@
+{
+  "set": "K",
+  "format": "sessions",
+  "label": "K (BLIND: consistency across sessions, written before its runner; run once)",
+  "description": "Multi-session stories for consistency across turns. Each session starts with no chat history, so only memory carries facts between sessions. Probes check that answers use the current fact (directly or indirectly), never an outdated or wrong one, and stay the same across sessions. All people and places are new; none appear in sets A to J.",
+  "scenarios": [
+    {
+      "id": "k_move",
+      "kind": "city change, direct and indirect",
+      "sessions": [
+        {
+          "days_ago": 200,
+          "turns": [
+            {
+              "user": "Hi, I'm Lukas. I live in Ljubljana and I work from home as a translator."
+            },
+            {
+              "user": "I usually cycle along the river on weekends."
+            }
+          ]
+        },
+        {
+          "days_ago": 170,
+          "turns": [
+            {
+              "user": "Which city do I live in?",
+              "probe": {
+                "fact": "city_before",
+                "type": "direct",
+                "expect": [
+                  [
+                    "ljubljana"
+                  ]
+                ]
+              }
+            },
+            {
+              "user": "Can you explain how a heat pump works?"
+            }
+          ]
+        },
+        {
+          "days_ago": 120,
+          "turns": [
+            {
+              "user": "Big news: I've moved to Bilbao for good, the new flat is lovely."
+            },
+            {
+              "user": "The weather here is much rainier than I expected."
+            }
+          ]
+        },
+        {
+          "days_ago": 90,
+          "turns": [
+            {
+              "user": "Where do I live these days?",
+              "probe": {
+                "fact": "city",
+                "type": "direct",
+                "expect": [
+                  [
+                    "bilbao"
+                  ]
+                ],
+                "forbid": [
+                  "ljubljana",
+                  "slovenia",
+                  "postojna",
+                  "bohinj"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "days_ago": 60,
+          "turns": [
+            {
+              "user": "What's a good way to learn new vocabulary?"
+            },
+            {
+              "user": "Can you suggest a day trip from my city?",
+              "probe": {
+                "fact": "city",
+                "type": "indirect",
+                "expect": [
+                  [
+                    "bilbao",
+                    "san sebasti",
+                    "donostia",
+                    "gernika",
+                    "guernica",
+                    "getxo",
+                    "gaztelugatxe",
+                    "vitoria",
+                    "basque"
+                  ]
+                ],
+                "forbid": [
+                  "ljubljana",
+                  "slovenia",
+                  "postojna",
+                  "bohinj"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "days_ago": 20,
+          "turns": [
+            {
+              "user": "Remind me, which city am I based in?",
+              "probe": {
+                "fact": "city",
+                "type": "direct",
+                "expect": [
+                  [
+                    "bilbao"
+                  ]
+                ],
+                "forbid": [
+                  "ljubljana",
+                  "slovenia",
+                  "postojna",
+                  "bohinj"
+                ]
+              }
+            },
+            {
+              "user": "Any good neighbourhoods to explore in my city?",
+              "probe": {
+                "fact": "city",
+                "type": "indirect",
+                "expect": [
+                  [
+                    "bilbao",
+                    "casco viejo",
+                    "abando",
+                    "deusto",
+                    "indautxu"
+                  ]
+                ],
+                "forbid": [
+                  "ljubljana",
+                  "slovenia",
+                  "postojna",
+                  "bohinj"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "k_allergy",
+      "kind": "allergy used indirectly",
+      "sessions": [
+        {
+          "days_ago": 210,
+          "turns": [
+            {
+              "user": "Quick thing to know about me: I'm allergic to mustard."
+            },
+            {
+              "user": "I'm trying to cook more at home this year."
+            }
+          ]
+        },
+        {
+          "days_ago": 150,
+          "turns": [
+            {
+              "user": "Is a ham sandwich with Dijon a good lunch for me?",
+              "probe": {
+                "fact": "allergy",
+                "type": "indirect",
+                "expect": [
+                  [
+                    "mustard",
+                    "allerg"
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "days_ago": 100,
+          "turns": [
+            {
+              "user": "I bought a new set of kitchen knives."
+            },
+            {
+              "user": "How do I keep a wooden chopping board clean?"
+            }
+          ]
+        },
+        {
+          "days_ago": 50,
+          "turns": [
+            {
+              "user": "I'm making a vinaigrette for a salad tonight, any tips?",
+              "probe": {
+                "fact": "allergy",
+                "type": "indirect",
+                "expect": [
+                  [
+                    "mustard"
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "days_ago": 10,
+          "turns": [
+            {
+              "user": "What am I allergic to?",
+              "probe": {
+                "fact": "allergy",
+                "type": "direct",
+                "expect": [
+                  [
+                    "mustard"
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "k_job",
+      "kind": "employer change, signature",
+      "sessions": [
+        {
+          "days_ago": 220,
+          "turns": [
+            {
+              "user": "I work at Brantley Analytics as a data engineer."
+            }
+          ]
+        },
+        {
+          "days_ago": 180,
+          "turns": [
+            {
+              "user": "Write a one-line email signature for me.",
+              "probe": {
+                "fact": "employer_before",
+                "type": "indirect",
+                "expect": [
+                  [
+                    "brantley"
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "days_ago": 130,
+          "turns": [
+            {
+              "user": "I left Brantley Analytics. I've started at Fernhill Bank, still as a data engineer."
+            }
+          ]
+        },
+        {
+          "days_ago": 90,
+          "turns": [
+            {
+              "user": "Where do I work now?",
+              "probe": {
+                "fact": "employer",
+                "type": "direct",
+                "expect": [
+                  [
+                    "fernhill"
+                  ]
+                ],
+                "forbid": [
+                  "brantley"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "days_ago": 40,
+          "turns": [
+            {
+              "user": "Any tips for a long commute?"
+            },
+            {
+              "user": "Write a one-line email signature for me.",
+              "probe": {
+                "fact": "employer",
+                "type": "indirect",
+                "expect": [
+                  [
+                    "fernhill"
+                  ]
+                ],
+                "forbid": [
+                  "brantley"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "days_ago": 5,
+          "turns": [
+            {
+              "user": "Which company am I with?",
+              "probe": {
+                "fact": "employer",
+                "type": "direct",
+                "expect": [
+                  [
+                    "fernhill"
+                  ]
+                ],
+                "forbid": [
+                  "brantley"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "k_partner",
+      "kind": "stable fact, distractor person",
+      "sessions": [
+        {
+          "days_ago": 190,
+          "turns": [
+            {
+              "user": "My partner Dagny and I just celebrated five years together."
+            }
+          ]
+        },
+        {
+          "days_ago": 160,
+          "turns": [
+            {
+              "user": "My colleague Wilhelmina keeps asking me to join her book club."
+            },
+            {
+              "user": "What's a good novel for a book club?"
+            }
+          ]
+        },
+        {
+          "days_ago": 110,
+          "turns": [
+            {
+              "user": "Write a two-line birthday message for my partner.",
+              "probe": {
+                "fact": "partner",
+                "type": "indirect",
+                "expect": [
+                  [
+                    "dagny"
+                  ]
+                ],
+                "forbid": [
+                  "wilhelmina"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "days_ago": 70,
+          "turns": [
+            {
+              "user": "What's my partner's name?",
+              "probe": {
+                "fact": "partner",
+                "type": "direct",
+                "expect": [
+                  [
+                    "dagny"
+                  ]
+                ],
+                "forbid": [
+                  "wilhelmina"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "days_ago": 15,
+          "turns": [
+            {
+              "user": "Suggest a gift for my partner and write the card, with their name.",
+              "probe": {
+                "fact": "partner",
+                "type": "indirect",
+                "expect": [
+                  [
+                    "dagny"
+                  ]
+                ],
+                "forbid": [
+                  "wilhelmina"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "k_same_session",
+      "kind": "city change inside one session",
+      "sessions": [
+        {
+          "days_ago": 150,
+          "turns": [
+            {
+              "user": "I live in Tartu and teach music at a primary school."
+            }
+          ]
+        },
+        {
+          "days_ago": 30,
+          "turns": [
+            {
+              "user": "Which city do I live in?",
+              "probe": {
+                "fact": "city_before",
+                "type": "direct",
+                "expect": [
+                  [
+                    "tartu"
+                  ]
+                ]
+              }
+            },
+            {
+              "user": "Actually, I'm moving out today: as of tonight I live in Pärnu."
+            },
+            {
+              "user": "So where do I live now?",
+              "probe": {
+                "fact": "city",
+                "type": "direct",
+                "expect": [
+                  [
+                    "pärnu",
+                    "parnu"
+                  ]
+                ],
+                "forbid": [
+                  "tartu"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "days_ago": 10,
+          "turns": [
+            {
+              "user": "Recommend a café near where I live.",
+              "probe": {
+                "fact": "city",
+                "type": "indirect",
+                "expect": [
+                  [
+                    "pärnu",
+                    "parnu"
+                  ]
+                ],
+                "forbid": [
+                  "tartu"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "days_ago": 2,
+          "turns": [
+            {
+              "user": "Which city do I live in?",
+              "probe": {
+                "fact": "city",
+                "type": "direct",
+                "expect": [
+                  [
+                    "pärnu",
+                    "parnu"
+                  ]
+                ],
+                "forbid": [
+                  "tartu"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "k_control",
+      "kind": "control: nothing changes",
+      "sessions": [
+        {
+          "days_ago": 240,
+          "turns": [
+            {
+              "user": "My name is Oriane and I speak French and Breton."
+            }
+          ]
+        },
+        {
+          "days_ago": 200,
+          "turns": [
+            {
+              "user": "I'm reading a long novel about whaling."
+            },
+            {
+              "user": "How do lighthouses work?"
+            }
+          ]
+        },
+        {
+          "days_ago": 120,
+          "turns": [
+            {
+              "user": "Which languages do I speak?",
+              "probe": {
+                "fact": "languages",
+                "type": "direct",
+                "expect": [
+                  [
+                    "french"
+                  ],
+                  [
+                    "breton"
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "days_ago": 60,
+          "turns": [
+            {
+              "user": "What's my name?",
+              "probe": {
+                "fact": "name",
+                "type": "direct",
+                "expect": [
+                  [
+                    "oriane"
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "days_ago": 5,
+          "turns": [
+            {
+              "user": "Remind me which languages I know?",
+              "probe": {
+                "fact": "languages",
+                "type": "direct",
+                "expect": [
+                  [
+                    "french"
+                  ],
+                  [
+                    "breton"
+                  ]
+                ]
+              }
+            },
+            {
+              "user": "Sign this short thank-you note with my name: 'Thanks for the lovely dinner.'",
+              "probe": {
+                "fact": "name",
+                "type": "indirect",
+                "expect": [
+                  [
+                    "oriane"
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
