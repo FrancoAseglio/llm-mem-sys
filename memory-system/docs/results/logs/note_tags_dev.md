@@ -96,6 +96,45 @@ Also seen: notes that add a small detail to one stored fact pass by design ("The
 
 If noise on A to F stays above 19, the trade is set out for a decision rather than kept silently: about 4 more answers on set L and 1 to 2 on set K, against a few more noisy prompts on the rich profiles of C and D.
 
-## Results of iteration 2b
+## Results of iteration 2b (2026-10-28)
+
+Outputs: `note_tags_v2b_L.txt`, `../regressions/A_to_J_note_tags_v2b.txt` (verbose), `../set_K/note_tags_v2b.txt`.
+
+| Measure | Reference (step 1) | Iteration 2 (bug) | Predicted | Iteration 2b |
+|---|---|---|---|---|
+| Set L, smart answers | 22/30 | 26/30 | 25 to 26 | **26/30** (needed 25/28, stale in answer 0) |
+| Set L, notes | 17 | 21 | | 20 |
+| Sets A to J, notes | 116 | 123 | 110 to 125 | 108 |
+| Sets A to F, smart noise present | 16/46 | 27/46 | 19 to 24 | **27/46** |
+| Sets C and D, smart average lines | 1.5, 1.7 | 2.2, 2.6 | 1.7 to 2.0, 2.0 to 2.3 | 2.4, 2.4 |
+| Sets A to J, smart answers (sum) | 117 | 115 | 115 to 119 | 115 |
+| Set J, smart needed present | 24/25 | 22/25 | 23 or 24 | 23/25 |
+| Set K, smart correct | 17/23 | 18/23 | 17 to 19 | 17/23 (stable 2/7) |
+
+- **The profile notes are gone.** D now has 2 notes ("The user plays the guitar in the evenings", "The user's favourite kind of music is fado") and C has 4 ("enjoys running and usually goes out before sunrise", "dislikes coriander", "likes jazz music a lot", "would like to learn how to sail one day").
+- **The noise left comes from those few detail notes**, each reaching 5 to 8 unrelated questions, because a note was compared only with other notes: as the best note it passed even next to a much stronger fact. Answers on C and D did not drop (11 and 17).
+- **Set I lost 1 answer** ("Who was my partner before Elena?"): the note that used to carry Dario was not written in these runs. That is the archived-value problem (Dario is archived by "split up"), which has its own step. **Set J lost 1** (the kitchen-cabinets question; this run's notes lack the oak cabinets).
+- **Against the criteria:** set L +4 (met); needed facts lost at most 1 per set (met); answers 115 (met, at the edge); **noise +11 (failed)**. Decision (2026-10-28): keep the tags and fix the note gate, below.
+
+## Iteration 3: the note window counts the best fact
+
+`select_summaries` measures the window (0.08) from the better of the best note and the best chosen fact (`NOTE_FACT_WINDOW`, on), instead of the best note only ([07](../../07_summaries.md), section 5). No new threshold. This is a read-side change, so it is run on the data stored by iteration 2b (`--no-ingest`): facts and notes are identical, and any difference comes from the window alone. Set K re-ingests by design, so its notes are written again.
+
+### Predictions for iteration 3 (written before the runs)
+
+| Measure | Iteration 2b | Prediction |
+|---|---|---|
+| Sets A to F, smart noise present | 27/46 | 17 to 22 |
+| Sets C and D, smart average lines | 2.4, 2.4 | 1.6 to 1.9 each |
+| Set L, smart answers | 26/30 | 24 to 26 (risk: a note close to a strong fact, such as the hiking companion next to the hiking goal, is cut) |
+| Set L, smart noise present | 3/3 | 2/3 (the sister's note leaves the city question; the job and season questions have no fact) |
+| Sets A to J, smart answers (sum) | 115 | 114 to 118 (risk: story questions whose answer is in a note and whose fact is strong) |
+| Sets A to J, smart needed present | as in 2b | the same, or 1 to 2 fewer |
+| Set K, smart correct | 17/23 | 16 to 18 |
+| Baseline | as in 2b | unchanged except run-to-run noise in its answers |
+
+Kept if noise on A to F falls to 22 or below and set L keeps at least 24 answers and A to J at least 114. Otherwise reported and reworked or reverted.
+
+## Results of iteration 3
 
 (filled in after the runs)

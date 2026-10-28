@@ -1,5 +1,6 @@
 from datetime import date
 
+from memory_system.core.config import NOTE_FACT_WINDOW
 from memory_system.read.past_retrieve import retrieve_past
 from memory_system.read.retrieve import Memory, retrieve, retrieve_baseline
 from memory_system.summaries.retrieve import retrieve_summaries
@@ -45,11 +46,15 @@ def recall(
         past = retrieve_past(
             user_id, query, touch
         )  # empty unless the question is about the past
-        lines = [format_past(m) for m in past]
-        lines += [
-            format_memory(m) for m in retrieve(user_id, query, k - len(past), touch)
-        ]
-        return lines + retrieve_summaries(user_id, query, lines, k, touch)
+        facts = retrieve(user_id, query, k - len(past), touch)
+        lines = [format_past(m) for m in past] + [format_memory(m) for m in facts]
+        chosen = past + facts
+        fact_best = (
+            max(m.raw_similarity for m in chosen)
+            if NOTE_FACT_WINDOW and chosen
+            else None
+        )
+        return lines + retrieve_summaries(user_id, query, lines, k, touch, fact_best)
     if mode == "baseline":
         return [
             f'[{created:%Y-%m-%d}] "{content}"'

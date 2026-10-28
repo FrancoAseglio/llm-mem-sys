@@ -14,11 +14,17 @@ from memory_system.summaries.rules import SummaryRow, select_summaries
 
 
 def retrieve_summaries(
-    user_id: str, query: str, lines: list[str], k: int = 4, touch: bool = True
+    user_id: str,
+    query: str,
+    lines: list[str],
+    k: int = 4,
+    touch: bool = True,
+    fact_best: float | None = None,
 ) -> list[str]:
     """Summary lines for this question, to add after the fact lines already chosen (`lines`).
 
-    Same floor and window as facts, no routing. Facts keep priority: summaries only fill the
+    Same floor and window as facts, no routing. `fact_best`, the raw similarity of the best
+    chosen fact, also counts as the top of the window (rules.select_summaries). Facts keep priority: summaries only fill the
     remaining room among k lines, at most SUMMARY_MAX_LINES, and a summary that adds nothing to
     `lines` is skipped. A summary whose source message produced a fact that is no longer active
     (superseded, archived or conflicted) is skipped, so outdated values cannot come back.
@@ -49,7 +55,9 @@ def retrieve_summaries(
                 (q, user_id, CONSOLIDATE),
             ).fetchall()
         ]
-        chosen = select_summaries(rows, lines, room, MIN_RELEVANCE, RELATIVE_WINDOW)
+        chosen = select_summaries(
+            rows, lines, room, MIN_RELEVANCE, RELATIVE_WINDOW, fact_best
+        )
         if touch and chosen:
             log_event(
                 conn,

@@ -29,7 +29,7 @@ See [08_evaluation.md](08_evaluation.md), section 7, for the full list. In short
 | Summaries | A stale note hides a whole digest | The stale-source rule checks a digest through all its notes, so one note built on a replaced fact hides the harmless notes merged with it (set B) |
 | Summaries | Day numbers block a final state | The retention rule exempts month and weekday names but not day numbers, so "December 12" cannot become "February" in a digest |
 | Summaries | A wrong inference can pass into a digest | "Paid for a technician to repair" became "repaired by the removal company"; the checks are word-level |
-| Summaries | No routing for notes | A note about plans can match any question about plans; noise in sets A to F rose from 14/46 to 16/46 |
+| Summaries | No routing for notes | A note about plans can match any question about plans; noise in sets A to F rose from 14/46 to 16/46. Partly addressed: the note window now counts the best fact ([07](07_summaries.md), section 5) |
 | Summaries | The checks are word-level | The faithfulness check catches invented names, places and numbers, not misattribution; a sentence citing too few messages is dropped; details can be omitted (a wedding speech, a rejection) |
 | Summaries | One note per message, frozen relative times | A message shared by two sentences is linked to the first; "last month" stays in the text (the note date is shown) |
 | Summaries | The newest messages have no note yet | The chat summarises after 6 new messages, so up to 5 wait |

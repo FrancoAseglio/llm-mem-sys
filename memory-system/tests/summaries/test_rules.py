@@ -111,6 +111,30 @@ def test_the_window_drops_neighbours_of_the_best_match():
     assert pick(rows) == [1]
 
 
+def pick_with_fact(rows, fact_best):
+    return [r.id for r in select_summaries(rows, [], 2, 0.42, 0.08, fact_best)]
+
+
+def test_a_strong_fact_sets_the_top_of_the_window():
+    # "What's my wife's name?": Partner: Ines at 0.70, a guitar note at 0.48
+    rows = [row(1, "The user plays the guitar in the evenings.", 0.48)]
+    assert pick_with_fact(rows, 0.70) == []
+    assert pick_with_fact(rows, None) == [1]
+
+
+def test_a_note_close_to_the_best_fact_still_passes():
+    rows = [row(1, "The user is planning the trip with their cousin Brigid.", 0.64)]
+    assert pick_with_fact(rows, 0.70) == [1]
+
+
+def test_a_weaker_fact_does_not_change_the_window():
+    rows = [
+        row(1, "The user baked bread.", 0.70),
+        row(2, "The user painted a fence.", 0.60),
+    ]
+    assert pick_with_fact(rows, 0.50) == [1]
+
+
 def test_best_first_and_at_most_max_lines():
     rows = [
         row(1, "The user baked bread.", 0.60),

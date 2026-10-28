@@ -101,10 +101,10 @@ If the call raises (Ollama down, invalid JSON), nothing is stored, a `reject` ev
 
 ## 5. Read side
 
-`retrieve_summaries(user_id, query, lines, k, touch)` runs after the facts have been chosen (`lines` are their prompt lines).
+`retrieve_summaries(user_id, query, lines, k, touch, fact_best)` runs after the facts have been chosen (`lines` are their prompt lines, `fact_best` the raw similarity of the best of them).
 
 1. **Room.** At most `SUMMARY_MAX_LINES` (2) notes, and only as many as fit among `k` lines after the facts. Facts keep priority; four fact lines leave no room.
-2. **Gate.** Notes whose similarity to the question is at least `MIN_RELEVANCE` (0.42) and within `RELATIVE_WINDOW` (0.08) of the best note. There is no routing step for notes, and no new threshold.
+2. **Gate.** Notes whose similarity to the question is at least `MIN_RELEVANCE` (0.42) and within `RELATIVE_WINDOW` (0.08) of the best line: the best note or, when a fact was chosen, the best fact if it is higher (`NOTE_FACT_WINDOW`, on). So "The user plays the guitar in the evenings" (0.48) does not join `Partner: Ines` (0.70) for "What's my wife's name?". Before 2026-10-28 the window was measured among notes only. There is no routing step for notes, and no new threshold.
 3. **Stale-source rule.** A note is skipped if any of its source messages produced a fact that is no longer `active` (superseded, archived or conflicted). Without this rule a note written from "I live in Turin" would bring back a value the facts have replaced.
 4. **No repetition.** A note is skipped if every content word in it is already in the chosen lines (`adds_information`), so "The user lives in Milan." does not follow `Lives in: Milan`.
 5. **Format.** `Note from 2026-10-26: The user's neighbour Greta is opening a bakery in Gothenburg next spring.` The date is the date of the newest source message, which keeps words like "last month" or "today" interpretable.
@@ -122,6 +122,7 @@ In `core/config.py`:
 | `SUMMARY_EVERY` | 6 | New messages that trigger a summary run in the chat |
 | `SUMMARY_FAITHFUL_MIN` | 0.75 | Share of a sentence's content words that must be in its sources |
 | `NOTE_TAGS` | on (`NOTE_TAGS=0` switches it off) | Show the notes model the facts stored from each message, and drop notes that only restate them (section 4.2) |
+| `NOTE_FACT_WINDOW` | on (`NOTE_FACT_WINDOW=0` switches it off) | The note window is measured from the best line, facts included (section 5) |
 | `NOTE_STORED_MIN` | 0.75 | Share of a message's content words its stored facts must cover for the message to count as only stored |
 | `CONSOLIDATE` | on (`CONSOLIDATE=0` switches it off) | Merging old notes into digests; off means retrieval reads every note, as before |
 | `CONSOLIDATE_MIN` | 6 | Old notes needed before a consolidation run |
@@ -209,7 +210,7 @@ The four outdated mentions are true past-tense statements ("The user used to liv
 |---|---|
 | Little compression | Notes restate one sentence each in the third person, so they are as long as their sources (1.03 over the evaluation users, 1.10 on set J). Digests cut the notes they replace to 0.79 of their length, and on set J summary text in use is still 1.01 of its source messages. The saving against all stored messages comes from the questions and filler that are left out |
 | Most notes are never merged | On set J the model proposed 24 digests, 14 of them a single note (dropped by the rules); 19 of the 36 old notes sent were merged |
-| No routing for notes | A note about plans can match any question about plans. Seen in sets A to F: goal notes (marathon, house) came back for "Which language am I trying to learn?" |
+| No routing for notes | A note about plans can match any question about plans. Seen in sets A to F: goal notes (marathon, house) came back for "Which language am I trying to learn?". Since the window counts the best fact (section 5), a weak note no longer joins a strong fact; a note can still reach a question for which no fact passes |
 | Truthful mentions of old values | "Used to live in Turin" can reach a prompt next to `Lives in: Milan` |
 | The stale-source rule needs a fact | It covers only notes whose source messages produced facts |
 | A repeated fact is tagged on its first message only | A message that repeats a stored fact is tagged `[stored: nothing]` (a duplicate stores no row), so the model may write a note that restates the fact |

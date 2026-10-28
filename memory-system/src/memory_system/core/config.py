@@ -87,6 +87,10 @@ NOTE_TAGS = os.environ.get("NOTE_TAGS", "1") != "0"
 # The same share as SUMMARY_FAITHFUL_MIN; not tuned.
 NOTE_STORED_MIN = 0.75
 
+# A note must come within RELATIVE_WINDOW of the best line overall, facts included, not only of
+# the best note, so a weak note does not ride along with a strong fact. NOTE_FACT_WINDOW=0: notes only.
+NOTE_FACT_WINDOW = os.environ.get("NOTE_FACT_WINDOW", "1") != "0"
+
 # At most this many summary lines per question; facts keep priority within the k lines.
 SUMMARY_MAX_LINES = 2
 

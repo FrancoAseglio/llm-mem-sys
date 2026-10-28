@@ -216,13 +216,21 @@ def select_summaries(
     max_lines: int,
     floor: float,
     window: float,
+    fact_best: float | None = None,
 ) -> list[SummaryRow]:
     """The relevance gate for summaries: fresh rows with similarity >= floor, within `window` of
-    the best of them, best first, skipping any that add nothing to `lines`. At most max_lines."""
+    the best of them, best first, skipping any that add nothing to `lines`. At most max_lines.
+
+    `fact_best` is the raw similarity of the best fact already chosen for the question. When it
+    is given, the window is measured from the better of it and the best note, so a weakly related
+    note ("plays the guitar in the evenings") does not join a strong fact ("Partner: Ines").
+    """
     candidates = [r for r in rows if r.fresh and r.similarity >= floor]
     if not candidates:
         return []
     best = max(r.similarity for r in candidates)
+    if fact_best is not None:
+        best = max(best, fact_best)
     chosen: list[SummaryRow] = []
     context = list(lines)
     for row in sorted(candidates, key=lambda r: r.similarity, reverse=True):

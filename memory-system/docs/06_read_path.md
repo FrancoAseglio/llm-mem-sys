@@ -230,7 +230,7 @@ All test sets are spent, so any retuning needs a new blind set ([08_evaluation.m
 | The safety bypass trades noise for recall | Allergies reach any question that routes to `allergic_to`, relevant or not |
 | Abstain questions still get lines | A question with no answer in memory can still pull weakly related facts through |
 | Superseded facts are read only for past questions | Values archived by a retraction are still invisible (section 10) |
-| Episode notes have no routing | They use the floor and window only; a note about plans can match any question about plans ([07](07_summaries.md), section 9) |
+| Episode notes have no routing | They use the floor and window only; a note about plans can match any question about plans ([07](07_summaries.md), section 9); their window is measured from the best line, facts included ([07](07_summaries.md), section 5) |
 | Scoring loads all active facts | Fine for a prototype; the facts HNSW index is unused |
 | Memory text is trusted | A stored value is pasted into the prompt as is |
 | Relation vectors are cached per process | Editing `relation_types` needs a restart |
