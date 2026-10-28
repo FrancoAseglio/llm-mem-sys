@@ -16,6 +16,7 @@ Saved outputs of the evaluation runs, one folder per test set. They are historic
 | `regressions/` | `A_to_I_consolidation.txt` | sets A to I with consolidation on |
 | `logs/` | `past_step.md` | the past-question step: runs, diagnosis |
 | `logs/` | `summaries_dev.md` | development record of the summaries layer |
+| `logs/` | `consolidation_v2_exploration.md` | grouping notes by code, on set J as a practice set; why consolidation stopped |
 
 ## Old names
 
