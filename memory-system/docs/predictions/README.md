@@ -11,5 +11,6 @@ Written before the run they describe, committed first, and kept unchanged. One f
 | `set_I.md` | set I (past questions) |
 | `set_J.md` | set J (consolidation) |
 | `set_K.md` | set K (consistency across sessions) |
+| `set_L.md` | set L (blind, unseen data, every question type) |
 
 The result files they mention are listed with their new names in [../results/README.md](../results/README.md).

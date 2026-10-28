@@ -1,0 +1,736 @@
+{
+  "set": "L",
+  "label": "L (BLIND: unseen data, every question type, current system; run once)",
+  "description": "SET L: the first results on unseen data. 30 questions in 10 stories. Status: BLIND. Written after sets A to K were spent and before any change to the system. Run once on the current system with summaries on, and, as a pre-registered second column, with SUMMARIES=0 on the same stored data. Predictions: docs/predictions/set_L.md. Mixes every question type at a natural rate: direct facts, changes, past questions, episodes and plans, indirect questions, and abstain or third-person traps. All people, places and foods are new.",
+  "scenarios": [
+    {
+      "id": "l_profile_maren",
+      "kind": "rich profile: facts, indirect, traps",
+      "messages": [
+        [
+          330,
+          "Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering."
+        ],
+        [
+          310,
+          "Why do cats purr?"
+        ],
+        [
+          290,
+          "I live in Odense, in a small flat near the river."
+        ],
+        [
+          260,
+          "I speak Polish at home and Danish at work."
+        ],
+        [
+          220,
+          "What's the difference between baking soda and baking powder?"
+        ],
+        [
+          180,
+          "I'm allergic to kiwi, it makes my mouth swell up."
+        ],
+        [
+          140,
+          "My brother Fintan is getting married next June."
+        ],
+        [
+          100,
+          "How do tides work?"
+        ],
+        [
+          60,
+          "I've started taking cello lessons on Thursday evenings."
+        ],
+        [
+          30,
+          "Can you recommend a good stretching routine for the morning?"
+        ],
+        [
+          10,
+          "What's the capital of Australia?"
+        ]
+      ],
+      "questions": [
+        {
+          "q": "What's my name?",
+          "expect": [
+            [
+              "maren"
+            ]
+          ],
+          "needs": [
+            "maren"
+          ]
+        },
+        {
+          "q": "Which languages do I speak?",
+          "expect": [
+            [
+              "polish"
+            ],
+            [
+              "danish"
+            ]
+          ],
+          "needs": [
+            "polish",
+            "danish"
+          ]
+        },
+        {
+          "q": "Which instrument am I learning?",
+          "expect": [
+            [
+              "cello"
+            ]
+          ],
+          "needs": [
+            "cello"
+          ]
+        },
+        {
+          "q": "Can you suggest a fruit salad for my lunch?",
+          "expect": [
+            [
+              "kiwi"
+            ]
+          ],
+          "needs": [
+            "kiwi"
+          ]
+        },
+        {
+          "q": "Write a short email signature for me.",
+          "expect": [
+            [
+              "maren"
+            ],
+            [
+              "quillmark",
+              "engineer"
+            ]
+          ],
+          "needs": [
+            "maren",
+            "quillmark"
+          ]
+        },
+        {
+          "q": "When is my wedding?",
+          "expect": [
+            [
+              "brother",
+              "fintan"
+            ]
+          ],
+          "needs": [
+            "fintan"
+          ]
+        },
+        {
+          "q": "What's my favourite season?",
+          "expect": [
+            [
+              "don't know",
+              "do not know",
+              "don't have",
+              "do not have",
+              "haven't told",
+              "have not told",
+              "haven't mentioned",
+              "have not mentioned",
+              "not mentioned",
+              "didn't mention",
+              "did not mention",
+              "haven't shared",
+              "have not shared",
+              "not sure",
+              "no information",
+              "not aware",
+              "don't recall",
+              "no record",
+              "can't say",
+              "cannot say",
+              "i'm not able",
+              "unable to"
+            ]
+          ],
+          "avoid": [
+            "odense",
+            "quillmark",
+            "kiwi",
+            "cello",
+            "fintan",
+            "polish",
+            "danish"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l_profile_zuzana",
+      "kind": "rich profile: move, job change, flip, past",
+      "messages": [
+        [
+          320,
+          "Hi, I'm Zuzana. I'm a nurse at Hollbach Clinic in Graz."
+        ],
+        [
+          300,
+          "I absolutely love coffee, I drink three cups a day."
+        ],
+        [
+          280,
+          "What's a good way to keep basil alive indoors?"
+        ],
+        [
+          200,
+          "How long should I boil an egg for a runny yolk?"
+        ],
+        [
+          150,
+          "I moved to Linz last week. The flat is great, the commute less so."
+        ],
+        [
+          120,
+          "Why is the sky blue?"
+        ],
+        [
+          90,
+          "I left Hollbach Clinic. I'm now a nurse at St Veit Hospital in Linz."
+        ],
+        [
+          45,
+          "I've gone off coffee completely, I can't stand the taste now."
+        ],
+        [
+          20,
+          "Any tips for sleeping better after a night shift?"
+        ]
+      ],
+      "questions": [
+        {
+          "q": "Which city do I live in?",
+          "expect": [
+            [
+              "linz"
+            ]
+          ],
+          "needs": [
+            "linz"
+          ],
+          "stale": [
+            "graz"
+          ]
+        },
+        {
+          "q": "Where did I live before Linz?",
+          "expect": [
+            [
+              "graz"
+            ]
+          ],
+          "needs": [
+            "graz"
+          ]
+        },
+        {
+          "q": "Where do I work?",
+          "expect": [
+            [
+              "veit"
+            ]
+          ],
+          "needs": [
+            "veit"
+          ],
+          "stale": [
+            "hollbach"
+          ]
+        },
+        {
+          "q": "Which clinic did I work at before?",
+          "expect": [
+            [
+              "hollbach"
+            ]
+          ],
+          "needs": [
+            "hollbach"
+          ]
+        },
+        {
+          "q": "What do I think of coffee these days?",
+          "expect": [
+            [
+              "dislike",
+              "don't like",
+              "do not like",
+              "can't stand",
+              "cannot stand",
+              "gone off",
+              "no longer",
+              "not a fan",
+              "stopped",
+              "anymore",
+              "any more"
+            ]
+          ],
+          "needs": [
+            "coffee"
+          ]
+        },
+        {
+          "q": "What's my job?",
+          "expect": [
+            [
+              "nurse"
+            ]
+          ],
+          "needs": [
+            "nurse"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l_suitcase",
+      "kind": "episode over three messages",
+      "messages": [
+        [
+          85,
+          "My suitcase got lost on my flight to Bucharest."
+        ],
+        [
+          83,
+          "What's a good podcast about history?"
+        ],
+        [
+          80,
+          "The airline finally tracked down my suitcase: it had ended up in Frankfurt."
+        ],
+        [
+          76,
+          "I got my suitcase back today. The handle was broken and the airline paid me 60 euros."
+        ],
+        [
+          50,
+          "How do I descale a kettle?"
+        ],
+        [
+          15,
+          "What's the best way to learn to touch type?"
+        ]
+      ],
+      "questions": [
+        {
+          "q": "Where did the airline find my lost suitcase?",
+          "expect": [
+            [
+              "frankfurt"
+            ]
+          ],
+          "needs": [
+            "frankfurt"
+          ]
+        },
+        {
+          "q": "How much did the airline pay me for the broken suitcase?",
+          "expect": [
+            [
+              "60"
+            ]
+          ],
+          "needs": [
+            "60"
+          ]
+        },
+        {
+          "q": "On which flight did I lose my suitcase?",
+          "expect": [
+            [
+              "bucharest"
+            ]
+          ],
+          "needs": [
+            "bucharest"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l_hiking_plan",
+      "kind": "plan whose companion changes",
+      "messages": [
+        [
+          95,
+          "I'm planning a hiking trip to the Julian Alps next spring with my friend Pieter."
+        ],
+        [
+          70,
+          "What's the difference between a crocodile and an alligator?"
+        ],
+        [
+          40,
+          "Pieter can't come on the hiking trip anymore, so my cousin Brigid is joining me instead."
+        ],
+        [
+          20,
+          "How do I get candle wax out of a tablecloth?"
+        ]
+      ],
+      "questions": [
+        {
+          "q": "Who is coming hiking with me next spring?",
+          "expect": [
+            [
+              "brigid"
+            ]
+          ],
+          "needs": [
+            "brigid"
+          ],
+          "stale": [
+            "pieter"
+          ]
+        },
+        {
+          "q": "Where am I going hiking next spring?",
+          "expect": [
+            [
+              "julian"
+            ]
+          ],
+          "needs": [
+            "julian"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l_partner",
+      "kind": "partner change by break-up, past, pet",
+      "messages": [
+        [
+          210,
+          "My boyfriend Corentin and I adopted a cat called Pip."
+        ],
+        [
+          180,
+          "How does compound interest work?"
+        ],
+        [
+          110,
+          "Corentin and I broke up last month. It was mutual."
+        ],
+        [
+          60,
+          "I've started seeing someone new, her name is Odile."
+        ],
+        [
+          25,
+          "What's a quick dinner I can make with chickpeas?"
+        ]
+      ],
+      "questions": [
+        {
+          "q": "Who is my partner?",
+          "expect": [
+            [
+              "odile"
+            ]
+          ],
+          "needs": [
+            "odile"
+          ],
+          "stale": [
+            "corentin"
+          ]
+        },
+        {
+          "q": "Who was my partner before Odile?",
+          "expect": [
+            [
+              "corentin"
+            ]
+          ],
+          "needs": [
+            "corentin"
+          ]
+        },
+        {
+          "q": "What's my cat called?",
+          "expect": [
+            [
+              "pip"
+            ]
+          ],
+          "needs": [
+            "pip"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l_job_switch",
+      "kind": "employer change, past",
+      "messages": [
+        [
+          260,
+          "I work at Ferrow Foods as a quality analyst."
+        ],
+        [
+          230,
+          "Why do onions make you cry?"
+        ],
+        [
+          140,
+          "What's a good beginner board game for four people?"
+        ],
+        [
+          70,
+          "I've just started a new job at Morrow Biotech, still as a quality analyst."
+        ],
+        [
+          30,
+          "How often should I water a cactus?"
+        ]
+      ],
+      "questions": [
+        {
+          "q": "Where do I work now?",
+          "expect": [
+            [
+              "morrow"
+            ]
+          ],
+          "needs": [
+            "morrow"
+          ],
+          "stale": [
+            "ferrow"
+          ]
+        },
+        {
+          "q": "Where did I work before Morrow Biotech?",
+          "expect": [
+            [
+              "ferrow"
+            ]
+          ],
+          "needs": [
+            "ferrow"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l_indirect",
+      "kind": "indirect use of city and language goal",
+      "messages": [
+        [
+          180,
+          "I've lived in Trieste for three years now and I love the sea air."
+        ],
+        [
+          150,
+          "What's the plot of Moby Dick in two sentences?"
+        ],
+        [
+          100,
+          "I've started learning Finnish, just for fun."
+        ],
+        [
+          60,
+          "How do noise-cancelling headphones work?"
+        ],
+        [
+          20,
+          "What's a good name for a houseplant?"
+        ]
+      ],
+      "questions": [
+        {
+          "q": "Which sea is closest to where I live?",
+          "expect": [
+            [
+              "adriatic"
+            ]
+          ],
+          "needs": [
+            "trieste"
+          ]
+        },
+        {
+          "q": "How do I say 'thank you' in the language I'm learning?",
+          "expect": [
+            [
+              "kiitos"
+            ]
+          ],
+          "needs": [
+            "finnish"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l_sister_trap",
+      "kind": "third-person trap, abstain",
+      "messages": [
+        [
+          150,
+          "I live in Nantes, a short walk from the Loire."
+        ],
+        [
+          130,
+          "My sister Agathe lives in Montreal and works as an airline pilot."
+        ],
+        [
+          90,
+          "How do I make my sourdough starter more active?"
+        ],
+        [
+          40,
+          "What's the rule for the offside position in football?"
+        ]
+      ],
+      "questions": [
+        {
+          "q": "Which city do I live in?",
+          "expect": [
+            [
+              "nantes"
+            ]
+          ],
+          "needs": [
+            "nantes"
+          ],
+          "avoid": [
+            "montreal"
+          ]
+        },
+        {
+          "q": "What's my job?",
+          "expect": [
+            [
+              "don't know",
+              "do not know",
+              "don't have",
+              "do not have",
+              "haven't told",
+              "have not told",
+              "haven't mentioned",
+              "have not mentioned",
+              "not mentioned",
+              "didn't mention",
+              "did not mention",
+              "haven't shared",
+              "have not shared",
+              "not sure",
+              "no information",
+              "not aware",
+              "don't recall",
+              "no record",
+              "can't say",
+              "cannot say",
+              "i'm not able",
+              "unable to"
+            ]
+          ],
+          "avoid": [
+            "pilot",
+            "airline"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l_half_marathon",
+      "kind": "single episode",
+      "messages": [
+        [
+          120,
+          "I ran my first half marathon in Seville last weekend and finished in 1 hour 58 minutes."
+        ],
+        [
+          100,
+          "What's the difference between weather and climate?"
+        ],
+        [
+          50,
+          "Can you explain what an index fund is?"
+        ],
+        [
+          12,
+          "How do I fold a fitted sheet?"
+        ]
+      ],
+      "questions": [
+        {
+          "q": "How long did my first half marathon take?",
+          "expect": [
+            [
+              "58"
+            ]
+          ],
+          "needs": [
+            "58"
+          ]
+        },
+        {
+          "q": "In which city did I run my first half marathon?",
+          "expect": [
+            [
+              "seville",
+              "sevilla"
+            ]
+          ],
+          "needs": [
+            "sevil"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l_birthday",
+      "kind": "direct fact",
+      "messages": [
+        [
+          200,
+          "My birthday is on the 9th of August, I always take the day off."
+        ],
+        [
+          150,
+          "What's a good way to remember people's names?"
+        ],
+        [
+          80,
+          "Why do leaves change colour in autumn?"
+        ],
+        [
+          20,
+          "How many players are on a rugby union team?"
+        ]
+      ],
+      "questions": [
+        {
+          "q": "When is my birthday?",
+          "expect": [
+            [
+              "august"
+            ],
+            [
+              "9"
+            ]
+          ],
+          "needs": [
+            "august"
+          ]
+        }
+      ]
+    }
+  ]
+}
