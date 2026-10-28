@@ -1,0 +1,617 @@
+
+--- facts stored for l_profile_maren ---
+  allergic_to   kiwi                  active      2026-05-01 12:20
+  family_member Fintan                active      2026-06-10 12:20
+  job_title     structural engineer   active      2025-12-02 11:20
+  lives_in      Odense                active      2026-01-11 11:20
+  name          Maren                 active      2025-12-02 11:20
+  speaks        Polish                active      2026-02-10 11:20
+  speaks        Danish                active      2026-02-10 11:20
+  works_at      Quillmark Engineering active      2025-12-02 11:20
+
+[none] What's my name?
+
+[baseline] What's my name?
+    recalled: [2026-10-18] "What's the capital of Australia?"
+    recalled: [2025-12-02] "Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering."
+    recalled: [2026-01-11] "I live in Odense, in a small flat near the river."
+    recalled: [2026-02-10] "I speak Polish at home and Danish at work."
+    answer: I don't know.
+
+[smart] What's my name?
+    recalled: Name: Maren (since 2025-12-02)
+    answer: Your name is Maren.
+[1/30] l_profile_maren: What's my name?
+
+[none] Which languages do I speak?
+
+[baseline] Which languages do I speak?
+    recalled: [2026-02-10] "I speak Polish at home and Danish at work."
+    recalled: [2025-12-02] "Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering."
+    recalled: [2026-01-11] "I live in Odense, in a small flat near the river."
+    recalled: [2026-08-29] "I've started taking cello lessons on Thursday evenings."
+    answer: You speak Polish at home and Danish at work.
+
+[smart] Which languages do I speak?
+    recalled: Speaks: Polish (since 2026-02-10)
+    recalled: Speaks: Danish (since 2026-02-10)
+    answer: You speak Polish and Danish.
+[2/30] l_profile_maren: Which languages do I speak?
+
+[none] Which instrument am I learning?
+
+[baseline] Which instrument am I learning?
+    recalled: [2026-08-29] "I've started taking cello lessons on Thursday evenings."
+    recalled: [2025-12-02] "Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering."
+    recalled: [2026-02-10] "I speak Polish at home and Danish at work."
+    recalled: [2026-01-11] "I live in Odense, in a small flat near the river."
+    answer: You're learning the cello.
+
+[smart] Which instrument am I learning?
+    answer: I don't know. This is our first conversation, and I don't have any prior knowledge about you. Would you like to tell me about the instrument you're learning?
+[3/30] l_profile_maren: Which instrument am I learning?
+
+[none] Can you suggest a fruit salad for my lunch?
+
+[baseline] Can you suggest a fruit salad for my lunch?
+    recalled: [2026-09-28] "Can you recommend a good stretching routine for the morning?"
+    recalled: [2026-01-11] "I live in Odense, in a small flat near the river."
+    recalled: [2026-05-01] "I'm allergic to kiwi, it makes my mouth swell up."
+    recalled: [2026-08-29] "I've started taking cello lessons on Thursday evenings."
+    answer: Considering your allergy to kiwi, I'd recommend avoiding it in the fruit salad. How about a mix of strawberries, grapes, pineapple, and banana?
+
+[smart] Can you suggest a fruit salad for my lunch?
+    recalled: Allergic to: kiwi (since 2026-05-01)
+    answer: Considering your allergy to kiwi, I'd recommend a fruit salad with a combination of fruits like strawberries, grapes, pineapple, and banana. These fruits are all safe and should complement each other well. Would you like me to suggest a simple recipe or any variations?
+[4/30] l_profile_maren: Can you suggest a fruit salad for my lunch?
+
+[none] Write a short email signature for me.
+
+[baseline] Write a short email signature for me.
+    recalled: [2025-12-02] "Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering."
+    recalled: [2026-09-28] "Can you recommend a good stretching routine for the morning?"
+    recalled: [2026-02-10] "I speak Polish at home and Danish at work."
+    recalled: [2026-05-01] "I'm allergic to kiwi, it makes my mouth swell up."
+    answer: Based on our previous conversations, I'll create a signature that includes your name and profession. Here's a suggestion:
+
+"Best regards,
+Maren
+Structural Engineer
+Quillmark Engineering"
+
+Let me know if you'd like me to make any changes!
+
+[smart] Write a short email signature for me.
+    answer: I'd be happy to help you with an email signature.
+
+Here are a few options:
+
+1. "Best regards, [Your Name]"
+2. "Kind regards, [Your Name]"
+3. "Thanks, [Your Name]"
+
+Do you have a preferred style or would you like me to suggest more options?
+[5/30] l_profile_maren: Write a short email signature for me.
+
+[none] When is my wedding?
+
+[baseline] When is my wedding?
+    recalled: [2026-06-10] "My brother Fintan is getting married next June."
+    recalled: [2026-01-11] "I live in Odense, in a small flat near the river."
+    recalled: [2025-12-02] "Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering."
+    recalled: [2026-08-29] "I've started taking cello lessons on Thursday evenings."
+    answer: I don't know.
+
+[smart] When is my wedding?
+    answer: I don't know. I'm a friendly assistant, but I don't have any information about your personal life or upcoming events. Would you like to tell me about your wedding plans?
+[6/30] l_profile_maren: When is my wedding?
+
+[none] What's my favourite season?
+
+[baseline] What's my favourite season?
+    recalled: [2026-01-11] "I live in Odense, in a small flat near the river."
+    recalled: [2025-12-02] "Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering."
+    recalled: [2026-10-18] "What's the capital of Australia?"
+    recalled: [2026-05-01] "I'm allergic to kiwi, it makes my mouth swell up."
+    answer: I don't know.
+
+[smart] What's my favourite season?
+    answer: I don't know. We haven't discussed your preferences before, and I don't have any information about you. Would you like to tell me about your favourite season?
+[7/30] l_profile_maren: What's my favourite season?
+
+--- facts stored for l_profile_zuzana ---
+  dislikes      coffee                active      2026-09-13 12:21
+  job_title     nurse                 active      2025-12-12 11:21
+  lives_in      Graz                  superseded  2025-12-12 11:21
+  lives_in      Linz                  active      2026-05-31 12:21
+  name          Zuzana                active      2025-12-12 11:21
+  works_at      Hollbach Clinic       superseded  2025-12-12 11:21
+  works_at      St Veit Hospital in Linzactive      2026-07-30 12:21
+
+[none] Which city do I live in?
+
+[baseline] Which city do I live in?
+    recalled: [2026-05-31] "I moved to Linz last week. The flat is great, the commute less so."
+    recalled: [2025-12-12] "Hi, I'm Zuzana. I'm a nurse at Hollbach Clinic in Graz."
+    recalled: [2026-07-30] "I left Hollbach Clinic. I'm now a nurse at St Veit Hospital in Linz."
+    recalled: [2026-06-30] "Why is the sky blue?"
+    answer: You live in Linz.
+
+[smart] Which city do I live in?
+    recalled: Lives in: Linz (since 2026-05-31)
+    answer: You live in Linz.
+[8/30] l_profile_zuzana: Which city do I live in?
+
+[none] Where did I live before Linz?
+
+[baseline] Where did I live before Linz?
+    recalled: [2026-05-31] "I moved to Linz last week. The flat is great, the commute less so."
+    recalled: [2026-07-30] "I left Hollbach Clinic. I'm now a nurse at St Veit Hospital in Linz."
+    recalled: [2025-12-12] "Hi, I'm Zuzana. I'm a nurse at Hollbach Clinic in Graz."
+    recalled: [2026-06-30] "Why is the sky blue?"
+    answer: You lived in Graz before moving to Linz.
+
+[smart] Where did I live before Linz?
+    recalled: Earlier: Lives in: Graz (until 2026-05-31)
+    recalled: Lives in: Linz (since 2026-05-31)
+    answer: You lived in Graz before moving to Linz.
+[9/30] l_profile_zuzana: Where did I live before Linz?
+
+[none] Where do I work?
+
+[baseline] Where do I work?
+    recalled: [2025-12-12] "Hi, I'm Zuzana. I'm a nurse at Hollbach Clinic in Graz."
+    recalled: [2026-07-30] "I left Hollbach Clinic. I'm now a nurse at St Veit Hospital in Linz."
+    recalled: [2026-10-08] "Any tips for sleeping better after a night shift?"
+    recalled: [2026-05-31] "I moved to Linz last week. The flat is great, the commute less so."
+    answer: You work at St Veit Hospital in Linz.
+
+[smart] Where do I work?
+    recalled: Works at: St Veit Hospital in Linz (since 2026-07-30)
+    answer: You work at St Veit Hospital in Linz.
+[10/30] l_profile_zuzana: Where do I work?
+
+[none] Which clinic did I work at before?
+
+[baseline] Which clinic did I work at before?
+    recalled: [2026-07-30] "I left Hollbach Clinic. I'm now a nurse at St Veit Hospital in Linz."
+    recalled: [2025-12-12] "Hi, I'm Zuzana. I'm a nurse at Hollbach Clinic in Graz."
+    recalled: [2026-05-31] "I moved to Linz last week. The flat is great, the commute less so."
+    recalled: [2026-10-08] "Any tips for sleeping better after a night shift?"
+    answer: You worked at Hollbach Clinic in Graz before moving to St Veit Hospital in Linz.
+
+[smart] Which clinic did I work at before?
+    recalled: Earlier: Works at: Hollbach Clinic (until 2026-07-30)
+    recalled: Works at: St Veit Hospital in Linz (since 2026-07-30)
+    answer: You worked at the Hollbach Clinic until July 30, 2026.
+[11/30] l_profile_zuzana: Which clinic did I work at before?
+
+[none] What do I think of coffee these days?
+
+[baseline] What do I think of coffee these days?
+    recalled: [2026-01-01] "I absolutely love coffee, I drink three cups a day."
+    recalled: [2026-09-13] "I've gone off coffee completely, I can't stand the taste now."
+    recalled: [2026-05-31] "I moved to Linz last week. The flat is great, the commute less so."
+    recalled: [2026-04-11] "How long should I boil an egg for a runny yolk?"
+    answer: You've gone off coffee completely, you can't stand the taste now.
+
+[smart] What do I think of coffee these days?
+    recalled: Dislikes: coffee (since 2026-09-13)
+    answer: You dislike coffee.
+[12/30] l_profile_zuzana: What do I think of coffee these days?
+
+[none] What's my job?
+
+[baseline] What's my job?
+    recalled: [2025-12-12] "Hi, I'm Zuzana. I'm a nurse at Hollbach Clinic in Graz."
+    recalled: [2026-07-30] "I left Hollbach Clinic. I'm now a nurse at St Veit Hospital in Linz."
+    recalled: [2026-06-30] "Why is the sky blue?"
+    recalled: [2026-10-08] "Any tips for sleeping better after a night shift?"
+    answer: You're a nurse at St Veit Hospital in Linz.
+
+[smart] What's my job?
+    recalled: Job title: nurse (since 2025-12-12)
+    answer: You're a nurse.
+[13/30] l_profile_zuzana: What's my job?
+
+--- facts stored for l_suitcase ---
+  lives_in      Frankfurt             active      2026-08-09 12:22
+
+[none] Where did the airline find my lost suitcase?
+
+[baseline] Where did the airline find my lost suitcase?
+    recalled: [2026-08-09] "The airline finally tracked down my suitcase: it had ended up in Frankfurt."
+    recalled: [2026-08-04] "My suitcase got lost on my flight to Bucharest."
+    recalled: [2026-08-13] "I got my suitcase back today. The handle was broken and the airline paid me 60 euros."
+    recalled: [2026-08-06] "What's a good podcast about history?"
+    answer: I remember that your suitcase was lost on your flight to Bucharest and was eventually found in Frankfurt.
+
+[smart] Where did the airline find my lost suitcase?
+    recalled: Lives in: Frankfurt (since 2026-08-09)
+    answer: I don't know. I'm not aware of any information about your lost suitcase.
+[14/30] l_suitcase: Where did the airline find my lost suitcase?
+
+[none] How much did the airline pay me for the broken suitcase?
+
+[baseline] How much did the airline pay me for the broken suitcase?
+    recalled: [2026-08-13] "I got my suitcase back today. The handle was broken and the airline paid me 60 euros."
+    recalled: [2026-08-09] "The airline finally tracked down my suitcase: it had ended up in Frankfurt."
+    recalled: [2026-08-04] "My suitcase got lost on my flight to Bucharest."
+    recalled: [2026-08-06] "What's a good podcast about history?"
+    answer: They paid you 60 euros.
+
+[smart] How much did the airline pay me for the broken suitcase?
+    answer: I don't know. I'm a friendly assistant, but I don't have any information about your past conversations or personal experiences. Each time you talk to me, it's a new conversation. If you'd like to share what happened with your suitcase, I'd be happy to listen and try to help if I can.
+[15/30] l_suitcase: How much did the airline pay me for the broken suitcase?
+
+[none] On which flight did I lose my suitcase?
+
+[baseline] On which flight did I lose my suitcase?
+    recalled: [2026-08-04] "My suitcase got lost on my flight to Bucharest."
+    recalled: [2026-08-09] "The airline finally tracked down my suitcase: it had ended up in Frankfurt."
+    recalled: [2026-08-13] "I got my suitcase back today. The handle was broken and the airline paid me 60 euros."
+    recalled: [2026-08-06] "What's a good podcast about history?"
+    answer: You lost your suitcase on a flight to Bucharest.
+
+[smart] On which flight did I lose my suitcase?
+    recalled: Lives in: Frankfurt (since 2026-08-09)
+    answer: I don't know. I don't have any information about your past flights or lost luggage.
+[16/30] l_suitcase: On which flight did I lose my suitcase?
+
+--- facts stored for l_hiking_plan ---
+  family_member Brigid                active      2026-09-18 12:22
+  goal          hiking trip to the Julian Alps next springactive      2026-07-25 12:22
+  partner       Pieter                active      2026-07-25 12:22
+
+[none] Who is coming hiking with me next spring?
+
+[baseline] Who is coming hiking with me next spring?
+    recalled: [2026-07-25] "I'm planning a hiking trip to the Julian Alps next spring with my friend Pieter."
+    recalled: [2026-09-18] "Pieter can't come on the hiking trip anymore, so my cousin Brigid is joining me instead."
+    recalled: [2026-08-19] "What's the difference between a crocodile and an alligator?"
+    recalled: [2026-10-08] "How do I get candle wax out of a tablecloth?"
+    answer: Your cousin Brigid is joining you on the hiking trip to the Julian Alps next spring.
+
+[smart] Who is coming hiking with me next spring?
+    recalled: Goal: hiking trip to the Julian Alps next spring (since 2026-07-25)
+    answer: I don't know.
+[17/30] l_hiking_plan: Who is coming hiking with me next spring?
+
+[none] Where am I going hiking next spring?
+
+[baseline] Where am I going hiking next spring?
+    recalled: [2026-07-25] "I'm planning a hiking trip to the Julian Alps next spring with my friend Pieter."
+    recalled: [2026-09-18] "Pieter can't come on the hiking trip anymore, so my cousin Brigid is joining me instead."
+    recalled: [2026-08-19] "What's the difference between a crocodile and an alligator?"
+    recalled: [2026-10-08] "How do I get candle wax out of a tablecloth?"
+    answer: You're planning a hiking trip to the Julian Alps next spring with your cousin Brigid.
+
+[smart] Where am I going hiking next spring?
+    recalled: Goal: hiking trip to the Julian Alps next spring (since 2026-07-25)
+    answer: You're planning a hiking trip to the Julian Alps next spring.
+[18/30] l_hiking_plan: Where am I going hiking next spring?
+
+--- facts stored for l_partner ---
+  family_member Pip                   active      2026-04-01 12:22
+  partner       Corentin              archived    2026-04-01 12:22
+  partner       Odile                 active      2026-08-29 12:22
+
+[none] Who is my partner?
+
+[baseline] Who is my partner?
+    recalled: [2026-08-29] "I've started seeing someone new, her name is Odile."
+    recalled: [2026-04-01] "My boyfriend Corentin and I adopted a cat called Pip."
+    recalled: [2026-07-10] "Corentin and I broke up last month. It was mutual."
+    recalled: [2026-05-01] "How does compound interest work?"
+    answer: You've started seeing someone new, her name is Odile.
+
+[smart] Who is my partner?
+    recalled: Partner: Odile (since 2026-08-29)
+    answer: Your partner is Odile.
+[19/30] l_partner: Who is my partner?
+
+[none] Who was my partner before Odile?
+
+[baseline] Who was my partner before Odile?
+    recalled: [2026-08-29] "I've started seeing someone new, her name is Odile."
+    recalled: [2026-04-01] "My boyfriend Corentin and I adopted a cat called Pip."
+    recalled: [2026-07-10] "Corentin and I broke up last month. It was mutual."
+    recalled: [2026-05-01] "How does compound interest work?"
+    answer: Corentin.
+
+[smart] Who was my partner before Odile?
+    recalled: Partner: Odile (since 2026-08-29)
+    answer: I don't know.
+[20/30] l_partner: Who was my partner before Odile?
+
+[none] What's my cat called?
+
+[baseline] What's my cat called?
+    recalled: [2026-04-01] "My boyfriend Corentin and I adopted a cat called Pip."
+    recalled: [2026-08-29] "I've started seeing someone new, her name is Odile."
+    recalled: [2026-07-10] "Corentin and I broke up last month. It was mutual."
+    recalled: [2026-10-03] "What's a quick dinner I can make with chickpeas?"
+    answer: Your cat is called Pip.
+
+[smart] What's my cat called?
+    answer: I don't know. We haven't discussed your cat before, so I don't have any information about it. Would you like to tell me about your cat?
+[21/30] l_partner: What's my cat called?
+
+--- facts stored for l_job_switch ---
+  job_title     quality analyst       active      2026-02-10 11:22
+  works_at      Ferrow Foods          superseded  2026-02-10 11:22
+  works_at      Morrow Biotech        active      2026-08-19 12:22
+
+[none] Where do I work now?
+
+[baseline] Where do I work now?
+    recalled: [2026-08-19] "I've just started a new job at Morrow Biotech, still as a quality analyst."
+    recalled: [2026-02-10] "I work at Ferrow Foods as a quality analyst."
+    recalled: [2026-03-12] "Why do onions make you cry?"
+    recalled: [2026-09-28] "How often should I water a cactus?"
+    answer: You work at Morrow Biotech as a quality analyst.
+
+[smart] Where do I work now?
+    recalled: Works at: Morrow Biotech (since 2026-08-19)
+    recalled: Job title: quality analyst (since 2026-02-10)
+    answer: You work at Morrow Biotech.
+[22/30] l_job_switch: Where do I work now?
+
+[none] Where did I work before Morrow Biotech?
+
+[baseline] Where did I work before Morrow Biotech?
+    recalled: [2026-08-19] "I've just started a new job at Morrow Biotech, still as a quality analyst."
+    recalled: [2026-02-10] "I work at Ferrow Foods as a quality analyst."
+    recalled: [2026-06-10] "What's a good beginner board game for four people?"
+    recalled: [2026-03-12] "Why do onions make you cry?"
+    answer: You worked at Ferrow Foods as a quality analyst.
+
+[smart] Where did I work before Morrow Biotech?
+    recalled: Earlier: Works at: Ferrow Foods (until 2026-08-19)
+    recalled: Works at: Morrow Biotech (since 2026-08-19)
+    answer: You worked at Ferrow Foods until August 19, 2026.
+[23/30] l_job_switch: Where did I work before Morrow Biotech?
+
+--- facts stored for l_indirect ---
+  hobby         Finnish               active      2026-07-20 12:23
+  lives_in      Trieste               active      2026-05-01 12:23
+
+[none] Which sea is closest to where I live?
+
+[baseline] Which sea is closest to where I live?
+    recalled: [2026-05-01] "I've lived in Trieste for three years now and I love the sea air."
+    recalled: [2026-07-20] "I've started learning Finnish, just for fun."
+    recalled: [2026-10-08] "What's a good name for a houseplant?"
+    recalled: [2026-05-31] "What's the plot of Moby Dick in two sentences?"
+    answer: You live in Trieste, which is a coastal city in Italy. The closest sea to you is the Adriatic Sea.
+
+[smart] Which sea is closest to where I live?
+    recalled: Lives in: Trieste (since 2026-05-01)
+    answer: The Adriatic Sea is closest to where you live in Trieste.
+[24/30] l_indirect: Which sea is closest to where I live?
+
+[none] How do I say 'thank you' in the language I'm learning?
+
+[baseline] How do I say 'thank you' in the language I'm learning?
+    recalled: [2026-07-20] "I've started learning Finnish, just for fun."
+    recalled: [2026-05-01] "I've lived in Trieste for three years now and I love the sea air."
+    recalled: [2026-10-08] "What's a good name for a houseplant?"
+    recalled: [2026-05-31] "What's the plot of Moby Dick in two sentences?"
+    answer: You're learning Finnish, right? In Finnish, you can say "kiitos" to say "thank you".
+
+[smart] How do I say 'thank you' in the language I'm learning?
+    answer: You're learning a new language! I'd be happy to help. However, I don't know which language you're learning. Could you please tell me the name of the language you're studying?
+[25/30] l_indirect: How do I say 'thank you' in the language I'm learning?
+
+--- facts stored for l_sister_trap ---
+  family_member Agathe                active      2026-06-20 12:23
+  job_title     airline pilot         active      2026-06-20 12:23
+  lives_in      Nantes                superseded  2026-05-31 12:23
+  lives_in      Montreal              active      2026-06-20 12:23
+
+[none] Which city do I live in?
+
+[baseline] Which city do I live in?
+    recalled: [2026-05-31] "I live in Nantes, a short walk from the Loire."
+    recalled: [2026-06-20] "My sister Agathe lives in Montreal and works as an airline pilot."
+    recalled: [2026-09-18] "What's the rule for the offside position in football?"
+    recalled: [2026-07-30] "How do I make my sourdough starter more active?"
+    answer: You live in Nantes, a short walk from the Loire.
+
+[smart] Which city do I live in?
+    recalled: Lives in: Montreal (since 2026-06-20)
+    answer: You live in Montreal.
+[26/30] l_sister_trap: Which city do I live in?
+
+[none] What's my job?
+
+[baseline] What's my job?
+    recalled: [2026-09-18] "What's the rule for the offside position in football?"
+    recalled: [2026-06-20] "My sister Agathe lives in Montreal and works as an airline pilot."
+    recalled: [2026-05-31] "I live in Nantes, a short walk from the Loire."
+    recalled: [2026-07-30] "How do I make my sourdough starter more active?"
+    answer: I don't know.
+
+[smart] What's my job?
+    recalled: Job title: airline pilot (since 2026-06-20)
+    answer: You're an airline pilot.
+[27/30] l_sister_trap: What's my job?
+
+--- facts stored for l_half_marathon ---
+
+[none] How long did my first half marathon take?
+
+[baseline] How long did my first half marathon take?
+    recalled: [2026-06-30] "I ran my first half marathon in Seville last weekend and finished in 1 hour 58 minutes."
+    recalled: [2026-07-20] "What's the difference between weather and climate?"
+    recalled: [2026-09-08] "Can you explain what an index fund is?"
+    recalled: [2026-10-16] "How do I fold a fitted sheet?"
+    answer: You finished your first half marathon in 1 hour 58 minutes.
+
+[smart] How long did my first half marathon take?
+    answer: I don't know. I'm a friendly assistant, but I don't have any information about you or your past activities. Would you like to share about your running experiences?
+[28/30] l_half_marathon: How long did my first half marathon take?
+
+[none] In which city did I run my first half marathon?
+
+[baseline] In which city did I run my first half marathon?
+    recalled: [2026-06-30] "I ran my first half marathon in Seville last weekend and finished in 1 hour 58 minutes."
+    recalled: [2026-07-20] "What's the difference between weather and climate?"
+    recalled: [2026-09-08] "Can you explain what an index fund is?"
+    recalled: [2026-10-16] "How do I fold a fitted sheet?"
+    answer: You ran your first half marathon in Seville.
+
+[smart] In which city did I run my first half marathon?
+    answer: I don't know. I'm a friendly assistant, but I don't have any information about your personal history. Would you like to tell me about it?
+[29/30] l_half_marathon: In which city did I run my first half marathon?
+
+--- facts stored for l_birthday ---
+  birthday      9th of August         active      2026-04-11 12:23
+
+[none] When is my birthday?
+
+[baseline] When is my birthday?
+    recalled: [2026-04-11] "My birthday is on the 9th of August, I always take the day off."
+    recalled: [2026-05-31] "What's a good way to remember people's names?"
+    recalled: [2026-08-09] "Why do leaves change colour in autumn?"
+    recalled: [2026-10-08] "How many players are on a rugby union team?"
+    answer: Your birthday is on the 9th of August.
+
+[smart] When is my birthday?
+    recalled: Birthday: 9th of August (since 2026-04-11)
+    answer: Your birthday is on the 9th of August.
+[30/30] l_birthday: When is my birthday?
+  base = baseline vector memory   smart = this system   none = no memory
+  ✓ good   ✗ bad   - not measured   bold name = smart has a ✗
+  NOISE ✓ = no unwanted text   LINES = lines in the prompt
+
+                                                                                  │    NEEDED    │    NOISE     │    ANSWER    │    LINES    
+scenario / question                   kind                                        │  base smart  │  base smart  │  base smart  │  base smart 
+l_profile_maren: What's my name?      rich profile: facts, indirect, traps        │   ✓     ✓    │   -     -    │   ✗     ✓    │   4     1   
+l_profile_maren: Which languages do   rich profile: facts, indirect, traps        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+l_profile_maren: Which instrument am  rich profile: facts, indirect, traps        │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     0   
+l_profile_maren: Can you suggest a f  rich profile: facts, indirect, traps        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+l_profile_maren: Write a short email  rich profile: facts, indirect, traps        │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     0   
+l_profile_maren: When is my wedding?  rich profile: facts, indirect, traps        │   ✓     ✗    │   -     -    │   ✗     ✗    │   4     0   
+l_profile_maren: What's my favourite  rich profile: facts, indirect, traps        │   -     -    │   ✗     ✓    │   ✓     ✓    │   4     0   
+l_profile_zuzana: Which city do I li  rich profile: move, job change, flip, past  │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+l_profile_zuzana: Where did I live b  rich profile: move, job change, flip, past  │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+l_profile_zuzana: Where do I work?    rich profile: move, job change, flip, past  │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+l_profile_zuzana: Which clinic did I  rich profile: move, job change, flip, past  │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+l_profile_zuzana: What do I think of  rich profile: move, job change, flip, past  │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+l_profile_zuzana: What's my job?      rich profile: move, job change, flip, past  │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+l_suitcase: Where did the airline fi  episode over three messages                 │   ✓     ✓    │   -     -    │   ✓     ✗    │   4     1   
+l_suitcase: How much did the airline  episode over three messages                 │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     0   
+l_suitcase: On which flight did I lo  episode over three messages                 │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     1   
+l_hiking_plan: Who is coming hiking   plan whose companion changes                │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     1   
+l_hiking_plan: Where am I going hiki  plan whose companion changes                │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+l_partner: Who is my partner?         partner change by break-up, past, pet       │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+l_partner: Who was my partner before  partner change by break-up, past, pet       │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     1   
+l_partner: What's my cat called?      partner change by break-up, past, pet       │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     0   
+l_job_switch: Where do I work now?    employer change, past                       │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+l_job_switch: Where did I work befor  employer change, past                       │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+l_indirect: Which sea is closest to   indirect use of city and language goal      │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+l_indirect: How do I say 'thank you'  indirect use of city and language goal      │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     0   
+l_sister_trap: Which city do I live   third-person trap, abstain                  │   ✓     ✗    │   ✗     ✗    │   ✓     ✗    │   4     1   
+l_sister_trap: What's my job?         third-person trap, abstain                  │   -     -    │   ✗     ✗    │   ✓     ✗    │   4     1   
+l_half_marathon: How long did my fir  single episode                              │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     0   
+l_half_marathon: In which city did I  single episode                              │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     0   
+l_birthday: When is my birthday?      direct fact                                 │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+
+SET L (BLIND: unseen data, every question type, current system; run once): 30 questions
+mode         needed   noise  stale in    avg   answers  stale in
+            present present    prompt  lines   correct    answer
+baseline      28/28     3/3         5    4.0     28/30      0/30
+smart         16/28     2/3         0    0.9     16/30      0/30
+  green = better than the other mode, red = worse
+  lower is better for: noise, stale, lines
+
+Retrieval problems
+  [smart] l_profile_maren: needed fact missing
+      recalled: nothing
+  [smart] l_profile_maren: needed fact missing
+      recalled: nothing
+  [smart] l_profile_maren: needed fact missing
+      recalled: nothing
+  [baseline] l_profile_maren: noise in prompt
+      recalled: 
+        - [2026-01-11] "I live in Odense, in a small flat near the river."
+        - [2025-12-02] "Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering."
+        - [2026-10-18] "What's the capital of Australia?"
+        - [2026-05-01] "I'm allergic to kiwi, it makes my mouth swell up."
+  [smart] l_suitcase: needed fact missing
+      recalled: nothing
+  [smart] l_suitcase: needed fact missing
+      recalled: 
+        - Lives in: Frankfurt (since 2026-08-09)
+  [smart] l_hiking_plan: needed fact missing
+      recalled: 
+        - Goal: hiking trip to the Julian Alps next spring (since 2026-07-25)
+  [smart] l_partner: needed fact missing
+      recalled: 
+        - Partner: Odile (since 2026-08-29)
+  [smart] l_partner: needed fact missing
+      recalled: nothing
+  [smart] l_indirect: needed fact missing
+      recalled: nothing
+  [baseline] l_sister_trap: noise in prompt
+      recalled: 
+        - [2026-05-31] "I live in Nantes, a short walk from the Loire."
+        - [2026-06-20] "My sister Agathe lives in Montreal and works as an airline pilot."
+        - [2026-09-18] "What's the rule for the offside position in football?"
+        - [2026-07-30] "How do I make my sourdough starter more active?"
+  [smart] l_sister_trap: needed fact missing
+      recalled: 
+        - Lives in: Montreal (since 2026-06-20)
+  [smart] l_sister_trap: noise in prompt
+      recalled: 
+        - Lives in: Montreal (since 2026-06-20)
+  [baseline] l_sister_trap: noise in prompt
+      recalled: 
+        - [2026-09-18] "What's the rule for the offside position in football?"
+        - [2026-06-20] "My sister Agathe lives in Montreal and works as an airline pilot."
+        - [2026-05-31] "I live in Nantes, a short walk from the Loire."
+        - [2026-07-30] "How do I make my sourdough starter more active?"
+  [smart] l_sister_trap: noise in prompt
+      recalled: 
+        - Job title: airline pilot (since 2026-06-20)
+  [smart] l_half_marathon: needed fact missing
+      recalled: nothing
+  [smart] l_half_marathon: needed fact missing
+      recalled: nothing
+
+Wrong answers (baseline and smart)
+  [baseline] l_profile_maren: What's my name? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] l_profile_maren: Which instrument am I learning? 
+      answer: "I don't know. This is our first conversation, and I don't have any prior knowledge about you. Would you like to tell me about the instrument you're learning?"
+  [smart] l_profile_maren: Write a short email signature for me. 
+      answer: 'I\'d be happy to help you with an email signature.\n\nHere are a few options:\n\n1. "Best regards, [Your Name]"\n2. "Kind regards, [Your Name]"\n3. "Thanks, [Your Name]"\n\nDo you have a preferred style or wou'
+  [baseline] l_profile_maren: When is my wedding? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] l_profile_maren: When is my wedding? 
+      answer: "I don't know. I'm a friendly assistant, but I don't have any information about your personal life or upcoming events. Would you like to tell me about your wedding plans?"
+  [smart] l_suitcase: Where did the airline find my lost suitcase? <-- fact WAS in the prompt
+      answer: "I don't know. I'm not aware of any information about your lost suitcase."
+  [smart] l_suitcase: How much did the airline pay me for the broken suitcase? 
+      answer: "I don't know. I'm a friendly assistant, but I don't have any information about your past conversations or personal experiences. Each time you talk to me, it's a new conversation. If you'd like to shar"
+  [smart] l_suitcase: On which flight did I lose my suitcase? 
+      answer: "I don't know. I don't have any information about your past flights or lost luggage."
+  [smart] l_hiking_plan: Who is coming hiking with me next spring? 
+      answer: "I don't know."
+  [smart] l_partner: Who was my partner before Odile? 
+      answer: "I don't know."
+  [smart] l_partner: What's my cat called? 
+      answer: "I don't know. We haven't discussed your cat before, so I don't have any information about it. Would you like to tell me about your cat?"
+  [smart] l_indirect: How do I say 'thank you' in the language I'm learning? 
+      answer: "You're learning a new language! I'd be happy to help. However, I don't know which language you're learning. Could you please tell me the name of the language you're studying?"
+  [smart] l_sister_trap: Which city do I live in? 
+      answer: 'You live in Montreal.'
+  [smart] l_sister_trap: What's my job? 
+      answer: "You're an airline pilot."
+  [smart] l_half_marathon: How long did my first half marathon take? 
+      answer: "I don't know. I'm a friendly assistant, but I don't have any information about you or your past activities. Would you like to share about your running experiences?"
+  [smart] l_half_marathon: In which city did I run my first half marathon? 
+      answer: "I don't know. I'm a friendly assistant, but I don't have any information about your personal history. Would you like to tell me about it?"
+
+saved eval_results.json   (75s)   cache: off

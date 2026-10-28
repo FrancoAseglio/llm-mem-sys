@@ -87,7 +87,7 @@ The key ideas:
 
 ## Results in brief
 
-Measured on 61 scripted life stories with 143 questions (sets A to J) and 6 multi-session stories with 23 probes (set K), comparing smart memory with baseline (the 4 most similar past messages). Details and caveats in [08_evaluation.md](08_evaluation.md).
+Measured on 71 scripted life stories with 173 questions (sets A to J, and L on unseen data) and 6 multi-session stories with 23 probes (set K), comparing smart memory with baseline (the 4 most similar past messages). Details and caveats in [08_evaluation.md](08_evaluation.md).
 
 Sets A to F (33 stories, 71 questions) were built around the 13 fact types and are all spent:
 
@@ -114,7 +114,9 @@ Set J (26 questions) tests merging old notes into digests on users with 10 to 16
 
 Set K (23 probes) tests consistency across sessions, where each session starts with no chat history and only memory carries facts. Smart answered 17, baseline 16; smart never used an outdated value, baseline once; each kept 2 of 7 facts stable. Most of smart's misses were indirect questions ("sign this with my name") whose fact did not pass the gate ([08](08_evaluation.md)).
 
-The clearest result is that no outdated value reached an answer with smart memory. On the new question types, smart memory with summaries matches the baseline on the answers of set H and stays behind it on set G (G had been seen once without summaries, so its second run is labelled a re-run). The gaps are a few questions on small sets, so they are encouraging, not conclusive.
+Set L (30 questions) is the first measure on unseen data: written after every other set was spent, every question type mixed, run once. **The baseline answered 28, smart 20** (16 with facts only). Half of smart's misses were facts stored wrongly: a sister's city and job saved as the user's, a place where lost luggage turned up saved as the user's home, a friend saved as a partner. Smart answers from facts, so those errors became wrong answers, including its first outdated one; the baseline reads raw messages and cannot make them. The rest were the known gate weakness on indirect questions ([08](08_evaluation.md), `results/set_L/log.md`).
+
+On the sets written with the system, no outdated value reached an answer with smart memory; on set L one did, through a wrongly stored fact. On the new question types, smart memory with summaries matches the baseline on the answers of set H and stays behind it on set G (G had been seen once without summaries, so its second run is labelled a re-run). The gaps are a few questions on small sets, so they are encouraging, not conclusive; set L, the one fresh set, favours the baseline.
 
 ## The stack
 

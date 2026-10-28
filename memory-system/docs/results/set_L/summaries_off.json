@@ -1,0 +1,1219 @@
+[
+  {
+    "set": "L",
+    "scenario": "l_profile_maren",
+    "kind": "rich profile: facts, indirect, traps",
+    "question": "What's my name?",
+    "messages_in_history": 11,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-10-18] \"What's the capital of Australia?\"",
+        "[2025-12-02] \"Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering.\"",
+        "[2026-01-11] \"I live in Odense, in a small flat near the river.\"",
+        "[2026-02-10] \"I speak Polish at home and Danish at work.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": false,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Name: Maren (since 2025-12-02)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your name is Maren.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_profile_maren",
+    "kind": "rich profile: facts, indirect, traps",
+    "question": "Which languages do I speak?",
+    "messages_in_history": 11,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-02-10] \"I speak Polish at home and Danish at work.\"",
+        "[2025-12-02] \"Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering.\"",
+        "[2026-01-11] \"I live in Odense, in a small flat near the river.\"",
+        "[2026-08-29] \"I've started taking cello lessons on Thursday evenings.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You speak Polish at home and Danish at work.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Speaks: Polish (since 2026-02-10)",
+        "Speaks: Danish (since 2026-02-10)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You speak Polish and Danish.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_profile_maren",
+    "kind": "rich profile: facts, indirect, traps",
+    "question": "Which instrument am I learning?",
+    "messages_in_history": 11,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-29] \"I've started taking cello lessons on Thursday evenings.\"",
+        "[2025-12-02] \"Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering.\"",
+        "[2026-02-10] \"I speak Polish at home and Danish at work.\"",
+        "[2026-01-11] \"I live in Odense, in a small flat near the river.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You're learning the cello.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. This is our first conversation, and I don't have any prior knowledge about you. Would you like to tell me about the instrument you're learning?",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_profile_maren",
+    "kind": "rich profile: facts, indirect, traps",
+    "question": "Can you suggest a fruit salad for my lunch?",
+    "messages_in_history": 11,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-09-28] \"Can you recommend a good stretching routine for the morning?\"",
+        "[2026-01-11] \"I live in Odense, in a small flat near the river.\"",
+        "[2026-05-01] \"I'm allergic to kiwi, it makes my mouth swell up.\"",
+        "[2026-08-29] \"I've started taking cello lessons on Thursday evenings.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Considering your allergy to kiwi, I'd recommend avoiding it in the fruit salad. How about a mix of strawberries, grapes, pineapple, and banana?",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Allergic to: kiwi (since 2026-05-01)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Considering your allergy to kiwi, I'd recommend a fruit salad with a combination of fruits like strawberries, grapes, pineapple, and banana. These fruits are all safe and should complement each other well. Would you like me to suggest a simple recipe or any variations?",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_profile_maren",
+    "kind": "rich profile: facts, indirect, traps",
+    "question": "Write a short email signature for me.",
+    "messages_in_history": 11,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2025-12-02] \"Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering.\"",
+        "[2026-09-28] \"Can you recommend a good stretching routine for the morning?\"",
+        "[2026-02-10] \"I speak Polish at home and Danish at work.\"",
+        "[2026-05-01] \"I'm allergic to kiwi, it makes my mouth swell up.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Based on our previous conversations, I'll create a signature that includes your name and profession. Here's a suggestion:\n\n\"Best regards,\nMaren\nStructural Engineer\nQuillmark Engineering\"\n\nLet me know if you'd like me to make any changes!",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I'd be happy to help you with an email signature.\n\nHere are a few options:\n\n1. \"Best regards, [Your Name]\"\n2. \"Kind regards, [Your Name]\"\n3. \"Thanks, [Your Name]\"\n\nDo you have a preferred style or would you like me to suggest more options?",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_profile_maren",
+    "kind": "rich profile: facts, indirect, traps",
+    "question": "When is my wedding?",
+    "messages_in_history": 11,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-06-10] \"My brother Fintan is getting married next June.\"",
+        "[2026-01-11] \"I live in Odense, in a small flat near the river.\"",
+        "[2025-12-02] \"Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering.\"",
+        "[2026-08-29] \"I've started taking cello lessons on Thursday evenings.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": false,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I'm a friendly assistant, but I don't have any information about your personal life or upcoming events. Would you like to tell me about your wedding plans?",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_profile_maren",
+    "kind": "rich profile: facts, indirect, traps",
+    "question": "What's my favourite season?",
+    "messages_in_history": 11,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": null,
+      "noise_present": false,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-01-11] \"I live in Odense, in a small flat near the river.\"",
+        "[2025-12-02] \"Hi, I'm Maren. I work as a structural engineer at Quillmark Engineering.\"",
+        "[2026-10-18] \"What's the capital of Australia?\"",
+        "[2026-05-01] \"I'm allergic to kiwi, it makes my mouth swell up.\""
+      ],
+      "needed_present": null,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": null,
+      "noise_present": false,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We haven't discussed your preferences before, and I don't have any information about you. Would you like to tell me about your favourite season?",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_profile_zuzana",
+    "kind": "rich profile: move, job change, flip, past",
+    "question": "Which city do I live in?",
+    "messages_in_history": 9,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-05-31] \"I moved to Linz last week. The flat is great, the commute less so.\"",
+        "[2025-12-12] \"Hi, I'm Zuzana. I'm a nurse at Hollbach Clinic in Graz.\"",
+        "[2026-07-30] \"I left Hollbach Clinic. I'm now a nurse at St Veit Hospital in Linz.\"",
+        "[2026-06-30] \"Why is the sky blue?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": true,
+      "answer": "You live in Linz.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Lives in: Linz (since 2026-05-31)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You live in Linz.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_profile_zuzana",
+    "kind": "rich profile: move, job change, flip, past",
+    "question": "Where did I live before Linz?",
+    "messages_in_history": 9,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-05-31] \"I moved to Linz last week. The flat is great, the commute less so.\"",
+        "[2026-07-30] \"I left Hollbach Clinic. I'm now a nurse at St Veit Hospital in Linz.\"",
+        "[2025-12-12] \"Hi, I'm Zuzana. I'm a nurse at Hollbach Clinic in Graz.\"",
+        "[2026-06-30] \"Why is the sky blue?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You lived in Graz before moving to Linz.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Earlier: Lives in: Graz (until 2026-05-31)",
+        "Lives in: Linz (since 2026-05-31)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You lived in Graz before moving to Linz.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_profile_zuzana",
+    "kind": "rich profile: move, job change, flip, past",
+    "question": "Where do I work?",
+    "messages_in_history": 9,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2025-12-12] \"Hi, I'm Zuzana. I'm a nurse at Hollbach Clinic in Graz.\"",
+        "[2026-07-30] \"I left Hollbach Clinic. I'm now a nurse at St Veit Hospital in Linz.\"",
+        "[2026-10-08] \"Any tips for sleeping better after a night shift?\"",
+        "[2026-05-31] \"I moved to Linz last week. The flat is great, the commute less so.\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": true,
+      "answer": "You work at St Veit Hospital in Linz.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Works at: St Veit Hospital in Linz (since 2026-07-30)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You work at St Veit Hospital in Linz.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_profile_zuzana",
+    "kind": "rich profile: move, job change, flip, past",
+    "question": "Which clinic did I work at before?",
+    "messages_in_history": 9,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-30] \"I left Hollbach Clinic. I'm now a nurse at St Veit Hospital in Linz.\"",
+        "[2025-12-12] \"Hi, I'm Zuzana. I'm a nurse at Hollbach Clinic in Graz.\"",
+        "[2026-05-31] \"I moved to Linz last week. The flat is great, the commute less so.\"",
+        "[2026-10-08] \"Any tips for sleeping better after a night shift?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You worked at Hollbach Clinic in Graz before moving to St Veit Hospital in Linz.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Earlier: Works at: Hollbach Clinic (until 2026-07-30)",
+        "Works at: St Veit Hospital in Linz (since 2026-07-30)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You worked at the Hollbach Clinic until July 30, 2026.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_profile_zuzana",
+    "kind": "rich profile: move, job change, flip, past",
+    "question": "What do I think of coffee these days?",
+    "messages_in_history": 9,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-01-01] \"I absolutely love coffee, I drink three cups a day.\"",
+        "[2026-09-13] \"I've gone off coffee completely, I can't stand the taste now.\"",
+        "[2026-05-31] \"I moved to Linz last week. The flat is great, the commute less so.\"",
+        "[2026-04-11] \"How long should I boil an egg for a runny yolk?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You've gone off coffee completely, you can't stand the taste now.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Dislikes: coffee (since 2026-09-13)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You dislike coffee.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_profile_zuzana",
+    "kind": "rich profile: move, job change, flip, past",
+    "question": "What's my job?",
+    "messages_in_history": 9,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2025-12-12] \"Hi, I'm Zuzana. I'm a nurse at Hollbach Clinic in Graz.\"",
+        "[2026-07-30] \"I left Hollbach Clinic. I'm now a nurse at St Veit Hospital in Linz.\"",
+        "[2026-06-30] \"Why is the sky blue?\"",
+        "[2026-10-08] \"Any tips for sleeping better after a night shift?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You're a nurse at St Veit Hospital in Linz.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Job title: nurse (since 2025-12-12)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You're a nurse.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_suitcase",
+    "kind": "episode over three messages",
+    "question": "Where did the airline find my lost suitcase?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-09] \"The airline finally tracked down my suitcase: it had ended up in Frankfurt.\"",
+        "[2026-08-04] \"My suitcase got lost on my flight to Bucharest.\"",
+        "[2026-08-13] \"I got my suitcase back today. The handle was broken and the airline paid me 60 euros.\"",
+        "[2026-08-06] \"What's a good podcast about history?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I remember that your suitcase was lost on your flight to Bucharest and was eventually found in Frankfurt.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Lives in: Frankfurt (since 2026-08-09)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I'm not aware of any information about your lost suitcase.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_suitcase",
+    "kind": "episode over three messages",
+    "question": "How much did the airline pay me for the broken suitcase?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-13] \"I got my suitcase back today. The handle was broken and the airline paid me 60 euros.\"",
+        "[2026-08-09] \"The airline finally tracked down my suitcase: it had ended up in Frankfurt.\"",
+        "[2026-08-04] \"My suitcase got lost on my flight to Bucharest.\"",
+        "[2026-08-06] \"What's a good podcast about history?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "They paid you 60 euros.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I'm a friendly assistant, but I don't have any information about your past conversations or personal experiences. Each time you talk to me, it's a new conversation. If you'd like to share what happened with your suitcase, I'd be happy to listen and try to help if I can.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_suitcase",
+    "kind": "episode over three messages",
+    "question": "On which flight did I lose my suitcase?",
+    "messages_in_history": 6,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-04] \"My suitcase got lost on my flight to Bucharest.\"",
+        "[2026-08-09] \"The airline finally tracked down my suitcase: it had ended up in Frankfurt.\"",
+        "[2026-08-13] \"I got my suitcase back today. The handle was broken and the airline paid me 60 euros.\"",
+        "[2026-08-06] \"What's a good podcast about history?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You lost your suitcase on a flight to Bucharest.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Lives in: Frankfurt (since 2026-08-09)"
+      ],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I don't have any information about your past flights or lost luggage.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_hiking_plan",
+    "kind": "plan whose companion changes",
+    "question": "Who is coming hiking with me next spring?",
+    "messages_in_history": 4,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-25] \"I'm planning a hiking trip to the Julian Alps next spring with my friend Pieter.\"",
+        "[2026-09-18] \"Pieter can't come on the hiking trip anymore, so my cousin Brigid is joining me instead.\"",
+        "[2026-08-19] \"What's the difference between a crocodile and an alligator?\"",
+        "[2026-10-08] \"How do I get candle wax out of a tablecloth?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": true,
+      "answer": "Your cousin Brigid is joining you on the hiking trip to the Julian Alps next spring.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Goal: hiking trip to the Julian Alps next spring (since 2026-07-25)"
+      ],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_hiking_plan",
+    "kind": "plan whose companion changes",
+    "question": "Where am I going hiking next spring?",
+    "messages_in_history": 4,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-25] \"I'm planning a hiking trip to the Julian Alps next spring with my friend Pieter.\"",
+        "[2026-09-18] \"Pieter can't come on the hiking trip anymore, so my cousin Brigid is joining me instead.\"",
+        "[2026-08-19] \"What's the difference between a crocodile and an alligator?\"",
+        "[2026-10-08] \"How do I get candle wax out of a tablecloth?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You're planning a hiking trip to the Julian Alps next spring with your cousin Brigid.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Goal: hiking trip to the Julian Alps next spring (since 2026-07-25)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You're planning a hiking trip to the Julian Alps next spring.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_partner",
+    "kind": "partner change by break-up, past, pet",
+    "question": "Who is my partner?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-29] \"I've started seeing someone new, her name is Odile.\"",
+        "[2026-04-01] \"My boyfriend Corentin and I adopted a cat called Pip.\"",
+        "[2026-07-10] \"Corentin and I broke up last month. It was mutual.\"",
+        "[2026-05-01] \"How does compound interest work?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": true,
+      "answer": "You've started seeing someone new, her name is Odile.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Partner: Odile (since 2026-08-29)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your partner is Odile.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_partner",
+    "kind": "partner change by break-up, past, pet",
+    "question": "Who was my partner before Odile?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-29] \"I've started seeing someone new, her name is Odile.\"",
+        "[2026-04-01] \"My boyfriend Corentin and I adopted a cat called Pip.\"",
+        "[2026-07-10] \"Corentin and I broke up last month. It was mutual.\"",
+        "[2026-05-01] \"How does compound interest work?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Corentin.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Partner: Odile (since 2026-08-29)"
+      ],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_partner",
+    "kind": "partner change by break-up, past, pet",
+    "question": "What's my cat called?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-04-01] \"My boyfriend Corentin and I adopted a cat called Pip.\"",
+        "[2026-08-29] \"I've started seeing someone new, her name is Odile.\"",
+        "[2026-07-10] \"Corentin and I broke up last month. It was mutual.\"",
+        "[2026-10-03] \"What's a quick dinner I can make with chickpeas?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your cat is called Pip.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. We haven't discussed your cat before, so I don't have any information about it. Would you like to tell me about your cat?",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_job_switch",
+    "kind": "employer change, past",
+    "question": "Where do I work now?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-19] \"I've just started a new job at Morrow Biotech, still as a quality analyst.\"",
+        "[2026-02-10] \"I work at Ferrow Foods as a quality analyst.\"",
+        "[2026-03-12] \"Why do onions make you cry?\"",
+        "[2026-09-28] \"How often should I water a cactus?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": true,
+      "answer": "You work at Morrow Biotech as a quality analyst.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Works at: Morrow Biotech (since 2026-08-19)",
+        "Job title: quality analyst (since 2026-02-10)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You work at Morrow Biotech.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_job_switch",
+    "kind": "employer change, past",
+    "question": "Where did I work before Morrow Biotech?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-08-19] \"I've just started a new job at Morrow Biotech, still as a quality analyst.\"",
+        "[2026-02-10] \"I work at Ferrow Foods as a quality analyst.\"",
+        "[2026-06-10] \"What's a good beginner board game for four people?\"",
+        "[2026-03-12] \"Why do onions make you cry?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You worked at Ferrow Foods as a quality analyst.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 2,
+      "memory": [
+        "Earlier: Works at: Ferrow Foods (until 2026-08-19)",
+        "Works at: Morrow Biotech (since 2026-08-19)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You worked at Ferrow Foods until August 19, 2026.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_indirect",
+    "kind": "indirect use of city and language goal",
+    "question": "Which sea is closest to where I live?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-05-01] \"I've lived in Trieste for three years now and I love the sea air.\"",
+        "[2026-07-20] \"I've started learning Finnish, just for fun.\"",
+        "[2026-10-08] \"What's a good name for a houseplant?\"",
+        "[2026-05-31] \"What's the plot of Moby Dick in two sentences?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You live in Trieste, which is a coastal city in Italy. The closest sea to you is the Adriatic Sea.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Lives in: Trieste (since 2026-05-01)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "The Adriatic Sea is closest to where you live in Trieste.",
+      "correct": true,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_indirect",
+    "kind": "indirect use of city and language goal",
+    "question": "How do I say 'thank you' in the language I'm learning?",
+    "messages_in_history": 5,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-07-20] \"I've started learning Finnish, just for fun.\"",
+        "[2026-05-01] \"I've lived in Trieste for three years now and I love the sea air.\"",
+        "[2026-10-08] \"What's a good name for a houseplant?\"",
+        "[2026-05-31] \"What's the plot of Moby Dick in two sentences?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You're learning Finnish, right? In Finnish, you can say \"kiitos\" to say \"thank you\".",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You're learning a new language! I'd be happy to help. However, I don't know which language you're learning. Could you please tell me the name of the language you're studying?",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_sister_trap",
+    "kind": "third-person trap, abstain",
+    "question": "Which city do I live in?",
+    "messages_in_history": 4,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": false,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-05-31] \"I live in Nantes, a short walk from the Loire.\"",
+        "[2026-06-20] \"My sister Agathe lives in Montreal and works as an airline pilot.\"",
+        "[2026-09-18] \"What's the rule for the offside position in football?\"",
+        "[2026-07-30] \"How do I make my sourdough starter more active?\""
+      ],
+      "needed_present": true,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "You live in Nantes, a short walk from the Loire.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Lives in: Montreal (since 2026-06-20)"
+      ],
+      "needed_present": false,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "You live in Montreal.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_sister_trap",
+    "kind": "third-person trap, abstain",
+    "question": "What's my job?",
+    "messages_in_history": 4,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": null,
+      "noise_present": false,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-09-18] \"What's the rule for the offside position in football?\"",
+        "[2026-06-20] \"My sister Agathe lives in Montreal and works as an airline pilot.\"",
+        "[2026-05-31] \"I live in Nantes, a short walk from the Loire.\"",
+        "[2026-07-30] \"How do I make my sourdough starter more active?\""
+      ],
+      "needed_present": null,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "I don't know.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Job title: airline pilot (since 2026-06-20)"
+      ],
+      "needed_present": null,
+      "noise_present": true,
+      "stale_in_prompt": false,
+      "answer": "You're an airline pilot.",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_half_marathon",
+    "kind": "single episode",
+    "question": "How long did my first half marathon take?",
+    "messages_in_history": 4,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-06-30] \"I ran my first half marathon in Seville last weekend and finished in 1 hour 58 minutes.\"",
+        "[2026-07-20] \"What's the difference between weather and climate?\"",
+        "[2026-09-08] \"Can you explain what an index fund is?\"",
+        "[2026-10-16] \"How do I fold a fitted sheet?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You finished your first half marathon in 1 hour 58 minutes.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I'm a friendly assistant, but I don't have any information about you or your past activities. Would you like to share about your running experiences?",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_half_marathon",
+    "kind": "single episode",
+    "question": "In which city did I run my first half marathon?",
+    "messages_in_history": 4,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-06-30] \"I ran my first half marathon in Seville last weekend and finished in 1 hour 58 minutes.\"",
+        "[2026-07-20] \"What's the difference between weather and climate?\"",
+        "[2026-09-08] \"Can you explain what an index fund is?\"",
+        "[2026-10-16] \"How do I fold a fitted sheet?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "You ran your first half marathon in Seville.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "I don't know. I'm a friendly assistant, but I don't have any information about your personal history. Would you like to tell me about it?",
+      "correct": false,
+      "stale": false
+    }
+  },
+  {
+    "set": "L",
+    "scenario": "l_birthday",
+    "kind": "direct fact",
+    "question": "When is my birthday?",
+    "messages_in_history": 4,
+    "none": {
+      "lines": 0,
+      "memory": [],
+      "needed_present": false,
+      "noise_present": null,
+      "stale_in_prompt": false
+    },
+    "baseline": {
+      "lines": 4,
+      "memory": [
+        "[2026-04-11] \"My birthday is on the 9th of August, I always take the day off.\"",
+        "[2026-05-31] \"What's a good way to remember people's names?\"",
+        "[2026-08-09] \"Why do leaves change colour in autumn?\"",
+        "[2026-10-08] \"How many players are on a rugby union team?\""
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your birthday is on the 9th of August.",
+      "correct": true,
+      "stale": false
+    },
+    "smart": {
+      "lines": 1,
+      "memory": [
+        "Birthday: 9th of August (since 2026-04-11)"
+      ],
+      "needed_present": true,
+      "noise_present": null,
+      "stale_in_prompt": false,
+      "answer": "Your birthday is on the 9th of August.",
+      "correct": true,
+      "stale": false
+    }
+  }
+]

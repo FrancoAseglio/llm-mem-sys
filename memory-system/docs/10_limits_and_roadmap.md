@@ -12,7 +12,7 @@ Everything known to be missing or weak, in one place, and the planned work. Each
 
 ## 2. Limits of the evidence
 
-See [08_evaluation.md](08_evaluation.md), section 7, for the full list. In short: sets A to F were written around the 13 fact types and G and H are small; every set has been seen; scoring is by keywords, which mis-scores true past-tense notes; one small model; the baseline is simple.
+See [08_evaluation.md](08_evaluation.md), section 7, for the full list. In short: sets A to F were written around the 13 fact types and G and H are small; every set has been seen, and on the one fresh set (L) the baseline answered 28 of 30 against smart's 20; scoring is by keywords, which mis-scores true past-tense notes; one small model; the baseline is simple.
 
 ## 3. Limits of the system
 
@@ -38,7 +38,12 @@ See [08_evaluation.md](08_evaluation.md), section 7, for the full list. In short
 | Model | The `(since date)` label is misread | Set K: "which you started learning on March 2" from `Speaks: Breton (since 2026-03-02)` |
 | Model | The real-time instruction blocks local suggestions | Set K: with `Lives in: Pärnu` in the prompt, a café suggestion was declined |
 | Read path | Replies come one turn late after a change | Facts are stored after the reply, so the reply to "I've moved" still sees the old city (set K) |
-| Retrieval | Indirect questions lose the fact | Set K: 4 of smart's 6 misses had the fact in memory but not past the gate |
+| Retrieval | Indirect questions lose the fact | Set K: 4 of smart's 6 misses had the fact in memory but not past the gate; set L: an email signature (both facts under the floor), a language goal stored as a hobby, a brother's wedding |
+| Write path | Facts about other people are stored as the user's | Set L: "My sister Agathe lives in Montreal and works as an airline pilot" stored the user's city and job, and Montreal replaced the user's real city. Worse than a miss: it replaces a right fact |
+| Write path | Incidental places and people get a fact kind | Set L: "my suitcase had ended up in Frankfurt" became `lives_in`; "my friend Pieter" became `partner`; a cat became a `family_member` |
+| Write path | The same wording supersedes or archives | "I left Hollbach Clinic, I'm now at St Veit" superseded the old employer on set L; a similar sentence archived it on set I |
+| Summaries | Notes skip what facts were supposed to hold | The notes prompt skips "plain personal facts stored elsewhere"; on set L the model applied it to cello lessons, learning Finnish and a wedding, and when extraction also missed the message (cello) nothing kept it. Two stories got no notes at all |
+| Summaries | A changed plan can keep its first state | Set L: "Pieter can't come, Brigid is joining instead" got no note; the only note said "with Pieter", and smart answered Pieter |
 | Write path | Junk made of message words passes grounding | "new position" ([05](05_write_path.md)) |
 | Write path | An achieved goal stays a goal | "I got the promotion" |
 | Write path | An abandoned hobby can be filed as a dislike | "I'm done with chess" |
@@ -59,11 +64,12 @@ See [08_evaluation.md](08_evaluation.md), section 7, for the full list. In short
 In order. Each step is verified before the next begins. Done so far: facts, the write and read paths, the first version of the summaries layer (sets G and H, [07](07_summaries.md)), the first version of the past-question rule (set I) and consolidation (set J, then closed).
 
 1. **Consolidation: closed.** On set J digests did not cost answers (smart 24/26 without, 25/26 with; [08](08_evaluation.md)) but saved little (0.79 of the notes they replace; text in use 1.01 of sources). A time-boxed look at grouping by code showed that grouping is not the limit: with every detail kept, merging every old note would still leave 0.92 ([results/logs/consolidation_v2_exploration.md](results/logs/consolidation_v2_exploration.md)). Two options remain, not planned: shorter notes without the "The user …" framing (14% of note text; changes the notes layer for every set), or digests allowed to drop details (trades answers for length).
-2. **Consistency across turns: measured (set K).** A session format and runner (`evaluate_sessions.py`). Smart and baseline about even (17 and 16 of 23; 0 and 1 contradictions; 2 and 2 stable facts). Smart's misses are mostly the gate on indirect questions, which belongs to step 4. Not done: consistency with the assistant's own replies.
+2. **Consistency across turns: measured (set K).** A session format and runner (`evaluate_sessions.py`). Smart and baseline about even (17 and 16 of 23; 0 and 1 contradictions; 2 and 2 stable facts). Smart's misses are mostly the gate on indirect questions, which belongs to step 5. Not done: consistency with the assistant's own replies.
 3. **Questions about the past: first version done, follow-up open.** Replaced facts are read for past questions (set I, [08](08_evaluation.md)): 5 of 6 past questions had the needed value, answers 3 of 6, regression sets unchanged. Two follow-ups come from the misses and need a fresh set, because I is spent: (a) read facts archived by a retraction for past questions, or store "left X, now at Y" as a replacement; (b) order past lines oldest first. A pre-registered comparison with the current version is the test.
-4. **Routing for notes, the gate on indirect questions, and the "say you don't know" prompt.** Noise and invented answers seen in sets A to H, and the indirect questions set K lost at the gate (a signature, a note signed with the user's name, a vinaigrette for a mustard allergy). Each needs a fresh set.
-5. **Final comparison on a fresh set.** None, baseline and smart (with and without summaries), run once. The two held-back fixes (a strong-match override at about 0.60 raw similarity, and an allergy bypass up to relation rank 3) are measured blind as an ablation in the same run.
-6. **Report.** The results with their limits, the decision log, and the known failures listed above.
+4. **Unseen data: measured (set L).** Baseline 28 of 30, smart 20 (facts only 16). Half of smart's misses are write-path errors: facts about other people stored as the user's, incidental places and people given a fact kind. Next, developed on spent sets and measured on a fresh set M: those write-path errors, the gap between notes and facts, then the gate items below.
+5. **Routing for notes, the gate on indirect questions, and the "say you don't know" prompt.** Noise and invented answers seen in sets A to H, and the indirect questions set K lost at the gate (a signature, a note signed with the user's name, a vinaigrette for a mustard allergy). Each needs a fresh set.
+6. **Final comparison on a fresh set.** None, baseline and smart (with and without summaries), run once. The two held-back fixes (a strong-match override at about 0.60 raw similarity, and an allergy bypass up to relation rank 3) are measured blind as an ablation in the same run.
+7. **Report.** The results with their limits, the decision log, and the known failures listed above.
 
 ## 5. Open questions
 

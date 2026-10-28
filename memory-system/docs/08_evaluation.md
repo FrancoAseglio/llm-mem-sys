@@ -34,7 +34,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 
 ## 3. The test sets
 
-61 scenarios, 143 questions, in `scripts/evaluation/scenarios/sets/` (one JSON file per set, with its status label).
+71 scenarios, 173 questions, in `scripts/evaluation/scenarios/sets/` (one JSON file per set, with its status label).
 
 | Set | Scenarios | Questions | Status | What it tests |
 |---|---|---|---|---|
@@ -49,8 +49,9 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 | I | 7 | 12 | **Spent**: blind validation of the past-question mechanism, written before its code, run once | Past questions after a move, a job change, two moves, a like-to-dislike flip and a partner change; present-tense controls; two "before" traps; a user who never moved |
 | J | 5 | 26 | **Spent**: blind validation of consolidation, written before its code; run once without it and once with it | Users with 10 to 16 episode messages: a renovation story, a year of trips, a band story with other people, typed facts mixed with episodes, and a control user whose messages are all under 30 days old |
 | K | 6 | 23 probes | **Spent**: blind, consistency across sessions, written before its runner, run once; in its own format (`"format": "sessions"`), run by `scripts/evaluate_sessions.py`, not by `evaluate.py` | Multi-session stories: a move, an allergy, an employer change, a partner with a distractor, a move inside one session, a control where nothing changes; direct and indirect probes |
+| L | 10 | 30 | **Spent**: blind, unseen data, written after A to K were spent and before any change; run once, with summaries on and off | Every question type mixed: direct facts, changes, past questions, episodes, indirect questions, a third-person trap and abstain questions |
 
-A **blind** set is written before the change it tests and run once. After that it is **spent**: it has influenced decisions, so it can no longer validate anything. Today every set is spent or tuning (G was re-run once with the layer, which is why its second result is labelled as a re-run).
+A **blind** set is written before the change it tests and run once. After that it is **spent**: it has influenced decisions, so it can no longer validate anything. Today every set is spent or tuning (L was the first run on unseen data) (G was re-run once with the layer, which is why its second result is labelled as a re-run).
 
 ### Scenario format
 
@@ -227,6 +228,22 @@ Six stories told over several sessions; each session starts with no chat history
 - **Baseline loses to its own questions and to "I don't know".** Its past questions fill its four lines over time, which caused its one contradiction; three times it said "I don't know" with the fact in its lines.
 - **Outside the scores:** the `(since date)` label of a fact was read as a start date ("which you started learning on March 2"), and smart replies to a change one turn late, because facts are stored after the reply.
 
+### Set L: unseen data
+
+The first measure on data written after every other set was spent, before any change, run once. Predictions: [predictions/set_L.md](predictions/set_L.md); causes of every miss: `results/set_L/log.md`.
+
+| Set L, 30 questions | Needed | Noise | Stale in prompt | Avg lines | Answers | Stale in answer |
+|---|---|---|---|---|---|---|
+| Baseline | 28/28 | 3/3 | 5 | 4.0 | **28/30** | 0 |
+| Smart, summaries on | 20/28 | 2/3 | 2 | 1.7 | 20/30 | 1 |
+| Smart, summaries off | 16/28 | 2/3 | 0 | 0.9 | 16/30 | 0 |
+
+- **On unseen data the baseline is clearly better.** It answered 8 more questions; smart was right where the baseline was wrong once, the reverse 9 times (sign test p of about 0.02). Predicted: baseline about 23.5, smart about 21, facts only about 15.5.
+- **Half of smart's misses are write-path errors, not gate errors.** A sister's city and job were stored as the user's (Montreal replaced Nantes), "my suitcase ended up in Frankfurt" became `lives_in = Frankfurt`, a friend became a `partner`, and a hobby was never extracted. Smart answers from facts, so a wrong fact becomes a wrong answer; the baseline reads the messages and cannot make this mistake. One of these errors gave smart its first outdated answer.
+- **The rest are known weaknesses:** the gate on indirect questions (a signature, a language goal, a wedding), and an archived partner the past rule cannot read.
+- **What still holds:** with facts only, smart had no outdated value in prompt or answer and used 0.9 lines against 4.0. Summaries added 4 answers, all episodes.
+- **Two stories got no notes,** because the notes prompt skips "plain personal facts stored elsewhere" and the model applied that to messages whose facts were not stored.
+
 ### What the results show
 
 - **Outdated facts never reach the prompt** with smart memory (0 against 15). This is the clearest result and follows directly from the design: superseded, archived and conflicted facts are not read.
@@ -253,8 +270,8 @@ Predictions are kept unchanged in [predictions/](predictions/). Outcomes: on set
 | Limit | Why it matters |
 |---|---|
 | Sets A to F were written around the 13 fact types | Every scenario there asks about something the system stores. Sets G and H test other questions and show where the baseline is stronger (G), but G and H are small and G was seen once before its re-run |
-| All sets are seen | The gate values (0.42, 0.08) and the two routing hints were chosen after seeing sets A to C; D to F were blind but are now spent. Performance on fresh data is probably lower |
-| Small samples | 143 questions, 61 stories; one rich profile carries many of the questions; H, I and J were one run each (15, 12 and 26 questions) |
+| All sets are seen | The gate values (0.42, 0.08) and the two routing hints were chosen after seeing sets A to C; D to F were blind but are now spent. On fresh data (set L) smart answered 20 of 30, against 28 for the baseline |
+| Small samples | 173 questions, 71 stories; one rich profile carries many of the questions; H, I and J were one run each (15, 12 and 26 questions) |
 | Crude scoring | Keyword matching on lower-cased text |
 | One small model | llama3.1:8b for extraction and answers; results may differ with another model |
 | Few multi-turn data | Consistency across sessions was measured once (set K, 23 probes); consistency with the assistant's own replies is not measured |
@@ -264,6 +281,7 @@ Predictions are kept unchanged in [predictions/](predictions/). Outcomes: on set
 
 ## 8. Next
 
+- The write-path errors found on set L (facts about other people stored as the user's, incidental places stored as home, a friend as a partner) and the gap between notes and facts, measured on a fresh set (M) with the gate fixes ([10_limits_and_roadmap.md](10_limits_and_roadmap.md)).
 - The two follow-ups to set I, measured on a fresh set: past questions that also read facts archived by a retraction, and past lines ordered oldest first ([10_limits_and_roadmap.md](10_limits_and_roadmap.md)).
 - A second version of consolidation that compresses more, measured on a fresh set (J is spent); see [10_limits_and_roadmap.md](10_limits_and_roadmap.md).
 - One final comparison of none, baseline and smart on a fresh set, with the two pre-registered fixes (strong-match override, wider allergy bypass) measured blind.
