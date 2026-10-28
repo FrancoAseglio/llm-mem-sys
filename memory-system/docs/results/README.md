@@ -27,6 +27,9 @@ Saved outputs of the evaluation runs, one folder per test set. They are historic
 | `logs/` | `note_tags_L.txt` | set L re-run with tags, iteration 1 (development) |
 | `regressions/` | `A_to_J_note_tags.txt` | sets A to J with tags, iteration 1 |
 | `set_K/` | `note_tags.txt` | set K with tags, iteration 1 |
+| `logs/` | `note_tags_v2_L.txt` | set L, iteration 2 (run with the `_names` bug) |
+| `regressions/` | `A_to_J_note_tags_v2.txt` | sets A to J, iteration 2 (bug) |
+| `set_K/` | `note_tags_v2.txt` | set K, iteration 2 (bug) |
 | `logs/` | `about_user_L.txt` | set L re-run with the check (development, labelled) |
 | `regressions/` | `A_to_J_about_user.txt` | sets A to J re-run with the check, cache off |
 | `set_K/` | `about_user.txt` | set K re-run with the check, cache off |

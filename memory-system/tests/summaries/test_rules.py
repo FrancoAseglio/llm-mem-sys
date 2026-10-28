@@ -246,6 +246,15 @@ def test_a_message_without_facts_is_tagged_nothing():
             [("speaks", "Portuguese"), ("speaks", "English"), ("speaks", "German")],
         ),
         ("My brother's name is Luca.", [("family_member", "Luca")]),
+        # "I" in the middle of a sentence is not a name (iteration 2 bug)
+        (
+            "My name is Giulia and I live in Bologna.",
+            [("name", "Giulia"), ("lives_in", "Bologna")],
+        ),
+        (
+            "Hi, I'm Tomas and I live in Lisbon.",
+            [("name", "Tomas"), ("lives_in", "Lisbon")],
+        ),
     ],
 )
 def test_a_message_held_by_its_facts_is_only_stored(text, stored):

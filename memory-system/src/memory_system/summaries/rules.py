@@ -55,8 +55,9 @@ RELATION_WORDS = {
 }
 
 
-def _names(text: str) -> list[str]:
-    """Capitalised words that do not start a sentence (names, places), lower-case, without 's."""
+def _message_names(text: str) -> list[str]:
+    """Capitalised words of a message that do not start a sentence (names, places), lower-case,
+    without 's. "I" and "I'm" are not names. (Not the same as _names below, which reads notes.)"""
     names = []
     for sentence in re.split(r"[.!?]+", text):
         tokens = re.findall(r"[\w']+", sentence)
@@ -86,7 +87,7 @@ def only_stored(text: str, stored: list[tuple[str, str]], min_share: float) -> b
     def is_known(word: str) -> bool:
         return any(same_word(word, k) for k in known)
 
-    if not all(is_known(n) for n in _names(text)):
+    if not all(is_known(n) for n in _message_names(text)):
         return False
     words = content_words(text)
     return not words or sum(map(is_known, words)) / len(words) >= min_share

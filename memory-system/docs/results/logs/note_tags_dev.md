@@ -63,6 +63,39 @@ Compared with the step 1 reference, with the same criteria as before:
 | Sets A to J, smart answers (sum) | 117 | 116 | 115 to 119 |
 | Set K, smart correct | 17/23 | 19/23 | 17 to 19 |
 
-## Results of iteration 2
+## Results of iteration 2 (2026-10-28): run with a bug
+
+Outputs: `note_tags_v2_L.txt`, `../regressions/A_to_J_note_tags_v2.txt`, `../set_K/note_tags_v2.txt`.
+
+| Measure | Reference (step 1) | Iteration 1 | Predicted | Iteration 2 |
+|---|---|---|---|---|
+| Set L, notes | 17 | 26 | 21 to 26 | 21 |
+| Set L, smart answers | 22/30 | 26/30 | 25 to 26 | 26/30 |
+| Sets A to J, notes | 116 | 165 | 120 to 145 | 123 |
+| Sets A to F, smart noise present | 16/46 | 29/46 | 16 to 20 | **27/46** |
+| Sets C and D, smart average lines | 1.5, 1.7 | 2.5, 2.8 | at most 1.9, 2.1 | **2.2, 2.6** |
+| Sets A to J, smart answers (sum) | 117 | 116 | 115 to 119 | 115 |
+| Set J, smart needed present | 24/25 | 23/25 | | **22/25** |
+| Set K, smart correct | 17/23 | 19/23 | 17 to 19 | 18/23 |
+
+**The rule did not run as designed.** `summaries/rules.py` already had a function `_names` (used by the consolidation checks), defined further down the file, and the new helper had the same name, so the old one replaced it. That one counts a mid-sentence "I" as a name, so every message like "My name is Giulia and I live in Bologna" kept its note ("The user lives in Bologna."), and those notes caused most of the noise left in C and D. The tests missed it because each of their messages began with "I". Fixed: the helper is now `_message_names`, with two tests on "... and I live in ...".
+
+Also seen: notes that add a small detail to one stored fact pass by design ("The user plays the guitar in the evenings", "The user likes jazz music a lot", "The user's favourite kind of music is fado"); notes have no routing step, so they reach unrelated questions. Set J lost 2 needed facts against the reference: a renovation question whose cabinet note was worded differently in this run, and a `j_control_mix` question; not diagnosed (the A to J run is not verbose).
+
+### Predictions for iteration 2b (the fix, written before the runs)
+
+| Measure | Iteration 2 | Prediction |
+|---|---|---|
+| Set L, smart answers | 26/30 | 25 to 26 |
+| Sets A to J, notes | 123 | 110 to 125 |
+| Sets A to F, smart noise present | 27/46 | 19 to 24: profile notes go, the detail notes stay. The criterion (at most 19) is likely to fail by a few |
+| Sets C and D, smart average lines | 2.2, 2.6 | 1.7 to 2.0, 2.0 to 2.3 |
+| Sets A to J, smart answers (sum) | 115 | 115 to 119 |
+| Set J, smart needed present | 22/25 | 23 or 24 |
+| Set K, smart correct | 18/23 | 17 to 19 |
+
+If noise on A to F stays above 19, the trade is set out for a decision rather than kept silently: about 4 more answers on set L and 1 to 2 on set K, against a few more noisy prompts on the rich profiles of C and D.
+
+## Results of iteration 2b
 
 (filled in after the runs)
