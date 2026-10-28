@@ -2,7 +2,7 @@
 # Variables: SET=I (a set letter, or "A B" for several), SCENARIO=dislike_noise (a scenario id).
 RUN = nice -n 10 poetry run
 
-.PHONY: help test check format scenarios inspect quick set answers fresh
+.PHONY: help test check format scenarios inspect quick set answers fresh sessions
 
 help:
 	@echo "CODE"
@@ -17,6 +17,7 @@ help:
 	@echo "  make set SET=I              ingest again and score retrieval only"
 	@echo "  make answers SET=I          stored data, plus baseline and smart answers"
 	@echo "  make fresh SET=I            as answers but ingest again and ignore the cache: final runs"
+	@echo "  make sessions [SCENARIO=id] consistency across sessions (set K), every mode, with answers"
 
 test:
 	poetry run pytest -q
@@ -52,3 +53,6 @@ answers:
 fresh:
 	@test -n "$(SET)" || { echo "usage: make fresh SET=I"; exit 1; }
 	$(RUN) python scripts/evaluate.py --set $(SET) --no-cache
+
+sessions:
+	$(RUN) python scripts/evaluate_sessions.py $(if $(SCENARIO),--only $(SCENARIO),) --verbose

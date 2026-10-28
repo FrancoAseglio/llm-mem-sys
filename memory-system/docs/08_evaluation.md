@@ -107,6 +107,8 @@ Results are also saved to `eval_results.json` (git-ignored). The code is split i
 
 To add a set: write `scripts/evaluation/scenarios/sets/set_k.json` (the next letter; copy the shape of an existing file) with its `label`, and write the predictions first. Nothing needs registering, the loader reads every `set_*.json`. When the predictions are committed, freeze the set: add `"set_k.json": "<hash>"` to `scenarios/frozen.json` (the hash is `shasum -a 256 set_k.json`). `tests/evaluation/test_scenarios.py` then fails if the file is edited afterwards, and checks the shape of every set.
 
+Session sets (set K) have their own runner: `poetry run python scripts/evaluate_sessions.py --verbose` (or `make sessions`) replays every story turn by turn in the three modes and writes `eval_sessions.json`. Its keyword scores are provisional until the hand review described in [predictions/set_K.md](predictions/set_K.md).
+
 The summaries layer runs inside the evaluation: after each scenario's ingest, `summarize_pending` writes the notes (printing how many), and `--verbose` prints them. `SUMMARIES=0 poetry run python scripts/evaluate.py ...` is the layer-off control.
 
 ## 6. Results
