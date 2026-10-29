@@ -62,7 +62,7 @@ Results are also written to `eval_results.json`. All scenario sets (A to I) have
 so they cannot validate further tuning; a change needs a new set written beforehand.
 The status of each set is the `label` in its file under `scripts/evaluation/scenarios/sets/`.
 
-`make help` lists shortcuts (`make test`, `make format`, `make scenarios`, `make inspect SCENARIO=dislike_noise`, `make quick`, `make set SET=I`, ...); the evaluation caches deterministic model calls in `.cache/` so repeated runs take seconds (`docs/02_setup.md`, "Keeping the Mac cool").
+`make help` lists shortcuts (`make db`, `make chat`, `make test`, `make format`, `make scenarios`, `make inspect SCENARIO=dislike_noise`, `make quick`, `make eval SET=I OUT=...`, ...); the evaluation caches deterministic model calls in `.cache/` so repeated runs take seconds (`docs/02_setup.md`, "Keeping the Mac cool").
 
 Tests (`tests/` only; the DB tests need the Postgres database from `.env`):
 

@@ -100,7 +100,7 @@ poetry run python scripts/evaluate.py --only b_stale_flood --verbose
 poetry run python scripts/inspect_scores.py --scenario b_stale_flood
 ```
 
-`make quick`, `make set SET=I`, `make answers SET=I` and `make fresh SET=I` wrap the common cases ([02_setup.md](02_setup.md), "Keeping the Mac cool").
+`make quick`, `make set SET=I`, `make answers SET=I` and `make eval SET=I OUT=docs/results/set_I/name` wrap the common cases; `make eval` is the final-run form (no cache, verbose, output saved as `name.txt` and `name.json`) ([02_setup.md](02_setup.md), "Keeping the Mac cool").
 
 **Cache and answers.** `evaluate.py` caches embeddings and temperature-0 replies in `.cache/llm.sqlite`, so re-running an unchanged set takes seconds and prints `cache: N hits, M misses`. A first run of a new set misses the cache by construction, so blind sets are unaffected. `--no-cache` forces fresh calls and is the mode for a final comparison. By default only baseline and smart answers are generated (`--answers none baseline smart` for all three); the no-memory column then shows `-`.
 

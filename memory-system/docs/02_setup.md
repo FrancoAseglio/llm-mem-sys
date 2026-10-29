@@ -332,12 +332,13 @@ If an answer looks wrong, this is where to trace it. The ids in your own databas
 
 | I want to | Command |
 |---|---|
-| Chat with memory | `poetry run python scripts/chat.py --user me` (`/mode smart|baseline|none`, `/facts`, `/quit`) |
+| Create the database and its tables | `make db` (creates `memory_db` and runs `schema.sql`; safe to re-run) |
+| Chat with memory | `make chat` (or `make chat U=franco`; the same as `poetry run python scripts/chat.py --user me`; `/mode smart|baseline|none`, `/facts`, `/quit`) |
 | Run the tests | `poetry run pytest -q` |
 | Run the evaluation without model answers | `poetry run python scripts/evaluate.py --set A B C D E F --retrieval-only` |
 | Re-run on stored data | add `--no-ingest` |
 | See all shortcuts | `make help` (see the next section) |
-| Fix and check everything before a commit | `make format` (fixes lint, formats, then runs `make check`: ruff check, ruff format check, tests). `make check` alone changes nothing |
+| Fix and check everything before a commit | `make format` (fixes lint, formats, then runs `make check`: ruff check, ruff format check, tests). `make check` alone changes nothing; it is what CI runs on every push |
 | List the scenarios and their ids | `make scenarios` (one set: `make scenarios SET=J`) |
 | See why each fact was kept or dropped | `make inspect SCENARIO=b_stale_flood` (or `poetry run python scripts/inspect_scores.py --scenario b_stale_flood`) |
 | Reset one user | `psql memory_db -c "delete from users where id = 'me'"` |
@@ -359,7 +360,8 @@ The heavy part is the 8B chat model. A full run of sets A to I would make about 
 | A rule, the gate, ranking or the read path | `make quick` (retrieval only on stored data, all sets) | seconds, no chat model |
 | The write path or a prompt | `make set SET=B` (ingest and score one set, retrieval only), then the other sets one at a time | one extraction call per message |
 | Something that changes answers | `make answers SET=I` for the set you test, once, at the end of a step | one chat call per question and mode |
-| Nothing, and I want a final, honest run | `make fresh SET=I` | everything, no cache |
+| Nothing, and I want a final, honest run | `make eval SET=I OUT=docs/results/set_I/name` (ingest, no cache, verbose; saves `name.txt` and `name.json`). `ARGS=--no-ingest` reuses the stored data; switches such as `SUMMARIES=0` go before `make` | everything, no cache |
+| Set K, the session set | `make sessions OUT=docs/results/set_K/name` | every turn, every mode, no cache |
 
 Also: `make` runs the model at low priority (`nice`), `ollama ps` shows whether it runs fully on the GPU, and the tests (`make test`, about a second) never call a model. Close other heavy apps during a full run, and avoid running two evaluations at once.
 
