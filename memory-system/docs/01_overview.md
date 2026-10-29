@@ -145,4 +145,4 @@ Outside the package:
 | `scripts/evaluation/` | Support for the evaluation: `metrics.py` (scoring), `report.py` (printing) and `scenarios/` (the test sets, one JSON file each) |
 | `tests/` | Mirrors the package: `tests/write/`, `tests/read/`, `tests/summaries/`, plus `tests/evaluation/` for the scenario files |
 
-224 automated tests: pure rules and the gate need no services, the rest need Postgres.
+244 automated tests: pure rules and the gate need no services, the rest need Postgres.

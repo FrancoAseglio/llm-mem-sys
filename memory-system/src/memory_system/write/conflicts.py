@@ -4,12 +4,20 @@ from datetime import datetime
 
 from memory_system.core.config import (
     ABOUT_USER,
+    CHANGE_RULE,
     DEFAULT_IMPORTANCE,
     DUPLICATE_SIMILARITY,
 )
 from memory_system.core.events import log_event
 from memory_system.core.llm import embed
-from memory_system.write.actions import about_user, is_grounded
+from memory_system.write.actions import (
+    CHANGE_RELATIONS,
+    NAME_RELATIONS,
+    about_user,
+    is_grounded,
+    same_name,
+    signals_change,
+)
 
 # A new value for one of these relations contradicts an active value of the relations listed
 # (hobby counts as a positive statement, like likes).
@@ -24,11 +32,27 @@ OPPOSITES = {
 DEPENDENTS = {"works_at": "job_title"}
 
 
-def _matching(rows: list[tuple], value: str) -> list[tuple]:
-    """Rows (id, value, similarity, ...) holding the same value: equal ignoring case, or close by trigram."""
+def _matching(
+    rows: list[tuple], value: str, relation: str | None = None
+) -> list[tuple]:
+    """Rows (id, value, similarity, ...) holding the same value: equal ignoring case, close by
+    trigram, or, for names, one containing the other ("Fjordline" and "Fjordline Aquaculture")."""
     return [
-        r for r in rows if r[1].lower() == value.lower() or r[2] >= DUPLICATE_SIMILARITY
+        r
+        for r in rows
+        if r[1].lower() == value.lower()
+        or r[2] >= DUPLICATE_SIMILARITY
+        or (relation in NAME_RELATIONS and same_name(r[1], value))
     ]
+
+
+def known_people(conn, user_id: str) -> frozenset:
+    """Lower-case names of the user's stored partner and family (any status), for about_user."""
+    rows = conn.execute(
+        "SELECT value FROM facts WHERE user_id = %s AND relation IN ('partner', 'family_member')",
+        (user_id,),
+    ).fetchall()
+    return frozenset(w for (v,) in rows for w in v.lower().split() if len(w) >= 3)
 
 
 def _end(
@@ -83,7 +107,7 @@ def _retract(
     at: datetime | None,
 ) -> str:
     """Archive the matching active fact, never delete it."""
-    matched = _matching(active, value)
+    matched = _matching(active, value, relation)
     if not matched:
         log_event(
             conn,
@@ -115,7 +139,7 @@ def _strengthen_duplicate(
     at: datetime | None,
 ) -> bool:
     """Already known: just raise confidence. True if a duplicate was found."""
-    for fact_id, *_ in _matching(active, value):
+    for fact_id, *_ in _matching(active, value, relation):
         conn.execute(
             """UPDATE facts SET confidence = LEAST(1, confidence + 0.05),
                                 updated_at = COALESCE(%s::timestamptz, now())
@@ -244,7 +268,7 @@ def apply_fact(
         ABOUT_USER
         and action == "assert"
         and source_text is not None
-        and not about_user(value, relation, source_text)
+        and not about_user(value, relation, source_text, known_people(conn, user_id))
     ):
         log_event(
             conn,
@@ -281,6 +305,31 @@ def apply_fact(
     # 2) Duplicate
     if _strengthen_duplicate(conn, user_id, relation, value, active, at):
         return "duplicate"
+
+    # 2b) A new value for a single-valued fact must be said to have changed: "I now commute to
+    # Utrecht" does not move the user (write/actions.signals_change).
+    if (
+        CHANGE_RULE
+        and source_text is not None
+        and cardinality == "single"
+        and relation in CHANGE_RELATIONS
+        and active
+        and not signals_change(value, relation, source_text)
+    ):
+        log_event(
+            conn,
+            user_id,
+            "reject",
+            None,
+            {
+                "relation": relation,
+                "value": value,
+                "action": action,
+                "reason": "no change signalled",
+                "current": [r[1] for r in active],
+            },
+        )
+        return "rejected"
 
     # 3) New fact
     new_id = _insert_fact(conn, user_id, relation, value, source_message_id, at)

@@ -102,18 +102,21 @@ _PARTNER_WORDS = re.compile(
 )
 
 
-def _speaker(tokens: list[str]) -> str | None:
-    """'user' or 'other' for the last subject word in tokens, None if there is none."""
+def _speaker(tokens: list[str], others: frozenset = frozenset()) -> str | None:
+    """'user' or 'other' for the last subject word in tokens, None if there is none.
+    `others` are names of people the user already told about (partner, family)."""
     for token in reversed(tokens):
         word = token.removesuffix("'s")
         if token in _FIRST_PERSON:
             return "user"
-        if token in _THIRD_PERSON or word in _OTHER_PEOPLE:
+        if token in _THIRD_PERSON or word in _OTHER_PEOPLE or word in others:
             return "other"
     return None
 
 
-def about_user(value: str, relation: str, text: str) -> bool:
+def about_user(
+    value: str, relation: str, text: str, others: frozenset = frozenset()
+) -> bool:
     """True unless the message gives this value to someone or something other than the user.
 
     Only for asserted facts that can describe the user alone (SELF_RELATIONS) and for
@@ -131,6 +134,10 @@ def about_user(value: str, relation: str, text: str) -> bool:
     - Both: the message must have a first-person word somewhere (I, me, my, we, our ...).
       "Margit quit the band to move to Canada" names no subject word before Canada, so the
       clause rule alone would give Canada to the user (set J, found 2026-10-28).
+
+    - `others`: lower-case names of the user's partner and family already stored. They count
+      as someone else, so "Priya got a job at the hospital" (Priya being the user's wife) does
+      not give the user a new employer (set M, added 2026-10-29).
 
     English only, word lists. It can be wrong both ways: "I visited my sister, she lives in
     Lyon" is blocked as intended, but "I live with my sister in Lyon" is kept only because
@@ -161,9 +168,78 @@ def about_user(value: str, relation: str, text: str) -> bool:
         if index is None:
             continue
         found = True
-        if _speaker(tokens[:index]) != "other":
+        if _speaker(tokens[:index], others) != "other":
             return True
     return not found
+
+
+# ---- Did the message say the value changed? (set M: a commute, a house viewing) ----
+
+# Words that say a single value changed, per relation. A new value replaces an active one only
+# if the message has one of them (and is not only a plan). The user's first value needs none.
+_CHANGE = {
+    "lives_in": re.compile(
+        r"\b(?:mov(?:e|ed|ing)|relocat\w*|transferr?\w*|live in|living in|lives in|"
+        r"settled in|based in|new (?:flat|house|home|apartment|place) in|got a house|"
+        r"bought a (?:flat|house|home|apartment))\b"
+    ),
+    "works_at": re.compile(
+        r"\b(?:started (?:at|working)|new (?:job|position|role)|joined|work(?:s|ing)? (?:at|for)|"
+        r"now (?:at|with|for)|i'?m (?:now )?at|i'?m now|hired|transferr?\w*|acquired|left|quit|"
+        r"switch\w*|changed (?:jobs|employers))\b"
+    ),
+    "job_title": re.compile(
+        r"\b(?:promot\w*|became|become|work(?:s|ing)? as|started as|new (?:job|role|position)|"
+        r"i'?m now|now an?|i'?m an?|i am an?|as an?|head of|retrained)\b"
+    ),
+}
+CHANGE_RELATIONS = frozenset(_CHANGE) | {"partner"}
+# A change that has not happened yet: "we're moving to Bristol in the summer".
+_FUTURE = re.compile(
+    r"\b(?:will|going to|planning|plan to|thinking (?:about|of)|looking at|might|hope to|"
+    r"soon|next (?:week|month|year|spring|summer|autumn|winter)|in the (?:spring|summer|"
+    r"autumn|winter))\b"
+)
+
+
+def signals_change(value: str, relation: str, text: str) -> bool:
+    """True if the message says this single value changed, so it may replace the current one.
+
+    Checked only when the user already has a different active value. "We've started looking at
+    houses in Rotterdam" (no change word, and a plan), "I now commute to Utrecht", "Peatline
+    has no office" and "I've joined a choir" do not replace a city or a job title; "I've moved
+    to Oslo", "Fjordline transferred me to Kristiansand" and "I've been promoted to head of
+    the department" do. For `partner` the message needs a partner word (as in about_user).
+    A sentence that only plans the change ("in the summer", "next year", "going to") does not
+    count yet. English only, word lists.
+    """
+    lower = text.lower().replace("\u2019", "'")
+    if relation == "partner":
+        return bool(_PARTNER_WORDS.search(lower))
+    pattern = _CHANGE.get(relation)
+    if pattern is None:
+        return True
+    value_words = {w for w in re.findall(r"\w+", value.lower()) if len(w) >= 3} or set(
+        re.findall(r"\w+", value.lower())
+    )
+    for sentence in re.split(r"[.!?;]+", lower):
+        words = set(re.findall(r"\w+", sentence))
+        if value_words & words or any(
+            same_word(v, w) for v in value_words for w in words if len(v) >= 4
+        ):
+            if pattern.search(sentence) and not _FUTURE.search(sentence):
+                return True
+    return False
+
+
+# Relations whose values are names: "Fjordline" and "Fjordline Aquaculture" are one employer.
+NAME_RELATIONS = frozenset({"lives_in", "works_at", "partner", "name"})
+
+
+def same_name(a: str, b: str) -> bool:
+    """True if one name is the other plus more words ("Fjordline" in "Fjordline Aquaculture")."""
+    x, y = sorted((a.lower().strip(), b.lower().strip()), key=len)
+    return bool(x) and re.search(rf"\b{re.escape(x)}\b", y) is not None
 
 
 def _clause_of(value: str, relation: str, text: str) -> str | None:

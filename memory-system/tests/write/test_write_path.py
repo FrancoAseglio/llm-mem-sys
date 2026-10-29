@@ -156,6 +156,39 @@ def test_fact_about_someone_else_is_rejected(conn):
     assert details["reason"] == "about someone else"
 
 
+def test_a_new_city_without_a_change_word_is_rejected(conn):
+    apply(conn, "lives_in", "Rotterdam", source_text="I live in Rotterdam.")
+    text = "I now commute to Utrecht by train three days a week."
+    assert apply(conn, "lives_in", "Utrecht", source_text=text) == "rejected"
+    assert {v: r[0] for v, r in rows(conn, "lives_in").items()} == {
+        "Rotterdam": "active"
+    }
+    assert events(conn)[-1][2]["reason"] == "no change signalled"
+    moved = "Big news: I've moved to Utrecht."
+    assert apply(conn, "lives_in", "Utrecht", source_text=moved) == "update"
+
+
+def test_a_shorter_employer_name_is_the_same_employer(conn):
+    apply(
+        conn,
+        "works_at",
+        "Fjordline Aquaculture",
+        source_text="I work at Fjordline Aquaculture.",
+    )
+    text = "Moving again: Fjordline transferred me to their office in Kristiansand."
+    assert apply(conn, "works_at", "Fjordline", source_text=text) == "duplicate"
+    assert {v: r[0] for v, r in rows(conn, "works_at").items()} == {
+        "Fjordline Aquaculture": "active"
+    }
+
+
+def test_a_stored_family_member_is_not_the_user(conn):
+    apply(conn, "partner", "Priya", source_text="My wife is called Priya.")
+    text = "We're moving soon, Priya got a job at the hospital there."
+    assert apply(conn, "works_at", "hospital", source_text=text) == "rejected"
+    assert events(conn)[-1][2]["reason"] == "about someone else"
+
+
 def test_grounding_accepts_inflected_words(conn):
     assert (
         apply(conn, "allergic_to", "walnut", source_text="I'm allergic to walnuts.")

@@ -35,7 +35,7 @@ Rules:
 - Only facts the user states about themselves. Ignore questions, greetings, thanks and chit-chat.
 - Ignore temporary things (what they ate today, the weather).
 - Keep values short and normalized: 'Milan', 'cycling', 'penicillin'.
-- "I moved to X" or "I now live in X" means lives_in = X.
+- "I moved to X", "I now live in X" or "my company transferred me to their office in X" means lives_in = X.
 - Plans, hopes and things the user is saving for or working towards are durable: goal = X.
 - If the user says something is NOT (or no longer) true, give that fact with action "retract"; "not X, but Y" is a retract for X and a fact for Y. Disliking or hating X is not a retract: dislikes = X.
 - One item per fact. If there is nothing durable, return {{"facts": []}}.

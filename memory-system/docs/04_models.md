@@ -121,6 +121,7 @@ That behaviour matters for the write path: a message, its facts and their events
 | `LLM_CACHE_PATH` | `.cache/llm.sqlite` | `core/cache.py` | Where the evaluation caches embeddings and temperature-0 replies; the chat never caches |
 | `PAST_FACTS` | on (env `PAST_FACTS=0` turns it off) | `read/past_retrieve.py` | Switch for reading replaced facts on past questions |
 | `ABOUT_USER` | on (env `ABOUT_USER=0` turns it off) | `write/conflicts.py`, `write/manager.py` | Switch for the check that drops facts the message gives to someone else ([05](05_write_path.md), section 4.3) |
+| `CHANGE_RULE` | on (env `CHANGE_RULE=0` turns it off) | `write/conflicts.py` | A new city, employer, job title or partner replaces the current one only if the message says it changed ([05](05_write_path.md), section 4.4) |
 | `PAST_MAX_LINES` | 2 | `read/past_retrieve.py` | Most `Earlier:` lines per question |
 | `SUMMARIES` | on (env `SUMMARIES=0` turns it off) | `summaries/summarize.py`, `summaries/retrieve.py` | Switch for the whole summaries layer |
 | `NOTE_TAGS` | on (env `NOTE_TAGS=0` turns it off) | `summaries/summarize.py` | Show the notes model the facts stored from each message ([07](07_summaries.md), section 4.2) |

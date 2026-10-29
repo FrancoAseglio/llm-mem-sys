@@ -5,7 +5,7 @@ from memory_system.core.db import get_pool
 from memory_system.core.events import log_event
 from memory_system.core.llm import embed
 from memory_system.write.actions import about_user, is_grounded, normalize_actions
-from memory_system.write.conflicts import apply_fact
+from memory_system.write.conflicts import apply_fact, known_people
 from memory_system.write.extract import extract_facts, load_relation_types
 
 
@@ -44,12 +44,13 @@ def ingest_user_message(
             return [("extraction_failed", "", "")]
         facts = normalize_actions(extracted, text, single)
         # relations this message really sets (a rejected value does not count)
+        others = known_people(conn, user_id)
         asserted = {
             f.relation
             for f in facts
             if f.action == "assert"
             and is_grounded(f.value, text, f.relation)
-            and (not ABOUT_USER or about_user(f.value, f.relation, text))
+            and (not ABOUT_USER or about_user(f.value, f.relation, text, others))
         }
         results = []
         for fact in facts:

@@ -5,7 +5,13 @@ poetry run pytest tests/test_actions.py -v
 
 import pytest
 
-from memory_system.write.actions import about_user, is_grounded, normalize_actions
+from memory_system.write.actions import (
+    about_user,
+    is_grounded,
+    normalize_actions,
+    same_name,
+    signals_change,
+)
 from memory_system.write.extract import ExtractedFact
 
 
@@ -313,3 +319,101 @@ def test_other_relations_are_not_checked():
     text = "My sister Agathe lives in Montreal."
     assert about_user("Agathe", "family_member", text)
     assert about_user("Montreal", "hobby", text)
+
+
+def test_a_known_person_is_someone_else():
+    text = "We're moving soon, Priya got a job at the hospital there."
+    assert not about_user("hospital", "works_at", text, frozenset({"priya"}))
+    assert about_user(
+        "hospital", "works_at", text
+    )  # unknown name: no subject word, kept
+
+
+# ---- did the message say the single value changed? (set M) ----
+
+
+@pytest.mark.parametrize(
+    "value, relation, text",
+    [
+        (
+            "Oslo",
+            "lives_in",
+            "Big change: I've moved to Oslo, the institute opened a new lab there.",
+        ),
+        (
+            "Kristiansand",
+            "lives_in",
+            "Moving again: Fjordline transferred me to their office in Kristiansand.",
+        ),
+        (
+            "Rotterdam",
+            "lives_in",
+            "Moving day was chaos but we're finally living in Rotterdam.",
+        ),
+        ("Gdansk", "lives_in", "I've moved again, I live in Gdansk now."),
+        (
+            "Lumenor",
+            "works_at",
+            "Kiwibyte was acquired by Lumenor, so I now work for Lumenor.",
+        ),
+        (
+            "Delta Labs",
+            "works_at",
+            "Exciting news, I just started a new position at Delta Labs!",
+        ),
+        (
+            "Riverside Clinic",
+            "works_at",
+            "I switched employers, I'm at Riverside Clinic now.",
+        ),
+        (
+            "head of the history department",
+            "job_title",
+            "I've been promoted to head of the history department.",
+        ),
+        ("Elena", "partner", "Dario and I split up. I'm with Elena now."),
+    ],
+)
+def test_a_change_is_signalled(value, relation, text):
+    assert signals_change(value, relation, text)
+
+
+@pytest.mark.parametrize(
+    "value, relation, text",
+    [
+        (
+            "Rotterdam",
+            "lives_in",
+            "We've started looking at houses in Rotterdam, prices in Utrecht are crazy.",
+        ),
+        ("Utrecht", "lives_in", "I now commute to Utrecht by train three days a week."),
+        (
+            "Bristol",
+            "lives_in",
+            "We're moving to Bristol in the summer, Priya got a job at the hospital there.",
+        ),
+        (
+            "Dublin",
+            "lives_in",
+            "Callum is getting married in Dublin next spring and asked me to give a speech.",
+        ),
+        (
+            "no office",
+            "job_title",
+            "I work from home most days now, Peatline has no office.",
+        ),
+        (
+            "choir member",
+            "job_title",
+            "I quit the covers band when we moved, but I've joined a choir in Bristol.",
+        ),
+    ],
+)
+def test_no_change_is_signalled(value, relation, text):
+    assert not signals_change(value, relation, text)
+
+
+def test_one_name_inside_another_is_the_same_name():
+    assert same_name("Fjordline", "Fjordline Aquaculture")
+    assert same_name("St Veit Hospital in Linz", "st veit hospital")
+    assert not same_name("Lumenor", "Peatline")

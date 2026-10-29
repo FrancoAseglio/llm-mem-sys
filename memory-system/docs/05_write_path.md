@@ -135,7 +135,24 @@ True unless the message gives the value to someone or something other than the u
 | both of the above | The message must also contain a first-person word (`I`, `me`, `my`, `we`, `our` ...). "Margit quit the band to move to Canada" has none, so Canada is not the user's city (set J, added 2026-10-28) |
 | all others | Not checked: `family_member`, `hobby` and the rest can describe anyone |
 
+The names of the user's stored partner and family members also count as someone else (`known_people` in `write/conflicts.py`), so "Priya got a job at the hospital" does not give the user Priya's employer (set M, added 2026-10-29).
+
 Only asserted facts are checked, and the manager uses the same check when it lists the relations a message really sets (so a rejected `works_at` does not mark `job_title` as conflicted). `ABOUT_USER=0` switches it off. It is a word list, English only: "I live with my sister in Lyon" is kept only because "I" comes first, and "I work with my friend at Acme" would lose Acme.
+
+### 4.4 `signals_change(value, relation, text)`
+
+True if the message says a single value changed. Used only when the user already has a different active city, employer, job title or partner: then the new value replaces the old one only if this is true. The user's first value needs nothing. Added after set M, where incidental mentions replaced current facts one after another ([results/set_M/log.md](results/set_M/log.md)).
+
+| Relation | A change is said with | Example kept | Example rejected |
+|---|---|---|---|
+| `lives_in` | moved, moving, relocated, transferred, live in, living in, based in, a new flat or house in, got a house | "Big change: I've moved to Oslo" | "We've started looking at houses in Rotterdam", "I now commute to Utrecht by train" |
+| `works_at` | started at, a new job or position, joined, work at or for, now at, I'm at, hired, transferred, acquired, left, quit, switched | "Kiwibyte was acquired by Lumenor, so I now work for Lumenor" | "Priya got a job at the hospital" (also not about the user) |
+| `job_title` | promoted, became, work as, started as, a new job or role, I'm now, now a, I'm a, as a, head of | "I've been promoted to head of the history department" | "Peatline has no office", "I've joined a choir" |
+| `partner` | a partner word (as in 4.3) | "I've started seeing someone new, his name is Emil" | |
+
+The sentence with the value must not be only a plan: will, going to, planning, thinking about, looking at, soon, next year, in the summer and similar words mean the change has not happened yet ("We're moving to Bristol in the summer" keeps the old city until "We've moved to Bristol now"). `CHANGE_RULE=0` switches the check off. English only, word lists; a real change said in other words is lost until it is said again plainly.
+
+`same_name(a, b)` treats one name containing the other as the same value ("Fjordline" and "Fjordline Aquaculture"), for duplicates and retractions of names.
 
 ## 5. `write/conflicts.py`: from fact to decision
 
@@ -148,7 +165,8 @@ Only asserted facts are checked, and the manager uses the same check when it lis
 | 0 | Grounding | `source_text` is given and the value is not grounded in it | `rejected`; nothing stored | `reject` |
 | 0b | About someone else | `action` is `assert`, `source_text` is given, `ABOUT_USER` is on and `about_user` (section 4.3) says the message gives the value to someone else | `rejected`; nothing stored | `reject`, reason "about someone else" |
 | 1 | Retraction | `action` is `retract` | An active fact with the same value (equal, or trigram similarity of 0.8 or more) becomes `archived`, `valid_to` set. Returns `retract`; or `retract_miss` when nothing matches | `retract` |
-| 2 | Duplicate | An active fact with the same relation and a matching value exists | Confidence +0.05, `updated_at` set. Returns `duplicate`; no new row, no embedding call | `duplicate` |
+| 2 | Duplicate | An active fact with the same relation and a matching value exists | Confidence +0.05, `updated_at` set. Returns `duplicate`; no new row, no embedding call | `duplicate`. For names (`lives_in`, `works_at`, `partner`, `name`) one value containing the other also matches: "Fjordline" is "Fjordline Aquaculture" |
+| 2b | No change signalled | `CHANGE_RULE` is on, the relation is `lives_in`, `works_at`, `job_title` or `partner`, the user already has a different active value, and `signals_change` (section 4.4) finds no change in the message | `rejected`; nothing stored | `reject`, reason "no change signalled" |
 | 3 | Insert | otherwise | A new active row with its embedding | held until the outcome is known |
 | 4 | Opposite | The relation is `likes`, `hobby` or `dislikes`, and an active fact of the opposite side matches the value | The opposite is `superseded` by the new row. Returns `contradiction` | `contradiction` |
 | 5 | Replacement | The relation is `single` and older active or conflicted values exist | They become `superseded` by the new row. Returns `update` | `update` |
@@ -224,6 +242,7 @@ Notes:
 | A negated like may be read as a retraction | "I don't like jazz" can be labelled retract, so the dislike is not stored. The prompt tells the model that disliking is not a retraction, but it does not always follow it |
 | The rules know English phrasing only | Negation words and fillers are English; other languages are untested |
 | Past and hypothetical statements rely on the model | "I used to live in..." is handled by the prompt, not by a rule. Third-person statements are checked by `about_user` (4.3) only for `lives_in`, `works_at`, `job_title`, `birthday` and `partner` |
+| Single values replaced by passing mentions | Partly fixed by `signals_change` (4.4): a new city, employer, job title or partner needs change words; the word lists can miss real changes said in other words |
 | Single-message extraction | "No, I meant Rome" is not recognised as a correction of the previous message |
 | Confidence is a counter | Repetition adds 0.05; it says nothing about how certain the statement was |
 | User text goes into the prompt unescaped | A crafted message could try to steer the extractor; relation validation limits the damage |
