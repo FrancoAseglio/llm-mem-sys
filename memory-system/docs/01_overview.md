@@ -84,10 +84,11 @@ The key ideas:
 | Update outdated information | Done: supersede, never overwrite | [05](05_write_path.md) |
 | Compress history into summaries | **Partly**: old notes are merged into digests (set J), but the saving is small: digests are 0.79 of the notes they replace, and summary text in use is still about the size of its source messages (1.01). The pre-registered target failed | [07](07_summaries.md), [10](10_limits_and_roadmap.md) |
 | Improve conversational consistency | **Partly**: measured across sessions (set K); smart and baseline about even, smart with no contradiction; stability not better | [08](08_evaluation.md), [10](10_limits_and_roadmap.md) |
+| Better answers than traditional vector memory | **Not met**: the baseline answered more on the fresh short set (L: 28 against 20, 26 after the fixes) and on long histories (M: 48 against 36). Smart uses about half the prompt lines | [08](08_evaluation.md), [10](10_limits_and_roadmap.md) |
 
 ## Results in brief
 
-Measured on 71 scripted life stories with 173 questions (sets A to J, and L on unseen data) and 6 multi-session stories with 23 probes (set K), comparing smart memory with baseline (the 4 most similar past messages). Details and caveats in [08_evaluation.md](08_evaluation.md).
+Measured on 74 scripted life stories with 230 questions (sets A to J, L on unseen data and M on long histories) and 6 multi-session stories with 23 probes (set K), comparing smart memory with baseline (the 4 most similar past messages). Details and caveats in [08_evaluation.md](08_evaluation.md).
 
 Sets A to F (33 stories, 71 questions) were built around the 13 fact types and are all spent:
 
@@ -115,6 +116,8 @@ Set J (26 questions) tests merging old notes into digests on users with 10 to 16
 Set K (23 probes) tests consistency across sessions, where each session starts with no chat history and only memory carries facts. Smart answered 17, baseline 16; smart never used an outdated value, baseline once; each kept 2 of 7 facts stable. Most of smart's misses were indirect questions ("sign this with my name") whose fact did not pass the gate ([08](08_evaluation.md)).
 
 Set L (30 questions) is the first measure on unseen data: written after every other set was spent, every question type mixed, run once. **The baseline answered 28, smart 20** (16 with facts only). Half of smart's misses were facts stored wrongly: a sister's city and job saved as the user's, a place where lost luggage turned up saved as the user's home, a friend saved as a partner. Smart answers from facts, so those errors became wrong answers, including its first outdated one; the baseline reads raw messages and cannot make them. The rest were the known gate weakness on indirect questions ([08](08_evaluation.md), `results/set_L/log.md`).
+
+Set M (57 questions) tests the main hypothesis on long histories: three users with 92 to 100 messages over 18 months. **The baseline answered 48, smart 36** (sign test p of about 0.004), so the hypothesis is rejected. Errors accumulate with length: each statement is a chance for the 8B extractor to mis-store a fact, single-valued facts are replaced by incidental mentions (a house viewing moved a user back to the old city), and notes lose details when merged. The baseline gives the model the original sentences ([08](08_evaluation.md), `results/set_M/log.md`).
 
 On the sets written with the system, no outdated value reached an answer with smart memory; on set L one did, through a wrongly stored fact. On the new question types, smart memory with summaries matches the baseline on the answers of set H and stays behind it on set G (G had been seen once without summaries, so its second run is labelled a re-run). The gaps are a few questions on small sets, so they are encouraging, not conclusive; set L, the one fresh set, favours the baseline.
 

@@ -34,7 +34,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 
 ## 3. The test sets
 
-71 scenarios, 173 questions, in `scripts/evaluation/scenarios/sets/` (one JSON file per set, with its status label).
+74 scenarios, 230 questions, in `scripts/evaluation/scenarios/sets/` (one JSON file per set, with its status label).
 
 | Set | Scenarios | Questions | Status | What it tests |
 |---|---|---|---|---|
@@ -50,6 +50,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 | J | 5 | 26 | **Spent**: blind validation of consolidation, written before its code; run once without it and once with it | Users with 10 to 16 episode messages: a renovation story, a year of trips, a band story with other people, typed facts mixed with episodes, and a control user whose messages are all under 30 days old |
 | K | 6 | 23 probes | **Spent**: blind, consistency across sessions, written before its runner, run once; in its own format (`"format": "sessions"`), run by `scripts/evaluate_sessions.py`, not by `evaluate.py` | Multi-session stories: a move, an allergy, an employer change, a partner with a distractor, a move inside one session, a control where nothing changes; direct and indirect probes |
 | L | 10 | 30 | **Spent**: blind, unseen data, written after A to K were spent and before any change; run once, with summaries on and off | Every question type mixed: direct facts, changes, past questions, episodes, indirect questions, a third-person trap and abstain questions |
+| M | 3 | 57 | **Spent**: blind, long crowded histories (92 to 100 messages each), written after the step 1 and 2 fixes, run once with four ablations | The main hypothesis: is smart better than vector search on long histories? Moves, job changes, other people, similar trips, plans that change, many everyday questions on the same topics |
 
 A **blind** set is written before the change it tests and run once. After that it is **spent**: it has influenced decisions, so it can no longer validate anything. Today every set is spent or tuning (L was the first run on unseen data) (G was re-run once with the layer, which is why its second result is labelled as a re-run).
 
@@ -244,6 +245,20 @@ The first measure on data written after every other set was spent, before any ch
 - **What still holds:** with facts only, smart had no outdated value in prompt or answer and used 0.9 lines against 4.0. Summaries added 4 answers, all episodes.
 - **Two stories got no notes,** because the notes prompt skips "plain personal facts stored elsewhere" and the model applied that to messages whose facts were not stored.
 
+### Set M: long histories, the main hypothesis
+
+Three users with 92 to 100 messages over about 18 months; written after the fixes of steps 1 and 2, run once, plus four ablations. Predictions: [predictions/set_M.md](predictions/set_M.md); every smart loss explained: `results/set_M/log.md`.
+
+| Set M, 57 questions | Needed | Stale in prompt | Avg lines | Answers (reviewed) | Stale in answer |
+|---|---|---|---|---|---|
+| Baseline | **48/54** | 16 | 4.0 | **48/57** | 4 |
+| Smart | 36/54 | 7 | 2.2 | 36/57 | 5 |
+| Smart, facts only | 16/54 | 3 | 1.2 | 17/57 | 2 |
+
+- **The hypothesis is rejected:** d = −12 (pre-registered threshold −3 for "the baseline is better"); the baseline was right and smart wrong on 14 questions, the reverse on 2 (sign test p of about 0.004).
+- **Why:** errors accumulate with length. Each statement is a chance for the 8B extractor to mis-store a fact, and single-valued facts are replaced by incidental mentions: a house viewing and a commute moved Ruben back to Utrecht, a transfer to Kristiansand stored no city, "Peatline has no office" became a job title. Notes lose details when merged and pass two at a time. The baseline hands the model the original sentences.
+- **Ablations:** notes matter most (facts only: 17 against 36); switching off `about_user`, the note tags or the note window changed answers by 2 or less (run noise), although `about_user` visibly kept other people's cities and jobs out of the facts.
+
 ### What the results show
 
 - **Outdated facts never reach the prompt** with smart memory (0 against 15). This is the clearest result and follows directly from the design: superseded, archived and conflicted facts are not read.
@@ -271,7 +286,7 @@ Predictions are kept unchanged in [predictions/](predictions/). Outcomes: on set
 |---|---|
 | Sets A to F were written around the 13 fact types | Every scenario there asks about something the system stores. Sets G and H test other questions and show where the baseline is stronger (G), but G and H are small and G was seen once before its re-run |
 | All sets are seen | The gate values (0.42, 0.08) and the two routing hints were chosen after seeing sets A to C; D to F were blind but are now spent. On fresh data (set L) smart answered 20 of 30, against 28 for the baseline |
-| Small samples | 173 questions, 71 stories; one rich profile carries many of the questions; H, I and J were one run each (15, 12 and 26 questions) |
+| Small samples | 230 questions, 74 stories; one rich profile carries many of the questions; H, I and J were one run each (15, 12 and 26 questions) |
 | Crude scoring | Keyword matching on lower-cased text |
 | One small model | llama3.1:8b for extraction and answers; results may differ with another model |
 | Few multi-turn data | Consistency across sessions was measured once (set K, 23 probes); consistency with the assistant's own replies is not measured |
@@ -281,6 +296,7 @@ Predictions are kept unchanged in [predictions/](predictions/). Outcomes: on set
 
 ## 8. Next
 
+- **A hybrid read path, measured on a fresh set:** raw messages as the main memory, with facts used where they are strong (current values, marking or filtering outdated messages, allergies). Set M rejected facts as a replacement for messages ([results/set_M/log.md](results/set_M/log.md)).
 - The write-path errors found on set L (facts about other people stored as the user's, incidental places stored as home, a friend as a partner) and the gap between notes and facts, measured on a fresh set (M) with the gate fixes ([10_limits_and_roadmap.md](10_limits_and_roadmap.md)).
 - The two follow-ups to set I, measured on a fresh set: past questions that also read facts archived by a retraction, and past lines ordered oldest first ([10_limits_and_roadmap.md](10_limits_and_roadmap.md)).
 - A second version of consolidation that compresses more, measured on a fresh set (J is spent); see [10_limits_and_roadmap.md](10_limits_and_roadmap.md).
