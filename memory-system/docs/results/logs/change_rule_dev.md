@@ -84,6 +84,32 @@ Same runs as iteration 1; M with its `.txt` this time (`make eval` writes both).
 
 Same criteria as before.
 
-## Results of iteration 1b
+## Results of iteration 1b (2026-10-30)
 
-(filled in after the runs)
+Outputs (each as `.txt` and `.json`): `change_rule_1b_M`, `change_rule_1b_L`, `../regressions/A_to_J_change_rule_1b`, `../set_K/change_rule_1b`.
+
+| Measure | Iteration 1 | Predicted | Iteration 1b |
+|---|---|---|---|
+| Set M, current-fact slots right (12) | 8 of 11 visible | 11 or 12 | **12 of 12** |
+| Set M, smart answers (raw / reviewed) | 41 | about 43 (41 to 45) | **43 / 43** |
+| Set M, smart needed present | 42/54 | | 43/54 |
+| Set M, smart stale in answer | 2 | 0 to 2 | **1** |
+| Set M, baseline (raw / reviewed) | 46 | 46 to 47 | 46 / 47 |
+| Sets A to J, L, K, smart | | the same within noise | identical on every set of A to J; L 26, K 17 |
+
+Head to head on M (reviewed): both right 38, baseline only 8, smart only 5, both wrong 6.
+
+**All criteria met; the changes are kept.**
+
+Every user now ends with the right city (Kristiansand, Bristol, Rotterdam), employer, job title and partner. Smart's remaining losses on M are not current facts: details that the baseline finds word for word and smart's notes lose or do not pass (a brother's move, a daughter's violin, the summer trip, the half-marathon time, a hobby that changed, Kiwibyte's buyer, a husband's job, a bio). Both modes miss Solveig's two past-city questions: smart's past lines are chosen by similarity, not by date, so "before Kristiansand" got Stavanger and "before Oslo" got Oslo (the known gap of the past rule).
+
+## Step 1 closed: what it changed on set M
+
+| Smart on set M | Before step 1 | After step 1 |
+|---|---|---|
+| Current-fact slots right (12) | 6 | **12** |
+| Answers (reviewed, 57) | 36 | **43** |
+| Gap to the baseline | −12 | **−4** |
+| Stale in answer | 5 | **1** |
+
+Development on a spent set, so not evidence that it generalises; it prepares the facts for step 2, the hybrid read path, which is meant to recover what the baseline still finds and smart does not.

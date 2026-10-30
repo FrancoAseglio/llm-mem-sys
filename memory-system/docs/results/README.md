@@ -44,6 +44,9 @@ Saved outputs of the evaluation runs, one folder per test set. They are historic
 | `logs/` | `change_rule_M`, `change_rule_L` (`.txt`, `.json`) | sets M and L with the change rule, iteration 1 (development) |
 | `regressions/` | `A_to_J_change_rule` (`.txt`, `.json`) | sets A to J with the change rule, iteration 1 |
 | `set_K/` | `change_rule` (`.txt`, `.json`) | set K with the change rule, iteration 1 |
+| `logs/` | `change_rule_1b_M`, `change_rule_1b_L` (`.txt`, `.json`) | sets M and L, iteration 1b (development) |
+| `regressions/` | `A_to_J_change_rule_1b` (`.txt`, `.json`) | sets A to J, iteration 1b |
+| `set_K/` | `change_rule_1b` (`.txt`, `.json`) | set K, iteration 1b |
 | `set_M/` | `log.md` | set M: result, causes of every smart loss, the hypothesis, ablations |
 | `logs/` | `about_user_L.txt` | set L re-run with the check (development, labelled) |
 | `regressions/` | `A_to_J_about_user.txt` | sets A to J re-run with the check, cache off |
