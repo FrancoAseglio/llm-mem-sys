@@ -41,6 +41,9 @@ Saved outputs of the evaluation runs, one folder per test set. They are historic
 | `set_K/` | `first_person.txt` | set K, iteration 4 |
 | `set_M/` | `full`, `facts_only`, `no_fact_window`, `no_about_user`, `no_note_tags` (`.txt`, `.json`) | set M, long histories: the full run and four ablations, run once each |
 | `logs/` | `change_rule_dev.md` | current facts that stay right (change rule, name variants, known people): predictions, development runs |
+| `logs/` | `change_rule_M`, `change_rule_L` (`.txt`, `.json`) | sets M and L with the change rule, iteration 1 (development) |
+| `regressions/` | `A_to_J_change_rule` (`.txt`, `.json`) | sets A to J with the change rule, iteration 1 |
+| `set_K/` | `change_rule` (`.txt`, `.json`) | set K with the change rule, iteration 1 |
 | `set_M/` | `log.md` | set M: result, causes of every smart loss, the hypothesis, ablations |
 | `logs/` | `about_user_L.txt` | set L re-run with the check (development, labelled) |
 | `regressions/` | `A_to_J_about_user.txt` | sets A to J re-run with the check, cache off |

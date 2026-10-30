@@ -1,0 +1,555 @@
+
+--- k_move, session 1 (200 days ago)
+k_move s1: Hi, I'm Lukas. I live in Ljubljana and I work from home as a
+
+you> Hi, I'm Lukas. I live in Ljubljana and I work from home as a translator.
+  none> Nice to chat with you again, Lukas! I remember you from our previous conversations. It's great that you get to work from home as a translator. Ljubljana is a lovely city, isn't it? What kind of languages do you typically translate?
+  baseline> Nice to chat with you again, Lukas! I remember you from our previous conversations. It's great that you get to work from home as a translator. Ljubljana is a lovely city, isn't it? What kind of languages do you typically translate?
+  smart> Nice to chat with you again, Lukas! I remember you from our previous conversations. It's great that you get to work from home as a translator. Ljubljana is a lovely city, isn't it? What kind of languages do you typically translate?
+k_move s1: I usually cycle along the river on weekends.
+
+you> I usually cycle along the river on weekends.
+  none> That sounds like a great way to spend your free time, Lukas! The Ljubljanica River is a beautiful spot for a bike ride. Do you have a favorite spot to stop and enjoy the view, or a favorite café to grab a coffee along the way?
+    baseline recalled: [2026-04-13] "Hi, I'm Lukas. I live in Ljubljana and I work from home as a translator."
+  baseline> That sounds like a great way to spend your free time, Lukas. The Ljubljanica River is a beautiful spot for a bike ride. Do you have a favorite route or spot along the river that you like to visit?
+  smart> That sounds like a great way to spend your free time, Lukas! The Ljubljanica River is a beautiful spot for a bike ride. Do you have a favorite spot to stop and enjoy the view, or a favorite café to grab a coffee along the way?
+
+--- k_move, session 2 (170 days ago)
+k_move s2: Which city do I live in?
+
+you> Which city do I live in?  [probe: city_before, direct]
+  none> ✗ I don't know. We haven't discussed your location before, so I don't have any information about where you live. Would you like to tell me?
+    baseline recalled: [2026-04-13] "Hi, I'm Lukas. I live in Ljubljana and I work from home as a translator."
+    baseline recalled: [2026-04-13] "I usually cycle along the river on weekends."
+  baseline> ✓ You live in Ljubljana.
+    smart recalled: Lives in: Ljubljana (since 2026-04-13)
+  smart> ✓ You live in Ljubljana.
+k_move s2: Can you explain how a heat pump works?
+
+you> Can you explain how a heat pump works?
+  none> A heat pump is a device that transfers heat from one location to another, rather than generating heat itself. It works by using refrigeration to move heat from a colder location to a warmer location. In the winter, it extracts heat from the outside air and transfers it to your home, warming it up. I
+    baseline recalled: [2026-04-13] "Hi, I'm Lukas. I live in Ljubljana and I work from home as a translator."
+    baseline recalled: [2026-05-13] "Which city do I live in?"
+    baseline recalled: [2026-04-13] "I usually cycle along the river on weekends."
+  baseline> I don't know how a heat pump works.
+  smart> A heat pump is a device that transfers heat from one location to another. It doesn't generate heat, but rather moves it from a source (like the outside air) to a destination (like your home). It works by using refrigerant to absorb heat from the outside and transfer it inside, or vice versa, dependi
+
+--- k_move, session 3 (120 days ago)
+k_move s3: Big news: I've moved to Bilbao for good, the new flat is lov
+
+you> Big news: I've moved to Bilbao for good, the new flat is lovely.
+  none> Congratulations on the move! I'm glad to hear the new flat is lovely. How do you like Bilbao so far?
+    baseline recalled: [2026-05-13] "Which city do I live in?"
+    baseline recalled: [2026-04-13] "Hi, I'm Lukas. I live in Ljubljana and I work from home as a translator."
+    baseline recalled: [2026-04-13] "I usually cycle along the river on weekends."
+    baseline recalled: [2026-05-13] "Can you explain how a heat pump works?"
+  baseline> Congratulations on your move! I'm glad to hear that your new flat is lovely. You mentioned earlier that you used to live in Ljubljana and enjoyed cycling along the river on weekends. I'm sure you'll find new favorite spots in Bilbao. How are you finding the city so far?
+    smart recalled: Lives in: Ljubljana (since 2026-04-13)
+  smart> I don't know anything about your move to Bilbao, so this is new information to me. Congratulations on the new flat, I hope you're settling in well.
+k_move s3: The weather here is much rainier than I expected.
+
+you> The weather here is much rainier than I expected.
+  none> I don't have real-time information, so I don't know the current weather conditions in Bilbao. But I can tell you that Bilbao is known for its rainy climate, so it's not entirely surprising. How are you adjusting to the rain?
+    baseline recalled: [2026-04-13] "I usually cycle along the river on weekends."
+    baseline recalled: [2026-07-02] "Big news: I've moved to Bilbao for good, the new flat is lovely."
+    baseline recalled: [2026-05-13] "Which city do I live in?"
+    baseline recalled: [2026-04-13] "Hi, I'm Lukas. I live in Ljubljana and I work from home as a translator."
+  baseline> I don't have any information about the current weather in Bilbao.
+    smart recalled: Note from 2026-04-13: The user usually cycles along the river on weekends.
+  smart> I don't have access to real-time information, so I don't know the current weather conditions in Bilbao.
+
+--- k_move, session 4 (90 days ago)
+k_move s4: Where do I live these days?
+
+you> Where do I live these days?  [probe: city, direct]
+  none> ✗ I don't know. We just started our conversation, and I don't have any prior information about you. Would you like to share where you live?
+    baseline recalled: [2026-05-13] "Which city do I live in?"
+    baseline recalled: [2026-07-02] "Big news: I've moved to Bilbao for good, the new flat is lovely."
+    baseline recalled: [2026-04-13] "Hi, I'm Lukas. I live in Ljubljana and I work from home as a translator."
+    baseline recalled: [2026-04-13] "I usually cycle along the river on weekends."
+  baseline> ✓ You live in Bilbao.
+    smart recalled: Lives in: Bilbao (since 2026-07-02)
+    smart recalled: Note from 2026-07-02: The user moved to Bilbao for good and their new flat is lovely.
+  smart> ✓ You live in Bilbao.
+
+--- k_move, session 5 (60 days ago)
+k_move s5: What's a good way to learn new vocabulary?
+
+you> What's a good way to learn new vocabulary?
+  none> I've helped you before, and I'm glad you're looking to expand your vocabulary. One effective way to learn new words is through flashcards. You can write the word on one side and the definition on the other. Quiz yourself by covering the definition and trying to recall it. You can also use apps like 
+    baseline recalled: [2026-07-02] "Big news: I've moved to Bilbao for good, the new flat is lovely."
+    baseline recalled: [2026-04-13] "Hi, I'm Lukas. I live in Ljubljana and I work from home as a translator."
+    baseline recalled: [2026-04-13] "I usually cycle along the river on weekends."
+    baseline recalled: [2026-08-01] "Where do I live these days?"
+  baseline> I've helped Lukas before, and as a translator, he's likely to have some great tips on learning new vocabulary. One method he might recommend is to focus on learning words in context, rather than just memorizing definitions. He could also suggest using flashcards or language learning apps to make it 
+    smart recalled: Note from 2026-07-02: The user moved to Bilbao for good and their new flat is lovely.
+  smart> There are several ways to learn new vocabulary. One effective method is to use flashcards, where you write the word on one side and the definition on the other. You can also try reading books or articles in the target language, as this will help you learn new words in context. Another approach is to
+k_move s5: Can you suggest a day trip from my city?
+
+you> Can you suggest a day trip from my city?  [probe: city, indirect]
+  none> ✗ I don't know your city. Could you please tell me where you're based, and I'll do my best to suggest a nearby day trip destination?
+    baseline recalled: [2026-05-13] "Which city do I live in?"
+    baseline recalled: [2026-08-01] "Where do I live these days?"
+    baseline recalled: [2026-07-02] "Big news: I've moved to Bilbao for good, the new flat is lovely."
+    baseline recalled: [2026-04-13] "I usually cycle along the river on weekends."
+  baseline> ✓ You live in Bilbao, don't you? I recall you mentioning you'd moved there for good. There are plenty of great options for day trips from Bilbao. Have you considered visiting San Sebastián? It's a beautiful coastal city with a lovely old town and some great beaches. The drive is about an hour, and you
+    smart recalled: Lives in: Bilbao (since 2026-07-02)
+    smart recalled: Note from 2026-07-02: The user moved to Bilbao for good and their new flat is lovely.
+    smart recalled: Note from 2026-04-13: The user usually cycles along the river on weekends.
+  smart> ✓ Bilbao is a great base for exploring the Basque Country. One popular day trip option is to visit the Guggenheim Museum in Bilbao itself, but if you're looking to get out of the city, I'd suggest visiting the nearby town of Getxo. It's a charming coastal town with a beautiful beach and a historic lig
+
+--- k_move, session 6 (20 days ago)
+k_move s6: Remind me, which city am I based in?
+
+you> Remind me, which city am I based in?  [probe: city, direct]
+  none> ✗ I don't know. We haven't discussed your location before, so I don't have any information about where you're based. Would you like to tell me?
+    baseline recalled: [2026-05-13] "Which city do I live in?"
+    baseline recalled: [2026-08-01] "Where do I live these days?"
+    baseline recalled: [2026-08-31] "Can you suggest a day trip from my city?"
+    baseline recalled: [2026-04-13] "Hi, I'm Lukas. I live in Ljubljana and I work from home as a translator."
+  baseline> ✗ FORBID You live in Ljubljana.
+    smart recalled: Lives in: Bilbao (since 2026-07-02)
+  smart> ✓ You live in Bilbao.
+k_move s6: Any good neighbourhoods to explore in my city?
+
+you> Any good neighbourhoods to explore in my city?  [probe: city, indirect]
+  none> ✗ I don't know your city or its neighborhoods. You mentioned earlier that I don't know where you're based. Could you tell me which city you're in, and I can try to help you with neighborhood suggestions?
+    baseline recalled: [2026-08-31] "Can you suggest a day trip from my city?"
+    baseline recalled: [2026-05-13] "Which city do I live in?"
+    baseline recalled: [2026-07-02] "Big news: I've moved to Bilbao for good, the new flat is lovely."
+    baseline recalled: [2026-08-01] "Where do I live these days?"
+  baseline> ✓ You mentioned you live in Bilbao now, so I'd be happy to help with that. Bilbao has some lovely neighborhoods to explore. The Old Town (Casco Viejo) is a great place to start, with its charming streets, historic buildings, and lively atmosphere. Another popular area is the Garellano neighborhood, kn
+    smart recalled: Lives in: Bilbao (since 2026-07-02)
+    smart recalled: Note from 2026-07-02: The user moved to Bilbao for good and their new flat is lovely.
+  smart> ✓ Bilbao has some lovely neighbourhoods. I've heard that the Deusto and Abandoibarra areas are popular with locals and visitors alike. They offer a mix of culture, shopping, and dining options.
+
+--- k_allergy, session 1 (210 days ago)
+k_allergy s1: Quick thing to know about me: I'm allergic to mustard.
+
+you> Quick thing to know about me: I'm allergic to mustard.
+  none> I've taken note that you're allergic to mustard. I'll keep that in mind for any future conversations. What's on your mind today?
+  baseline> I've taken note that you're allergic to mustard. I'll keep that in mind for any future conversations. What's on your mind today?
+  smart> I've taken note that you're allergic to mustard. I'll keep that in mind for any future conversations. What's on your mind today?
+k_allergy s1: I'm trying to cook more at home this year.
+
+you> I'm trying to cook more at home this year.
+  none> Cooking at home can be a great way to save money and eat healthier. What kind of dishes or cuisines are you interested in trying out?
+    baseline recalled: [2026-04-03] "Quick thing to know about me: I'm allergic to mustard."
+  baseline> Cooking at home can be a great way to save money and eat healthier. What kind of dishes are you interested in trying out? Do you have any specific cuisines or recipes in mind?
+    smart recalled: Allergic to: mustard (since 2026-04-03)
+  smart> Cooking at home can be a great way to save money and eat healthier. What kind of dishes are you interested in trying out? Do you have a specific cuisine in mind or a particular recipe you're looking for?
+
+--- k_allergy, session 2 (150 days ago)
+k_allergy s2: Is a ham sandwich with Dijon a good lunch for me?
+
+you> Is a ham sandwich with Dijon a good lunch for me?  [probe: allergy, indirect]
+  none> ✓ I don't know your dietary preferences or restrictions, but a ham sandwich with Dijon mustard is a classic and popular choice for lunch. It's a simple, satisfying option that combines protein, carbs, and flavor. If you enjoy ham and mustard, it could be a good choice for you.
+    baseline recalled: [2026-04-03] "I'm trying to cook more at home this year."
+    baseline recalled: [2026-04-03] "Quick thing to know about me: I'm allergic to mustard."
+  baseline> ✓ Considering your allergy to mustard, a ham sandwich with Dijon might not be the best choice for you.
+    smart recalled: Allergic to: mustard (since 2026-04-03)
+    smart recalled: Note from 2026-04-03: The user is trying to cook more at home this year.
+  smart> ✓ I don't think that's a good idea. You're allergic to mustard, and Dijon is a type of mustard.
+
+--- k_allergy, session 3 (100 days ago)
+k_allergy s3: I bought a new set of kitchen knives.
+
+you> I bought a new set of kitchen knives.
+  none> That's exciting! How are you finding the new knives so far? Are they meeting your expectations?
+    baseline recalled: [2026-04-03] "I'm trying to cook more at home this year."
+    baseline recalled: [2026-04-03] "Quick thing to know about me: I'm allergic to mustard."
+    baseline recalled: [2026-06-02] "Is a ham sandwich with Dijon a good lunch for me?"
+  baseline> That's exciting! How are you finding the new knives so far? Are you enjoying cooking with them?
+    smart recalled: Note from 2026-04-03: The user is trying to cook more at home this year.
+  smart> Congratulations on the new knives! How do you like them so far? Are you planning on using them for a specific dish or recipe?
+k_allergy s3: How do I keep a wooden chopping board clean?
+
+you> How do I keep a wooden chopping board clean?
+  none> To keep a wooden chopping board clean, I'd recommend washing it with soap and warm water after each use. You can also sanitize it by applying a small amount of white vinegar and letting it dry. Regular oiling can help maintain the wood's moisture and prevent cracking.
+    baseline recalled: [2026-07-22] "I bought a new set of kitchen knives."
+    baseline recalled: [2026-04-03] "I'm trying to cook more at home this year."
+    baseline recalled: [2026-04-03] "Quick thing to know about me: I'm allergic to mustard."
+    baseline recalled: [2026-06-02] "Is a ham sandwich with Dijon a good lunch for me?"
+  baseline> To keep a wooden chopping board clean, I'd recommend washing it with soap and warm water after each use. You can also dry it thoroughly with a towel to prevent water spots. For tougher stains, you can mix equal parts water and white vinegar in a spray bottle and spray it onto the board. Let it sit f
+    smart recalled: Note from 2026-04-03: The user is trying to cook more at home this year.
+  smart> To keep a wooden chopping board clean, it's a good idea to wash it with soap and warm water after each use, and then dry it thoroughly. You can also sanitize it by applying a small amount of oil to the surface and letting it sit for a while before wiping it off. Regular maintenance like this can hel
+
+--- k_allergy, session 4 (50 days ago)
+k_allergy s4: I'm making a vinaigrette for a salad tonight, any tips?
+
+you> I'm making a vinaigrette for a salad tonight, any tips?  [probe: allergy, indirect]
+  none> ✗ Making vinaigrette sounds like a great idea! I don't know your personal taste preferences, but a general tip is to start with a 3:1 or 4:1 ratio of oil to acid (such as vinegar or lemon juice). You can adjust this ratio to suit your taste. Also, consider using a flavorful oil like olive or avocado o
+    baseline recalled: [2026-04-03] "I'm trying to cook more at home this year."
+    baseline recalled: [2026-07-22] "I bought a new set of kitchen knives."
+    baseline recalled: [2026-06-02] "Is a ham sandwich with Dijon a good lunch for me?"
+    baseline recalled: [2026-07-22] "How do I keep a wooden chopping board clean?"
+  baseline> ✗ Making a vinaigrette sounds like a great project. I don't know your personal taste preferences, but a general tip is to start with a simple ratio of 3 parts oil to 1 part acid (such as vinegar or lemon juice). You can adjust this to taste. Also, consider adding a pinch of salt and any other seasonin
+    smart recalled: Note from 2026-04-03: The user is trying to cook more at home this year.
+    smart recalled: Note from 2026-07-22: The user bought a new set of kitchen knives.
+  smart> ✗ Making vinaigrette from scratch can be a bit tricky, but I've got a simple tip for you. Since you have a new set of kitchen knives, you might find it easier to finely chop the herbs and garlic, which will help to release their flavors and oils into the dressing. Just be sure to taste as you go and a
+
+--- k_allergy, session 5 (10 days ago)
+k_allergy s5: What am I allergic to?
+
+you> What am I allergic to?  [probe: allergy, direct]
+  none> ✗ I don't know. I don't have any information about your allergies. We haven't discussed this before, and I don't have any personal knowledge about you. If you'd like to share, I can try to help you remember or provide general information about allergies.
+    baseline recalled: [2026-04-03] "Quick thing to know about me: I'm allergic to mustard."
+    baseline recalled: [2026-06-02] "Is a ham sandwich with Dijon a good lunch for me?"
+    baseline recalled: [2026-04-03] "I'm trying to cook more at home this year."
+    baseline recalled: [2026-07-22] "I bought a new set of kitchen knives."
+  baseline> ✓ You're allergic to mustard.
+    smart recalled: Allergic to: mustard (since 2026-04-03)
+  smart> ✓ You're allergic to mustard.
+
+--- k_job, session 1 (220 days ago)
+k_job s1: I work at Brantley Analytics as a data engineer.
+
+you> I work at Brantley Analytics as a data engineer.
+  none> I've taken note that you work as a data engineer at Brantley Analytics. How can I assist you today?
+  baseline> I've taken note that you work as a data engineer at Brantley Analytics. How can I assist you today?
+  smart> I've taken note that you work as a data engineer at Brantley Analytics. How can I assist you today?
+
+--- k_job, session 2 (180 days ago)
+k_job s2: Write a one-line email signature for me.
+
+you> Write a one-line email signature for me.  [probe: employer_before, indirect]
+  none> ✗ Here is a one-line email signature for you: "Best regards, [Your Name]".
+    baseline recalled: [2026-03-24] "I work at Brantley Analytics as a data engineer."
+  baseline> ✗ I don't know your name or job title, so I'll need more information to create a suitable email signature.
+  smart> ✗ Here is a one-line email signature for you: "Best regards, [Your Name]".
+
+--- k_job, session 3 (130 days ago)
+k_job s3: I left Brantley Analytics. I've started at Fernhill Bank, st
+
+you> I left Brantley Analytics. I've started at Fernhill Bank, still as a data engineer.
+  none> I remember you from our previous conversations. Congratulations on the new role at Fernhill Bank! I'm glad to hear you're still working as a data engineer. How's the transition going so far?
+    baseline recalled: [2026-03-24] "I work at Brantley Analytics as a data engineer."
+    baseline recalled: [2026-05-03] "Write a one-line email signature for me."
+  baseline> I'll make a note of your new role. What can I help you with today?
+    smart recalled: Works at: Brantley Analytics (since 2026-03-24)
+  smart> I've taken note of your new job at Fernhill Bank. What can I help you with today?
+
+--- k_job, session 4 (90 days ago)
+k_job s4: Where do I work now?
+
+you> Where do I work now?  [probe: employer, direct]
+  none> ✗ I don't know. This is our first conversation, and I don't have any prior knowledge about you. Would you like to tell me about your job or is there something else I can help you with?
+    baseline recalled: [2026-06-22] "I left Brantley Analytics. I've started at Fernhill Bank, still as a data engineer."
+    baseline recalled: [2026-03-24] "I work at Brantley Analytics as a data engineer."
+    baseline recalled: [2026-05-03] "Write a one-line email signature for me."
+  baseline> ✓ You work at Fernhill Bank as a data engineer.
+    smart recalled: Works at: Fernhill Bank (since 2026-06-22)
+    smart recalled: Job title: data engineer (since 2026-03-24)
+    smart recalled: Note from 2026-06-22: The user left Brantley Analytics and started working at Fernhill Bank as a data engineer.
+  smart> ✓ You work at Fernhill Bank as a data engineer.
+
+--- k_job, session 5 (40 days ago)
+k_job s5: Any tips for a long commute?
+
+you> Any tips for a long commute?
+  none> To make a long commute more bearable, I'd suggest bringing a book, podcast, or audiobook to listen to. You could also try listening to music or a calming nature sound to help the time pass. If you have a phone or tablet, consider downloading a productivity app to help you stay organized or learn a n
+    baseline recalled: [2026-03-24] "I work at Brantley Analytics as a data engineer."
+    baseline recalled: [2026-08-01] "Where do I work now?"
+    baseline recalled: [2026-06-22] "I left Brantley Analytics. I've started at Fernhill Bank, still as a data engineer."
+    baseline recalled: [2026-05-03] "Write a one-line email signature for me."
+  baseline> I don't have any specific information about your commute, but I can suggest a few general tips that might be helpful: listening to podcasts or audiobooks, taking breaks to stretch or move around, and finding ways to stay entertained or productive during the time.
+  smart> To make a long commute more bearable, I'd suggest bringing a book, podcast, or audiobook to listen to. You could also try listening to music or a calming nature sound to help the time pass. If you have a phone or tablet, consider downloading a productivity app to stay organized or learn something ne
+k_job s5: Write a one-line email signature for me.
+
+you> Write a one-line email signature for me.  [probe: employer, indirect]
+  none> ✗ I don't know your name or contact information, so I'll suggest a generic signature: "Best regards, [Your Name]"
+    baseline recalled: [2026-05-03] "Write a one-line email signature for me."
+    baseline recalled: [2026-03-24] "I work at Brantley Analytics as a data engineer."
+    baseline recalled: [2026-06-22] "I left Brantley Analytics. I've started at Fernhill Bank, still as a data engineer."
+    baseline recalled: [2026-09-20] "Any tips for a long commute?"
+  baseline> ✗ Here's a one-line email signature for you: "Best regards, [Your Name]". If you'd like, I can try to suggest a more personalized version based on your work or interests.
+    smart recalled: Note from 2026-06-22: The user left Brantley Analytics and started working at Fernhill Bank as a data engineer.
+  smart> ✗ I don't know your job title or contact information, so I'll suggest a generic signature: "Best regards, [Your Name]"
+
+--- k_job, session 6 (5 days ago)
+k_job s6: Which company am I with?
+
+you> Which company am I with?  [probe: employer, direct]
+  none> ✗ I don't know. We haven't discussed your work or company before, so I don't have any information about that. Would you like to tell me about it?
+    baseline recalled: [2026-08-01] "Where do I work now?"
+    baseline recalled: [2026-03-24] "I work at Brantley Analytics as a data engineer."
+    baseline recalled: [2026-06-22] "I left Brantley Analytics. I've started at Fernhill Bank, still as a data engineer."
+    baseline recalled: [2026-05-03] "Write a one-line email signature for me."
+  baseline> ✓ You work at Fernhill Bank as a data engineer.
+    smart recalled: Works at: Fernhill Bank (since 2026-06-22)
+    smart recalled: Note from 2026-06-22: The user left Brantley Analytics and started working at Fernhill Bank as a data engineer.
+  smart> ✓ You work at Fernhill Bank.
+
+--- k_partner, session 1 (190 days ago)
+k_partner s1: My partner Dagny and I just celebrated five years together.
+
+you> My partner Dagny and I just celebrated five years together.
+  none> Happy anniversary! I'm glad to hear that you and Dagny are celebrating a milestone in your relationship. How did you celebrate?
+  baseline> Happy anniversary! I'm glad to hear that you and Dagny are celebrating a milestone in your relationship. How did you celebrate?
+  smart> Happy anniversary! I'm glad to hear that you and Dagny are celebrating a milestone in your relationship. How did you celebrate?
+
+--- k_partner, session 2 (160 days ago)
+k_partner s2: My colleague Wilhelmina keeps asking me to join her book clu
+
+you> My colleague Wilhelmina keeps asking me to join her book club.
+  none> I don't know anything about your personal life or relationships, but I can certainly help you brainstorm ways to respond to Wilhelmina's invitation. Would you like some suggestions on how to politely decline or accept the invitation?
+    baseline recalled: [2026-04-23] "My partner Dagny and I just celebrated five years together."
+  baseline> I don't know anything about your personal life or relationships, but I do know that you've mentioned a partner named Dagny in the past. As for Wilhelmina's book club, it sounds like she's trying to recruit you! Have you considered joining? What's holding you back?
+    smart recalled: Note from 2026-04-23: The user and their partner Dagny just celebrated five years together.
+  smart> I don't know anything about your personal life or interests outside of our previous conversation.
+k_partner s2: What's a good novel for a book club?
+
+you> What's a good novel for a book club?
+  none> There are so many great novels to choose from. Since I don't know your book club's preferences or reading style, I can suggest a few popular and thought-provoking options. Have you considered "The Nightingale" by Kristin Hannah, "The Hate U Give" by Angie Thomas, or "The Immortal Life of Henrietta L
+    baseline recalled: [2026-05-23] "My colleague Wilhelmina keeps asking me to join her book club."
+    baseline recalled: [2026-04-23] "My partner Dagny and I just celebrated five years together."
+  baseline> There are so many great novels out there. If you're looking for something that might spark a lively discussion, you could consider a classic like "Pride and Prejudice" by Jane Austen or a more modern novel like "The Nightingale" by Kristin Hannah. Alternatively, you could choose something a bit more
+  smart> There are many great novels that would be suitable for a book club. Some popular and thought-provoking options include "The Nightingale" by Kristin Hannah, "The Hate U Give" by Angie Thomas, and "The Immortal Life of Henrietta Lacks" by Rebecca Skloot. However, the best choice would depend on the cl
+
+--- k_partner, session 3 (110 days ago)
+k_partner s3: Write a two-line birthday message for my partner.
+
+you> Write a two-line birthday message for my partner.  [probe: partner, indirect]
+  none> ✗ "Happy birthday to an amazing partner! Wishing you a day filled with love, laughter, and all your favorite things."
+    baseline recalled: [2026-04-23] "My partner Dagny and I just celebrated five years together."
+    baseline recalled: [2026-05-23] "My colleague Wilhelmina keeps asking me to join her book club."
+    baseline recalled: [2026-05-23] "What's a good novel for a book club?"
+  baseline> ✓ "Happy birthday to Dagny, may this special day be filled with love, laughter, and all your favorite things. Five years together have only made our bond stronger, here's to many more adventures together!"
+    smart recalled: Partner: Dagny (since 2026-04-23)
+    smart recalled: Note from 2026-04-23: The user and their partner Dagny just celebrated five years together.
+  smart> ✓ "Happy birthday to the love of my life, Dagny! Five years together and still going strong, here's to many more adventures together."
+
+--- k_partner, session 4 (70 days ago)
+k_partner s4: What's my partner's name?
+
+you> What's my partner's name?  [probe: partner, direct]
+  none> ✗ I don't know. I'm a friendly assistant, but I don't have any information about your personal life. This is our first conversation, and I don't retain any information from previous conversations. Would you like to tell me about your partner?
+    baseline recalled: [2026-07-12] "Write a two-line birthday message for my partner."
+    baseline recalled: [2026-04-23] "My partner Dagny and I just celebrated five years together."
+    baseline recalled: [2026-05-23] "My colleague Wilhelmina keeps asking me to join her book club."
+    baseline recalled: [2026-05-23] "What's a good novel for a book club?"
+  baseline> ✗ I don't know.
+    smart recalled: Partner: Dagny (since 2026-04-23)
+  smart> ✓ Dagny.
+
+--- k_partner, session 5 (15 days ago)
+k_partner s5: Suggest a gift for my partner and write the card, with their
+
+you> Suggest a gift for my partner and write the card, with their name.  [probe: partner, indirect]
+  none> ✗ To suggest a gift, I'll need to know a bit more about your partner's interests. Do they have any hobbies or favorite things? Also, what's their name? I'll make sure to include it in the card. (And don't worry, I'll remember this for our next conversation!)
+    baseline recalled: [2026-07-12] "Write a two-line birthday message for my partner."
+    baseline recalled: [2026-08-21] "What's my partner's name?"
+    baseline recalled: [2026-04-23] "My partner Dagny and I just celebrated five years together."
+    baseline recalled: [2026-05-23] "My colleague Wilhelmina keeps asking me to join her book club."
+  baseline> ✓ I remember that your partner's name is Dagny. For a gift, I suggest a personalized item that shows you've been paying attention to their interests. Since I don't know Dagny's specific hobbies or preferences, I'll suggest a more general idea: a customized photo album or frame with pictures from your 
+    smart recalled: Partner: Dagny (since 2026-04-23)
+    smart recalled: Note from 2026-04-23: The user and their partner Dagny just celebrated five years together.
+    smart recalled: Note from 2026-05-23: The user's colleague Wilhelmina keeps asking them to join her book club.
+  smart> ✓ Considering your partner's name is Dagny, I'd suggest a gift that's personal and thoughtful. A gift idea could be a customized photo album or frame with pictures from your five years together. You could also consider a piece of jewelry, such as a necklace or a pair of earrings, that represents a spe
+
+--- k_same_session, session 1 (150 days ago)
+k_same_session s1: I live in Tartu and teach music at a primary school.
+
+you> I live in Tartu and teach music at a primary school.
+  none> That's great to know! I'll remember that you live in Tartu and teach music at a primary school. How's your week been so far?
+  baseline> That's great to know! I'll remember that you live in Tartu and teach music at a primary school. How's your week been so far?
+  smart> That's great to know! I'll remember that you live in Tartu and teach music at a primary school. How's your week been so far?
+
+--- k_same_session, session 2 (30 days ago)
+k_same_session s2: Which city do I live in?
+
+you> Which city do I live in?  [probe: city_before, direct]
+  none> ✗ I don't know. We haven't discussed your location before, so I don't have any information about where you live. Would you like to tell me?
+    baseline recalled: [2026-06-02] "I live in Tartu and teach music at a primary school."
+  baseline> ✓ You live in Tartu.
+    smart recalled: Lives in: Tartu (since 2026-06-02)
+  smart> ✓ You live in Tartu.
+k_same_session s2: Actually, I'm moving out today: as of tonight I live in Pärn
+
+you> Actually, I'm moving out today: as of tonight I live in Pärnu.
+  none> I'll remember that you live in Pärnu. How's the move going so far?
+    baseline recalled: [2026-09-30] "Which city do I live in?"
+    baseline recalled: [2026-06-02] "I live in Tartu and teach music at a primary school."
+  baseline> I'll update that. As of tonight, you live in Pärnu.
+    smart recalled: Lives in: Tartu (since 2026-06-02)
+    smart recalled: Note from 2026-06-02: The user lives in Tartu and teaches music at a primary school.
+  smart> I'll update that. As of tonight, you live in Pärnu.
+k_same_session s2: So where do I live now?
+
+you> So where do I live now?  [probe: city, direct]
+  none> ✓ You live in Pärnu now.
+    baseline recalled: [2026-09-30] "Which city do I live in?"
+    baseline recalled: [2026-09-30] "Actually, I'm moving out today: as of tonight I live in Pärnu."
+    baseline recalled: [2026-06-02] "I live in Tartu and teach music at a primary school."
+  baseline> ✓ You live in Pärnu.
+    smart recalled: Lives in: Pärnu (since 2026-09-30)
+  smart> ✓ You live in Pärnu.
+
+--- k_same_session, session 3 (10 days ago)
+k_same_session s3: Recommend a café near where I live.
+
+you> Recommend a café near where I live.  [probe: city, indirect]
+  none> ✗ I don't know your location. Can you please tell me where you live? I'll be happy to recommend a café once I have that information.
+    baseline recalled: [2026-09-30] "Which city do I live in?"
+    baseline recalled: [2026-09-30] "So where do I live now?"
+    baseline recalled: [2026-06-02] "I live in Tartu and teach music at a primary school."
+    baseline recalled: [2026-09-30] "Actually, I'm moving out today: as of tonight I live in Pärnu."
+  baseline> ✓ You live in Pärnu. I don't have information about specific cafes in Pärnu, but I can suggest checking online review sites or asking locals for recommendations.
+    smart recalled: Lives in: Pärnu (since 2026-09-30)
+    smart recalled: Note from 2026-09-30: The user moved out today and now lives in Pärnu.
+  smart> ✗ I don't have information about current cafes or their locations. However, I can suggest checking online review sites or asking locals for recommendations.
+
+--- k_same_session, session 4 (2 days ago)
+k_same_session s4: Which city do I live in?
+
+you> Which city do I live in?  [probe: city, direct]
+  none> ✗ I don't know. We haven't discussed your location before, so I don't have any information about where you live. Would you like to tell me?
+    baseline recalled: [2026-09-30] "Which city do I live in?"
+    baseline recalled: [2026-09-30] "So where do I live now?"
+    baseline recalled: [2026-10-20] "Recommend a café near where I live."
+    baseline recalled: [2026-09-30] "Actually, I'm moving out today: as of tonight I live in Pärnu."
+  baseline> ✓ You live in Pärnu.
+    smart recalled: Lives in: Pärnu (since 2026-09-30)
+    smart recalled: Note from 2026-09-30: The user moved out today and now lives in Pärnu.
+  smart> ✓ You live in Pärnu.
+
+--- k_control, session 1 (240 days ago)
+k_control s1: My name is Oriane and I speak French and Breton.
+
+you> My name is Oriane and I speak French and Breton.
+  none> Bonjour Oriane! Enchantée. I'm glad to know you speak French and Breton. That's a beautiful language. I don't know much about you, but I'm happy to chat with you. What would you like to talk about?
+  baseline> Bonjour Oriane! Enchantée. I'm glad to know you speak French and Breton. That's a beautiful language. I don't know much about you, but I'm happy to chat with you. What would you like to talk about?
+  smart> Bonjour Oriane! Enchantée. I'm glad to know you speak French and Breton. That's a beautiful language. I don't know much about you, but I'm happy to chat with you. What would you like to talk about?
+
+--- k_control, session 2 (200 days ago)
+k_control s2: I'm reading a long novel about whaling.
+
+you> I'm reading a long novel about whaling.
+  none> That sounds like a fascinating read. Is there something specific you'd like to know about the novel, or would you like some recommendations for similar books?
+    baseline recalled: [2026-03-04] "My name is Oriane and I speak French and Breton."
+  baseline> Whaling can be a complex and emotive topic. Is there something specific you'd like to discuss about the novel, or perhaps you're looking for recommendations on similar books?
+  smart> That sounds like a fascinating read. Is there something specific you'd like to know about the novel, or would you like some recommendations for similar books?
+k_control s2: How do lighthouses work?
+
+you> How do lighthouses work?
+  none> Lighthouses use a combination of optics and electricity to guide ships safely to shore. They typically have a light source, such as a bulb or LED, that is focused through a lens or Fresnel lens to create a powerful beam of light. This beam is then rotated by a clockwork or electric mechanism to swee
+    baseline recalled: [2026-04-13] "I'm reading a long novel about whaling."
+    baseline recalled: [2026-03-04] "My name is Oriane and I speak French and Breton."
+  baseline> Lighthouses typically use a combination of optics and electricity to guide ships safely to shore. The light source is usually a powerful lamp or LED, and the beam is focused through a series of lenses to create a narrow, intense beam that can be seen from a great distance. The light is often rotated
+  smart> Lighthouses use a combination of optics and electricity to guide ships safely to shore. They typically have a light source, such as a bulb or LED, that is focused through a lens or Fresnel lens to create a powerful beam of light. This beam is then rotated by a clockwork or electric mechanism to swee
+
+--- k_control, session 3 (120 days ago)
+k_control s3: Which languages do I speak?
+
+you> Which languages do I speak?  [probe: languages, direct]
+  none> ✗ I don't know. This is our first conversation, and I don't have any prior information about you. Would you like to tell me about your languages?
+    baseline recalled: [2026-03-04] "My name is Oriane and I speak French and Breton."
+    baseline recalled: [2026-04-13] "I'm reading a long novel about whaling."
+    baseline recalled: [2026-04-13] "How do lighthouses work?"
+  baseline> ✓ You speak French and Breton.
+    smart recalled: Speaks: French (since 2026-03-04)
+  smart> ✗ You speak French, since March 4th, 2026.
+
+--- k_control, session 4 (60 days ago)
+k_control s4: What's my name?
+
+you> What's my name?  [probe: name, direct]
+  none> ✗ I don't know. We haven't had a conversation before, so I don't have any information about you. Would you like to introduce yourself?
+    baseline recalled: [2026-03-04] "My name is Oriane and I speak French and Breton."
+    baseline recalled: [2026-07-02] "Which languages do I speak?"
+    baseline recalled: [2026-04-13] "I'm reading a long novel about whaling."
+    baseline recalled: [2026-04-13] "How do lighthouses work?"
+  baseline> ✗ I don't know.
+    smart recalled: Name: Oriane (since 2026-03-04)
+  smart> ✓ Your name is Oriane.
+
+--- k_control, session 5 (5 days ago)
+k_control s5: Remind me which languages I know?
+
+you> Remind me which languages I know?  [probe: languages, direct]
+  none> ✗ I don't know. This is our first conversation, and I don't have any prior knowledge about you. Would you like to tell me about your language skills?
+    baseline recalled: [2026-07-02] "Which languages do I speak?"
+    baseline recalled: [2026-03-04] "My name is Oriane and I speak French and Breton."
+    baseline recalled: [2026-08-31] "What's my name?"
+    baseline recalled: [2026-04-13] "I'm reading a long novel about whaling."
+  baseline> ✓ You speak French and Breton.
+    smart recalled: Speaks: French (since 2026-03-04)
+    smart recalled: Speaks: Breton (since 2026-03-04)
+  smart> ✓ You know French and Breton.
+k_control s5: Sign this short thank-you note with my name: 'Thanks for the
+
+you> Sign this short thank-you note with my name: 'Thanks for the lovely dinner.'  [probe: name, indirect]
+  none> ✗ I don't know your name. Would you like to tell me so I can sign the note for you?
+    baseline recalled: [2026-03-04] "My name is Oriane and I speak French and Breton."
+    baseline recalled: [2026-10-25] "Remind me which languages I know?"
+    baseline recalled: [2026-08-31] "What's my name?"
+    baseline recalled: [2026-04-13] "I'm reading a long novel about whaling."
+  baseline> ✗ I don't know your name.
+    smart recalled: Note from 2026-04-13: The user is reading a long novel about whaling.
+  smart> ✗ I don't know your name.
+
+  n = none (no memory)   b = baseline vector memory   s = smart (this system)
+  CORRECT  ✓ right answer   ✗ wrong   bold name = smart has a ✗
+  FORBID   ! outdated or wrong value in the answer   . clean   - not tested
+story / probe                                       type        correct n/b/s   forbid n/b/s
+k_move: Which city do I live in?                    direct              ✗/✓/✓          -/-/-
+k_move: Where do I live these days?                 direct              ✗/✓/✓          ././.
+k_move: Can you suggest a day trip from my city?    indirect            ✗/✓/✓          ././.
+k_move: Remind me, which city am I based in?        direct              ✗/✗/✓          ./!/.
+k_move: Any good neighbourhoods to explore in my c  indirect            ✗/✓/✓          ././.
+k_allergy: Is a ham sandwich with Dijon a good lun  indirect            ✓/✓/✓          -/-/-
+k_allergy: I'm making a vinaigrette for a salad to  indirect            ✗/✗/✗          -/-/-
+k_allergy: What am I allergic to?                   direct              ✗/✓/✓          -/-/-
+k_job: Write a one-line email signature for me.     indirect            ✗/✗/✗          -/-/-
+k_job: Where do I work now?                         direct              ✗/✓/✓          ././.
+k_job: Write a one-line email signature for me.     indirect            ✗/✗/✗          ././.
+k_job: Which company am I with?                     direct              ✗/✓/✓          ././.
+k_partner: Write a two-line birthday message for m  indirect            ✗/✓/✓          ././.
+k_partner: What's my partner's name?                direct              ✗/✗/✓          ././.
+k_partner: Suggest a gift for my partner and write  indirect            ✗/✓/✓          ././.
+k_same_session: Which city do I live in?            direct              ✗/✓/✓          -/-/-
+k_same_session: So where do I live now?             direct              ✓/✓/✓          ././.
+k_same_session: Recommend a café near where I live  indirect            ✗/✓/✗          ././.
+k_same_session: Which city do I live in?            direct              ✗/✓/✓          ././.
+k_control: Which languages do I speak?              direct              ✗/✓/✗          -/-/-
+k_control: What's my name?                          direct              ✗/✗/✓          -/-/-
+k_control: Remind me which languages I know?        direct              ✗/✓/✓          -/-/-
+k_control: Sign this short thank-you note with my   indirect            ✗/✗/✗          -/-/-
+
+stable facts (7 groups)
+  k_move: city                            ✗/✗/✓
+  k_allergy: allergy                      ✗/✗/✗
+  k_job: employer                         ✗/✗/✗
+  k_partner: partner                      ✗/✗/✓
+  k_same_session: city                    ✗/✓/✗
+  k_control: languages                    ✗/✓/✗
+  k_control: name                         ✗/✗/✗
+
+SET K (BLIND: consistency across sessions, written before its runner; run once)
+  keyword scores, before the hand review (rules in set_K.md)
+                                      none    baseline       smart
+  correct                             2/23       16/23       17/23
+  contradictions, raw                 0/13        1/13        0/13
+  forbidden word in prompt            0/13       10/13        4/13
+  stable facts                         0/7         2/7         2/7
+  indirect correct                    1/10        6/10        5/10
+  green = better than the other memory mode, red = worse; none is shown for reference
+  lower is better for: contradictions, forbidden word in prompt
+
+To review by hand
+  [baseline] k_move: Remind me, which city am I based in?  (forbidden word ['ljubljana', 'slovenia', 'postojna', 'bohinj'])
+      You live in Ljubljana.
+  [none] k_allergy: Is a ham sandwich with Dijon a good lunch for me?  (scored by hand)
+      I don't know your dietary preferences or restrictions, but a ham sandwich with Dijon mustard is a classic and popular choice for lunch. It's a simple, satisfying option that combines protein, carbs, and flavor. If you enjoy ham and mustard, it could be a good choice for you.
+  [baseline] k_allergy: Is a ham sandwich with Dijon a good lunch for me?  (scored by hand)
+      Considering your allergy to mustard, a ham sandwich with Dijon might not be the best choice for you.
+  [smart] k_allergy: Is a ham sandwich with Dijon a good lunch for me?  (scored by hand)
+      I don't think that's a good idea. You're allergic to mustard, and Dijon is a type of mustard.
+  [none] k_allergy: I'm making a vinaigrette for a salad tonight, any tips?  (scored by hand)
+      Making vinaigrette sounds like a great idea! I don't know your personal taste preferences, but a general tip is to start with a 3:1 or 4:1 ratio of oil to acid (such as vinegar or lemon juice). You can adjust this ratio to suit your taste. Also, consider using a flavorful oil like olive or avocado oil to add depth to your vinaigrette. What type of salad are you making?
+  [baseline] k_allergy: I'm making a vinaigrette for a salad tonight, any tips?  (scored by hand)
+      Making a vinaigrette sounds like a great project. I don't know your personal taste preferences, but a general tip is to start with a simple ratio of 3 parts oil to 1 part acid (such as vinegar or lemon juice). You can adjust this to taste. Also, consider adding a pinch of salt and any other seasonings you like. What type of vinaigrette are you trying to make?
+  [smart] k_allergy: I'm making a vinaigrette for a salad tonight, any tips?  (scored by hand)
+      Making vinaigrette from scratch can be a bit tricky, but I've got a simple tip for you. Since you have a new set of kitchen knives, you might find it easier to finely chop the herbs and garlic, which will help to release their flavors and oils into the dressing. Just be sure to taste as you go and adjust the seasoning to your liking. What kind of vinaigrette are you making - a classic oil and vinegar, or something a bit more adventurous?
+
+saved eval_sessions.json   (346s)   cache: off

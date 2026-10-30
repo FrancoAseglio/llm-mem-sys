@@ -1,0 +1,3467 @@
+ingesting move_city (4 messages)...
+move_city: 1 summaries written
+
+--- facts stored for move_city ---
+  job_title     software engineer     active      2026-04-13 10:11
+  lives_in      Turin                 superseded  2026-04-13 10:11
+  lives_in      Milan                 active      2026-07-02 10:11
+  works_at      Acme                  active      2026-04-13 10:11
+--- summaries stored for eval_move_city ---
+  The user moved to Milan.
+
+[none] Which city do I live in?
+
+[baseline] Which city do I live in?
+    recalled: [2026-04-13] "I live in Turin and I work at Acme as a software engineer."
+    recalled: [2026-07-02] "Big news: I just moved to Milan!"
+    recalled: [2026-04-23] "Can you recommend a good book about building habits?"
+    recalled: [2026-08-31] "Thanks, that was really helpful."
+    answer: You live in Milan.
+
+[smart] Which city do I live in?
+    recalled: Lives in: Milan (since 2026-07-02)
+    answer: You live in Milan.
+[1/143] move_city: Which city do I live in?
+ingesting job_change (3 messages)...
+job_change: 2 summaries written
+
+--- facts stored for job_change ---
+  job_title     software engineer     conflicted  2026-01-03 09:11
+  works_at      Acme                  superseded  2026-01-03 09:11
+  works_at      Globex                active      2026-09-20 10:11
+--- summaries stored for eval_job_change ---
+  The user started a new job at Globex.
+  The user used to work at Acme as a software engineer.
+
+[none] Where do I work?
+
+[baseline] Where do I work?
+    recalled: [2026-01-03] "I work at Acme as a software engineer."
+    recalled: [2026-09-20] "Exciting news, I just started a new job at Globex!"
+    recalled: [2026-06-02] "The commute to the office is quite short, which is nice."
+    answer: You work at Globex.
+
+[smart] Where do I work?
+    recalled: Works at: Globex (since 2026-09-20)
+    recalled: Note from 2026-09-20: The user started a new job at Globex.
+    answer: You work at Globex.
+[2/143] job_change: Where do I work?
+ingesting old_relevant (7 messages)...
+
+--- facts stored for old_relevant ---
+  hobby         hiking in the mountainsactive      2026-07-02 10:11
+  job_title     nurse                 active      2026-02-12 09:11
+  lives_in      Milan                 active      2026-02-12 09:11
+--- summaries stored for eval_old_relevant ---
+
+[none] Which city do I live in?
+
+[baseline] Which city do I live in?
+    recalled: [2026-02-12] "I live in Milan and I work as a nurse."
+    recalled: [2026-07-02] "I love hiking in the mountains."
+    recalled: [2026-09-30] "Give me a tip for sleeping better."
+    recalled: [2026-03-04] "What's a good way to learn Spanish?"
+    answer: You live in Milan.
+
+[smart] Which city do I live in?
+    recalled: Lives in: Milan (since 2026-02-12)
+    answer: You live in Milan.
+[3/143] old_relevant: Which city do I live in?
+
+[none] What is my profession?
+
+[baseline] What is my profession?
+    recalled: [2026-02-12] "I live in Milan and I work as a nurse."
+    recalled: [2026-03-04] "What's a good way to learn Spanish?"
+    recalled: [2026-08-11] "What's the difference between a virus and a bacterium?"
+    recalled: [2026-07-02] "I love hiking in the mountains."
+    answer: You work as a nurse.
+
+[smart] What is my profession?
+    recalled: Job title: nurse (since 2026-02-12)
+    answer: You're a nurse.
+[4/143] old_relevant: What is my profession?
+ingesting many_hobbies (3 messages)...
+many_hobbies: 3 summaries written
+
+--- facts stored for many_hobbies ---
+  hobby         cycling               active      2026-06-02 10:11
+  hobby         climbing              active      2026-07-22 10:11
+  hobby         chess                 active      2026-09-10 10:11
+--- summaries stored for eval_many_hobbies ---
+  The user has taken up chess.
+  The user started climbing recently and it's great.
+  The user loves cycling and goes out every weekend.
+
+[none] What are my hobbies?
+
+[baseline] What are my hobbies?
+    recalled: [2026-09-10] "I've also taken up chess."
+    recalled: [2026-06-02] "I love cycling, I go out every weekend."
+    recalled: [2026-07-22] "I started climbing recently and it's great."
+    answer: You enjoy cycling, going out every weekend. You've also taken up chess.
+
+[smart] What are my hobbies?
+    recalled: Hobby: climbing (since 2026-07-22)
+    recalled: Hobby: chess (since 2026-09-10)
+    recalled: Hobby: cycling (since 2026-06-02)
+    answer: You enjoy climbing, chess, and cycling.
+[5/143] many_hobbies: What are my hobbies?
+ingesting dislike_noise (5 messages)...
+
+--- facts stored for dislike_noise ---
+  dislikes      mushrooms             active      2026-07-02 10:11
+--- summaries stored for eval_dislike_noise ---
+
+[none] I'm cooking for myself tonight. Which ingredient should I leave out?
+
+[baseline] I'm cooking for myself tonight. Which ingredient should I leave out?
+    recalled: [2026-08-01] "Can you suggest a pasta sauce for tonight?"
+    recalled: [2026-07-22] "What's a good recipe for carbonara?"
+    recalled: [2026-08-21] "How long should I boil spaghetti?"
+    recalled: [2026-09-10] "Thanks, dinner was great!"
+    answer: I don't know, as you didn't mention what you're making. Could you tell me what dish you're planning to cook?
+
+[smart] I'm cooking for myself tonight. Which ingredient should I leave out?
+    recalled: Dislikes: mushrooms (since 2026-07-02)
+    answer: I don't know what you're cooking tonight.
+[6/143] dislike_noise: I'm cooking for myself tonight. Which ingredient should I le
+ingesting family (2 messages)...
+
+--- facts stored for family ---
+  family_member Anna                  active      2026-05-03 10:11
+--- summaries stored for eval_family ---
+
+[none] What is my sister's name?
+
+[baseline] What is my sister's name?
+    recalled: [2026-05-03] "My sister's name is Anna."
+    recalled: [2026-08-01] "What's a nice gift for a birthday?"
+    answer: Anna.
+
+[smart] What is my sister's name?
+    recalled: Family member: Anna (since 2026-05-03)
+    answer: Anna.
+[7/143] family: What is my sister's name?
+ingesting third_person_trap (2 messages)...
+third_person_trap: 1 summaries written
+
+--- facts stored for third_person_trap ---
+  lives_in      Milan                 active      2026-04-13 10:11
+--- summaries stored for eval_third_person_trap ---
+  The user's sister Anna lives in Berlin and is a doctor.
+
+[none] Which city do I live in?
+
+[baseline] Which city do I live in?
+    recalled: [2026-04-13] "I live in Milan."
+    recalled: [2026-07-22] "My sister Anna lives in Berlin and she's a doctor."
+    answer: I don't know.
+
+[smart] Which city do I live in?
+    recalled: Lives in: Milan (since 2026-04-13)
+    answer: You live in Milan.
+[8/143] third_person_trap: Which city do I live in?
+ingesting past_tense_trap (2 messages)...
+past_tense_trap: 1 summaries written
+
+--- facts stored for past_tense_trap ---
+  lives_in      Milan                 active      2026-04-13 10:11
+--- summaries stored for eval_past_tense_trap ---
+  The user used to live in Turin when they were a student.
+
+[none] Which city do I live in?
+
+[baseline] Which city do I live in?
+    recalled: [2026-04-13] "I live in Milan."
+    recalled: [2026-08-31] "I used to live in Turin when I was a student."
+    answer: You live in Milan.
+
+[smart] Which city do I live in?
+    recalled: Lives in: Milan (since 2026-04-13)
+    answer: You live in Milan.
+[9/143] past_tense_trap: Which city do I live in?
+ingesting unknown (2 messages)...
+
+--- facts stored for unknown ---
+  lives_in      Milan                 active      2026-07-22 10:12
+--- summaries stored for eval_unknown ---
+
+[none] What is my favourite colour?
+
+[baseline] What is my favourite colour?
+    recalled: [2026-07-22] "I live in Milan."
+    recalled: [2026-08-31] "What's a good recipe for carbonara?"
+    answer: I don't know.
+
+[smart] What is my favourite colour?
+    answer: I don't know. We haven't discussed your favourite colour before, and I don't have any information about you. Would you like to tell me?
+[10/143] unknown: What is my favourite colour?
+ingesting b_indirect_dislike (9 messages)...
+
+--- facts stored for b_indirect_dislike ---
+  dislikes      olives                active      2026-04-13 10:12
+--- summaries stored for eval_b_indirect_dislike ---
+
+[none] I'm making a pizza for friends tonight. What toppings should I skip for myself?
+
+[baseline] I'm making a pizza for friends tonight. What toppings should I skip for myself?
+    recalled: [2026-08-30] "How do I make a good tomato sauce?"
+    recalled: [2026-05-19] "Can you suggest a vegetarian lasagna?"
+    recalled: [2026-04-23] "What's a good way to cook rice?"
+    recalled: [2026-08-04] "What's a quick breakfast idea?"
+    answer: Considering you've asked about vegetarian lasagna in the past, I'm going to take a guess that you might be a vegetarian or have dietary preferences. If that's the case, you might want to skip toppings like pepperoni, sausage, or bacon.
+
+[smart] I'm making a pizza for friends tonight. What toppings should I skip for myself?
+    recalled: Dislikes: olives (since 2026-04-13)
+    answer: You might want to consider skipping the olives, since you mentioned you don't like them.
+[11/143] b_indirect_dislike: I'm making a pizza for friends tonight. What toppings should
+ingesting b_food_allergy (9 messages)...
+
+--- facts stored for b_food_allergy ---
+  allergic_to   peanuts               active      2026-03-24 09:12
+--- summaries stored for eval_b_food_allergy ---
+
+[none] Can you suggest a quick snack for me?
+
+[baseline] Can you suggest a quick snack for me?
+    recalled: [2026-07-03] "Give me a tip for sleeping better."
+    recalled: [2026-05-10] "Thanks, that was helpful!"
+    recalled: [2026-03-24] "I'm allergic to peanuts."
+    recalled: [2026-10-20] "Any tips for staying focused while studying?"
+    answer: Considering your peanut allergy, I'd recommend a simple fruit salad or some plain crackers with a glass of juice.
+
+[smart] Can you suggest a quick snack for me?
+    recalled: Allergic to: peanuts (since 2026-03-24)
+    answer: Considering your peanut allergy, I'd recommend a simple fruit salad or some crackers with cheese.
+[12/143] b_food_allergy: Can you suggest a quick snack for me?
+ingesting b_drug_allergy_noise (9 messages)...
+
+--- facts stored for b_drug_allergy_noise ---
+  allergic_to   penicillin            active      2026-06-02 10:12
+--- summaries stored for eval_b_drug_allergy_noise ---
+
+[none] Can you suggest a dinner recipe for me?
+
+[baseline] Can you suggest a dinner recipe for me?
+    recalled: [2026-06-12] "What's a good way to cook rice?"
+    recalled: [2026-07-01] "Can you suggest a vegetarian lasagna?"
+    recalled: [2026-08-25] "What's a quick breakfast idea?"
+    recalled: [2026-09-13] "How do I make a good tomato sauce?"
+    answer: I recall you asked about making a good tomato sauce on 2026-09-13. Would you like a recipe that incorporates that sauce?
+
+[smart] Can you suggest a dinner recipe for me?
+    recalled: Allergic to: penicillin (since 2026-06-02)
+    answer: I'd be happy to suggest a dinner recipe.
+
+How about a simple and flavorful Chicken Fajita recipe? It's a classic Mexican dish that's easy to make and requires minimal ingredients. You'll need:
+
+* 1 lb boneless, skinless chicken breasts, cut into strips
+* 1 bell pepper, sliced
+* 1 onion, sliced
+* 2 cloves of garlic, minced
+* 1 tablespoon olive oil
+* 1 teaspoon cumin
+* 1/2 teaspoon chili powder
+* Salt and pepper to taste
+* 4 small flour tortillas
+* Optional toppings: avocado, sour cream, salsa, shredded cheese
+
+Instructions:
+
+1. Heat the olive oil in a large skillet over medium-high heat.
+2. Add the chicken and cook until browned, about 5-6 minutes.
+3. Add the bell pepper and onion, and cook until the vegetables are tender.
+4. Add the garlic, cumin, and chili powder, and stir for 1 minute.
+5. Warm the tortillas by wrapping them in a damp paper towel and microwaving for 20-30 seconds.
+6. Assemble the fajitas by placing the chicken and vegetable mixture onto the tortillas and adding your desired toppings.
+
+This recipe should serve 2-4 people, depending on serving sizes. Enjoy!
+
+Would you like any variations or substitutions?
+[13/143] b_drug_allergy_noise: Can you suggest a dinner recipe for me?
+ingesting b_paraphrase_job (9 messages)...
+
+--- facts stored for b_paraphrase_job ---
+  job_title     pediatric nurse       active      2026-05-03 10:12
+  works_at      city hospital         active      2026-05-03 10:12
+--- summaries stored for eval_b_paraphrase_job ---
+
+[none] What do I do for a living?
+
+[baseline] What do I do for a living?
+    recalled: [2026-05-03] "I work as a pediatric nurse at the city hospital."
+    recalled: [2026-09-27] "How does a refrigerator work?"
+    recalled: [2026-08-12] "How do I convert Celsius to Fahrenheit?"
+    recalled: [2026-05-13] "Can you explain how compound interest works?"
+    answer: You work as a pediatric nurse at the city hospital.
+
+[smart] What do I do for a living?
+    recalled: Works at: city hospital (since 2026-05-03)
+    recalled: Job title: pediatric nurse (since 2026-05-03)
+    answer: You work as a pediatric nurse at a city hospital.
+[14/143] b_paraphrase_job: What do I do for a living?
+ingesting b_stale_flood (8 messages)...
+b_stale_flood: 5 summaries written
+
+--- facts stored for b_stale_flood ---
+  lives_in      Turin                 superseded  2026-01-03 09:12
+  lives_in      Rome                  active      2026-08-31 10:12
+--- summaries stored for eval_b_stale_flood ---
+  The user walked along the Po river in Turin.
+  The user had coffee in Turin city centre today.
+  The user moved to Rome last month.
+  The user lived in Turin.
+  The user's favourite Turin bakery just closed down.
+
+[none] Which city do I live in?
+
+[baseline] Which city do I live in?
+    recalled: [2026-01-03] "I live in Turin."
+    recalled: [2026-08-31] "I moved to Rome last month!"
+    recalled: [2026-02-18] "I had coffee in Turin city centre today."
+    recalled: [2026-04-13] "I walked along the Po river in Turin."
+    answer: You live in Rome.
+
+[smart] Which city do I live in?
+    recalled: Lives in: Rome (since 2026-08-31)
+    answer: You live in Rome.
+[15/143] b_stale_flood: Which city do I live in?
+ingesting b_precision (9 messages)...
+
+--- facts stored for b_precision ---
+  hobby         painting              active      2026-04-13 10:13
+  job_title     teacher               active      2026-04-13 10:13
+  lives_in      Rome                  active      2026-04-13 10:13
+  speaks        Spanish               active      2026-06-02 10:13
+--- summaries stored for eval_b_precision ---
+
+[none] Which languages do I speak?
+
+[baseline] Which languages do I speak?
+    recalled: [2026-06-02] "I also speak Spanish."
+    recalled: [2026-04-13] "I live in Rome, I'm a teacher and I love painting."
+    recalled: [2026-08-16] "Give me a tip for sleeping better."
+    recalled: [2026-09-07] "How do I convert Celsius to Fahrenheit?"
+    answer: You speak Spanish.
+
+[smart] Which languages do I speak?
+    recalled: Speaks: Spanish (since 2026-06-02)
+    answer: You speak Spanish, since June 2, 2026.
+[16/143] b_precision: Which languages do I speak?
+ingesting b_correction (8 messages)...
+b_correction: 1 summaries written
+
+--- facts stored for b_correction ---
+  allergic_to   peanuts               archived    2026-04-13 10:13
+  allergic_to   walnuts               active      2026-09-30 10:13
+--- summaries stored for eval_b_correction ---
+  The user is allergic to walnuts.
+
+[none] Which nuts am I allergic to?
+
+[baseline] Which nuts am I allergic to?
+    recalled: [2026-04-13] "I'm allergic to peanuts."
+    recalled: [2026-09-30] "Actually I was wrong earlier, I'm not allergic to peanuts, I'm allergic to walnuts."
+    recalled: [2026-06-22] "What's the difference between a virus and a bacterium?"
+    recalled: [2026-07-22] "Give me a tip for sleeping better."
+    answer: You're allergic to walnuts.
+
+[smart] Which nuts am I allergic to?
+    recalled: Allergic to: walnuts (since 2026-09-30)
+    answer: You're allergic to walnuts.
+[17/143] b_correction: Which nuts am I allergic to?
+ingesting b_name_recall (9 messages)...
+
+--- facts stored for b_name_recall ---
+  name          Franco                active      2026-02-22 09:13
+--- summaries stored for eval_b_name_recall ---
+
+[none] What's my name?
+
+[baseline] What's my name?
+    recalled: [2026-02-22] "My name is Franco."
+    recalled: [2026-03-04] "What's a good name for a cat?"
+    recalled: [2026-06-11] "What does the name Sofia mean?"
+    recalled: [2026-04-06] "How do I pronounce quinoa?"
+    answer: I don't know.
+
+[smart] What's my name?
+    recalled: Name: Franco (since 2026-02-22)
+    answer: Your name is Franco.
+[18/143] b_name_recall: What's my name?
+ingesting c_rich_profile (17 messages)...
+c_rich_profile: 4 summaries written
+
+--- facts stored for c_rich_profile ---
+  allergic_to   shellfish             active      2026-03-24 09:13
+  dislikes      coriander             active      2026-04-13 10:13
+  family_member Luca                  active      2026-06-12 10:13
+  goal          learn how to sail     active      2026-05-23 10:13
+  hobby         running               active      2026-02-12 09:13
+  hobby         photography           active      2026-03-04 09:13
+  job_title     architect             active      2025-12-14 09:13
+  likes         jazz music            active      2026-05-03 10:13
+  lives_in      Bologna               active      2025-12-04 09:13
+  name          Giulia                active      2025-12-04 09:13
+  partner       Marco                 active      2026-01-03 09:13
+  speaks        English               active      2026-01-23 09:13
+  speaks        Italian               active      2026-01-23 09:13
+  works_at      Studio Verdi          active      2025-12-14 09:13
+--- summaries stored for eval_c_rich_profile ---
+  The user enjoys running and usually goes out before sunrise.
+  The user dislikes coriander.
+  The user likes jazz music a lot.
+  The user would like to learn how to sail one day.
+
+[none] What's my name?
+
+[baseline] What's my name?
+    recalled: [2026-06-12] "My brother's name is Luca."
+    recalled: [2025-12-04] "My name is Giulia and I live in Bologna."
+    recalled: [2026-01-03] "My partner is Marco."
+    recalled: [2026-10-10] "What's the capital of Australia?"
+    answer: I don't know.
+
+[smart] What's my name?
+    recalled: Name: Giulia (since 2025-12-04)
+    answer: Your name is Giulia.
+[19/143] c_rich_profile: What's my name?
+
+[none] Which city do I live in?
+
+[baseline] Which city do I live in?
+    recalled: [2026-10-10] "What's the capital of Australia?"
+    recalled: [2025-12-04] "My name is Giulia and I live in Bologna."
+    recalled: [2025-12-14] "I work as an architect at Studio Verdi."
+    recalled: [2026-01-23] "I speak Italian and English."
+    answer: You live in Bologna.
+
+[smart] Which city do I live in?
+    recalled: Lives in: Bologna (since 2025-12-04)
+    answer: You live in Bologna.
+[20/143] c_rich_profile: Which city do I live in?
+
+[none] What do I do for work?
+
+[baseline] What do I do for work?
+    recalled: [2025-12-14] "I work as an architect at Studio Verdi."
+    recalled: [2026-03-04] "I also enjoy photography."
+    recalled: [2026-01-23] "I speak Italian and English."
+    recalled: [2026-05-03] "I like jazz music a lot."
+    answer: You work as an architect at Studio Verdi.
+
+[smart] What do I do for work?
+    recalled: Job title: architect (since 2025-12-14)
+    recalled: Works at: Studio Verdi (since 2025-12-14)
+    answer: You're an architect, and you work at Studio Verdi.
+[21/143] c_rich_profile: What do I do for work?
+
+[none] Who is my partner?
+
+[baseline] Who is my partner?
+    recalled: [2026-01-03] "My partner is Marco."
+    recalled: [2025-12-14] "I work as an architect at Studio Verdi."
+    recalled: [2026-06-12] "My brother's name is Luca."
+    recalled: [2026-01-23] "I speak Italian and English."
+    answer: Your partner is Marco.
+
+[smart] Who is my partner?
+    recalled: Partner: Marco (since 2026-01-03)
+    answer: Your partner is Marco.
+[22/143] c_rich_profile: Who is my partner?
+
+[none] Which languages do I speak?
+
+[baseline] Which languages do I speak?
+    recalled: [2026-01-23] "I speak Italian and English."
+    recalled: [2025-12-04] "My name is Giulia and I live in Bologna."
+    recalled: [2026-01-03] "My partner is Marco."
+    recalled: [2026-05-23] "I'd love to learn how to sail one day."
+    answer: You speak Italian and English.
+
+[smart] Which languages do I speak?
+    recalled: Speaks: English (since 2026-01-23)
+    recalled: Speaks: Italian (since 2026-01-23)
+    answer: You speak English and Italian.
+[23/143] c_rich_profile: Which languages do I speak?
+
+[none] I'm booking a restaurant for tonight. What should I avoid eating?
+
+[baseline] I'm booking a restaurant for tonight. What should I avoid eating?
+    recalled: [2026-04-13] "I really dislike coriander, it tastes like soap."
+    recalled: [2026-08-27] "Give me a tip for sleeping better."
+    recalled: [2026-03-24] "I'm allergic to shellfish."
+    recalled: [2026-05-03] "I like jazz music a lot."
+    answer: Considering your allergy to shellfish, you might want to steer clear of seafood dishes.
+
+[smart] I'm booking a restaurant for tonight. What should I avoid eating?
+    recalled: Allergic to: shellfish (since 2026-03-24)
+    recalled: Dislikes: coriander (since 2026-04-13)
+    answer: Considering your allergy, you might want to avoid dishes that contain shellfish.
+[24/143] c_rich_profile: I'm booking a restaurant for tonight. What should I avoid ea
+
+[none] What's my brother called?
+
+[baseline] What's my brother called?
+    recalled: [2026-06-12] "My brother's name is Luca."
+    recalled: [2026-01-03] "My partner is Marco."
+    recalled: [2025-12-04] "My name is Giulia and I live in Bologna."
+    recalled: [2026-10-10] "What's the capital of Australia?"
+    answer: Your brother's name is Luca.
+
+[smart] What's my brother called?
+    recalled: Family member: Luca (since 2026-06-12)
+    answer: Your brother is Luca.
+[25/143] c_rich_profile: What's my brother called?
+
+[none] What kind of music do I like?
+
+[baseline] What kind of music do I like?
+    recalled: [2026-05-03] "I like jazz music a lot."
+    recalled: [2026-03-04] "I also enjoy photography."
+    recalled: [2026-02-12] "I love running, I usually go out before sunrise."
+    recalled: [2026-04-13] "I really dislike coriander, it tastes like soap."
+    answer: You like jazz music a lot.
+
+[smart] What kind of music do I like?
+    recalled: Likes: jazz music (since 2026-05-03)
+    answer: You like jazz music.
+[26/143] c_rich_profile: What kind of music do I like?
+
+[none] What is my favourite colour?
+
+[baseline] What is my favourite colour?
+    recalled: [2026-03-04] "I also enjoy photography."
+    recalled: [2026-02-12] "I love running, I usually go out before sunrise."
+    recalled: [2026-05-03] "I like jazz music a lot."
+    recalled: [2026-04-13] "I really dislike coriander, it tastes like soap."
+    answer: I don't know.
+
+[smart] What is my favourite colour?
+    recalled: Likes: jazz music (since 2026-05-03)
+    recalled: Hobby: photography (since 2026-03-04)
+    recalled: Note from 2026-05-03: The user likes jazz music a lot.
+    recalled: Note from 2026-02-12: The user enjoys running and usually goes out before sunrise.
+    answer: I don't know.
+[27/143] c_rich_profile: What is my favourite colour?
+
+[none] What's my pet's name?
+
+[baseline] What's my pet's name?
+    recalled: [2026-06-12] "My brother's name is Luca."
+    recalled: [2026-01-03] "My partner is Marco."
+    recalled: [2025-12-04] "My name is Giulia and I live in Bologna."
+    recalled: [2026-10-10] "What's the capital of Australia?"
+    answer: I don't know.
+
+[smart] What's my pet's name?
+    recalled: Name: Giulia (since 2025-12-04)
+    answer: I don't know.
+[28/143] c_rich_profile: What's my pet's name?
+ingesting c_double_move (8 messages)...
+c_double_move: 1 summaries written
+
+--- facts stored for c_double_move ---
+  lives_in      Genoa                 superseded  2026-01-03 09:14
+  lives_in      Bologna               superseded  2026-05-03 10:14
+  lives_in      Verona                active      2026-08-31 10:14
+--- summaries stored for eval_c_double_move ---
+  The user is now living in Verona.
+
+[none] Which city do I live in?
+
+[baseline] Which city do I live in?
+    recalled: [2026-01-03] "I live in Genoa."
+    recalled: [2026-08-31] "Big news, I'm now living in Verona!"
+    recalled: [2026-06-20] "What's the capital of Australia?"
+    recalled: [2026-05-03] "I've just moved to Bologna."
+    answer: You live in Verona.
+
+[smart] Which city do I live in?
+    recalled: Lives in: Verona (since 2026-08-31)
+    recalled: Note from 2026-08-31: The user is now living in Verona.
+    answer: You live in Verona.
+[29/143] c_double_move: Which city do I live in?
+ingesting c_new_job (2 messages)...
+c_new_job: 1 summaries written
+
+--- facts stored for c_new_job ---
+  job_title     designer              conflicted  2026-04-13 10:14
+  works_at      Fabbrica Rossi        superseded  2026-04-13 10:14
+  works_at      Delta Labs            active      2026-09-30 10:14
+--- summaries stored for eval_c_new_job ---
+  The user started a new position at Delta Labs.
+
+[none] Where do I work?
+
+[baseline] Where do I work?
+    recalled: [2026-04-13] "I work at Fabbrica Rossi as a designer."
+    recalled: [2026-09-30] "Exciting news, I just started a new position at Delta Labs!"
+    answer: You work at Delta Labs.
+
+[smart] Where do I work?
+    recalled: Works at: Delta Labs (since 2026-09-30)
+    recalled: Note from 2026-09-30: The user started a new position at Delta Labs.
+    answer: You work at Delta Labs.
+[30/143] c_new_job: Where do I work?
+ingesting d_rich_profile (18 messages)...
+d_rich_profile: 2 summaries written
+
+--- facts stored for d_rich_profile ---
+  allergic_to   eggs                  active      2026-02-22 09:14
+  birthday      3rd of March          active      2026-06-02 10:14
+  dislikes      anchovies             active      2026-03-14 09:14
+  family_member Marta                 active      2026-05-13 10:14
+  goal          buy a small boat      active      2026-04-23 10:14
+  hobby         guitar                active      2026-02-02 09:14
+  hobby         fado                  active      2026-04-03 10:14
+  hobby         bread                 active      2026-06-22 10:14
+  hobby         cooking               active      2026-06-22 10:14
+  job_title     pharmacist            active      2025-12-04 09:14
+  lives_in      Lisbon                active      2025-11-24 09:14
+  name          Tomas                 active      2025-11-24 09:14
+  partner       Ines                  active      2025-12-24 09:14
+  speaks        German                active      2026-01-13 09:14
+  speaks        English               active      2026-01-13 09:14
+  speaks        Portuguese            active      2026-01-13 09:14
+  works_at      small clinic          active      2025-12-04 09:14
+--- summaries stored for eval_d_rich_profile ---
+  The user plays the guitar in the evenings.
+  The user's favourite kind of music is fado.
+
+[none] What's my name?
+
+[baseline] What's my name?
+    recalled: [2026-05-13] "My sister is named Marta."
+    recalled: [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+    recalled: [2025-12-24] "My wife is called Ines."
+    recalled: [2026-10-15] "What's the capital of Australia?"
+    answer: I don't know.
+
+[smart] What's my name?
+    recalled: Name: Tomas (since 2025-11-24)
+    answer: Your name is Tomas.
+[31/143] d_rich_profile: What's my name?
+
+[none] Where do I live?
+
+[baseline] Where do I live?
+    recalled: [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+    recalled: [2026-10-15] "What's the capital of Australia?"
+    recalled: [2025-12-04] "I'm a pharmacist at a small clinic."
+    recalled: [2026-01-13] "I speak Portuguese, English and a little German."
+    answer: You live in Lisbon.
+
+[smart] Where do I live?
+    recalled: Lives in: Lisbon (since 2025-11-24)
+    answer: You live in Lisbon.
+[32/143] d_rich_profile: Where do I live?
+
+[none] What do I do for a living?
+
+[baseline] What do I do for a living?
+    recalled: [2025-12-04] "I'm a pharmacist at a small clinic."
+    recalled: [2026-02-02] "I play the guitar in the evenings."
+    recalled: [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+    recalled: [2026-01-13] "I speak Portuguese, English and a little German."
+    answer: You're a pharmacist at a small clinic.
+
+[smart] What do I do for a living?
+    recalled: Job title: pharmacist (since 2025-12-04)
+    recalled: Works at: small clinic (since 2025-12-04)
+    recalled: Note from 2026-02-02: The user plays the guitar in the evenings.
+    answer: You work as a pharmacist.
+[33/143] d_rich_profile: What do I do for a living?
+
+[none] What's my wife's name?
+
+[baseline] What's my wife's name?
+    recalled: [2025-12-24] "My wife is called Ines."
+    recalled: [2026-05-13] "My sister is named Marta."
+    recalled: [2026-10-15] "What's the capital of Australia?"
+    recalled: [2026-01-13] "I speak Portuguese, English and a little German."
+    answer: Ines.
+
+[smart] What's my wife's name?
+    recalled: Partner: Ines (since 2025-12-24)
+    recalled: Note from 2026-02-02: The user plays the guitar in the evenings.
+    answer: Ines.
+[34/143] d_rich_profile: What's my wife's name?
+
+[none] Which languages do I speak?
+
+[baseline] Which languages do I speak?
+    recalled: [2026-01-13] "I speak Portuguese, English and a little German."
+    recalled: [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+    recalled: [2025-12-04] "I'm a pharmacist at a small clinic."
+    recalled: [2026-02-02] "I play the guitar in the evenings."
+    answer: You speak Portuguese, English, and a little German.
+
+[smart] Which languages do I speak?
+    recalled: Speaks: English (since 2026-01-13)
+    recalled: Speaks: German (since 2026-01-13)
+    recalled: Speaks: Portuguese (since 2026-01-13)
+    answer: You speak English, German, and Portuguese.
+[35/143] d_rich_profile: Which languages do I speak?
+
+[none] I'm picking a cafe for breakfast tomorrow. What should I watch out for on the menu?
+
+[baseline] I'm picking a cafe for breakfast tomorrow. What should I watch out for on the menu?
+    recalled: [2026-04-23] "I'm saving up to buy a small boat."
+    recalled: [2026-09-03] "Give me a tip for sleeping better."
+    recalled: [2026-02-22] "I'm allergic to eggs."
+    recalled: [2026-06-22] "I also enjoy cooking, especially bread."
+    answer: Considering your egg allergy, you might want to steer clear of dishes that typically include eggs, such as omelets or egg-based breakfast sandwiches. It's always a good idea to ask your server about ingredients or modifications to ensure your meal is safe for you to eat.
+
+[smart] I'm picking a cafe for breakfast tomorrow. What should I watch out for on the menu?
+    recalled: Allergic to: eggs (since 2026-02-22)
+    recalled: Dislikes: anchovies (since 2026-03-14)
+    answer: Considering your egg allergy, you might want to avoid dishes that explicitly mention eggs or egg-based ingredients. It's also a good idea to ask your server about any potential cross-contamination with eggs in the kitchen.
+[36/143] d_rich_profile: I'm picking a cafe for breakfast tomorrow. What should I wat
+
+[none] I'm making a pizza tonight. Which topping should I skip for myself?
+
+[baseline] I'm making a pizza tonight. Which topping should I skip for myself?
+    recalled: [2026-09-03] "Give me a tip for sleeping better."
+    recalled: [2026-06-22] "I also enjoy cooking, especially bread."
+    recalled: [2026-02-02] "I play the guitar in the evenings."
+    recalled: [2026-01-13] "I speak Portuguese, English and a little German."
+    answer: I don't know your personal preferences, so I'll give you a general suggestion. If you're looking for a lighter option, you might consider skipping the meatballs or sausage.
+
+[smart] I'm making a pizza tonight. Which topping should I skip for myself?
+    recalled: Allergic to: eggs (since 2026-02-22)
+    recalled: Dislikes: anchovies (since 2026-03-14)
+    recalled: Note from 2026-02-02: The user plays the guitar in the evenings.
+    recalled: Note from 2026-04-03: The user's favourite kind of music is fado.
+    answer: Considering your dislike of anchovies, you might want to skip those on your pizza.
+[37/143] d_rich_profile: I'm making a pizza tonight. Which topping should I skip for 
+
+[none] What music would you put on for me?
+
+[baseline] What music would you put on for me?
+    recalled: [2026-04-03] "My favourite kind of music is fado."
+    recalled: [2026-02-02] "I play the guitar in the evenings."
+    recalled: [2026-09-03] "Give me a tip for sleeping better."
+    recalled: [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+    answer: Considering your fondness for fado, I'd suggest creating a soothing playlist with some traditional fado classics. Perhaps some Amália Rodrigues or Carlos do Carmo to start with. If you'd like to mix it up, I could also recommend some contemporary fado artists or similar Portuguese music styles. Would you like me to suggest a specific playlist or just some general recommendations?
+
+[smart] What music would you put on for me?
+    recalled: Hobby: guitar (since 2026-02-02)
+    recalled: Goal: buy a small boat (since 2026-04-23)
+    recalled: Hobby: bread (since 2026-06-22)
+    recalled: Hobby: cooking (since 2026-06-22)
+    answer: Considering your hobby of playing the guitar, I'd suggest creating a playlist with some acoustic and folk-inspired tracks. How about some Jack Johnson, Jason Mraz, or Ed Sheeran? Their music often features soothing melodies and guitar-driven rhythms that might be enjoyable for a guitar enthusiast like yourself. Would you like me to recommend more artists or specific songs?
+[38/143] d_rich_profile: What music would you put on for me?
+
+[none] What am I saving up for?
+
+[baseline] What am I saving up for?
+    recalled: [2026-04-23] "I'm saving up to buy a small boat."
+    recalled: [2026-09-03] "Give me a tip for sleeping better."
+    recalled: [2026-07-02] "Can you explain how compound interest works?"
+    recalled: [2026-02-02] "I play the guitar in the evenings."
+    answer: You're saving up to buy a small boat.
+
+[smart] What am I saving up for?
+    recalled: Goal: buy a small boat (since 2026-04-23)
+    recalled: Hobby: guitar (since 2026-02-02)
+    answer: You're saving up for a small boat.
+[39/143] d_rich_profile: What am I saving up for?
+
+[none] When is my birthday?
+
+[baseline] When is my birthday?
+    recalled: [2026-06-02] "I was born on the 3rd of March."
+    recalled: [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+    recalled: [2026-10-15] "What's the capital of Australia?"
+    recalled: [2026-02-02] "I play the guitar in the evenings."
+    answer: Your birthday is on the 3rd of March.
+
+[smart] When is my birthday?
+    recalled: Birthday: 3rd of March (since 2026-06-02)
+    answer: Your birthday is on the 3rd of March.
+[40/143] d_rich_profile: When is my birthday?
+
+[none] What's my sister called?
+
+[baseline] What's my sister called?
+    recalled: [2026-05-13] "My sister is named Marta."
+    recalled: [2025-12-24] "My wife is called Ines."
+    recalled: [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+    recalled: [2026-01-13] "I speak Portuguese, English and a little German."
+    answer: Your sister is named Marta.
+
+[smart] What's my sister called?
+    recalled: Family member: Marta (since 2026-05-13)
+    answer: Your sister is Marta.
+[41/143] d_rich_profile: What's my sister called?
+
+[none] What do I like doing in my free time?
+
+[baseline] What do I like doing in my free time?
+    recalled: [2026-06-22] "I also enjoy cooking, especially bread."
+    recalled: [2026-04-03] "My favourite kind of music is fado."
+    recalled: [2026-02-02] "I play the guitar in the evenings."
+    recalled: [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+    answer: You enjoy playing the guitar in the evenings. You also like cooking, especially bread.
+
+[smart] What do I like doing in my free time?
+    recalled: Hobby: cooking (since 2026-06-22)
+    recalled: Hobby: guitar (since 2026-02-02)
+    recalled: Hobby: bread (since 2026-06-22)
+    recalled: Hobby: fado (since 2026-04-03)
+    answer: You enjoy playing the guitar, cooking, and making bread in your free time. You also appreciate the music of fado.
+[42/143] d_rich_profile: What do I like doing in my free time?
+
+[none] What car do I drive?
+
+[baseline] What car do I drive?
+    recalled: [2026-02-02] "I play the guitar in the evenings."
+    recalled: [2026-04-23] "I'm saving up to buy a small boat."
+    recalled: [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+    recalled: [2026-10-15] "What's the capital of Australia?"
+    answer: I don't know.
+
+[smart] What car do I drive?
+    recalled: Hobby: guitar (since 2026-02-02)
+    recalled: Note from 2026-02-02: The user plays the guitar in the evenings.
+    answer: I don't know.
+[43/143] d_rich_profile: What car do I drive?
+
+[none] What's my dog's name?
+
+[baseline] What's my dog's name?
+    recalled: [2026-05-13] "My sister is named Marta."
+    recalled: [2025-12-24] "My wife is called Ines."
+    recalled: [2026-10-15] "What's the capital of Australia?"
+    recalled: [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+    answer: I don't know.
+
+[smart] What's my dog's name?
+    recalled: Name: Tomas (since 2025-11-24)
+    answer: I don't know.
+[44/143] d_rich_profile: What's my dog's name?
+
+[none] What's my mother's job?
+
+[baseline] What's my mother's job?
+    recalled: [2025-12-04] "I'm a pharmacist at a small clinic."
+    recalled: [2026-05-13] "My sister is named Marta."
+    recalled: [2025-12-24] "My wife is called Ines."
+    recalled: [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+    answer: I don't know.
+
+[smart] What's my mother's job?
+    recalled: Job title: pharmacist (since 2025-12-04)
+    recalled: Works at: small clinic (since 2025-12-04)
+    recalled: Note from 2026-02-02: The user plays the guitar in the evenings.
+    answer: I don't know.
+[45/143] d_rich_profile: What's my mother's job?
+ingesting d_small_safety (8 messages)...
+d_small_safety: 1 summaries written
+
+--- facts stored for d_small_safety ---
+  allergic_to   gluten                active      2026-03-24 09:15
+  lives_in      Naples                active      2026-04-13 10:15
+--- summaries stored for eval_d_small_safety ---
+  The user has a serious gluten intolerance.
+
+[none] Can you suggest a quick lunch for me?
+
+[baseline] Can you suggest a quick lunch for me?
+    recalled: [2026-08-09] "Give me a tip for sleeping better."
+    recalled: [2026-05-29] "Thanks, that was helpful!"
+    recalled: [2026-03-24] "I have a serious gluten intolerance, I can't eat it at all."
+    recalled: [2026-04-13] "I live in Naples."
+    answer: Considering your gluten intolerance, I'd recommend a simple grilled chicken or fish with a side of roasted vegetables. You could also try a salad with mixed greens, cherry tomatoes, and a citrus vinaigrette dressing. These options are quick, easy, and gluten-free.
+
+[smart] Can you suggest a quick lunch for me?
+    recalled: Allergic to: gluten (since 2026-03-24)
+    answer: Considering your gluten allergy, how about a simple grilled chicken or fish with a side of roasted vegetables? You could also try a salad with protein like chicken, tuna, or tofu. These options are quick, easy, and gluten-free.
+[46/143] d_small_safety: Can you suggest a quick lunch for me?
+
+[none] Which city am I based in?
+
+[baseline] Which city am I based in?
+    recalled: [2026-04-13] "I live in Naples."
+    recalled: [2026-10-20] "What's the capital of Australia?"
+    recalled: [2026-05-29] "Thanks, that was helpful!"
+    recalled: [2026-09-14] "How do I convert Celsius to Fahrenheit?"
+    answer: I don't know.
+
+[smart] Which city am I based in?
+    recalled: Lives in: Naples (since 2026-04-13)
+    answer: You live in Naples.
+[47/143] d_small_safety: Which city am I based in?
+ingesting d_job_switch (2 messages)...
+d_job_switch: 1 summaries written
+
+--- facts stored for d_job_switch ---
+  job_title     data analyst          superseded  2026-01-03 09:15
+  job_title     accountant            active      2026-08-01 10:15
+  works_at      Bluefin Labs          superseded  2026-01-03 09:15
+  works_at      Harbor Bank           active      2026-08-01 10:15
+--- summaries stored for eval_d_job_switch ---
+  The user left their job at Bluefin Labs and joined Harbor Bank as an accountant.
+
+[none] Where do I work now?
+
+[baseline] Where do I work now?
+    recalled: [2026-01-03] "I work at Bluefin Labs as a data analyst."
+    recalled: [2026-08-01] "I've left Bluefin and joined Harbor Bank as an accountant."
+    answer: You work at Harbor Bank as an accountant.
+
+[smart] Where do I work now?
+    recalled: Works at: Harbor Bank (since 2026-08-01)
+    recalled: Job title: accountant (since 2026-08-01)
+    answer: You work at Harbor Bank.
+[48/143] d_job_switch: Where do I work now?
+
+[none] What's my job title?
+
+[baseline] What's my job title?
+    recalled: [2026-01-03] "I work at Bluefin Labs as a data analyst."
+    recalled: [2026-08-01] "I've left Bluefin and joined Harbor Bank as an accountant."
+    answer: You work as an accountant at Harbor Bank.
+
+[smart] What's my job title?
+    recalled: Job title: accountant (since 2026-08-01)
+    answer: You're an accountant.
+[49/143] d_job_switch: What's my job title?
+ingesting e_food_profile (12 messages)...
+
+--- facts stored for e_food_profile ---
+  allergic_to   sesame seeds          active      2026-03-04 09:15
+  dislikes      mushrooms             active      2026-04-03 10:15
+  job_title     carpenter             active      2026-06-02 10:15
+  lives_in      Ghent                 active      2026-05-03 10:15
+--- summaries stored for eval_e_food_profile ---
+
+[none] What should I cook for dinner tonight?
+
+[baseline] What should I cook for dinner tonight?
+    recalled: [2026-10-20] "Can you recommend a board game for four people?"
+    recalled: [2026-06-02] "I work as a carpenter."
+    recalled: [2026-08-07] "What's the plot of Hamlet?"
+    recalled: [2026-10-01] "How do I remove a coffee stain?"
+    answer: I don't know your personal preferences or dietary restrictions. Can you give me a hint about what type of cuisine you're in the mood for or any ingredients you have on hand?
+
+[smart] What should I cook for dinner tonight?
+    recalled: Allergic to: sesame seeds (since 2026-03-04)
+    answer: I don't have any specific dinner ideas, but I can suggest some general options. What type of cuisine are you in the mood for? Do you have any dietary restrictions or preferences I can consider?
+[50/143] e_food_profile: What should I cook for dinner tonight?
+
+[none] Any snack ideas for this afternoon?
+
+[baseline] Any snack ideas for this afternoon?
+    recalled: [2026-10-20] "Can you recommend a board game for four people?"
+    recalled: [2026-03-04] "I'm allergic to sesame seeds."
+    recalled: [2026-10-01] "How do I remove a coffee stain?"
+    recalled: [2026-09-13] "Why is the sky blue?"
+    answer: Considering your sesame seed allergy, I'd recommend avoiding sesame seed crackers or sesame seed cookies. How about some fruit, like apples or bananas, or a handful of nuts like almonds or cashews?
+
+[smart] Any snack ideas for this afternoon?
+    recalled: Dislikes: mushrooms (since 2026-04-03)
+    answer: How about some fresh fruit or a handful of nuts? Or if you're in the mood for something a bit more substantial, you could try making some cheese and crackers or a ham and cheese sandwich.
+[51/143] e_food_profile: Any snack ideas for this afternoon?
+
+[none] Where do I live?
+
+[baseline] Where do I live?
+    recalled: [2026-05-03] "I live in Ghent."
+    recalled: [2026-06-02] "I work as a carpenter."
+    recalled: [2026-09-13] "Why is the sky blue?"
+    recalled: [2026-08-07] "What's the plot of Hamlet?"
+    answer: You live in Ghent.
+
+[smart] Where do I live?
+    recalled: Lives in: Ghent (since 2026-05-03)
+    answer: You live in Ghent.
+[52/143] e_food_profile: Where do I live?
+
+[none] What do I do for work?
+
+[baseline] What do I do for work?
+    recalled: [2026-06-02] "I work as a carpenter."
+    recalled: [2026-06-12] "How do tides work?"
+    recalled: [2026-10-01] "How do I remove a coffee stain?"
+    recalled: [2026-08-07] "What's the plot of Hamlet?"
+    answer: You work as a carpenter.
+
+[smart] What do I do for work?
+    recalled: Job title: carpenter (since 2026-06-02)
+    answer: You're a carpenter.
+[53/143] e_food_profile: What do I do for work?
+ingesting e_drug_profile (11 messages)...
+
+--- facts stored for e_drug_profile ---
+  allergic_to   ibuprofen             active      2026-03-14 09:16
+  job_title     librarian             active      2026-05-23 10:16
+  lives_in      Tallinn               active      2026-04-23 10:16
+--- summaries stored for eval_e_drug_profile ---
+
+[none] I have a headache, what can I take?
+
+[baseline] I have a headache, what can I take?
+    recalled: [2026-03-14] "I'm allergic to ibuprofen."
+    recalled: [2026-05-23] "I'm a librarian."
+    recalled: [2026-10-20] "Thanks, that's exactly what I needed."
+    recalled: [2026-08-21] "How do I remove a coffee stain?"
+    answer: Considering you're allergic to ibuprofen, I'd recommend trying acetaminophen or a natural remedy like ibuprofen-free pain relievers or herbal teas. However, it's always best to consult with a healthcare professional for personalized advice.
+
+[smart] I have a headache, what can I take?
+    recalled: Allergic to: ibuprofen (since 2026-03-14)
+    answer: Considering your allergy to ibuprofen, I would recommend trying acetaminophen (such as Tylenol) instead. However, it's always a good idea to consult with a doctor or pharmacist for personalized advice on managing your headache.
+[54/143] e_drug_profile: I have a headache, what can I take?
+
+[none] What should I cook for dinner tonight?
+
+[baseline] What should I cook for dinner tonight?
+    recalled: [2026-09-10] "Can you recommend a board game for four people?"
+    recalled: [2026-06-22] "What's the plot of Hamlet?"
+    recalled: [2026-10-20] "Thanks, that's exactly what I needed."
+    recalled: [2026-05-23] "I'm a librarian."
+    answer: I don't know your personal preferences or dietary restrictions. Can you give me a hint about what type of cuisine or ingredients you're in the mood for?
+
+[smart] What should I cook for dinner tonight?
+    recalled: Allergic to: ibuprofen (since 2026-03-14)
+    answer: I don't have any specific dinner ideas or recipes to suggest. However, I can help you brainstorm or provide some general cooking suggestions if you'd like. What type of cuisine are you in the mood for?
+[55/143] e_drug_profile: What should I cook for dinner tonight?
+
+[none] Where do I live?
+
+[baseline] Where do I live?
+    recalled: [2026-04-23] "I live in Tallinn."
+    recalled: [2026-05-23] "I'm a librarian."
+    recalled: [2026-09-30] "What's the difference between weather and climate?"
+    recalled: [2026-08-01] "Why is the sky blue?"
+    answer: You live in Tallinn.
+
+[smart] Where do I live?
+    recalled: Lives in: Tallinn (since 2026-04-23)
+    answer: You live in Tallinn.
+[56/143] e_drug_profile: Where do I live?
+
+[none] What's my blood type?
+
+[baseline] What's my blood type?
+    recalled: [2026-05-23] "I'm a librarian."
+    recalled: [2026-07-12] "How many players are on a rugby team?"
+    recalled: [2026-03-14] "I'm allergic to ibuprofen."
+    recalled: [2026-04-23] "I live in Tallinn."
+    answer: I don't know.
+
+[smart] What's my blood type?
+    answer: I don't know. I don't have any information about your personal details.
+[57/143] e_drug_profile: What's my blood type?
+ingesting e_goals (11 messages)...
+e_goals: 3 summaries written
+
+--- facts stored for e_goals ---
+  goal          run a marathon        active      2026-03-24 09:16
+  goal          Japanese              active      2026-05-13 10:16
+  goal          house                 active      2026-07-02 10:16
+--- summaries stored for eval_e_goals ---
+  The user is planning to run a marathon next spring.
+  The user wants to learn Japanese.
+  The user is putting money aside for a house.
+
+[none] What am I training for?
+
+[baseline] What am I training for?
+    recalled: [2026-05-13] "I want to learn Japanese."
+    recalled: [2026-03-24] "I'm planning to run a marathon next spring."
+    recalled: [2026-07-02] "I'm putting money aside for a house."
+    recalled: [2026-09-07] "How many players are on a rugby team?"
+    answer: You're training for a marathon next spring.
+
+[smart] What am I training for?
+    recalled: Goal: run a marathon (since 2026-03-24)
+    recalled: Goal: Japanese (since 2026-05-13)
+    recalled: Note from 2026-03-24: The user is planning to run a marathon next spring.
+    recalled: Note from 2026-05-13: The user wants to learn Japanese.
+    answer: You're training to run a marathon, which you plan to do next spring.
+[58/143] e_goals: What am I training for?
+
+[none] Which language am I trying to learn?
+
+[baseline] Which language am I trying to learn?
+    recalled: [2026-05-13] "I want to learn Japanese."
+    recalled: [2026-03-24] "I'm planning to run a marathon next spring."
+    recalled: [2026-07-02] "I'm putting money aside for a house."
+    recalled: [2026-10-06] "How do I remove a coffee stain?"
+    answer: You're trying to learn Japanese.
+
+[smart] Which language am I trying to learn?
+    recalled: Note from 2026-05-13: The user wants to learn Japanese.
+    answer: You're trying to learn Japanese.
+[59/143] e_goals: Which language am I trying to learn?
+
+[none] What big purchase am I working towards?
+
+[baseline] What big purchase am I working towards?
+    recalled: [2026-07-02] "I'm putting money aside for a house."
+    recalled: [2026-03-24] "I'm planning to run a marathon next spring."
+    recalled: [2026-05-13] "I want to learn Japanese."
+    recalled: [2026-09-07] "How many players are on a rugby team?"
+    answer: You're working towards buying a house.
+
+[smart] What big purchase am I working towards?
+    recalled: Goal: house (since 2026-07-02)
+    recalled: Goal: run a marathon (since 2026-03-24)
+    recalled: Goal: Japanese (since 2026-05-13)
+    recalled: Note from 2026-07-02: The user is putting money aside for a house.
+    answer: You're working towards buying a house.
+[60/143] e_goals: What big purchase am I working towards?
+
+[none] What's my cat's name?
+
+[baseline] What's my cat's name?
+    recalled: [2026-07-02] "I'm putting money aside for a house."
+    recalled: [2026-10-06] "How do I remove a coffee stain?"
+    recalled: [2026-09-21] "Why is the sky blue?"
+    recalled: [2026-05-13] "I want to learn Japanese."
+    answer: I don't know.
+
+[smart] What's my cat's name?
+    answer: I don't know. We haven't discussed your cat before, so I don't have any information about it. Would you like to tell me about your cat?
+[61/143] e_goals: What's my cat's name?
+ingesting f_correction_allergy (6 messages)...
+f_correction_allergy: 1 summaries written
+
+--- facts stored for f_correction_allergy ---
+  allergic_to   latex                 archived    2026-04-03 10:16
+  allergic_to   pollen                active      2026-09-25 10:16
+--- summaries stored for eval_f_correction_allergy ---
+  The user is allergic to pollen.
+
+[none] What am I allergic to?
+
+[baseline] What am I allergic to?
+    recalled: [2026-09-25] "Sorry, I mixed things up before: latex is fine for me, it's pollen that I'm allergic to."
+    recalled: [2026-04-03] "I'm allergic to latex."
+    recalled: [2026-06-15] "Can you explain what a black hole is?"
+    recalled: [2026-04-13] "How do tides work?"
+    answer: You're allergic to pollen.
+
+[smart] What am I allergic to?
+    recalled: Allergic to: pollen (since 2026-09-25)
+    answer: You're allergic to pollen.
+[62/143] f_correction_allergy: What am I allergic to?
+ingesting f_no_longer_hobby (6 messages)...
+f_no_longer_hobby: 2 summaries written
+
+--- facts stored for f_no_longer_hobby ---
+  hobby         chess                 archived    2026-04-23 10:17
+  hobby         pottery               active      2026-10-05 10:17
+--- summaries stored for eval_f_no_longer_hobby ---
+  The user used to play chess most evenings.
+  The user's hobby is now pottery.
+
+[none] What are my hobbies?
+
+[baseline] What are my hobbies?
+    recalled: [2026-10-05] "I don't play chess anymore; these days my hobby is pottery."
+    recalled: [2026-04-23] "I play chess most evenings."
+    recalled: [2026-06-29] "Can you explain what a black hole is?"
+    recalled: [2026-10-20] "What's the plot of Hamlet?"
+    answer: You mentioned earlier that your hobby is pottery, as you've taken up pottery since giving up chess.
+
+[smart] What are my hobbies?
+    recalled: Hobby: pottery (since 2026-10-05)
+    answer: You enjoy pottery.
+[63/143] f_no_longer_hobby: What are my hobbies?
+ingesting f_vague_promotion (2 messages)...
+f_vague_promotion: 1 summaries written
+
+--- facts stored for f_vague_promotion ---
+  goal          promotion             active      2026-10-10 10:17
+  job_title     teacher               active      2026-04-13 10:17
+  works_at      Hillside School       active      2026-04-13 10:17
+--- summaries stored for eval_f_vague_promotion ---
+  The user got a promotion.
+
+[none] Where do I work?
+
+[baseline] Where do I work?
+    recalled: [2026-04-13] "I work at Hillside School as a teacher."
+    recalled: [2026-10-10] "Big day today, I finally got the promotion I'd been chasing!"
+    answer: You work at Hillside School as a teacher.
+
+[smart] Where do I work?
+    recalled: Works at: Hillside School (since 2026-04-13)
+    recalled: Note from 2026-10-10: The user got a promotion.
+    answer: You work at Hillside School.
+[64/143] f_vague_promotion: Where do I work?
+
+[none] What's my job title?
+
+[baseline] What's my job title?
+    recalled: [2026-10-10] "Big day today, I finally got the promotion I'd been chasing!"
+    recalled: [2026-04-13] "I work at Hillside School as a teacher."
+    answer: You work as a teacher at Hillside School.
+
+[smart] What's my job title?
+    recalled: Job title: teacher (since 2026-04-13)
+    answer: Your job title is teacher.
+[65/143] f_vague_promotion: What's my job title?
+ingesting f_like_to_dislike (2 messages)...
+f_like_to_dislike: 1 summaries written
+
+--- facts stored for f_like_to_dislike ---
+  dislikes      spicy food            active      2026-09-30 10:17
+  likes         spicy food            superseded  2026-05-03 10:17
+--- summaries stored for eval_f_like_to_dislike ---
+  The user used to love spicy food but can't stand it these days.
+
+[none] What kind of food do I enjoy?
+
+[baseline] What kind of food do I enjoy?
+    recalled: [2026-05-03] "I love spicy food."
+    recalled: [2026-09-30] "I've gone right off spicy food, I can't stand it these days."
+    answer: You mentioned earlier that you've gone off spicy food, so it seems you don't enjoy it as much as you used to.
+
+[smart] What kind of food do I enjoy?
+    recalled: Dislikes: spicy food (since 2026-09-30)
+    answer: I don't know.
+[66/143] f_like_to_dislike: What kind of food do I enjoy?
+ingesting f_dislike_to_like (2 messages)...
+
+--- facts stored for f_dislike_to_like ---
+  dislikes      opera                 superseded  2026-04-13 10:17
+  hobby         opera                 active      2026-09-20 10:17
+--- summaries stored for eval_f_dislike_to_like ---
+
+[none] What music do I like?
+
+[baseline] What music do I like?
+    recalled: [2026-09-20] "Funny thing, I've grown to really love opera lately."
+    recalled: [2026-04-13] "I can't stand opera."
+    answer: You've mentioned enjoying opera lately.
+
+[smart] What music do I like?
+    recalled: Hobby: opera (since 2026-09-20)
+    answer: You enjoy opera.
+[67/143] f_dislike_to_like: What music do I like?
+ingesting f_employer_no_title (2 messages)...
+
+--- facts stored for f_employer_no_title ---
+  job_title     nurse                 conflicted  2026-03-04 09:17
+  works_at      Saint Mary's Hospital superseded  2026-03-04 09:17
+  works_at      Riverside Clinic      active      2026-09-30 10:17
+--- summaries stored for eval_f_employer_no_title ---
+
+[none] Where do I work?
+
+[baseline] Where do I work?
+    recalled: [2026-09-30] "I switched employers, I'm at Riverside Clinic now."
+    recalled: [2026-03-04] "I'm a nurse at Saint Mary's Hospital."
+    answer: You work at Riverside Clinic.
+
+[smart] Where do I work?
+    recalled: Works at: Riverside Clinic (since 2026-09-30)
+    answer: You work at Riverside Clinic.
+[68/143] f_employer_no_title: Where do I work?
+
+[none] What's my job title?
+
+[baseline] What's my job title?
+    recalled: [2026-09-30] "I switched employers, I'm at Riverside Clinic now."
+    recalled: [2026-03-04] "I'm a nurse at Saint Mary's Hospital."
+    answer: You're a nurse.
+
+[smart] What's my job title?
+    answer: I don't know. We haven't discussed your job before, so I don't have any information about it. Would you like to tell me about your job?
+[69/143] f_employer_no_title: What's my job title?
+ingesting f_employer_with_title (2 messages)...
+f_employer_with_title: 1 summaries written
+
+--- facts stored for f_employer_with_title ---
+  job_title     sales rep             superseded  2026-02-12 09:17
+  job_title     product manager       active      2026-09-15 10:17
+  works_at      Northwind             superseded  2026-02-12 09:17
+  works_at      Contoso               active      2026-09-15 10:17
+--- summaries stored for eval_f_employer_with_title ---
+  The user left their job at Northwind and is now a product manager at Contoso.
+
+[none] Where do I work?
+
+[baseline] Where do I work?
+    recalled: [2026-02-12] "I work at Northwind as a sales rep."
+    recalled: [2026-09-15] "I left Northwind and I'm now a product manager at Contoso."
+    answer: You work at Contoso as a product manager.
+
+[smart] Where do I work?
+    recalled: Works at: Contoso (since 2026-09-15)
+    answer: You work at Contoso.
+[70/143] f_employer_with_title: Where do I work?
+
+[none] What's my job title?
+
+[baseline] What's my job title?
+    recalled: [2026-02-12] "I work at Northwind as a sales rep."
+    recalled: [2026-09-15] "I left Northwind and I'm now a product manager at Contoso."
+    answer: You're a product manager at Contoso.
+
+[smart] What's my job title?
+    recalled: Job title: product manager (since 2026-09-15)
+    answer: Your job title is product manager.
+[71/143] f_employer_with_title: What's my job title?
+ingesting g_trip (5 messages)...
+g_trip: 1 summaries written
+
+--- facts stored for g_trip ---
+--- summaries stored for eval_g_trip ---
+  The user went hiking in Norway with their cousin Ingrid last spring and saw the northern lights.
+
+[none] What trip did I tell you about?
+
+[baseline] What trip did I tell you about?
+    recalled: [2026-06-02] "Last spring I went hiking in Norway with my cousin Ingrid, and we saw the northern lights."
+    recalled: [2026-06-12] "How do volcanoes form?"
+    recalled: [2026-08-31] "Why is the sky blue?"
+    recalled: [2026-10-10] "How many moons does Jupiter have?"
+    answer: You told me about a trip you went on last spring to Norway with your cousin Ingrid, where you saw the northern lights.
+
+[smart] What trip did I tell you about?
+    recalled: Note from 2026-06-02: The user went hiking in Norway with their cousin Ingrid last spring and saw the northern lights.
+    answer: You went hiking in Norway with your cousin Ingrid last spring and saw the northern lights.
+[72/143] g_trip: What trip did I tell you about?
+
+[none] Who did I go hiking with?
+
+[baseline] Who did I go hiking with?
+    recalled: [2026-06-02] "Last spring I went hiking in Norway with my cousin Ingrid, and we saw the northern lights."
+    recalled: [2026-07-22] "What's a good stretching routine for the morning?"
+    recalled: [2026-06-12] "How do volcanoes form?"
+    recalled: [2026-08-31] "Why is the sky blue?"
+    answer: You went hiking in Norway with your cousin Ingrid.
+
+[smart] Who did I go hiking with?
+    recalled: Note from 2026-06-02: The user went hiking in Norway with their cousin Ingrid last spring and saw the northern lights.
+    answer: You went hiking in Norway with your cousin Ingrid last spring.
+[73/143] g_trip: Who did I go hiking with?
+ingesting g_wedding (5 messages)...
+g_wedding: 1 summaries written
+
+--- facts stored for g_wedding ---
+  family_member Marta                 active      2026-08-31 10:17
+  goal          giving a speech       active      2026-08-31 10:17
+--- summaries stored for eval_g_wedding ---
+  The user's sister Marta is getting married in Lisbon this September.
+
+[none] Where is my sister's wedding?
+
+[baseline] Where is my sister's wedding?
+    recalled: [2026-08-31] "My sister Marta is getting married in Lisbon this September, and I'm giving a speech."
+    recalled: [2026-09-05] "Why is the sky blue?"
+    recalled: [2026-10-08] "What's a palindrome?"
+    recalled: [2026-10-25] "How do I remove a coffee stain?"
+    answer: Your sister Marta's wedding is in Lisbon.
+
+[smart] Where is my sister's wedding?
+    recalled: Family member: Marta (since 2026-08-31)
+    recalled: Note from 2026-08-31: The user's sister Marta is getting married in Lisbon this September.
+    answer: Your sister Marta's wedding is in Lisbon.
+[74/143] g_wedding: Where is my sister's wedding?
+
+[none] What am I doing at the wedding?
+
+[baseline] What am I doing at the wedding?
+    recalled: [2026-08-31] "My sister Marta is getting married in Lisbon this September, and I'm giving a speech."
+    recalled: [2026-10-08] "What's a palindrome?"
+    recalled: [2026-10-25] "How do I remove a coffee stain?"
+    recalled: [2026-09-05] "Why is the sky blue?"
+    answer: You're giving a speech at your sister Marta's wedding in Lisbon this September.
+
+[smart] What am I doing at the wedding?
+    recalled: Goal: giving a speech (since 2026-08-31)
+    recalled: Note from 2026-08-31: The user's sister Marta is getting married in Lisbon this September.
+    answer: You're a guest at your sister Marta's wedding in Lisbon this September.
+[75/143] g_wedding: What am I doing at the wedding?
+ingesting g_diet_misfile (6 messages)...
+
+--- facts stored for g_diet_misfile ---
+  dislikes      dairy                 active      2026-07-02 10:18
+  dislikes      eggs                  active      2026-07-02 10:18
+  hobby         playing the cello     active      2026-08-01 10:18
+  hobby         being in an amateur orchestraactive      2026-08-01 10:18
+--- summaries stored for eval_g_diet_misfile ---
+
+[none] What are my hobbies?
+
+[baseline] What are my hobbies?
+    recalled: [2026-08-01] "I play the cello in a small amateur orchestra."
+    recalled: [2026-07-02] "I'm vegan, so no dairy or eggs for me."
+    recalled: [2026-09-17] "Can you explain what inflation is?"
+    recalled: [2026-08-14] "How do I remove a coffee stain?"
+    answer: You play the cello in a small amateur orchestra.
+
+[smart] What are my hobbies?
+    recalled: Hobby: playing the cello (since 2026-08-01)
+    recalled: Hobby: being in an amateur orchestra (since 2026-08-01)
+    answer: You enjoy playing the cello and being part of an amateur orchestra.
+[76/143] g_diet_misfile: What are my hobbies?
+
+[none] Can you suggest something for dinner?
+
+[baseline] Can you suggest something for dinner?
+    recalled: [2026-07-12] "What's a palindrome?"
+    recalled: [2026-08-01] "I play the cello in a small amateur orchestra."
+    recalled: [2026-07-02] "I'm vegan, so no dairy or eggs for me."
+    recalled: [2026-08-14] "How do I remove a coffee stain?"
+    answer: Considering you're vegan, I'd recommend a hearty lentil soup or a flavorful stir-fry with tofu and your favorite vegetables. You could also try making a vegan pizza with a plant-based cheese alternative. What sounds appealing to you?
+
+[smart] Can you suggest something for dinner?
+    recalled: Dislikes: eggs (since 2026-07-02)
+    recalled: Dislikes: dairy (since 2026-07-02)
+    answer: I'd be happy to help with dinner suggestions. Since you don't eat eggs or dairy, I can recommend some egg-free and dairy-free options. How about trying a stir-fry with your choice of protein (chicken, beef, tofu, etc.) and mixed vegetables, served with rice or noodles? Or a grilled portobello mushroom burger with a side of roasted vegetables? What sounds appealing to you?
+[77/143] g_diet_misfile: Can you suggest something for dinner?
+ingesting g_past_home (5 messages)...
+g_past_home: 1 summaries written
+
+--- facts stored for g_past_home ---
+  lives_in      Porto                 superseded  2025-09-25 10:18
+  lives_in      Leeds                 active      2026-09-15 10:18
+--- summaries stored for eval_g_past_home ---
+  The user moved from Porto to Leeds for a new start.
+
+[none] Where do I live now?
+
+[baseline] Where do I live now?
+    recalled: [2025-09-25] "I live in Porto."
+    recalled: [2026-09-15] "I've just moved to Leeds for a new start."
+    recalled: [2026-10-10] "Why is the sky blue?"
+    recalled: [2026-01-03] "How do volcanoes form?"
+    answer: You live in Leeds.
+
+[smart] Where do I live now?
+    recalled: Lives in: Leeds (since 2026-09-15)
+    answer: You live in Leeds.
+[78/143] g_past_home: Where do I live now?
+
+[none] Where did I live before Leeds?
+
+[baseline] Where did I live before Leeds?
+    recalled: [2026-09-15] "I've just moved to Leeds for a new start."
+    recalled: [2025-09-25] "I live in Porto."
+    recalled: [2026-10-10] "Why is the sky blue?"
+    recalled: [2026-05-23] "What's a good stretching routine for the morning?"
+    answer: I don't know.
+
+[smart] Where did I live before Leeds?
+    recalled: Earlier: Lives in: Porto (until 2026-09-15)
+    recalled: Lives in: Leeds (since 2026-09-15)
+    answer: You lived in Porto before moving to Leeds.
+[79/143] g_past_home: Where did I live before Leeds?
+ingesting g_training (5 messages)...
+g_training: 1 summaries written
+
+--- facts stored for g_training ---
+  goal          half marathon         active      2026-08-11 10:18
+  hobby         running               active      2026-08-11 10:18
+--- summaries stored for eval_g_training ---
+  The user is training for a half marathon in November, running three mornings a week.
+
+[none] What am I training for?
+
+[baseline] What am I training for?
+    recalled: [2026-08-11] "I'm training for a half marathon in November, running three mornings a week."
+    recalled: [2026-09-10] "What's a palindrome?"
+    recalled: [2026-10-20] "Can you explain what inflation is?"
+    recalled: [2026-09-30] "How do I remove a coffee stain?"
+    answer: You're training for a half marathon in November, running three mornings a week.
+
+[smart] What am I training for?
+    recalled: Note from 2026-08-11: The user is training for a half marathon in November, running three mornings a week.
+    answer: You're training for a half marathon, which is scheduled to take place in November.
+[80/143] g_training: What am I training for?
+ingesting g_project (6 messages)...
+
+--- facts stored for g_project ---
+  goal          move billing system to new cloud provider by end of Marchactive      2026-07-22 10:18
+  works_at      Brightline Logistics  active      2026-07-12 10:18
+--- summaries stored for eval_g_project ---
+
+[none] What project am I leading at work?
+
+[baseline] What project am I leading at work?
+    recalled: [2026-07-22] "At work I'm leading the move of our billing system to a new cloud provider, and the deadline is the end of March."
+    recalled: [2026-07-12] "I work at Brightline Logistics."
+    recalled: [2026-08-01] "What's a good stretching routine for the morning?"
+    recalled: [2026-10-20] "What's a palindrome?"
+    answer: You're leading the move of your billing system to a new cloud provider, with a deadline at the end of March.
+
+[smart] What project am I leading at work?
+    recalled: Works at: Brightline Logistics (since 2026-07-12)
+    answer: I don't know.
+[81/143] g_project: What project am I leading at work?
+
+[none] When is the deadline for it?
+
+[baseline] When is the deadline for it?
+    recalled: [2026-07-22] "At work I'm leading the move of our billing system to a new cloud provider, and the deadline is the end of March."
+    recalled: [2026-10-20] "What's a palindrome?"
+    recalled: [2026-08-28] "Why is the sky blue?"
+    recalled: [2026-08-01] "What's a good stretching routine for the morning?"
+    answer: You're referring to the billing system move. The deadline is the end of March.
+
+[smart] When is the deadline for it?
+    recalled: Goal: move billing system to new cloud provider by end of March (since 2026-07-22)
+    answer: You're referring to your goal of moving the billing system to a new cloud provider. The deadline for that is the end of March 2027.
+[82/143] g_project: When is the deadline for it?
+ingesting g_jobsearch (6 messages)...
+g_jobsearch: 5 summaries written
+
+--- facts stored for g_jobsearch ---
+  works_at      Orbital Freight       active      2026-07-22 10:18
+--- summaries stored for eval_g_jobsearch ---
+  The user started looking for a new job and sent applications to three firms.
+  The user had an interview at Kestrel Analytics and it went okay.
+  The user had a second interview at Orbital Freight.
+  The user was offered the job at Orbital Freight and accepted.
+  The user is starting at Orbital Freight next month.
+
+[none] How did my job search go?
+
+[baseline] How did my job search go?
+    recalled: [2026-04-13] "I've started looking for a new job and sent applications to three firms."
+    recalled: [2026-05-13] "I had an interview at Kestrel Analytics and it went okay."
+    recalled: [2026-07-22] "Orbital Freight offered me the job and I accepted!"
+    recalled: [2026-06-02] "Kestrel said no, they picked someone with more experience."
+    answer: You've been looking for a new job. You sent applications to three firms, and one of them was Kestrel Analytics, where you had an interview. Unfortunately, they decided to go with someone else because of more experience. However, Orbital Freight offered you the job and you accepted it.
+
+[smart] How did my job search go?
+    recalled: Note from 2026-04-13: The user started looking for a new job and sent applications to three firms.
+    answer: I don't know. I only have a note from April 13th that you sent applications to three firms, but I don't have any updates on the status of your job search.
+[83/143] g_jobsearch: How did my job search go?
+
+[none] Which company turned me down?
+
+[baseline] Which company turned me down?
+    recalled: [2026-05-13] "I had an interview at Kestrel Analytics and it went okay."
+    recalled: [2026-06-02] "Kestrel said no, they picked someone with more experience."
+    recalled: [2026-04-13] "I've started looking for a new job and sent applications to three firms."
+    recalled: [2026-07-22] "Orbital Freight offered me the job and I accepted!"
+    answer: Kestrel Analytics turned you down. They chose someone with more experience over you.
+
+[smart] Which company turned me down?
+    recalled: Works at: Orbital Freight (since 2026-07-22)
+    recalled: Note from 2026-04-13: The user started looking for a new job and sent applications to three firms.
+    recalled: Note from 2026-05-13: The user had an interview at Kestrel Analytics and it went okay.
+    answer: I don't know.
+[84/143] g_jobsearch: Which company turned me down?
+
+[none] Where do I work?
+
+[baseline] Where do I work?
+    recalled: [2026-04-13] "I've started looking for a new job and sent applications to three firms."
+    recalled: [2026-07-22] "Orbital Freight offered me the job and I accepted!"
+    recalled: [2026-08-01] "I start at Orbital Freight next month."
+    recalled: [2026-05-13] "I had an interview at Kestrel Analytics and it went okay."
+    answer: You work at Orbital Freight.
+
+[smart] Where do I work?
+    recalled: Works at: Orbital Freight (since 2026-07-22)
+    recalled: Note from 2026-07-22: The user was offered the job at Orbital Freight and accepted.
+    recalled: Note from 2026-04-13: The user started looking for a new job and sent applications to three firms.
+    answer: You work at Orbital Freight.
+[85/143] g_jobsearch: Where do I work?
+ingesting g_control_facts (7 messages)...
+
+--- facts stored for g_control_facts ---
+  allergic_to   hazelnuts             active      2026-08-31 10:19
+  job_title     baker                 active      2026-05-03 10:19
+  name          Tomas                 active      2026-05-03 10:19
+  speaks        Czech                 active      2026-05-13 10:19
+  speaks        English               active      2026-05-13 10:19
+--- summaries stored for eval_g_control_facts ---
+
+[none] What's my name?
+
+[baseline] What's my name?
+    recalled: [2026-05-03] "My name is Tomas and I'm a baker."
+    recalled: [2026-05-13] "I speak Czech and English."
+    recalled: [2026-08-31] "What's a palindrome?"
+    recalled: [2026-07-12] "How many moons does Jupiter have?"
+    answer: I don't know.
+
+[smart] What's my name?
+    recalled: Name: Tomas (since 2026-05-03)
+    answer: Your name is Tomas.
+[86/143] g_control_facts: What's my name?
+
+[none] Which languages do I speak?
+
+[baseline] Which languages do I speak?
+    recalled: [2026-05-13] "I speak Czech and English."
+    recalled: [2026-05-03] "My name is Tomas and I'm a baker."
+    recalled: [2026-08-31] "What's a palindrome?"
+    recalled: [2026-10-20] "How do I remove a coffee stain?"
+    answer: You speak Czech and English.
+
+[smart] Which languages do I speak?
+    recalled: Speaks: English (since 2026-05-13)
+    recalled: Speaks: Czech (since 2026-05-13)
+    answer: You speak English and Czech.
+[87/143] g_control_facts: Which languages do I speak?
+
+[none] Can you suggest a quick snack?
+
+[baseline] Can you suggest a quick snack?
+    recalled: [2026-08-31] "I'm allergic to hazelnuts."
+    recalled: [2026-05-03] "My name is Tomas and I'm a baker."
+    recalled: [2026-08-31] "What's a palindrome?"
+    recalled: [2026-10-20] "How do I remove a coffee stain?"
+    answer: Considering your allergy to hazelnuts, I'd recommend a simple fruit salad or some plain crackers with cheese. What do you think?
+
+[smart] Can you suggest a quick snack?
+    recalled: Allergic to: hazelnuts (since 2026-08-31)
+    answer: How about some fresh fruit or a granola bar?
+[88/143] g_control_facts: Can you suggest a quick snack?
+ingesting g_abstain (6 messages)...
+g_abstain: 2 summaries written
+
+--- facts stored for g_abstain ---
+--- summaries stored for eval_g_abstain ---
+  The user's neighbour's dog barks every morning.
+  The user bought a new desk lamp yesterday.
+
+[none] Do I have any pets?
+
+[baseline] Do I have any pets?
+    recalled: [2026-08-01] "My neighbour's dog barks every morning, it drives me crazy."
+    recalled: [2026-08-11] "I bought a new desk lamp yesterday."
+    recalled: [2026-08-21] "What's a palindrome?"
+    recalled: [2026-10-20] "What's the tallest mountain in the world?"
+    answer: I don't know.
+
+[smart] Do I have any pets?
+    recalled: Note from 2026-08-01: The user's neighbour's dog barks every morning.
+    answer: I don't know.
+[89/143] g_abstain: Do I have any pets?
+
+[none] What's my favourite colour?
+
+[baseline] What's my favourite colour?
+    recalled: [2026-09-10] "How do I remove a coffee stain?"
+    recalled: [2026-08-01] "My neighbour's dog barks every morning, it drives me crazy."
+    recalled: [2026-08-11] "I bought a new desk lamp yesterday."
+    recalled: [2026-08-21] "What's a palindrome?"
+    answer: I don't know.
+
+[smart] What's my favourite colour?
+    recalled: Note from 2026-08-11: The user bought a new desk lamp yesterday.
+    answer: I don't know.
+[90/143] g_abstain: What's my favourite colour?
+ingesting h_bake (5 messages)...
+h_bake: 1 summaries written
+
+--- facts stored for h_bake ---
+--- summaries stored for eval_h_bake ---
+  The user baked their first sourdough loaf last weekend, but it came out completely flat.
+
+[none] What did I bake last weekend?
+
+[baseline] What did I bake last weekend?
+    recalled: [2026-08-21] "Last weekend I baked my first sourdough loaf and it came out completely flat."
+    recalled: [2026-08-26] "What's the boiling point of water at altitude?"
+    recalled: [2026-09-13] "How do bees make honey?"
+    recalled: [2026-10-02] "Can you explain what a mortgage is?"
+    answer: You baked your first sourdough loaf last weekend, but unfortunately, it came out completely flat.
+
+[smart] What did I bake last weekend?
+    recalled: Note from 2026-08-21: The user baked their first sourdough loaf last weekend, but it came out completely flat.
+    answer: You baked your first sourdough loaf last weekend, but unfortunately, it came out completely flat.
+[91/143] h_bake: What did I bake last weekend?
+ingesting h_injury (5 messages)...
+h_injury: 1 summaries written
+
+--- facts stored for h_injury ---
+--- summaries stored for eval_h_injury ---
+  The user broke their wrist skiing in February and had a cast on for six weeks.
+
+[none] How did I hurt my wrist?
+
+[baseline] How did I hurt my wrist?
+    recalled: [2026-06-22] "I broke my wrist skiing in February and had a cast on for six weeks."
+    recalled: [2026-10-20] "What's a good way to memorise a poem?"
+    recalled: [2026-07-02] "Can you explain what a mortgage is?"
+    recalled: [2026-09-13] "How does a rainbow form?"
+    answer: You broke your wrist skiing in February.
+
+[smart] How did I hurt my wrist?
+    recalled: Note from 2026-06-22: The user broke their wrist skiing in February and had a cast on for six weeks.
+    answer: You broke your wrist skiing in February.
+[92/143] h_injury: How did I hurt my wrist?
+
+[none] How long did I wear the cast?
+
+[baseline] How long did I wear the cast?
+    recalled: [2026-06-22] "I broke my wrist skiing in February and had a cast on for six weeks."
+    recalled: [2026-09-13] "How does a rainbow form?"
+    recalled: [2026-08-08] "What's the longest river in Africa?"
+    recalled: [2026-10-20] "What's a good way to memorise a poem?"
+    answer: You wore the cast on your wrist for six weeks.
+
+[smart] How long did I wear the cast?
+    recalled: Note from 2026-06-22: The user broke their wrist skiing in February and had a cast on for six weeks.
+    answer: You wore the cast for six weeks.
+[93/143] h_injury: How long did I wear the cast?
+ingesting h_purchase (5 messages)...
+h_purchase: 1 summaries written
+
+--- facts stored for h_purchase ---
+--- summaries stored for eval_h_purchase ---
+  The user bought a second-hand Vespa from their neighbour for 900 euros.
+
+[none] What did I buy from my neighbour?
+
+[baseline] What did I buy from my neighbour?
+    recalled: [2026-07-27] "I finally bought a second-hand Vespa from my neighbour for 900 euros."
+    recalled: [2026-10-20] "What does a thermostat do?"
+    recalled: [2026-08-31] "What's a good way to memorise a poem?"
+    recalled: [2026-09-25] "How many bones are in the human body?"
+    answer: You bought a second-hand Vespa from your neighbour for 900 euros.
+
+[smart] What did I buy from my neighbour?
+    recalled: Note from 2026-07-27: The user bought a second-hand Vespa from their neighbour for 900 euros.
+    answer: You bought a second-hand Vespa from your neighbour for 900 euros.
+[94/143] h_purchase: What did I buy from my neighbour?
+
+[none] How much did it cost?
+
+[baseline] How much did it cost?
+    recalled: [2026-07-27] "I finally bought a second-hand Vespa from my neighbour for 900 euros."
+    recalled: [2026-09-25] "How many bones are in the human body?"
+    recalled: [2026-08-06] "How does a rainbow form?"
+    recalled: [2026-08-31] "What's a good way to memorise a poem?"
+    answer: You bought a second-hand Vespa from your neighbour for 900 euros.
+
+[smart] How much did it cost?
+    recalled: Note from 2026-07-27: The user bought a second-hand Vespa from their neighbour for 900 euros.
+    answer: The Vespa you bought from your neighbour cost 900 euros.
+[95/143] h_purchase: How much did it cost?
+ingesting h_adoption (5 messages)...
+h_adoption: 4 summaries written
+
+--- facts stored for h_adoption ---
+--- summaries stored for eval_h_adoption ---
+  The user visited the shelter today and met a greyhound called Biscuit.
+  The user's adoption paperwork got approved.
+  The user's greyhound Biscuit comes home on Saturday.
+  The user's greyhound Biscuit already chewed one of their slippers.
+
+[none] What kind of animal did I adopt?
+
+[baseline] What kind of animal did I adopt?
+    recalled: [2026-05-03] "I'm thinking about adopting a rescue greyhound."
+    recalled: [2026-06-02] "I visited the shelter today and met a greyhound called Biscuit."
+    recalled: [2026-07-02] "The adoption paperwork got approved!"
+    recalled: [2026-08-01] "Biscuit already chewed one of my slippers."
+    answer: You adopted a greyhound.
+
+[smart] What kind of animal did I adopt?
+    recalled: Note from 2026-06-02: The user visited the shelter today and met a greyhound called Biscuit.
+    answer: You adopted a greyhound called Biscuit.
+[96/143] h_adoption: What kind of animal did I adopt?
+
+[none] What is my dog called?
+
+[baseline] What is my dog called?
+    recalled: [2026-06-02] "I visited the shelter today and met a greyhound called Biscuit."
+    recalled: [2026-05-03] "I'm thinking about adopting a rescue greyhound."
+    recalled: [2026-07-22] "Biscuit comes home on Saturday, I can't wait."
+    recalled: [2026-08-01] "Biscuit already chewed one of my slippers."
+    answer: Your dog is called Biscuit.
+
+[smart] What is my dog called?
+    recalled: Note from 2026-06-02: The user visited the shelter today and met a greyhound called Biscuit.
+    recalled: Note from 2026-07-22: The user's greyhound Biscuit comes home on Saturday.
+    answer: Your dog is called Biscuit.
+[97/143] h_adoption: What is my dog called?
+
+[none] What did my dog chew?
+
+[baseline] What did my dog chew?
+    recalled: [2026-08-01] "Biscuit already chewed one of my slippers."
+    recalled: [2026-06-02] "I visited the shelter today and met a greyhound called Biscuit."
+    recalled: [2026-07-22] "Biscuit comes home on Saturday, I can't wait."
+    recalled: [2026-05-03] "I'm thinking about adopting a rescue greyhound."
+    answer: One of your slippers.
+
+[smart] What did my dog chew?
+    recalled: Note from 2026-08-01: The user's greyhound Biscuit already chewed one of their slippers.
+    answer: One of your slippers.
+[98/143] h_adoption: What did my dog chew?
+ingesting h_control_facts (7 messages)...
+
+--- facts stored for h_control_facts ---
+  allergic_to   shellfish             active      2026-08-31 10:20
+  job_title     welder                active      2026-04-23 10:20
+  lives_in      Gdansk                active      2026-04-13 10:20
+  name          Elena                 active      2026-04-13 10:20
+  works_at      shipyard              active      2026-04-23 10:20
+--- summaries stored for eval_h_control_facts ---
+
+[none] What's my name?
+
+[baseline] What's my name?
+    recalled: [2026-04-13] "My name is Elena and I live in Gdansk."
+    recalled: [2026-04-23] "I work at a shipyard as a welder."
+    recalled: [2026-08-24] "Can you explain what a mortgage is?"
+    recalled: [2026-10-20] "What's the longest river in Africa?"
+    answer: I don't know.
+
+[smart] What's my name?
+    recalled: Name: Elena (since 2026-04-13)
+    answer: Your name is Elena.
+[99/143] h_control_facts: What's my name?
+
+[none] Which city do I live in?
+
+[baseline] Which city do I live in?
+    recalled: [2026-04-13] "My name is Elena and I live in Gdansk."
+    recalled: [2026-04-23] "I work at a shipyard as a welder."
+    recalled: [2026-10-20] "What's the longest river in Africa?"
+    recalled: [2026-08-24] "Can you explain what a mortgage is?"
+    answer: You live in Gdansk.
+
+[smart] Which city do I live in?
+    recalled: Lives in: Gdansk (since 2026-04-13)
+    answer: You live in Gdansk.
+[100/143] h_control_facts: Which city do I live in?
+
+[none] What do I do for a living?
+
+[baseline] What do I do for a living?
+    recalled: [2026-04-23] "I work at a shipyard as a welder."
+    recalled: [2026-04-13] "My name is Elena and I live in Gdansk."
+    recalled: [2026-06-29] "How do bees make honey?"
+    recalled: [2026-08-24] "Can you explain what a mortgage is?"
+    answer: You work as a welder at a shipyard.
+
+[smart] What do I do for a living?
+    recalled: Works at: shipyard (since 2026-04-23)
+    recalled: Job title: welder (since 2026-04-23)
+    answer: You work as a welder at a shipyard.
+[101/143] h_control_facts: What do I do for a living?
+
+[none] Can you suggest a dish for dinner at a restaurant?
+
+[baseline] Can you suggest a dish for dinner at a restaurant?
+    recalled: [2026-05-03] "What's the boiling point of water at altitude?"
+    recalled: [2026-04-13] "My name is Elena and I live in Gdansk."
+    recalled: [2026-04-23] "I work at a shipyard as a welder."
+    recalled: [2026-08-31] "I'm allergic to shellfish."
+    answer: Considering your shellfish allergy, I'd recommend a dish that's shellfish-free. How about a classic grilled steak with roasted vegetables? It's a safe and satisfying option.
+
+[smart] Can you suggest a dish for dinner at a restaurant?
+    recalled: Allergic to: shellfish (since 2026-08-31)
+    answer: Considering you're allergic to shellfish, I'd recommend a dish that's shellfish-free. How about a classic grilled steak with roasted vegetables or a pasta dish with a non-seafood sauce? Those options should be safe and delicious.
+[102/143] h_control_facts: Can you suggest a dish for dinner at a restaurant?
+ingesting h_third_person (6 messages)...
+h_third_person: 1 summaries written
+
+--- facts stored for h_third_person ---
+--- summaries stored for eval_h_third_person ---
+  The user's friend Raul is travelling through Peru next month and sent a photo of his hotel in Cusco.
+
+[none] Where am I travelling next month?
+
+[baseline] Where am I travelling next month?
+    recalled: [2026-08-31] "My friend Raul is travelling through Peru next month."
+    recalled: [2026-09-05] "Raul sent me a photo of his hotel in Cusco."
+    recalled: [2026-09-23] "What's a good way to memorise a poem?"
+    recalled: [2026-10-20] "What does a thermostat do?"
+    answer: I don't know.
+
+[smart] Where am I travelling next month?
+    recalled: Note from 2026-09-05: The user's friend Raul is travelling through Peru next month and sent a photo of his hotel in Cusco.
+    answer: I don't know.
+[103/143] h_third_person: Where am I travelling next month?
+
+[none] What's my brother's name?
+
+[baseline] What's my brother's name?
+    recalled: [2026-08-31] "My friend Raul is travelling through Peru next month."
+    recalled: [2026-09-05] "Raul sent me a photo of his hotel in Cusco."
+    recalled: [2026-09-23] "What's a good way to memorise a poem?"
+    recalled: [2026-10-07] "How many bones are in the human body?"
+    answer: I don't know.
+
+[smart] What's my brother's name?
+    recalled: Note from 2026-09-05: The user's friend Raul is travelling through Peru next month and sent a photo of his hotel in Cusco.
+    answer: I don't know.
+[104/143] h_third_person: What's my brother's name?
+ingesting h_cancelled (5 messages)...
+h_cancelled: 2 summaries written
+
+--- facts stored for h_cancelled ---
+--- summaries stored for eval_h_cancelled ---
+  The user was going to the Lyon conference in May.
+  The user was not going to the Lyon conference in May.
+
+[none] Am I going to the Lyon conference?
+
+[baseline] Am I going to the Lyon conference?
+    recalled: [2026-07-22] "I'm going to the Lyon conference in May."
+    recalled: [2026-08-31] "The Lyon conference got cancelled, so I'm not going after all."
+    recalled: [2026-09-10] "What's the longest river in Africa?"
+    recalled: [2026-10-20] "How does a rainbow form?"
+    answer: You mentioned that the Lyon conference got cancelled, so you're not going after all.
+
+[smart] Am I going to the Lyon conference?
+    recalled: Note from 2026-07-22: The user was going to the Lyon conference in May.
+    answer: You were planning to attend the Lyon conference in May, but I don't have any information about your current plans.
+[105/143] h_cancelled: Am I going to the Lyon conference?
+ingesting i_move (6 messages)...
+i_move: 1 summaries written
+
+--- facts stored for i_move ---
+  lives_in      Bergen                superseded  2026-04-13 10:20
+  lives_in      Tallinn               active      2026-08-31 10:20
+--- summaries stored for eval_i_move ---
+  The user moved to Tallinn last month.
+
+[none] Which city did I live in before Tallinn?
+
+[baseline] Which city did I live in before Tallinn?
+    recalled: [2026-08-31] "I moved to Tallinn last month."
+    recalled: [2026-04-13] "I live in Bergen."
+    recalled: [2026-06-22] "Thanks, that was helpful!"
+    recalled: [2026-08-21] "What's the difference between a virus and a bacterium?"
+    answer: You mentioned you moved to Tallinn last month, but I don't know what city you lived in before that.
+
+[smart] Which city did I live in before Tallinn?
+    recalled: Earlier: Lives in: Bergen (until 2026-08-31)
+    recalled: Lives in: Tallinn (since 2026-08-31)
+    recalled: Note from 2026-08-31: The user moved to Tallinn last month.
+    answer: You lived in Bergen before moving to Tallinn last month.
+[106/143] i_move: Which city did I live in before Tallinn?
+
+[none] Which city do I live in now?
+
+[baseline] Which city do I live in now?
+    recalled: [2026-04-13] "I live in Bergen."
+    recalled: [2026-08-31] "I moved to Tallinn last month."
+    recalled: [2026-10-20] "Give me a tip for sleeping better."
+    recalled: [2026-06-22] "Thanks, that was helpful!"
+    answer: You live in Tallinn.
+
+[smart] Which city do I live in now?
+    recalled: Lives in: Tallinn (since 2026-08-31)
+    recalled: Note from 2026-08-31: The user moved to Tallinn last month.
+    answer: You live in Tallinn.
+[107/143] i_move: Which city do I live in now?
+ingesting i_job (6 messages)...
+i_job: 1 summaries written
+
+--- facts stored for i_job ---
+  works_at      Halvorsen Marine      archived    2026-03-24 09:20
+  works_at      Pelican Software      active      2026-08-21 10:20
+--- summaries stored for eval_i_job ---
+  The user left Halvorsen Marine and now works at Pelican Software.
+
+[none] Where did I work previously?
+
+[baseline] Where did I work previously?
+    recalled: [2026-08-21] "I left Halvorsen Marine, I now work at Pelican Software."
+    recalled: [2026-03-24] "I work at Halvorsen Marine."
+    recalled: [2026-10-20] "What's the capital of Australia?"
+    recalled: [2026-08-14] "How do I convert Celsius to Fahrenheit?"
+    answer: You previously worked at Halvorsen Marine.
+
+[smart] Where did I work previously?
+    recalled: Works at: Pelican Software (since 2026-08-21)
+    answer: I don't know.
+[108/143] i_job: Where did I work previously?
+
+[none] Where do I work now?
+
+[baseline] Where do I work now?
+    recalled: [2026-08-21] "I left Halvorsen Marine, I now work at Pelican Software."
+    recalled: [2026-03-24] "I work at Halvorsen Marine."
+    recalled: [2026-10-20] "What's the capital of Australia?"
+    recalled: [2026-08-14] "How do I convert Celsius to Fahrenheit?"
+    answer: You work at Pelican Software.
+
+[smart] Where do I work now?
+    recalled: Works at: Pelican Software (since 2026-08-21)
+    answer: You work at Pelican Software.
+[109/143] i_job: Where do I work now?
+ingesting i_two_moves (7 messages)...
+
+--- facts stored for i_two_moves ---
+  lives_in      Ghent                 superseded  2026-01-03 09:21
+  lives_in      Valencia              superseded  2026-05-03 10:21
+  lives_in      Gdansk                active      2026-09-10 10:21
+--- summaries stored for eval_i_two_moves ---
+
+[none] Where did I live originally?
+
+[baseline] Where did I live originally?
+    recalled: [2026-05-03] "I moved to Valencia."
+    recalled: [2026-09-10] "I've moved again, I live in Gdansk now."
+    recalled: [2026-01-03] "I live in Ghent."
+    recalled: [2026-04-16] "What's the capital of Australia?"
+    answer: I don't know.
+
+[smart] Where did I live originally?
+    recalled: Earlier: Lives in: Valencia (until 2026-09-10)
+    recalled: Earlier: Lives in: Ghent (until 2026-05-03)
+    recalled: Lives in: Gdansk (since 2026-09-10)
+    answer: I don't know.
+[110/143] i_two_moves: Where did I live originally?
+
+[none] Where did I live before Gdansk?
+
+[baseline] Where did I live before Gdansk?
+    recalled: [2026-09-10] "I've moved again, I live in Gdansk now."
+    recalled: [2026-05-03] "I moved to Valencia."
+    recalled: [2026-01-03] "I live in Ghent."
+    recalled: [2026-04-16] "What's the capital of Australia?"
+    answer: You lived in Valencia before moving to Gdansk.
+
+[smart] Where did I live before Gdansk?
+    recalled: Earlier: Lives in: Ghent (until 2026-05-03)
+    recalled: Earlier: Lives in: Valencia (until 2026-09-10)
+    recalled: Lives in: Gdansk (since 2026-09-10)
+    answer: You lived in Valencia before moving to Gdansk.
+[111/143] i_two_moves: Where did I live before Gdansk?
+ingesting i_flip (6 messages)...
+
+--- facts stored for i_flip ---
+  dislikes      olives                superseded  2026-04-13 10:21
+  likes         olives                active      2026-08-31 10:21
+--- summaries stored for eval_i_flip ---
+
+[none] What food did I use to dislike?
+
+[baseline] What food did I use to dislike?
+    recalled: [2026-04-13] "I can't stand olives."
+    recalled: [2026-08-31] "Funny thing, I've started to love olives."
+    recalled: [2026-10-20] "What's a good way to learn the guitar?"
+    recalled: [2026-08-21] "Can you recommend a good podcast about history?"
+    answer: You used to dislike olives.
+
+[smart] What food did I use to dislike?
+    recalled: Earlier: Dislikes: olives (until 2026-08-31)
+    answer: Olives.
+[112/143] i_flip: What food did I use to dislike?
+ingesting i_partner (6 messages)...
+i_partner: 2 summaries written
+
+--- facts stored for i_partner ---
+  partner       Dario                 archived    2026-02-22 09:21
+  partner       Elena                 active      2026-08-01 10:21
+--- summaries stored for eval_i_partner ---
+  The user split up with Dario.
+  The user is now with Elena.
+
+[none] Who was my partner before Elena?
+
+[baseline] Who was my partner before Elena?
+    recalled: [2026-08-01] "Dario and I split up. I'm with Elena now."
+    recalled: [2026-02-22] "My partner is Dario."
+    recalled: [2026-05-20] "Thanks, that was helpful!"
+    recalled: [2026-03-04] "Can you explain how compound interest works?"
+    answer: Dario.
+
+[smart] Who was my partner before Elena?
+    recalled: Partner: Elena (since 2026-08-01)
+    answer: I don't know.
+[113/143] i_partner: Who was my partner before Elena?
+
+[none] Who is my partner?
+
+[baseline] Who is my partner?
+    recalled: [2026-02-22] "My partner is Dario."
+    recalled: [2026-08-01] "Dario and I split up. I'm with Elena now."
+    recalled: [2026-03-04] "Can you explain how compound interest works?"
+    recalled: [2026-05-20] "Thanks, that was helpful!"
+    answer: You're with Elena now.
+
+[smart] Who is my partner?
+    recalled: Partner: Elena (since 2026-08-01)
+    answer: Your partner is Elena.
+[114/143] i_partner: Who is my partner?
+ingesting i_trap_before (6 messages)...
+
+--- facts stored for i_trap_before ---
+  lives_in      Aarhus                superseded  2026-05-03 10:21
+  lives_in      Cork                  active      2026-09-10 10:21
+--- summaries stored for eval_i_trap_before ---
+
+[none] Any tips for stretching before a run?
+
+[baseline] Any tips for stretching before a run?
+    recalled: [2026-10-20] "Any tips for staying focused while studying?"
+    recalled: [2026-05-13] "How do I convert Celsius to Fahrenheit?"
+    recalled: [2026-05-03] "I live in Aarhus."
+    recalled: [2026-07-05] "What's the capital of Australia?"
+    answer: Dynamic stretching is a good idea before a run. Focus on leg swings, arm circles, and hip rotations to get your muscles warm and ready. You can also do some light cardio like jogging in place or jumping jacks to get your heart rate up. Don't forget to stretch after your run as well to help with recovery.
+
+[smart] Any tips for stretching before a run?
+    answer: Before a run, it's essential to warm up and stretch to prevent injuries and improve performance. Here are some tips:
+
+1. **Dynamic stretching**: Focus on dynamic stretches that mimic the movements you'll be doing during your run. Examples include leg swings, arm circles, and high knees.
+2. **Hamstring and hip flexor stretch**: Stand with your feet shoulder-width apart and lean forward, bending at the hips. Hold for 15-30 seconds.
+3. **Quad stretch**: Stand with one hand against a wall and lift one leg behind you, keeping your knee straight. Hold for 15-30 seconds and switch legs.
+4. **Calf stretch**: Stand facing a wall with one hand on the wall and one foot back about a foot. Keep your heel on the ground and bend your front knee. Hold for 15-30 seconds and switch legs.
+5. **Don't forget your back and shoulders**: Take a few minutes to stretch your upper body, focusing on your shoulders, upper back, and lower back.
+
+Remember to keep your stretches gentle and dynamic, and don't bounce or force your muscles beyond a comfortable range of motion. This will help you prepare for your run and reduce the risk of injury.
+
+How's your running schedule looking for today?
+[115/143] i_trap_before: Any tips for stretching before a run?
+
+[none] What should I cook before my guests arrive?
+
+[baseline] What should I cook before my guests arrive?
+    recalled: [2026-05-13] "How do I convert Celsius to Fahrenheit?"
+    recalled: [2026-05-03] "I live in Aarhus."
+    recalled: [2026-08-28] "How does a refrigerator work?"
+    recalled: [2026-10-20] "Any tips for staying focused while studying?"
+    answer: I don't know what you're planning to cook or what type of cuisine you're interested in. Could you give me a bit more information about what you're looking for?
+
+[smart] What should I cook before my guests arrive?
+    answer: I don't know what type of cuisine you or your guests prefer. Can you give me a hint or tell me what kind of dishes you're in the mood for? That way, I can suggest some ideas.
+[116/143] i_trap_before: What should I cook before my guests arrive?
+ingesting i_never_moved (5 messages)...
+
+--- facts stored for i_never_moved ---
+  lives_in      Leiden                active      2026-06-02 10:21
+--- summaries stored for eval_i_never_moved ---
+
+[none] Where did I live before?
+
+[baseline] Where did I live before?
+    recalled: [2026-06-02] "I live in Leiden."
+    recalled: [2026-09-07] "Can you recommend a good podcast about history?"
+    recalled: [2026-10-20] "What's a good way to learn the guitar?"
+    recalled: [2026-06-12] "How does a refrigerator work?"
+    answer: I don't know.
+
+[smart] Where did I live before?
+    recalled: Lives in: Leiden (since 2026-06-02)
+    answer: I don't know.
+[117/143] i_never_moved: Where did I live before?
+ingesting j_renovation (20 messages)...
+j_renovation: 13 summaries written
+j_renovation: 1 digests written
+
+--- facts stored for j_renovation ---
+  dislikes      green                 active      2026-05-23 10:21
+  family_member Henrik                active      2026-07-27 10:21
+  likes         oak                   active      2026-05-23 10:21
+--- summaries stored for eval_j_renovation ---
+  The user and their partner started renovating the kitchen in their old farmhouse.
+  The user and their partner were quoted 18,000 euros for the kitchen by the contractor Tobias.
+  The user and their partner picked dark green cabinets for the kitchen.
+  Tobias's crew finished tearing out the old kitchen walls.
+  The user and their partner changed their mind and went with oak cabinets instead of the green ones.
+  The replacement oven was installed without any problems.
+  The kitchen countertop is a slab of grey granite.
+  The final bill for the kitchen renovation came to 21,500 euros, more than the original quote.
+  The user hosted their first dinner in the new kitchen for eight friends.
+  The user's brother-in-law Henrik helped fix the leaking roof over the barn. [merged into #4864]
+  The user painted the barn doors red. [merged into #4864]
+  The user planted tomatoes in the vegetable patch behind the farmhouse last week.
+  A hedgehog has started sleeping under the user's woodpile.
+  DIGEST #4864: The user painted the barn doors red and their brother-in-law Henrik helped fix the leaking roof over the barn.
+
+[none] What are my kitchen cabinets made of?
+
+[baseline] What are my kitchen cabinets made of?
+    recalled: [2026-04-29] "We picked dark green cabinets for the kitchen."
+    recalled: [2026-06-22] "The kitchen countertop is a slab of grey granite."
+    recalled: [2026-05-23] "We changed our minds and went with oak cabinets instead of the green ones."
+    recalled: [2026-04-13] "We finally started renovating the kitchen in our old farmhouse."
+    answer: You changed your mind about the cabinets and went with oak instead of the dark green ones.
+
+[smart] What are my kitchen cabinets made of?
+    recalled: Dislikes: green (since 2026-05-23)
+    recalled: Note from 2026-04-29: The user and their partner picked dark green cabinets for the kitchen.
+    recalled: Note from 2026-06-22: The kitchen countertop is a slab of grey granite.
+    answer: Your kitchen cabinets are made of dark green material.
+[118/143] j_renovation: What are my kitchen cabinets made of?
+
+[none] Why did the kitchen work stop?
+
+[baseline] Why did the kitchen work stop?
+    recalled: [2026-05-15] "Tobias's crew finished tearing out the old kitchen walls."
+    recalled: [2026-04-13] "We finally started renovating the kitchen in our old farmhouse."
+    recalled: [2026-05-07] "The old floor tiles turned out to contain asbestos, so the work stopped for two weeks."
+    recalled: [2026-07-02] "The final bill for the kitchen came to 21,500 euros, more than the quote."
+    answer: The work stopped because the old floor tiles contained asbestos.
+
+[smart] Why did the kitchen work stop?
+    recalled: Note from 2026-05-15: Tobias's crew finished tearing out the old kitchen walls.
+    recalled: Note from 2026-04-13: The user and their partner started renovating the kitchen in their old farmhouse.
+    answer: I recall that Tobias's crew finished tearing out the old kitchen walls on May 15th, 2026. It seems that the renovation work had progressed to a point where the walls were removed, and the next steps would likely involve further demolition or preparation for new construction.
+[119/143] j_renovation: Why did the kitchen work stop?
+
+[none] How much did the kitchen cost in the end?
+
+[baseline] How much did the kitchen cost in the end?
+    recalled: [2026-07-02] "The final bill for the kitchen came to 21,500 euros, more than the quote."
+    recalled: [2026-04-21] "The contractor, a guy named Tobias, quoted us 18,000 euros for the kitchen."
+    recalled: [2026-04-13] "We finally started renovating the kitchen in our old farmhouse."
+    recalled: [2026-05-15] "Tobias's crew finished tearing out the old kitchen walls."
+    answer: The final bill for the kitchen came to 21,500 euros, which was more than the original quote of 18,000 euros.
+
+[smart] How much did the kitchen cost in the end?
+    recalled: Note from 2026-07-02: The final bill for the kitchen renovation came to 21,500 euros, more than the original quote.
+    recalled: Note from 2026-04-21: The user and their partner were quoted 18,000 euros for the kitchen by the contractor Tobias.
+    answer: The final bill for the kitchen renovation came to 21,500 euros, which was more than the original quote.
+[120/143] j_renovation: How much did the kitchen cost in the end?
+
+[none] Who hurt himself fixing the barn roof?
+
+[baseline] Who hurt himself fixing the barn roof?
+    recalled: [2026-07-27] "My brother-in-law Henrik helped me fix the leaking roof over the barn."
+    recalled: [2026-08-06] "Henrik fell off the ladder while fixing the roof but only sprained his ankle."
+    recalled: [2026-08-21] "We painted the barn doors red after the roof was done."
+    recalled: [2026-05-15] "Tobias's crew finished tearing out the old kitchen walls."
+    answer: Your brother-in-law Henrik hurt himself while fixing the barn roof. He sprained his ankle.
+
+[smart] Who hurt himself fixing the barn roof?
+    recalled: Family member: Henrik (since 2026-07-27)
+    recalled: Note from 2026-08-21: The user painted the barn doors red and their brother-in-law Henrik helped fix the leaking roof over the barn.
+    answer: Your brother-in-law, Henrik, helped fix the leaking roof over the barn, but I don't know if he hurt himself.
+[121/143] j_renovation: Who hurt himself fixing the barn roof?
+
+[none] What did I plant last week?
+
+[baseline] What did I plant last week?
+    recalled: [2026-10-18] "Last week I planted tomatoes in the vegetable patch behind the farmhouse."
+    recalled: [2026-05-07] "The old floor tiles turned out to contain asbestos, so the work stopped for two weeks."
+    recalled: [2026-04-29] "We picked dark green cabinets for the kitchen."
+    recalled: [2026-10-25] "A hedgehog has started sleeping under our woodpile."
+    answer: You planted tomatoes in the vegetable patch behind the farmhouse last week.
+
+[smart] What did I plant last week?
+    recalled: Note from 2026-10-18: The user planted tomatoes in the vegetable patch behind the farmhouse last week.
+    answer: You planted tomatoes in the vegetable patch behind the farmhouse last week.
+[122/143] j_renovation: What did I plant last week?
+ingesting j_travels (16 messages)...
+j_travels: 10 summaries written
+j_travels: 3 digests written
+
+--- facts stored for j_travels ---
+  goal          trip to Hanoi         active      2026-08-31 10:22
+  partner       Joel                  active      2026-04-13 10:22
+--- summaries stored for eval_j_travels ---
+  The user spent a week in Reykjavik with their friend Sunniva in January and their flight was delayed by nine hours due to a snowstorm.
+  The user travelled to Marrakech in March and took a cooking class. [merged into #4875]
+  The user learned to make a lamb tagine at the cooking class in Marrakech. [merged into #4875]
+  The user took the night train to Vienna with their partner Joel in May.
+  The user went camping in the Dolomites in July and got caught in a hailstorm. [merged into #4876]
+  The user's camera broke in the hailstorm in the Dolomites. [merged into #4876]
+  The user bought a replacement camera, a used Fujifilm, for 600 euros.
+  The user is planning a trip to Hanoi with Joel at the end of the year. [merged into #4877]
+  The user booked the Hanoi flights and they fly out on December 12. [merged into #4877]
+  The user moved the Hanoi trip to February.
+  DIGEST #4875: The user travelled to Marrakech in March and took a cooking class where they learned to make a lamb tagine.
+  DIGEST #4876: The user went camping in the Dolomites in July and got caught in a hailstorm, their camera broke.
+  DIGEST #4877: The user is planning a trip to Hanoi with Joel at the end of the year and booked the flights for December 12.
+
+[none] Who did I go to Reykjavik with?
+
+[baseline] Who did I go to Reykjavik with?
+    recalled: [2026-01-03] "In January I spent a week in Reykjavik with my friend Sunniva and we soaked in the hot springs."
+    recalled: [2026-01-07] "Our flight to Reykjavik was delayed by nine hours because of a snowstorm."
+    recalled: [2026-04-13] "In May I took the night train to Vienna with my partner Joel."
+    recalled: [2026-02-22] "In March I travelled to Marrakech on my own and took a cooking class."
+    answer: You went to Reykjavik with your friend Sunniva.
+
+[smart] Who did I go to Reykjavik with?
+    recalled: Note from 2026-01-07: The user spent a week in Reykjavik with their friend Sunniva in January and their flight was delayed by nine hours due to a snowstorm.
+    answer: You went to Reykjavik with your friend Sunniva.
+[123/143] j_travels: Who did I go to Reykjavik with?
+
+[none] What did I learn to cook in Marrakech?
+
+[baseline] What did I learn to cook in Marrakech?
+    recalled: [2026-02-22] "In March I travelled to Marrakech on my own and took a cooking class."
+    recalled: [2026-02-26] "At the cooking class in Marrakech I learned to make a lamb tagine."
+    recalled: [2026-01-03] "In January I spent a week in Reykjavik with my friend Sunniva and we soaked in the hot springs."
+    recalled: [2026-06-02] "In July I went camping in the Dolomites and we got caught in a hailstorm."
+    answer: You learned to make a lamb tagine in a cooking class in Marrakech.
+
+[smart] What did I learn to cook in Marrakech?
+    recalled: Note from 2026-02-26: The user travelled to Marrakech in March and took a cooking class where they learned to make a lamb tagine.
+    answer: You learned to make a lamb tagine in a cooking class in Marrakech.
+[124/143] j_travels: What did I learn to cook in Marrakech?
+
+[none] Why was my flight to Reykjavik delayed?
+
+[baseline] Why was my flight to Reykjavik delayed?
+    recalled: [2026-01-07] "Our flight to Reykjavik was delayed by nine hours because of a snowstorm."
+    recalled: [2026-01-03] "In January I spent a week in Reykjavik with my friend Sunniva and we soaked in the hot springs."
+    recalled: [2026-09-08] "I booked the Hanoi flights, we fly out on December 12."
+    recalled: [2026-10-16] "We moved the Hanoi trip to February because Joel has a project deadline in December."
+    answer: Your flight to Reykjavik was delayed due to a snowstorm.
+
+[smart] Why was my flight to Reykjavik delayed?
+    recalled: Note from 2026-01-07: The user spent a week in Reykjavik with their friend Sunniva in January and their flight was delayed by nine hours due to a snowstorm.
+    answer: Your flight to Reykjavik was delayed due to a snowstorm.
+[125/143] j_travels: Why was my flight to Reykjavik delayed?
+
+[none] What happened to my camera?
+
+[baseline] What happened to my camera?
+    recalled: [2026-06-06] "My camera got soaked and broke in the hailstorm in the Dolomites."
+    recalled: [2026-07-02] "I bought a replacement camera, a used Fujifilm, for 600 euros."
+    recalled: [2026-02-22] "In March I travelled to Marrakech on my own and took a cooking class."
+    recalled: [2026-06-02] "In July I went camping in the Dolomites and we got caught in a hailstorm."
+    answer: Your camera got soaked and broke in the hailstorm in the Dolomites.
+
+[smart] What happened to my camera?
+    recalled: Note from 2026-07-02: The user bought a replacement camera, a used Fujifilm, for 600 euros.
+    recalled: Note from 2026-06-06: The user went camping in the Dolomites in July and got caught in a hailstorm, their camera broke.
+    answer: You got caught in a hailstorm while camping in the Dolomites in July, and your camera broke. You later bought a replacement, a used Fujifilm, for 600 euros.
+[126/143] j_travels: What happened to my camera?
+
+[none] How much did I pay for my new camera?
+
+[baseline] How much did I pay for my new camera?
+    recalled: [2026-07-02] "I bought a replacement camera, a used Fujifilm, for 600 euros."
+    recalled: [2026-06-06] "My camera got soaked and broke in the hailstorm in the Dolomites."
+    recalled: [2026-04-17] "In Vienna we went to a string quartet concert and the tickets were 140 euros each."
+    recalled: [2026-02-22] "In March I travelled to Marrakech on my own and took a cooking class."
+    answer: You paid 600 euros for your new camera, a used Fujifilm.
+
+[smart] How much did I pay for my new camera?
+    recalled: Note from 2026-07-02: The user bought a replacement camera, a used Fujifilm, for 600 euros.
+    answer: You paid 600 euros for your new camera, a used Fujifilm.
+[127/143] j_travels: How much did I pay for my new camera?
+
+[none] When am I going to Hanoi?
+
+[baseline] When am I going to Hanoi?
+    recalled: [2026-09-08] "I booked the Hanoi flights, we fly out on December 12."
+    recalled: [2026-08-31] "I'm planning a trip to Hanoi with Joel at the end of the year."
+    recalled: [2026-10-16] "We moved the Hanoi trip to February because Joel has a project deadline in December."
+    recalled: [2026-02-22] "In March I travelled to Marrakech on my own and took a cooking class."
+    answer: You're planning a trip to Hanoi with Joel. You moved the trip to February because Joel has a project deadline in December.
+
+[smart] When am I going to Hanoi?
+    recalled: Goal: trip to Hanoi (since 2026-08-31)
+    answer: You're planning a trip to Hanoi. I don't have a specific date for your trip, but you mentioned it as a goal since August 31, 2026.
+[128/143] j_travels: When am I going to Hanoi?
+ingesting j_band (16 messages)...
+j_band: 8 summaries written
+j_band: 1 digests written
+
+--- facts stored for j_band ---
+  family_member Ansel                 active      2026-04-13 10:23
+  family_member band                  active      2026-06-02 10:23
+  hobby         playing the fiddle    active      2026-03-04 09:23
+  hobby         singing               active      2026-06-12 10:23
+  job_title     fiddle player         active      2026-03-04 09:23
+--- summaries stored for eval_j_band ---
+  The user joined a small folk band as the fiddle player.
+  The user's band played their first gig at a pub called The Copper Kettle. [merged into #4886]
+  The user's band recorded a five-song EP in Ansel's garage. [merged into #4886]
+  The user's band called the EP Low Tide. [merged into #4886]
+  The user sings lead as well as playing the fiddle since Margit left the band.
+  The user's band played the Harbourfest festival and about four hundred people watched them.
+  The user's band member Ansel snapped his accordion strap in the middle of the Harbourfest set.
+  The user's band is taking a break over the winter.
+  DIGEST #4886: The user's band played their first gig at The Copper Kettle and recorded a five-song EP called Low Tide in Ansel's garage.
+
+[none] What instrument do I play in the band?
+
+[baseline] What instrument do I play in the band?
+    recalled: [2026-03-04] "I joined a small folk band as the fiddle player."
+    recalled: [2026-09-20] "The band is taking a break over the winter."
+    recalled: [2026-06-12] "Since Margit left, I sing lead as well as playing the fiddle."
+    recalled: [2026-03-12] "Our singer, Margit, writes most of the band's songs."
+    answer: You play the fiddle in the band.
+
+[smart] What instrument do I play in the band?
+    recalled: Hobby: playing the fiddle (since 2026-03-04)
+    recalled: Hobby: singing (since 2026-06-12)
+    recalled: Note from 2026-03-04: The user joined a small folk band as the fiddle player.
+    recalled: Note from 2026-06-12: The user sings lead as well as playing the fiddle since Margit left the band.
+    answer: You play the fiddle in the band.
+[129/143] j_band: What instrument do I play in the band?
+
+[none] Who moved to Canada?
+
+[baseline] Who moved to Canada?
+    recalled: [2026-06-02] "Margit quit the band to move to Canada."
+    recalled: [2026-03-04] "I joined a small folk band as the fiddle player."
+    recalled: [2026-09-20] "The band is taking a break over the winter."
+    recalled: [2026-07-07] "We played the Harbourfest festival and about four hundred people watched us."
+    answer: Margit moved to Canada.
+
+[smart] Who moved to Canada?
+    recalled: Family member: band (since 2026-06-02)
+    recalled: Family member: Ansel (since 2026-04-13)
+    recalled: Note from 2026-03-04: The user joined a small folk band as the fiddle player.
+    recalled: Note from 2026-07-07: The user's band played the Harbourfest festival and about four hundred people watched them.
+    answer: I don't know.
+[130/143] j_band: Who moved to Canada?
+
+[none] What is our EP called?
+
+[baseline] What is our EP called?
+    recalled: [2026-05-11] "We called the band's EP Low Tide."
+    recalled: [2026-05-03] "We recorded a five-song EP in Ansel's garage."
+    recalled: [2026-03-12] "Our singer, Margit, writes most of the band's songs."
+    recalled: [2026-03-20] "We played our first gig at a pub called The Copper Kettle."
+    answer: Our EP is called Low Tide.
+
+[smart] What is our EP called?
+    recalled: Note from 2026-05-11: The user's band played their first gig at The Copper Kettle and recorded a five-song EP called Low Tide in Ansel's garage.
+    answer: Our EP is called Low Tide.
+[131/143] j_band: What is our EP called?
+
+[none] Where did we play our first gig?
+
+[baseline] Where did we play our first gig?
+    recalled: [2026-03-20] "We played our first gig at a pub called The Copper Kettle."
+    recalled: [2026-03-24] "Only twelve people came to the first gig, but they loved it."
+    recalled: [2026-07-07] "We played the Harbourfest festival and about four hundred people watched us."
+    recalled: [2026-05-11] "We called the band's EP Low Tide."
+    answer: We played our first gig at a pub called The Copper Kettle.
+
+[smart] Where did we play our first gig?
+    recalled: Note from 2026-05-11: The user's band played their first gig at The Copper Kettle and recorded a five-song EP called Low Tide in Ansel's garage.
+    answer: Your band played its first gig at The Copper Kettle.
+[132/143] j_band: Where did we play our first gig?
+
+[none] How many people watched us at Harbourfest?
+
+[baseline] How many people watched us at Harbourfest?
+    recalled: [2026-07-07] "We played the Harbourfest festival and about four hundred people watched us."
+    recalled: [2026-03-24] "Only twelve people came to the first gig, but they loved it."
+    recalled: [2026-07-14] "Ansel snapped his accordion strap in the middle of the Harbourfest set."
+    recalled: [2026-03-20] "We played our first gig at a pub called The Copper Kettle."
+    answer: About four hundred people watched you at Harbourfest.
+
+[smart] How many people watched us at Harbourfest?
+    recalled: Note from 2026-07-07: The user's band played the Harbourfest festival and about four hundred people watched them.
+    answer: About four hundred people watched your band at Harbourfest.
+[133/143] j_band: How many people watched us at Harbourfest?
+ingesting j_control_mix (17 messages)...
+j_control_mix: 8 summaries written
+j_control_mix: 3 digests written
+
+--- facts stored for j_control_mix ---
+  allergic_to   kiwi                  active      2026-02-22 09:24
+  hobby         restoring an old wooden rowing boatactive      2026-07-02 10:24
+  job_title     archivist             active      2026-02-17 09:24
+  lives_in      Aarhus                superseded  2026-02-12 09:24
+  lives_in      Bergen                active      2026-06-02 10:24
+  name          Oskar                 active      2026-02-12 09:24
+  works_at      city library          active      2026-02-17 09:24
+--- summaries stored for eval_j_control_mix ---
+  The user volunteered at a book fair and sold boxes of old maps.
+  The user adopted two chickens called Hilde and Rosa. [merged into #4895]
+  Rosa escaped into the neighbour's garden and ate his lettuce. [merged into #4895]
+  The user repainted their bicycle bright yellow.
+  The user moved to Bergen last week and the movers scratched their piano. [merged into #4896]
+  The removal company paid for a technician to repair the piano scratch. [merged into #4896]
+  The user found brass oarlocks for the rowing boat at a flea market for 45 euros. [merged into #4897]
+  The user's rowing boat went in the water for the first time and didn't leak. [merged into #4897]
+  DIGEST #4895: The user adopted two chickens called Hilde and Rosa, but Rosa escaped and ate the neighbour's lettuce.
+  DIGEST #4896: The user moved to Bergen last week and had their piano repaired by the removal company after it was scratched by the movers.
+  DIGEST #4897: The user found brass oarlocks for the rowing boat at a flea market for 45 euros and the boat didn't leak when it went in the water for the first time.
+
+[none] Which city do I live in?
+
+[baseline] Which city do I live in?
+    recalled: [2026-02-12] "My name is Oskar and I live in Aarhus."
+    recalled: [2026-02-17] "I work as an archivist at the city library."
+    recalled: [2026-06-02] "I moved to Bergen last week, and the movers scratched my piano."
+    recalled: [2026-05-16] "What's the difference between weather and climate?"
+    answer: You live in Bergen.
+
+[smart] Which city do I live in?
+    recalled: Lives in: Bergen (since 2026-06-02)
+    answer: You live in Bergen.
+[134/143] j_control_mix: Which city do I live in?
+
+[none] What am I allergic to?
+
+[baseline] What am I allergic to?
+    recalled: [2026-02-22] "I'm allergic to kiwi."
+    recalled: [2026-02-12] "My name is Oskar and I live in Aarhus."
+    recalled: [2026-05-16] "What's the difference between weather and climate?"
+    recalled: [2026-04-03] "I adopted two chickens called Hilde and Rosa."
+    answer: You're allergic to kiwi.
+
+[smart] What am I allergic to?
+    recalled: Allergic to: kiwi (since 2026-02-22)
+    answer: You're allergic to kiwi.
+[135/143] j_control_mix: What am I allergic to?
+
+[none] What did the movers damage?
+
+[baseline] What did the movers damage?
+    recalled: [2026-06-02] "I moved to Bergen last week, and the movers scratched my piano."
+    recalled: [2026-06-12] "The removal company paid for a technician to repair the piano scratch."
+    recalled: [2026-07-17] "The rowing boat needs new oarlocks before it can go in the water."
+    recalled: [2026-08-16] "The rowing boat went in the water for the first time and didn't leak."
+    answer: Your piano was scratched by the movers when you moved to Bergen last week.
+
+[smart] What did the movers damage?
+    recalled: Note from 2026-06-12: The user moved to Bergen last week and had their piano repaired by the removal company after it was scratched by the movers.
+    answer: The movers scratched your piano when they were moving it to your new home in Bergen.
+[136/143] j_control_mix: What did the movers damage?
+
+[none] What are my chickens called?
+
+[baseline] What are my chickens called?
+    recalled: [2026-04-03] "I adopted two chickens called Hilde and Rosa."
+    recalled: [2026-02-12] "My name is Oskar and I live in Aarhus."
+    recalled: [2026-08-01] "I found brass oarlocks for the rowing boat at a flea market for 45 euros."
+    recalled: [2026-02-22] "I'm allergic to kiwi."
+    answer: Your chickens are called Hilde and Rosa.
+
+[smart] What are my chickens called?
+    recalled: Name: Oskar (since 2026-02-12)
+    recalled: Note from 2026-04-13: The user adopted two chickens called Hilde and Rosa, but Rosa escaped and ate the neighbour's lettuce.
+    answer: You have two chickens, Hilde and Rosa. Unfortunately, Rosa escaped and caused some trouble with the neighbour's lettuce.
+[137/143] j_control_mix: What are my chickens called?
+
+[none] How much did I pay for the oarlocks?
+
+[baseline] How much did I pay for the oarlocks?
+    recalled: [2026-08-01] "I found brass oarlocks for the rowing boat at a flea market for 45 euros."
+    recalled: [2026-07-17] "The rowing boat needs new oarlocks before it can go in the water."
+    recalled: [2026-07-02] "I started restoring an old wooden rowing boat."
+    recalled: [2026-06-02] "I moved to Bergen last week, and the movers scratched my piano."
+    answer: You paid 45 euros for the brass oarlocks.
+
+[smart] How much did I pay for the oarlocks?
+    recalled: Hobby: restoring an old wooden rowing boat (since 2026-07-02)
+    recalled: Note from 2026-08-16: The user found brass oarlocks for the rowing boat at a flea market for 45 euros and the boat didn't leak when it went in the water for the first time.
+    answer: You paid 45 euros for the brass oarlocks at a flea market.
+[138/143] j_control_mix: How much did I pay for the oarlocks?
+
+[none] What colour is my bicycle?
+
+[baseline] What colour is my bicycle?
+    recalled: [2026-05-03] "I repainted my bicycle bright yellow."
+    recalled: [2026-08-01] "I found brass oarlocks for the rowing boat at a flea market for 45 euros."
+    recalled: [2026-07-29] "Can you explain what a prime number is?"
+    recalled: [2026-07-17] "The rowing boat needs new oarlocks before it can go in the water."
+    answer: Your bicycle is bright yellow.
+
+[smart] What colour is my bicycle?
+    recalled: Hobby: restoring an old wooden rowing boat (since 2026-07-02)
+    recalled: Note from 2026-05-03: The user repainted their bicycle bright yellow.
+    answer: Your bicycle is bright yellow.
+[139/143] j_control_mix: What colour is my bicycle?
+
+[none] What did I name my cat?
+
+[baseline] What did I name my cat?
+    recalled: [2026-04-03] "I adopted two chickens called Hilde and Rosa."
+    recalled: [2026-02-12] "My name is Oskar and I live in Aarhus."
+    recalled: [2026-05-03] "I repainted my bicycle bright yellow."
+    recalled: [2026-04-13] "Rosa escaped into the neighbour's garden and ate his lettuce."
+    answer: I don't know.
+
+[smart] What did I name my cat?
+    recalled: Name: Oskar (since 2026-02-12)
+    recalled: Note from 2026-04-13: The user adopted two chickens called Hilde and Rosa, but Rosa escaped and ate the neighbour's lettuce.
+    answer: I don't know.
+[140/143] j_control_mix: What did I name my cat?
+ingesting j_recent (14 messages)...
+j_recent: 9 summaries written
+
+--- facts stored for j_recent ---
+--- summaries stored for eval_j_recent ---
+  The user's daughter Lotte lost her first tooth.
+  The user and their family went to a planetarium show about black holes.
+  The user fixed the washing machine themselves by following an online video.
+  The user's car failed its inspection because the brakes were worn out.
+  The user had the brakes of their car replaced for 320 euros.
+  The user's daughter Lotte came second in the school spelling contest.
+  The user and their family had a picnic by the lake where a swan stole their sandwiches.
+  The user signed their daughter Lotte up for swimming lessons on Tuesdays.
+  The user's friend Lotte swam her first full length of the pool.
+
+[none] Why did my car fail its inspection?
+
+[baseline] Why did my car fail its inspection?
+    recalled: [2026-10-10] "My car failed its inspection because the brakes were worn out."
+    recalled: [2026-10-08] "I fixed the washing machine myself by following an online video."
+    recalled: [2026-10-12] "The garage replaced the brakes for 320 euros."
+    recalled: [2026-10-06] "We went to a planetarium show about black holes."
+    answer: Your car failed its inspection because the brakes were worn out.
+
+[smart] Why did my car fail its inspection?
+    recalled: Note from 2026-10-10: The user's car failed its inspection because the brakes were worn out.
+    answer: Your car failed its inspection because the brakes were worn out.
+[141/143] j_recent: Why did my car fail its inspection?
+
+[none] What day are Lotte's swimming lessons?
+
+[baseline] What day are Lotte's swimming lessons?
+    recalled: [2026-10-21] "I signed Lotte up for swimming lessons on Thursdays."
+    recalled: [2026-10-24] "The swimming lessons got moved to Tuesdays."
+    recalled: [2026-10-27] "Lotte swam her first full length of the pool."
+    recalled: [2026-10-15] "Lotte came second in the school spelling contest."
+    answer: Lotte's swimming lessons are on Tuesdays.
+
+[smart] What day are Lotte's swimming lessons?
+    recalled: Note from 2026-10-24: The user signed their daughter Lotte up for swimming lessons on Tuesdays.
+    answer: Lotte's swimming lessons are on Tuesdays.
+[142/143] j_recent: What day are Lotte's swimming lessons?
+
+[none] What place did Lotte get in the spelling contest?
+
+[baseline] What place did Lotte get in the spelling contest?
+    recalled: [2026-10-15] "Lotte came second in the school spelling contest."
+    recalled: [2026-10-27] "Lotte swam her first full length of the pool."
+    recalled: [2026-10-21] "I signed Lotte up for swimming lessons on Thursdays."
+    recalled: [2026-10-04] "My daughter Lotte lost her first tooth."
+    answer: Lotte came second in the school spelling contest.
+
+[smart] What place did Lotte get in the spelling contest?
+    recalled: Note from 2026-10-15: The user's daughter Lotte came second in the school spelling contest.
+    answer: Lotte came second in the school spelling contest.
+[143/143] j_recent: What place did Lotte get in the spelling contest?
+  base = baseline vector memory   smart = this system   none = no memory
+  ✓ good   ✗ bad   - not measured   bold name = smart has a ✗
+  NOISE ✓ = no unwanted text   LINES = lines in the prompt
+
+                                                     │    NEEDED    │    NOISE     │    ANSWER    │    LINES    
+scenario / question                   kind           │  base smart  │  base smart  │  base smart  │  base smart 
+move_city: Which city do I live in?   stale          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+job_change: Where do I work?          stale          │   ✓     ✓    │   -     -    │   ✓     ✓    │   3     2   
+old_relevant: Which city do I live i  recency        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+old_relevant: What is my profession?  recency        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+many_hobbies: What are my hobbies?    multi          │   ✓     ✓    │   -     -    │   ✗     ✓    │   3     3   
+dislike_noise: I'm cooking for mysel  noise          │   ✗     ✓    │   -     -    │   ✗     ✗    │   4     1   
+family: What is my sister's name?     basic          │   ✓     ✓    │   -     -    │   ✓     ✓    │   2     1   
+third_person_trap: Which city do I l  trap           │   ✓     ✓    │   -     -    │   ✗     ✓    │   2     1   
+past_tense_trap: Which city do I liv  trap           │   ✓     ✓    │   -     -    │   ✓     ✓    │   2     1   
+unknown: What is my favourite colour  abstain        │   -     -    │   -     -    │   ✓     ✓    │   2     0   
+----------------------------------------------------------------------------------------------------------------
+b_indirect_dislike: I'm making a piz  indirect       │   ✗     ✓    │   -     -    │   ✗     ✓    │   4     1   
+b_food_allergy: Can you suggest a qu  safety         │   ✓     ✓    │   -     -    │   -     -    │   4     1   
+b_drug_allergy_noise: Can you sugges  noise          │   -     -    │   ✓     ✗    │   -     -    │   4     1   
+b_paraphrase_job: What do I do for a  paraphrase     │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+b_stale_flood: Which city do I live   flood          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+b_precision: Which languages do I sp  noise          │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     1   
+b_correction: Which nuts am I allerg  correction     │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+b_name_recall: What's my name?        noise          │   ✓     ✓    │   -     -    │   ✗     ✓    │   4     1   
+----------------------------------------------------------------------------------------------------------------
+c_rich_profile: What's my name?       rich           │   ✓     ✓    │   ✗     ✓    │   ✗     ✓    │   4     1   
+c_rich_profile: Which city do I live  rich           │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     1   
+c_rich_profile: What do I do for wor  rich           │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     2   
+c_rich_profile: Who is my partner?    rich           │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     1   
+c_rich_profile: Which languages do I  rich           │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     2   
+c_rich_profile: I'm booking a restau  rich           │   ✓     ✓    │   ✗     ✓    │   ✗     ✗    │   4     2   
+c_rich_profile: What's my brother ca  rich           │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     1   
+c_rich_profile: What kind of music d  rich           │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     1   
+c_rich_profile: What is my favourite  rich           │   -     -    │   ✗     ✗    │   ✓     ✓    │   4     4   
+c_rich_profile: What's my pet's name  rich           │   -     -    │   ✗     ✗    │   ✓     ✓    │   4     1   
+c_double_move: Which city do I live   stale          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+c_new_job: Where do I work?           write-bug      │   ✓     ✓    │   ✗     ✗    │   ✓     ✓    │   2     2   
+----------------------------------------------------------------------------------------------------------------
+d_rich_profile: What's my name?       rich           │   ✓     ✓    │   ✗     ✓    │   ✗     ✓    │   4     1   
+d_rich_profile: Where do I live?      rich           │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     1   
+d_rich_profile: What do I do for a l  rich           │   ✓     ✓    │   ✗     ✗    │   ✓     ✓    │   4     3   
+d_rich_profile: What's my wife's nam  rich           │   ✓     ✓    │   ✗     ✗    │   ✓     ✓    │   4     2   
+d_rich_profile: Which languages do I  rich           │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     3   
+d_rich_profile: I'm picking a cafe f  rich           │   ✓     ✓    │   ✗     ✗    │   ✓     ✓    │   4     2   
+d_rich_profile: I'm making a pizza t  rich           │   ✗     ✓    │   ✗     ✗    │   ✗     ✓    │   4     4   
+d_rich_profile: What music would you  rich           │   ✓     ✗    │   ✗     ✗    │   ✓     ✗    │   4     4   
+d_rich_profile: What am I saving up   rich           │   ✓     ✓    │   ✗     ✗    │   ✓     ✓    │   4     2   
+d_rich_profile: When is my birthday?  rich           │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     1   
+d_rich_profile: What's my sister cal  rich           │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     1   
+d_rich_profile: What do I like doing  rich           │   ✓     ✓    │   ✗     ✗    │   ✓     ✓    │   4     4   
+d_rich_profile: What car do I drive?  rich           │   -     -    │   ✗     ✗    │   ✓     ✓    │   4     2   
+d_rich_profile: What's my dog's name  rich           │   -     -    │   ✗     ✗    │   ✓     ✓    │   4     1   
+d_rich_profile: What's my mother's j  rich           │   -     -    │   ✗     ✗    │   ✓     ✓    │   4     3   
+d_small_safety: Can you suggest a qu  safety         │   ✓     ✓    │   ✗     ✓    │   -     -    │   4     1   
+d_small_safety: Which city am I base  safety         │   ✓     ✓    │   ✓     ✓    │   ✗     ✓    │   4     1   
+d_job_switch: Where do I work now?    stale          │   ✓     ✓    │   -     -    │   ✓     ✓    │   2     2   
+d_job_switch: What's my job title?    stale          │   ✓     ✓    │   -     -    │   ✓     ✓    │   2     1   
+----------------------------------------------------------------------------------------------------------------
+e_food_profile: What should I cook f  safety         │   ✗     ✓    │   ✗     ✓    │   -     -    │   4     1   
+e_food_profile: Any snack ideas for   safety         │   ✓     ✗    │   ✓     ✓    │   -     -    │   4     1   
+e_food_profile: Where do I live?      safety         │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     1   
+e_food_profile: What do I do for wor  safety         │   ✓     ✓    │   ✓     ✓    │   ✓     ✓    │   4     1   
+e_drug_profile: I have a headache, w  safety         │   ✓     ✓    │   ✗     ✓    │   -     -    │   4     1   
+e_drug_profile: What should I cook f  safety         │   -     -    │   ✗     ✗    │   -     -    │   4     1   
+e_drug_profile: Where do I live?      safety         │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     1   
+e_drug_profile: What's my blood type  safety         │   -     -    │   ✗     ✓    │   ✓     ✓    │   4     0   
+e_goals: What am I training for?      goal           │   ✓     ✓    │   ✗     ✗    │   ✓     ✓    │   4     4   
+e_goals: Which language am I trying   goal           │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     1   
+e_goals: What big purchase am I work  goal           │   ✓     ✓    │   ✗     ✗    │   ✓     ✓    │   4     4   
+e_goals: What's my cat's name?        goal           │   -     -    │   ✗     ✓    │   ✓     ✓    │   4     0   
+----------------------------------------------------------------------------------------------------------------
+f_correction_allergy: What am I alle  correction     │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+f_no_longer_hobby: What are my hobbi  correction     │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+f_vague_promotion: Where do I work?   hallucination  │   ✓     ✓    │   ✗     ✗    │   ✓     ✓    │   2     2   
+f_vague_promotion: What's my job tit  hallucination  │   -     -    │   ✗     ✓    │   -     -    │   2     1   
+f_like_to_dislike: What kind of food  contradiction  │   -     -    │   ✗     ✗    │   -     -    │   2     1   
+f_dislike_to_like: What music do I l  contradiction  │   ✓     ✓    │   -     -    │   ✓     ✓    │   2     1   
+f_employer_no_title: Where do I work  conflicted     │   ✓     ✓    │   -     -    │   ✓     ✓    │   2     1   
+f_employer_no_title: What's my job t  conflicted     │   -     -    │   ✗     ✓    │   -     -    │   2     0   
+f_employer_with_title: Where do I wo  stale          │   ✓     ✓    │   -     -    │   ✓     ✓    │   2     1   
+f_employer_with_title: What's my job  stale          │   ✓     ✓    │   -     -    │   ✓     ✓    │   2     1   
+----------------------------------------------------------------------------------------------------------------
+g_trip: What trip did I tell you abo  episode        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+g_trip: Who did I go hiking with?     episode        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+g_wedding: Where is my sister's wedd  episode        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+g_wedding: What am I doing at the we  episode        │   ✓     ✓    │   -     -    │   ✓     ✗    │   4     2   
+g_diet_misfile: What are my hobbies?  misfile        │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     2   
+g_diet_misfile: Can you suggest some  misfile        │   ✓     ✗    │   -     -    │   ✓     ✓    │   4     2   
+g_past_home: Where do I live now?     past           │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+g_past_home: Where did I live before  past           │   ✓     ✓    │   -     -    │   ✗     ✓    │   4     2   
+g_training: What am I training for?   plan           │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+g_project: What project am I leading  episode        │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     1   
+g_project: When is the deadline for   episode        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+g_jobsearch: How did my job search g  story          │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     1   
+g_jobsearch: Which company turned me  story          │   ✓     ✓    │   -     -    │   ✓     ✗    │   4     3   
+g_jobsearch: Where do I work?         story          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     3   
+g_control_facts: What's my name?      control        │   ✓     ✓    │   -     -    │   ✗     ✓    │   4     1   
+g_control_facts: Which languages do   control        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+g_control_facts: Can you suggest a q  control        │   ✓     ✓    │   ✗     ✓    │   -     -    │   4     1   
+g_abstain: Do I have any pets?        abstain        │   -     -    │   ✗     ✗    │   ✓     ✓    │   4     1   
+g_abstain: What's my favourite colou  abstain        │   -     -    │   ✗     ✗    │   ✓     ✓    │   4     1   
+----------------------------------------------------------------------------------------------------------------
+h_bake: What did I bake last weekend  episode        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+h_injury: How did I hurt my wrist?    episode        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+h_injury: How long did I wear the ca  episode        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+h_purchase: What did I buy from my n  episode        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+h_purchase: How much did it cost?     episode        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+h_adoption: What kind of animal did   story          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+h_adoption: What is my dog called?    story          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+h_adoption: What did my dog chew?     story          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+h_control_facts: What's my name?      control        │   ✓     ✓    │   -     -    │   ✗     ✓    │   4     1   
+h_control_facts: Which city do I liv  control        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+h_control_facts: What do I do for a   control        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+h_control_facts: Can you suggest a d  control        │   ✓     ✓    │   ✗     ✓    │   -     -    │   4     1   
+h_third_person: Where am I travellin  trap           │   -     -    │   ✗     ✗    │   ✓     ✓    │   4     1   
+h_third_person: What's my brother's   trap           │   -     -    │   ✗     ✗    │   ✓     ✓    │   4     1   
+h_cancelled: Am I going to the Lyon   stale          │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     1   
+----------------------------------------------------------------------------------------------------------------
+i_move: Which city did I live in bef  past           │   ✓     ✓    │   -     -    │   ✗     ✓    │   4     3   
+i_move: Which city do I live in now?  past           │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+i_job: Where did I work previously?   past           │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     1   
+i_job: Where do I work now?           past           │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+i_two_moves: Where did I live origin  past           │   ✓     ✓    │   -     -    │   ✗     ✗    │   4     3   
+i_two_moves: Where did I live before  past           │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     3   
+i_flip: What food did I use to disli  past           │   ✗     ✓    │   -     -    │   ✓     ✗    │   4     1   
+i_partner: Who was my partner before  past           │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     1   
+i_partner: Who is my partner?         past           │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+i_trap_before: Any tips for stretchi  trap           │   -     -    │   ✗     ✓    │   -     -    │   4     0   
+i_trap_before: What should I cook be  trap           │   -     -    │   ✗     ✓    │   -     -    │   4     0   
+i_never_moved: Where did I live befo  abstain        │   -     -    │   -     -    │   ✓     ✓    │   4     1   
+----------------------------------------------------------------------------------------------------------------
+j_renovation: What are my kitchen ca  story          │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     3   
+j_renovation: Why did the kitchen wo  story          │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     2   
+j_renovation: How much did the kitch  story          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+j_renovation: Who hurt himself fixin  story          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+j_renovation: What did I plant last   story          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+j_travels: Who did I go to Reykjavik  episodes       │   ✓     ✓    │   ✗     ✓    │   ✓     ✓    │   4     1   
+j_travels: What did I learn to cook   episodes       │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+j_travels: Why was my flight to Reyk  episodes       │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+j_travels: What happened to my camer  episodes       │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+j_travels: How much did I pay for my  episodes       │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+j_travels: When am I going to Hanoi?  episodes       │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     1   
+j_band: What instrument do I play in  story          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     4   
+j_band: Who moved to Canada?          story          │   ✓     ✗    │   -     -    │   ✓     ✗    │   4     4   
+j_band: What is our EP called?        story          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+j_band: Where did we play our first   story          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+j_band: How many people watched us a  story          │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+j_control_mix: Which city do I live   control        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+j_control_mix: What am I allergic to  control        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+j_control_mix: What did the movers d  control        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+j_control_mix: What are my chickens   control        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+j_control_mix: How much did I pay fo  control        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+j_control_mix: What colour is my bic  control        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     2   
+j_control_mix: What did I name my ca  control        │   -     -    │   ✗     ✗    │   ✓     ✓    │   4     2   
+j_recent: Why did my car fail its in  control        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+j_recent: What day are Lotte's swimm  control        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+j_recent: What place did Lotte get i  control        │   ✓     ✓    │   -     -    │   ✓     ✓    │   4     1   
+
+SET A (tuning set, cannot validate): 10 questions
+mode         needed   noise  stale in    avg   answers  stale in
+            present present    prompt  lines   correct    answer
+baseline        8/9       -         4    3.0      7/10      0/10
+smart           9/9       -         0    1.2      9/10      0/10
+  green = better than the other mode, red = worse
+  lower is better for: noise, stale, lines
+
+SET B (spent: the floor and window were chosen after seeing it): 8 questions
+mode         needed   noise  stale in    avg   answers  stale in
+            present present    prompt  lines   correct    answer
+baseline        6/7     1/2         2    4.0       4/6       0/8
+smart           7/7     1/2         0    1.1       6/6       0/8
+  green = better than the other mode, red = worse
+  lower is better for: noise, stale, lines
+
+SET C (spent: written before the relative window ran on it): 12 questions
+mode         needed   noise  stale in    avg   answers  stale in
+            present present    prompt  lines   correct    answer
+baseline      10/10   11/11         2    3.8     10/12      0/12
+smart         10/10    3/11         0    1.7     11/12      0/12
+  green = better than the other mode, red = worse
+  lower is better for: noise, stale, lines
+
+SET D (BLIND: written before routing existed in the pipeline; run once): 19 questions
+mode         needed   noise  stale in    avg   answers  stale in
+            present present    prompt  lines   correct    answer
+baseline      15/16   16/17         2    3.8     15/18      0/19
+smart         15/16   10/17         0    2.1     17/18      0/19
+  green = better than the other mode, red = worse
+  lower is better for: noise, stale, lines
+
+SET E (BLIND: written before the safety bypass and goal prompt; run once): 12 questions
+mode         needed   noise  stale in    avg   answers  stale in
+            present present    prompt  lines   correct    answer
+baseline        8/9   10/12         0    4.0       8/8      0/12
+smart           8/9    3/12         0    1.3       8/8      0/12
+  green = better than the other mode, red = worse
+  lower is better for: noise, stale, lines
+
+SET F (BLIND: write path only, written after the write-path fixes; run once): 10 questions
+mode         needed   noise  stale in    avg   answers  stale in
+            present present    prompt  lines   correct    answer
+baseline        7/7     4/4         5    2.4       7/7      1/10
+smart           7/7     2/4         0    1.0       7/7      0/10
+  green = better than the other mode, red = worse
+  lower is better for: noise, stale, lines
+
+SET G (BLIND: beyond the 13 fact types, written before the summaries layer; run once): 19 questions
+mode         needed   noise  stale in    avg   answers  stale in
+            present present    prompt  lines   correct    answer
+baseline      17/17     4/4         1    4.0     16/18      0/19
+smart         14/17     2/4         0    1.5     14/18      0/19
+  green = better than the other mode, red = worse
+  lower is better for: noise, stale, lines
+
+SET H (BLIND: validation of the summaries layer, written before its code; run once): 15 questions
+mode         needed   noise  stale in    avg   answers  stale in
+            present present    prompt  lines   correct    answer
+baseline      13/13     3/3         0    4.0     13/14      0/15
+smart         12/13     2/3         0    1.1     13/14      0/15
+  green = better than the other mode, red = worse
+  lower is better for: noise, stale, lines
+
+SET I (BLIND: questions about the past, written before the mechanism; run once): 12 questions
+mode         needed   noise  stale in    avg   answers  stale in
+            present present    prompt  lines   correct    answer
+baseline        8/9     2/2         3    4.0      8/10      0/12
+smart           7/9     0/2         0    1.4      6/10      0/12
+  green = better than the other mode, red = worse
+  lower is better for: noise, stale, lines
+
+SET J (BLIND: note consolidation, written before its code; run off once, then on once): 26 questions
+mode         needed   noise  stale in    avg   answers  stale in
+            present present    prompt  lines   correct    answer
+baseline      25/25     2/2         4    4.0     26/26      1/26
+smart         21/25     1/2         1    1.6     22/26      0/26
+  green = better than the other mode, red = worse
+  lower is better for: noise, stale, lines
+
+Retrieval problems
+  [baseline] dislike_noise: needed fact missing
+      recalled: 
+        - [2026-08-01] "Can you suggest a pasta sauce for tonight?"
+        - [2026-07-22] "What's a good recipe for carbonara?"
+        - [2026-08-21] "How long should I boil spaghetti?"
+        - [2026-09-10] "Thanks, dinner was great!"
+  [baseline] b_indirect_dislike: needed fact missing
+      recalled: 
+        - [2026-08-30] "How do I make a good tomato sauce?"
+        - [2026-05-19] "Can you suggest a vegetarian lasagna?"
+        - [2026-04-23] "What's a good way to cook rice?"
+        - [2026-08-04] "What's a quick breakfast idea?"
+  [smart] b_drug_allergy_noise: noise in prompt
+      recalled: 
+        - Allergic to: penicillin (since 2026-06-02)
+  [baseline] b_precision: noise in prompt
+      recalled: 
+        - [2026-06-02] "I also speak Spanish."
+        - [2026-04-13] "I live in Rome, I'm a teacher and I love painting."
+        - [2026-08-16] "Give me a tip for sleeping better."
+        - [2026-09-07] "How do I convert Celsius to Fahrenheit?"
+  [baseline] c_rich_profile: noise in prompt
+      recalled: 
+        - [2026-06-12] "My brother's name is Luca."
+        - [2025-12-04] "My name is Giulia and I live in Bologna."
+        - [2026-01-03] "My partner is Marco."
+        - [2026-10-10] "What's the capital of Australia?"
+  [baseline] c_rich_profile: noise in prompt
+      recalled: 
+        - [2026-10-10] "What's the capital of Australia?"
+        - [2025-12-04] "My name is Giulia and I live in Bologna."
+        - [2025-12-14] "I work as an architect at Studio Verdi."
+        - [2026-01-23] "I speak Italian and English."
+  [baseline] c_rich_profile: noise in prompt
+      recalled: 
+        - [2025-12-14] "I work as an architect at Studio Verdi."
+        - [2026-03-04] "I also enjoy photography."
+        - [2026-01-23] "I speak Italian and English."
+        - [2026-05-03] "I like jazz music a lot."
+  [baseline] c_rich_profile: noise in prompt
+      recalled: 
+        - [2026-01-03] "My partner is Marco."
+        - [2025-12-14] "I work as an architect at Studio Verdi."
+        - [2026-06-12] "My brother's name is Luca."
+        - [2026-01-23] "I speak Italian and English."
+  [baseline] c_rich_profile: noise in prompt
+      recalled: 
+        - [2026-01-23] "I speak Italian and English."
+        - [2025-12-04] "My name is Giulia and I live in Bologna."
+        - [2026-01-03] "My partner is Marco."
+        - [2026-05-23] "I'd love to learn how to sail one day."
+  [baseline] c_rich_profile: noise in prompt
+      recalled: 
+        - [2026-04-13] "I really dislike coriander, it tastes like soap."
+        - [2026-08-27] "Give me a tip for sleeping better."
+        - [2026-03-24] "I'm allergic to shellfish."
+        - [2026-05-03] "I like jazz music a lot."
+  [baseline] c_rich_profile: noise in prompt
+      recalled: 
+        - [2026-06-12] "My brother's name is Luca."
+        - [2026-01-03] "My partner is Marco."
+        - [2025-12-04] "My name is Giulia and I live in Bologna."
+        - [2026-10-10] "What's the capital of Australia?"
+  [baseline] c_rich_profile: noise in prompt
+      recalled: 
+        - [2026-05-03] "I like jazz music a lot."
+        - [2026-03-04] "I also enjoy photography."
+        - [2026-02-12] "I love running, I usually go out before sunrise."
+        - [2026-04-13] "I really dislike coriander, it tastes like soap."
+  [baseline] c_rich_profile: noise in prompt
+      recalled: 
+        - [2026-03-04] "I also enjoy photography."
+        - [2026-02-12] "I love running, I usually go out before sunrise."
+        - [2026-05-03] "I like jazz music a lot."
+        - [2026-04-13] "I really dislike coriander, it tastes like soap."
+  [smart] c_rich_profile: noise in prompt
+      recalled: 
+        - Likes: jazz music (since 2026-05-03)
+        - Hobby: photography (since 2026-03-04)
+        - Note from 2026-05-03: The user likes jazz music a lot.
+        - Note from 2026-02-12: The user enjoys running and usually goes out before sunrise.
+  [baseline] c_rich_profile: noise in prompt
+      recalled: 
+        - [2026-06-12] "My brother's name is Luca."
+        - [2026-01-03] "My partner is Marco."
+        - [2025-12-04] "My name is Giulia and I live in Bologna."
+        - [2026-10-10] "What's the capital of Australia?"
+  [smart] c_rich_profile: noise in prompt
+      recalled: 
+        - Name: Giulia (since 2025-12-04)
+  [baseline] c_new_job: noise in prompt
+      recalled: 
+        - [2026-04-13] "I work at Fabbrica Rossi as a designer."
+        - [2026-09-30] "Exciting news, I just started a new position at Delta Labs!"
+  [smart] c_new_job: noise in prompt
+      recalled: 
+        - Works at: Delta Labs (since 2026-09-30)
+        - Note from 2026-09-30: The user started a new position at Delta Labs.
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2026-05-13] "My sister is named Marta."
+        - [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+        - [2025-12-24] "My wife is called Ines."
+        - [2026-10-15] "What's the capital of Australia?"
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+        - [2026-10-15] "What's the capital of Australia?"
+        - [2025-12-04] "I'm a pharmacist at a small clinic."
+        - [2026-01-13] "I speak Portuguese, English and a little German."
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2025-12-04] "I'm a pharmacist at a small clinic."
+        - [2026-02-02] "I play the guitar in the evenings."
+        - [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+        - [2026-01-13] "I speak Portuguese, English and a little German."
+  [smart] d_rich_profile: noise in prompt
+      recalled: 
+        - Job title: pharmacist (since 2025-12-04)
+        - Works at: small clinic (since 2025-12-04)
+        - Note from 2026-02-02: The user plays the guitar in the evenings.
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2025-12-24] "My wife is called Ines."
+        - [2026-05-13] "My sister is named Marta."
+        - [2026-10-15] "What's the capital of Australia?"
+        - [2026-01-13] "I speak Portuguese, English and a little German."
+  [smart] d_rich_profile: noise in prompt
+      recalled: 
+        - Partner: Ines (since 2025-12-24)
+        - Note from 2026-02-02: The user plays the guitar in the evenings.
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2026-01-13] "I speak Portuguese, English and a little German."
+        - [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+        - [2025-12-04] "I'm a pharmacist at a small clinic."
+        - [2026-02-02] "I play the guitar in the evenings."
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2026-04-23] "I'm saving up to buy a small boat."
+        - [2026-09-03] "Give me a tip for sleeping better."
+        - [2026-02-22] "I'm allergic to eggs."
+        - [2026-06-22] "I also enjoy cooking, especially bread."
+  [smart] d_rich_profile: noise in prompt
+      recalled: 
+        - Allergic to: eggs (since 2026-02-22)
+        - Dislikes: anchovies (since 2026-03-14)
+  [baseline] d_rich_profile: needed fact missing
+      recalled: 
+        - [2026-09-03] "Give me a tip for sleeping better."
+        - [2026-06-22] "I also enjoy cooking, especially bread."
+        - [2026-02-02] "I play the guitar in the evenings."
+        - [2026-01-13] "I speak Portuguese, English and a little German."
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2026-09-03] "Give me a tip for sleeping better."
+        - [2026-06-22] "I also enjoy cooking, especially bread."
+        - [2026-02-02] "I play the guitar in the evenings."
+        - [2026-01-13] "I speak Portuguese, English and a little German."
+  [smart] d_rich_profile: noise in prompt
+      recalled: 
+        - Allergic to: eggs (since 2026-02-22)
+        - Dislikes: anchovies (since 2026-03-14)
+        - Note from 2026-02-02: The user plays the guitar in the evenings.
+        - Note from 2026-04-03: The user's favourite kind of music is fado.
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2026-04-03] "My favourite kind of music is fado."
+        - [2026-02-02] "I play the guitar in the evenings."
+        - [2026-09-03] "Give me a tip for sleeping better."
+        - [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+  [smart] d_rich_profile: needed fact missing
+      recalled: 
+        - Hobby: guitar (since 2026-02-02)
+        - Goal: buy a small boat (since 2026-04-23)
+        - Hobby: bread (since 2026-06-22)
+        - Hobby: cooking (since 2026-06-22)
+  [smart] d_rich_profile: noise in prompt
+      recalled: 
+        - Hobby: guitar (since 2026-02-02)
+        - Goal: buy a small boat (since 2026-04-23)
+        - Hobby: bread (since 2026-06-22)
+        - Hobby: cooking (since 2026-06-22)
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2026-04-23] "I'm saving up to buy a small boat."
+        - [2026-09-03] "Give me a tip for sleeping better."
+        - [2026-07-02] "Can you explain how compound interest works?"
+        - [2026-02-02] "I play the guitar in the evenings."
+  [smart] d_rich_profile: noise in prompt
+      recalled: 
+        - Goal: buy a small boat (since 2026-04-23)
+        - Hobby: guitar (since 2026-02-02)
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2026-06-02] "I was born on the 3rd of March."
+        - [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+        - [2026-10-15] "What's the capital of Australia?"
+        - [2026-02-02] "I play the guitar in the evenings."
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2026-05-13] "My sister is named Marta."
+        - [2025-12-24] "My wife is called Ines."
+        - [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+        - [2026-01-13] "I speak Portuguese, English and a little German."
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2026-06-22] "I also enjoy cooking, especially bread."
+        - [2026-04-03] "My favourite kind of music is fado."
+        - [2026-02-02] "I play the guitar in the evenings."
+        - [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+  [smart] d_rich_profile: noise in prompt
+      recalled: 
+        - Hobby: cooking (since 2026-06-22)
+        - Hobby: guitar (since 2026-02-02)
+        - Hobby: bread (since 2026-06-22)
+        - Hobby: fado (since 2026-04-03)
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2026-02-02] "I play the guitar in the evenings."
+        - [2026-04-23] "I'm saving up to buy a small boat."
+        - [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+        - [2026-10-15] "What's the capital of Australia?"
+  [smart] d_rich_profile: noise in prompt
+      recalled: 
+        - Hobby: guitar (since 2026-02-02)
+        - Note from 2026-02-02: The user plays the guitar in the evenings.
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2026-05-13] "My sister is named Marta."
+        - [2025-12-24] "My wife is called Ines."
+        - [2026-10-15] "What's the capital of Australia?"
+        - [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+  [smart] d_rich_profile: noise in prompt
+      recalled: 
+        - Name: Tomas (since 2025-11-24)
+  [baseline] d_rich_profile: noise in prompt
+      recalled: 
+        - [2025-12-04] "I'm a pharmacist at a small clinic."
+        - [2026-05-13] "My sister is named Marta."
+        - [2025-12-24] "My wife is called Ines."
+        - [2025-11-24] "Hi, I'm Tomas and I live in Lisbon."
+  [smart] d_rich_profile: noise in prompt
+      recalled: 
+        - Job title: pharmacist (since 2025-12-04)
+        - Works at: small clinic (since 2025-12-04)
+        - Note from 2026-02-02: The user plays the guitar in the evenings.
+  [baseline] d_small_safety: noise in prompt
+      recalled: 
+        - [2026-08-09] "Give me a tip for sleeping better."
+        - [2026-05-29] "Thanks, that was helpful!"
+        - [2026-03-24] "I have a serious gluten intolerance, I can't eat it at all."
+        - [2026-04-13] "I live in Naples."
+  [baseline] e_food_profile: needed fact missing
+      recalled: 
+        - [2026-10-20] "Can you recommend a board game for four people?"
+        - [2026-06-02] "I work as a carpenter."
+        - [2026-08-07] "What's the plot of Hamlet?"
+        - [2026-10-01] "How do I remove a coffee stain?"
+  [baseline] e_food_profile: noise in prompt
+      recalled: 
+        - [2026-10-20] "Can you recommend a board game for four people?"
+        - [2026-06-02] "I work as a carpenter."
+        - [2026-08-07] "What's the plot of Hamlet?"
+        - [2026-10-01] "How do I remove a coffee stain?"
+  [smart] e_food_profile: needed fact missing
+      recalled: 
+        - Dislikes: mushrooms (since 2026-04-03)
+  [baseline] e_food_profile: noise in prompt
+      recalled: 
+        - [2026-05-03] "I live in Ghent."
+        - [2026-06-02] "I work as a carpenter."
+        - [2026-09-13] "Why is the sky blue?"
+        - [2026-08-07] "What's the plot of Hamlet?"
+  [baseline] e_drug_profile: noise in prompt
+      recalled: 
+        - [2026-03-14] "I'm allergic to ibuprofen."
+        - [2026-05-23] "I'm a librarian."
+        - [2026-10-20] "Thanks, that's exactly what I needed."
+        - [2026-08-21] "How do I remove a coffee stain?"
+  [baseline] e_drug_profile: noise in prompt
+      recalled: 
+        - [2026-09-10] "Can you recommend a board game for four people?"
+        - [2026-06-22] "What's the plot of Hamlet?"
+        - [2026-10-20] "Thanks, that's exactly what I needed."
+        - [2026-05-23] "I'm a librarian."
+  [smart] e_drug_profile: noise in prompt
+      recalled: 
+        - Allergic to: ibuprofen (since 2026-03-14)
+  [baseline] e_drug_profile: noise in prompt
+      recalled: 
+        - [2026-04-23] "I live in Tallinn."
+        - [2026-05-23] "I'm a librarian."
+        - [2026-09-30] "What's the difference between weather and climate?"
+        - [2026-08-01] "Why is the sky blue?"
+  [baseline] e_drug_profile: noise in prompt
+      recalled: 
+        - [2026-05-23] "I'm a librarian."
+        - [2026-07-12] "How many players are on a rugby team?"
+        - [2026-03-14] "I'm allergic to ibuprofen."
+        - [2026-04-23] "I live in Tallinn."
+  [baseline] e_goals: noise in prompt
+      recalled: 
+        - [2026-05-13] "I want to learn Japanese."
+        - [2026-03-24] "I'm planning to run a marathon next spring."
+        - [2026-07-02] "I'm putting money aside for a house."
+        - [2026-09-07] "How many players are on a rugby team?"
+  [smart] e_goals: noise in prompt
+      recalled: 
+        - Goal: run a marathon (since 2026-03-24)
+        - Goal: Japanese (since 2026-05-13)
+        - Note from 2026-03-24: The user is planning to run a marathon next spring.
+        - Note from 2026-05-13: The user wants to learn Japanese.
+  [baseline] e_goals: noise in prompt
+      recalled: 
+        - [2026-05-13] "I want to learn Japanese."
+        - [2026-03-24] "I'm planning to run a marathon next spring."
+        - [2026-07-02] "I'm putting money aside for a house."
+        - [2026-10-06] "How do I remove a coffee stain?"
+  [baseline] e_goals: noise in prompt
+      recalled: 
+        - [2026-07-02] "I'm putting money aside for a house."
+        - [2026-03-24] "I'm planning to run a marathon next spring."
+        - [2026-05-13] "I want to learn Japanese."
+        - [2026-09-07] "How many players are on a rugby team?"
+  [smart] e_goals: noise in prompt
+      recalled: 
+        - Goal: house (since 2026-07-02)
+        - Goal: run a marathon (since 2026-03-24)
+        - Goal: Japanese (since 2026-05-13)
+        - Note from 2026-07-02: The user is putting money aside for a house.
+  [baseline] e_goals: noise in prompt
+      recalled: 
+        - [2026-07-02] "I'm putting money aside for a house."
+        - [2026-10-06] "How do I remove a coffee stain?"
+        - [2026-09-21] "Why is the sky blue?"
+        - [2026-05-13] "I want to learn Japanese."
+  [baseline] f_vague_promotion: noise in prompt
+      recalled: 
+        - [2026-04-13] "I work at Hillside School as a teacher."
+        - [2026-10-10] "Big day today, I finally got the promotion I'd been chasing!"
+  [smart] f_vague_promotion: noise in prompt
+      recalled: 
+        - Works at: Hillside School (since 2026-04-13)
+        - Note from 2026-10-10: The user got a promotion.
+  [baseline] f_vague_promotion: noise in prompt
+      recalled: 
+        - [2026-10-10] "Big day today, I finally got the promotion I'd been chasing!"
+        - [2026-04-13] "I work at Hillside School as a teacher."
+  [baseline] f_like_to_dislike: noise in prompt
+      recalled: 
+        - [2026-05-03] "I love spicy food."
+        - [2026-09-30] "I've gone right off spicy food, I can't stand it these days."
+  [smart] f_like_to_dislike: noise in prompt
+      recalled: 
+        - Dislikes: spicy food (since 2026-09-30)
+  [baseline] f_employer_no_title: noise in prompt
+      recalled: 
+        - [2026-09-30] "I switched employers, I'm at Riverside Clinic now."
+        - [2026-03-04] "I'm a nurse at Saint Mary's Hospital."
+  [baseline] g_diet_misfile: noise in prompt
+      recalled: 
+        - [2026-08-01] "I play the cello in a small amateur orchestra."
+        - [2026-07-02] "I'm vegan, so no dairy or eggs for me."
+        - [2026-09-17] "Can you explain what inflation is?"
+        - [2026-08-14] "How do I remove a coffee stain?"
+  [smart] g_diet_misfile: needed fact missing
+      recalled: 
+        - Dislikes: eggs (since 2026-07-02)
+        - Dislikes: dairy (since 2026-07-02)
+  [smart] g_project: needed fact missing
+      recalled: 
+        - Works at: Brightline Logistics (since 2026-07-12)
+  [smart] g_jobsearch: needed fact missing
+      recalled: 
+        - Note from 2026-04-13: The user started looking for a new job and sent applications to three firms.
+  [baseline] g_control_facts: noise in prompt
+      recalled: 
+        - [2026-08-31] "I'm allergic to hazelnuts."
+        - [2026-05-03] "My name is Tomas and I'm a baker."
+        - [2026-08-31] "What's a palindrome?"
+        - [2026-10-20] "How do I remove a coffee stain?"
+  [baseline] g_abstain: noise in prompt
+      recalled: 
+        - [2026-08-01] "My neighbour's dog barks every morning, it drives me crazy."
+        - [2026-08-11] "I bought a new desk lamp yesterday."
+        - [2026-08-21] "What's a palindrome?"
+        - [2026-10-20] "What's the tallest mountain in the world?"
+  [smart] g_abstain: noise in prompt
+      recalled: 
+        - Note from 2026-08-01: The user's neighbour's dog barks every morning.
+  [baseline] g_abstain: noise in prompt
+      recalled: 
+        - [2026-09-10] "How do I remove a coffee stain?"
+        - [2026-08-01] "My neighbour's dog barks every morning, it drives me crazy."
+        - [2026-08-11] "I bought a new desk lamp yesterday."
+        - [2026-08-21] "What's a palindrome?"
+  [smart] g_abstain: noise in prompt
+      recalled: 
+        - Note from 2026-08-11: The user bought a new desk lamp yesterday.
+  [baseline] h_control_facts: noise in prompt
+      recalled: 
+        - [2026-05-03] "What's the boiling point of water at altitude?"
+        - [2026-04-13] "My name is Elena and I live in Gdansk."
+        - [2026-04-23] "I work at a shipyard as a welder."
+        - [2026-08-31] "I'm allergic to shellfish."
+  [baseline] h_third_person: noise in prompt
+      recalled: 
+        - [2026-08-31] "My friend Raul is travelling through Peru next month."
+        - [2026-09-05] "Raul sent me a photo of his hotel in Cusco."
+        - [2026-09-23] "What's a good way to memorise a poem?"
+        - [2026-10-20] "What does a thermostat do?"
+  [smart] h_third_person: noise in prompt
+      recalled: 
+        - Note from 2026-09-05: The user's friend Raul is travelling through Peru next month and sent a photo 
+  [baseline] h_third_person: noise in prompt
+      recalled: 
+        - [2026-08-31] "My friend Raul is travelling through Peru next month."
+        - [2026-09-05] "Raul sent me a photo of his hotel in Cusco."
+        - [2026-09-23] "What's a good way to memorise a poem?"
+        - [2026-10-07] "How many bones are in the human body?"
+  [smart] h_third_person: noise in prompt
+      recalled: 
+        - Note from 2026-09-05: The user's friend Raul is travelling through Peru next month and sent a photo 
+  [smart] h_cancelled: needed fact missing
+      recalled: 
+        - Note from 2026-07-22: The user was going to the Lyon conference in May.
+  [smart] i_job: needed fact missing
+      recalled: 
+        - Works at: Pelican Software (since 2026-08-21)
+  [baseline] i_flip: needed fact missing
+      recalled: 
+        - [2026-04-13] "I can't stand olives."
+        - [2026-08-31] "Funny thing, I've started to love olives."
+        - [2026-10-20] "What's a good way to learn the guitar?"
+        - [2026-08-21] "Can you recommend a good podcast about history?"
+  [smart] i_partner: needed fact missing
+      recalled: 
+        - Partner: Elena (since 2026-08-01)
+  [baseline] i_trap_before: noise in prompt
+      recalled: 
+        - [2026-10-20] "Any tips for staying focused while studying?"
+        - [2026-05-13] "How do I convert Celsius to Fahrenheit?"
+        - [2026-05-03] "I live in Aarhus."
+        - [2026-07-05] "What's the capital of Australia?"
+  [baseline] i_trap_before: noise in prompt
+      recalled: 
+        - [2026-05-13] "How do I convert Celsius to Fahrenheit?"
+        - [2026-05-03] "I live in Aarhus."
+        - [2026-08-28] "How does a refrigerator work?"
+        - [2026-10-20] "Any tips for staying focused while studying?"
+  [smart] j_renovation: needed fact missing
+      recalled: 
+        - Dislikes: green (since 2026-05-23)
+        - Note from 2026-04-29: The user and their partner picked dark green cabinets for the kitchen.
+        - Note from 2026-06-22: The kitchen countertop is a slab of grey granite.
+  [smart] j_renovation: needed fact missing
+      recalled: 
+        - Note from 2026-05-15: Tobias's crew finished tearing out the old kitchen walls.
+        - Note from 2026-04-13: The user and their partner started renovating the kitchen in their old farmhou
+  [baseline] j_travels: noise in prompt
+      recalled: 
+        - [2026-01-03] "In January I spent a week in Reykjavik with my friend Sunniva and we soaked in the hot
+        - [2026-01-07] "Our flight to Reykjavik was delayed by nine hours because of a snowstorm."
+        - [2026-04-13] "In May I took the night train to Vienna with my partner Joel."
+        - [2026-02-22] "In March I travelled to Marrakech on my own and took a cooking class."
+  [smart] j_travels: needed fact missing
+      recalled: 
+        - Goal: trip to Hanoi (since 2026-08-31)
+  [smart] j_band: needed fact missing
+      recalled: 
+        - Family member: band (since 2026-06-02)
+        - Family member: Ansel (since 2026-04-13)
+        - Note from 2026-03-04: The user joined a small folk band as the fiddle player.
+        - Note from 2026-07-07: The user's band played the Harbourfest festival and about four hundred people 
+  [baseline] j_control_mix: noise in prompt
+      recalled: 
+        - [2026-04-03] "I adopted two chickens called Hilde and Rosa."
+        - [2026-02-12] "My name is Oskar and I live in Aarhus."
+        - [2026-05-03] "I repainted my bicycle bright yellow."
+        - [2026-04-13] "Rosa escaped into the neighbour's garden and ate his lettuce."
+  [smart] j_control_mix: noise in prompt
+      recalled: 
+        - Name: Oskar (since 2026-02-12)
+        - Note from 2026-04-13: The user adopted two chickens called Hilde and Rosa, but Rosa escaped and ate 
+
+Wrong answers (baseline and smart)
+  [baseline] many_hobbies: What are my hobbies? <-- fact WAS in the prompt
+      answer: "You enjoy cycling, going out every weekend. You've also taken up chess."
+  [baseline] dislike_noise: I'm cooking for myself tonight. Which ingredient should I le 
+      answer: "I don't know, as you didn't mention what you're making. Could you tell me what dish you're planning to cook?"
+  [smart] dislike_noise: I'm cooking for myself tonight. Which ingredient should I le <-- fact WAS in the prompt
+      answer: "I don't know what you're cooking tonight."
+  [baseline] third_person_trap: Which city do I live in? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [baseline] b_indirect_dislike: I'm making a pizza for friends tonight. What toppings should 
+      answer: "Considering you've asked about vegetarian lasagna in the past, I'm going to take a guess that you might be a vegetarian or have dietary preferences. If that's the case, you might want to skip toppings"
+  [baseline] b_name_recall: What's my name? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [baseline] c_rich_profile: What's my name? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [baseline] c_rich_profile: I'm booking a restaurant for tonight. What should I avoid ea <-- fact WAS in the prompt
+      answer: 'Considering your allergy to shellfish, you might want to steer clear of seafood dishes.'
+  [smart] c_rich_profile: I'm booking a restaurant for tonight. What should I avoid ea <-- fact WAS in the prompt
+      answer: 'Considering your allergy, you might want to avoid dishes that contain shellfish.'
+  [baseline] d_rich_profile: What's my name? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [baseline] d_rich_profile: I'm making a pizza tonight. Which topping should I skip for  
+      answer: "I don't know your personal preferences, so I'll give you a general suggestion. If you're looking for a lighter option, you might consider skipping the meatballs or sausage."
+  [smart] d_rich_profile: What music would you put on for me? 
+      answer: "Considering your hobby of playing the guitar, I'd suggest creating a playlist with some acoustic and folk-inspired tracks. How about some Jack Johnson, Jason Mraz, or Ed Sheeran? Their music often fea"
+  [baseline] d_small_safety: Which city am I based in? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] g_wedding: What am I doing at the wedding? <-- fact WAS in the prompt
+      answer: "You're a guest at your sister Marta's wedding in Lisbon this September."
+  [baseline] g_past_home: Where did I live before Leeds? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] g_project: What project am I leading at work? 
+      answer: "I don't know."
+  [smart] g_jobsearch: How did my job search go? 
+      answer: "I don't know. I only have a note from April 13th that you sent applications to three firms, but I don't have any updates on the status of your job search."
+  [smart] g_jobsearch: Which company turned me down? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [baseline] g_control_facts: What's my name? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [baseline] h_control_facts: What's my name? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] h_cancelled: Am I going to the Lyon conference? 
+      answer: "You were planning to attend the Lyon conference in May, but I don't have any information about your current plans."
+  [baseline] i_move: Which city did I live in before Tallinn? <-- fact WAS in the prompt
+      answer: "You mentioned you moved to Tallinn last month, but I don't know what city you lived in before that."
+  [smart] i_job: Where did I work previously? 
+      answer: "I don't know."
+  [baseline] i_two_moves: Where did I live originally? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] i_two_moves: Where did I live originally? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] i_flip: What food did I use to dislike? <-- fact WAS in the prompt
+      answer: 'Olives.'
+  [smart] i_partner: Who was my partner before Elena? 
+      answer: "I don't know."
+  [smart] j_renovation: What are my kitchen cabinets made of? 
+      answer: 'Your kitchen cabinets are made of dark green material.'
+  [smart] j_renovation: Why did the kitchen work stop? 
+      answer: "I recall that Tobias's crew finished tearing out the old kitchen walls on May 15th, 2026. It seems that the renovation work had progressed to a point where the walls were removed, and the next steps w"
+  [smart] j_travels: When am I going to Hanoi? 
+      answer: "You're planning a trip to Hanoi. I don't have a specific date for your trip, but you mentioned it as a goal since August 31, 2026."
+  [smart] j_band: Who moved to Canada? 
+      answer: "I don't know."
+
+Compression (characters)
+user                         sources  notes  merged digests   live   digest/merged  notes/src  live/src
+eval_move_city                    32     24       0       0     24               -       0.75      0.75
+eval_job_change                   88     90       0       0     90               -       1.02      1.02
+eval_many_hobbies                107    128       0       0    128               -       1.20      1.20
+eval_third_person_trap            50     55       0       0     55               -       1.10      1.10
+eval_past_tense_trap              45     56       0       0     56               -       1.24      1.24
+eval_b_stale_flood               163    200       0       0    200               -       1.23      1.23
+eval_b_correction                 83     32       0       0     32               -       0.39      0.39
+eval_c_rich_profile              158    169       0       0    169               -       1.07      1.07
+eval_c_double_move                35     33       0       0     33               -       0.94      0.94
+eval_c_new_job                    59     46       0       0     46               -       0.78      0.78
+eval_d_rich_profile               69     85       0       0     85               -       1.23      1.23
+eval_d_small_safety               59     42       0       0     42               -       0.71      0.71
+eval_d_job_switch                 99     80       0       0     80               -       0.81      0.81
+eval_e_goals                     104    128       0       0    128               -       1.23      1.23
+eval_f_correction_allergy         88     31       0       0     31               -       0.35      0.35
+eval_f_no_longer_hobby            86     74       0       0     74               -       0.86      0.86
+eval_f_vague_promotion            60     25       0       0     25               -       0.42      0.42
+eval_f_like_to_dislike            78     63       0       0     63               -       0.81      0.81
+eval_f_employer_with_title        93     77       0       0     77               -       0.83      0.83
+eval_g_trip                       90     96       0       0     96               -       1.07      1.07
+eval_g_wedding                    85     68       0       0     68               -       0.80      0.80
+eval_g_past_home                  57     51       0       0     51               -       0.89      0.89
+eval_g_training                   76     84       0       0     84               -       1.11      1.11
+eval_g_jobsearch                 264    303       0       0    303               -       1.15      1.15
+eval_g_abstain                    94     89       0       0     89               -       0.95      0.95
+eval_h_bake                       77     88       0       0     88               -       1.14      1.14
+eval_h_injury                     68     78       0       0     78               -       1.15      1.15
+eval_h_purchase                   69     71       0       0     71               -       1.03      1.03
+eval_h_adoption                  186    231       0       0    231               -       1.24      1.24
+eval_h_third_person               96    100       0       0    100               -       1.04      1.04
+eval_h_cancelled                 102    102       0       0    102               -       1.00      1.00
+eval_i_move                       30     37       0       0     37               -       1.23      1.23
+eval_i_job                        83     65       0       0     65               -       0.78      0.78
+eval_i_partner                    41     56       0       0     56               -       1.37      1.37
+eval_j_renovation                805    919     111     110    918            0.99       1.14      1.14   (1 digests from 2 notes)
+eval_j_travels                   764    726     410     313    629            0.76       0.95      0.82   (3 digests from 6 notes)
+eval_j_band                      435    537     170     122    489            0.72       1.23      1.12   (1 digests from 3 notes)
+eval_j_control_mix               474    521     411     376    486            0.91       1.10      1.03   (3 digests from 6 notes)
+eval_j_recent                    507    615       0       0    615               -       1.21      1.21
+TOTAL                           5959   6275    1102     921   6094            0.84       1.05      1.02   (8 digests from 17 notes)
+  (22 users without notes not listed)
+
+saved eval_results.json   (874s)   cache: off

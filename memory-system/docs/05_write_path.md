@@ -135,6 +135,8 @@ True unless the message gives the value to someone or something other than the u
 | both of the above | The message must also contain a first-person word (`I`, `me`, `my`, `we`, `our` ...). "Margit quit the band to move to Canada" has none, so Canada is not the user's city (set J, added 2026-10-28) |
 | all others | Not checked: `family_member`, `hobby` and the rest can describe anyone |
 
+Possessives (his, her, their, its) are not subject words: "transferred me to their office in Kristiansand" is the user's move. For `partner` the clause rule applies too, with the partner nouns themselves ignored, and "X is getting married" (unless "X and I") is news about X: "My sister Ingvild got engaged to her partner Jonas" and "Callum is getting married in Dublin" give the user no partner (set M, 2026-10-30).
+
 The names of the user's stored partner and family members also count as someone else (`known_people` in `write/conflicts.py`), so "Priya got a job at the hospital" does not give the user Priya's employer (set M, added 2026-10-29).
 
 Only asserted facts are checked, and the manager uses the same check when it lists the relations a message really sets (so a rejected `works_at` does not mark `job_title` as conflicted). `ABOUT_USER=0` switches it off. It is a word list, English only: "I live with my sister in Lyon" is kept only because "I" comes first, and "I work with my friend at Acme" would lose Acme.

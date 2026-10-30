@@ -278,6 +278,12 @@ def test_multi_valued_asserts_are_untouched():
             "partner",
             "I'm planning a hiking trip next spring with my friend Pieter.",
         ),
+        ("Jonas", "partner", "My sister Ingvild got engaged to her partner Jonas."),
+        (
+            "Callum",
+            "partner",
+            "Callum is getting married in Dublin next spring and asked me to give a speech.",
+        ),
     ],
 )
 def test_about_someone_else(value, relation, text):
@@ -308,6 +314,12 @@ def test_about_someone_else(value, relation, text):
         ),
         ("Elena", "partner", "Dario and I split up. I'm with Elena now."),
         ("Marco", "partner", "My partner is Marco."),
+        (
+            "Kristiansand",
+            "lives_in",
+            "Moving again: Fjordline transferred me to their office in Kristiansand.",
+        ),
+        ("Priya", "partner", "Priya and I are getting married in June!"),
     ],
 )
 def test_about_the_user(value, relation, text):

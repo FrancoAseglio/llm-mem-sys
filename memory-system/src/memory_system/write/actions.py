@@ -81,8 +81,12 @@ SELF_RELATIONS = frozenset({"lives_in", "works_at", "job_title", "birthday"})
 _FIRST_PERSON = frozenset(
     "i i'm im i've ive i'd i'll we we're we've we'd we'll".split()
 )
-_THIRD_PERSON = frozenset(
-    "he she they it who his her their its he's she's they're it's they've".split()
+# Subjects only: possessives (his, her, their, its) do not say whose fact it is ("transferred
+# me to their office in Kristiansand", "her name is Odile"; set M, fixed 2026-10-30).
+_THIRD_PERSON = frozenset("he she they it who he's she's they're it's they've".split())
+# Words that name the partner relation itself; they do not mark someone else for `partner`.
+_PARTNER_NOUNS = frozenset(
+    "partner wife husband boyfriend girlfriend fiance fiancee".split()
 )
 _OTHER_PEOPLE = frozenset(
     "sister brother mother mum mom father dad parents parent friend friends colleague "
@@ -102,16 +106,34 @@ _PARTNER_WORDS = re.compile(
 )
 
 
-def _speaker(tokens: list[str], others: frozenset = frozenset()) -> str | None:
+def _speaker(
+    tokens: list[str], others: frozenset = frozenset(), ignore: frozenset = frozenset()
+) -> str | None:
     """'user' or 'other' for the last subject word in tokens, None if there is none.
-    `others` are names of people the user already told about (partner, family)."""
+    `others` are names of people the user already told about (partner, family); words in
+    `ignore` are skipped (the partner nouns, when the fact is the partner)."""
     for token in reversed(tokens):
         word = token.removesuffix("'s")
+        if word in ignore:
+            continue
         if token in _FIRST_PERSON:
             return "user"
         if token in _THIRD_PERSON or word in _OTHER_PEOPLE or word in others:
             return "other"
     return None
+
+
+def _marries_someone_else(value: str, lower: str) -> bool:
+    """ "Callum is getting married in Dublin": the value is the one marrying, so it is news about
+    them, not the user's partner. "Priya and I are getting married" is the user's (set M)."""
+    name = re.escape(value.lower())
+    return bool(
+        re.search(
+            rf"\b{name}\b(?:\s+(?:is|was|has|just|got|'s))*\s+(?:getting\s+)?"
+            r"(?:married|engaged)\b",
+            lower,
+        )
+    ) and not re.search(rf"\b{name}\s+and\s+(?:i|me)\b", lower)
 
 
 def about_user(
@@ -129,7 +151,9 @@ def about_user(
       -> someone else; no subject word ("My birthday is 5 May") -> the user. The value is
       kept if any clause gives it to the user. A value not found is left to grounding.
     - partner: the message must contain a partner word (boyfriend, wife, seeing, dating ...),
-      so "my friend Pieter" is not a partner.
+      so "my friend Pieter" is not a partner, and the clause rule above applies too, with the
+      partner nouns themselves ignored: "My sister Ingvild got engaged to her partner Jonas"
+      is the sister's partner, "My wife is called Ines" is the user's.
 
     - Both: the message must have a first-person word somewhere (I, me, my, we, our ...).
       "Margit quit the band to move to Canada" names no subject word before Canada, so the
@@ -146,10 +170,13 @@ def about_user(
     lower = text.lower().replace("\u2019", "'")
     if relation in SELF_RELATIONS | {"partner"} and not _ANY_FIRST_PERSON.search(lower):
         return False
-    if relation == "partner":
-        return bool(_PARTNER_WORDS.search(lower))
-    if relation not in SELF_RELATIONS:
+    if relation == "partner" and not _PARTNER_WORDS.search(lower):
+        return False
+    if relation == "partner" and _marries_someone_else(value, lower):
+        return False
+    if relation not in SELF_RELATIONS | {"partner"}:
         return True
+    ignore = _PARTNER_NOUNS if relation == "partner" else frozenset()
     words = re.findall(r"\w+", value.lower())
     # locate the value by its content words ("St Veit Hospital in Linz": not by "in")
     value_words = {w for w in words if len(w) >= 3 and w not in STOPWORDS} or set(words)
@@ -168,7 +195,7 @@ def about_user(
         if index is None:
             continue
         found = True
-        if _speaker(tokens[:index], others) != "other":
+        if _speaker(tokens[:index], others, ignore) != "other":
             return True
     return not found
 

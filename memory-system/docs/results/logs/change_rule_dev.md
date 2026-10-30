@@ -37,6 +37,53 @@ Runs, cache off, with the new `make` targets:
 
 Kept if M's current-fact slots reach at least 10, no set loses more than 1 needed fact, and no rejection drops a true change. Otherwise reported and reworked.
 
-## Results
+## Results of iteration 1 (2026-10-30)
+
+Outputs (each as `.txt` and `.json`): `change_rule_M`, `change_rule_L`, `../regressions/A_to_J_change_rule`, `../set_K/change_rule`.
+
+| Measure | Reference | Predicted | Found |
+|---|---|---|---|
+| Set M, smart answers (raw) | 36 | about 40 (38 to 42) | **41** |
+| Set M, smart needed present | 36/54 | | 42/54 |
+| Set M, smart stale in answer | 5 | 2 or 3 | **2** |
+| Set M, baseline | 47 | 47 (±1) | 46 (one bike-count answer flipped: noise) |
+| Set M, current-fact slots right (12) | 6 | 10 to 12 | **8 of the 11 visible** (Tamsin's job title did not reach any prompt) |
+| Sets A to J, L, K | | the same within noise | smart identical on every question of A to J and on L (26) and K (17); the baseline moved by one question in A and D, in opposite directions |
+
+Fixed on M: Ruben's city and job title, Tamsin's city, both past-city questions, "before Fjordline", and (note variation) the Iceland puffins. Two answers were lost to note variation (the brother's city, the wife's job).
+
+**The criterion (at least 10 current-fact slots) failed**, because the run exposed three mistakes in the word lists, all on M:
+
+| Wrong fact | Message | Mistake |
+|---|---|---|
+| Solveig's city stayed Oslo | "Fjordline transferred me to **their** office in Kristiansand" | `about_user` counted the possessive "their" as someone else; Kristiansand was extracted and then rejected as "about someone else" |
+| Solveig's partner became Jonas | "My sister Ingvild got engaged to her partner Jonas" | the partner check only looked for a partner word, not whose partner it is |
+| Tamsin's partner became Callum | "Callum is getting married in Dublin next spring and asked me to give a speech" | the same; Callum opens the sentence, so no subject word stands before him |
+
+The rejections logged (`no change signalled` and `about someone else`) were otherwise all right: other people's cities and jobs, Bristol while still a plan, the house viewing, the commute, "choir member", "home" as a city.
+
+## Iteration 1b: three fixes to `about_user`
+
+1. **Possessives are not subjects:** his, her, their and its no longer mark someone else ("their office", "her name is Odile").
+2. **Partners get the clause rule** of cities and jobs, with the partner nouns themselves ignored: "My sister Ingvild got engaged to her partner Jonas" is the sister's partner; "My wife is called Ines" is the user's.
+3. **"X is getting married / engaged"** is news about X, unless "X and I" ("Priya and I are getting married").
+
+Checked before any run: the 30 sample sentences of steps 1 and 1b keep their verdicts; the sweep over every message of sets A to M changes only in the right direction (Kristiansand and possessives pass; a sister's and a brother's wedding and Callum no longer give the user a partner); 4 more tests (248).
+
+### Predictions for iteration 1b (written before the runs)
+
+Same runs as iteration 1; M with its `.txt` this time (`make eval` writes both).
+
+| Measure | Iteration 1 | Prediction |
+|---|---|---|
+| Set M, current-fact slots right (12) | 8 of 11 visible | 11 or 12 |
+| Set M, smart answers (raw) | 41 | about 43 (41 to 45): Solveig's city and partner; note variation ±2 |
+| Set M, smart stale in answer | 2 | 0 to 2 |
+| Set M, baseline | 46 | 46 to 47 |
+| Sets A to J, L, K | | the same within noise |
+
+Same criteria as before.
+
+## Results of iteration 1b
 
 (filled in after the runs)
