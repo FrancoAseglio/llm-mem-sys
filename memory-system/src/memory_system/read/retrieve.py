@@ -222,18 +222,27 @@ def retrieve(user_id: str, query: str, k: int = 4, touch: bool = True) -> list[M
     return chosen
 
 
-def retrieve_baseline(user_id: str, query: str, k: int = 4) -> list[tuple]:
-    """Traditional vector memory: top-k past user messages by cosine similarity. Nothing else.
+def baseline_messages(user_id: str, query: str, k: int = 4) -> list[tuple]:
+    """Top-k past user messages by cosine similarity, with their ids (the hybrid mode marks them).
 
-    Returns (content, created_at, similarity) rows.
+    Returns (id, content, created_at, similarity) rows. The same query as before the hybrid mode,
+    so the baseline's choice is unchanged.
     """
     q = embed(query)
     with get_pool().connection() as conn:
         return conn.execute(
-            """SELECT content, created_at, 1 - (embedding <=> %s) AS similarity
+            """SELECT id, content, created_at, 1 - (embedding <=> %s) AS similarity
                FROM messages
                WHERE user_id = %s AND role = 'user'
                ORDER BY embedding <=> %s
                LIMIT %s""",
             (q, user_id, q, k),
         ).fetchall()
+
+
+def retrieve_baseline(user_id: str, query: str, k: int = 4) -> list[tuple]:
+    """Traditional vector memory: top-k past user messages by cosine similarity. Nothing else.
+
+    Returns (content, created_at, similarity) rows.
+    """
+    return [row[1:] for row in baseline_messages(user_id, query, k)]

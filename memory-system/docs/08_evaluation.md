@@ -11,6 +11,8 @@ Each scripted life story is replayed message by message with backdated timestamp
 | `none` | nothing |
 | `baseline` | the 4 most similar past user messages (traditional vector memory) |
 | `smart` | the facts that pass the relevance gate, then up to 2 episode notes in the room left ([07_summaries.md](07_summaries.md)), at most 4 lines in all. `SUMMARIES=0` gives facts only |
+| `hybrid` | up to 2 current facts, one timeline line for a past question, then the baseline's 4 messages, marked when a fact they gave has changed ([06_read_path.md](06_read_path.md), section 11) |
+| `full` | every past user message: a reference ceiling, not a design. Not scored for needed facts or noise, since it holds everything |
 
 ## 2. What is measured
 
@@ -20,7 +22,8 @@ Without the language model (fast, objective, deterministic):
 |---|---|---|
 | Needed fact present | Did the memory lines contain the words the question needs (`needs`)? | higher |
 | Noise present | Did they contain words that should not be there (`avoid`)? | lower |
-| Stale in prompt | Did an outdated value (`stale`) reach the prompt? | lower |
+| Stale in prompt | Did an outdated value (`stale`) reach the prompt on a line not marked as old? | lower |
+| Stale, marked | Was it there only on lines the hybrid mode marks as old (`[outdated: ...]`, `[no longer true: ...]`, a timeline)? Always 0 for the other modes, whose numbers are therefore unchanged | reported, not judged |
 | Lines | How many memory lines went into the prompt? | lower, if the needed fact is there |
 
 With the language model (slower, noisier, run at temperature 0):
@@ -103,7 +106,7 @@ poetry run python scripts/inspect_scores.py --scenario b_stale_flood
 
 `make quick`, `make set SET=I`, `make answers SET=I` and `make eval SET=I OUT=docs/results/set_I/name` wrap the common cases; `make eval` is the final-run form (no cache, verbose, output saved as `name.txt` and `name.json`) ([02_setup.md](02_setup.md), "Keeping the Mac cool").
 
-**Cache and answers.** `evaluate.py` caches embeddings and temperature-0 replies in `.cache/llm.sqlite`, so re-running an unchanged set takes seconds and prints `cache: N hits, M misses`. A first run of a new set misses the cache by construction, so blind sets are unaffected. `--no-cache` forces fresh calls and is the mode for a final comparison. By default only baseline and smart answers are generated (`--answers none baseline smart` for all three); the no-memory column then shows `-`.
+**Cache and answers.** `evaluate.py` caches embeddings and temperature-0 replies in `.cache/llm.sqlite`, so re-running an unchanged set takes seconds and prints `cache: N hits, M misses`. A first run of a new set misses the cache by construction, so blind sets are unaffected. `--no-cache` forces fresh calls and is the mode for a final comparison. By default the baseline, smart, hybrid and full answers are generated (`--answers` lists the modes; add `none` for the no-memory answers); the no-memory column then shows `-`. The full mode's prompt lines are not saved in the `.json` (they are the whole history, the same for every question); verbose output prints their count. The session runner (set K) still compares none, baseline and smart only.
 
 Results are also saved to `eval_results.json` (git-ignored). The code is split into `evaluate.py` (arguments, ingest, the loop), `evaluation/metrics.py` (scoring) and `evaluation/report.py` (printing).
 

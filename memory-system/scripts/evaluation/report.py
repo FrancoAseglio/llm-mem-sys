@@ -6,7 +6,15 @@ from memory_system.core.style import colour_marks, paint
 from .metrics import tally
 from .scenarios import SET_LABELS
 
-MODES = ["none", "baseline", "smart"]
+# Modes compared in the summaries and lists ("none" has no memory to score).
+COMPARED = ["baseline", "smart", "hybrid", "full"]
+SHORT = {
+    "none": "none",
+    "baseline": "base",
+    "smart": "smart",
+    "hybrid": "hyb",
+    "full": "full",
+}
 
 
 def mark(value: bool | None, bad_is_true: bool = False) -> str:
@@ -35,17 +43,27 @@ def print_table(results: list[dict]) -> None:
     A column that holds only "-" (nothing measured) is left out, and a question that has any
     bad mark gets a bold name.
     """
-    columns = [  # group, mode, value of one result row
-        ("NEEDED", "base", lambda r: mark(r["baseline"]["needed_present"])),
-        ("NEEDED", "smart", lambda r: mark(r["smart"]["needed_present"])),
-        ("NOISE", "base", lambda r: mark(r["baseline"]["noise_present"], True)),
-        ("NOISE", "smart", lambda r: mark(r["smart"]["noise_present"], True)),
-        ("ANSWER", "none", lambda r: mark(r["none"].get("correct"))),
-        ("ANSWER", "base", lambda r: mark(r["baseline"].get("correct"))),
-        ("ANSWER", "smart", lambda r: mark(r["smart"].get("correct"))),
-        ("LINES", "base", lambda r: str(r["baseline"]["lines"])),
-        ("LINES", "smart", lambda r: str(r["smart"]["lines"])),
-    ]
+
+    def col(group, mode, key, bad_is_true=False, count=False):
+        def get(r):
+            entry = r.get(mode, {})
+            if count:
+                return str(entry["lines"]) if "lines" in entry else "-"
+            return mark(entry.get(key), bad_is_true)
+
+        return group, SHORT[mode], get
+
+    retrieved = [
+        "baseline",
+        "smart",
+        "hybrid",
+    ]  # full holds everything: nothing to score
+    columns = (
+        [col("NEEDED", m, "needed_present") for m in retrieved]
+        + [col("NOISE", m, "noise_present", True) for m in retrieved]
+        + [col("ANSWER", m, "correct") for m in ["none", *COMPARED]]
+        + [col("LINES", m, "lines", count=True) for m in retrieved]
+    )
     cells = [[get(r) for get in (c[2] for c in columns)] for r in results]
     keep = [
         i for i in range(len(columns)) if any(row[i] != "-" for row in cells)
@@ -55,7 +73,8 @@ def print_table(results: list[dict]) -> None:
         groups.setdefault(columns[i][0], []).append(i)
 
     for line in (
-        "base = baseline vector memory   smart = this system   none = no memory",
+        "base = baseline vector memory   smart = facts and notes   hyb = hybrid   "
+        "full = whole history   none = no memory",
         "✓ good   ✗ bad   - not measured   bold name = smart has a ✗",
         "NOISE ✓ = no unwanted text   LINES = lines in the prompt",
     ):
@@ -97,18 +116,28 @@ def _count(text: str) -> float | None:
     return int(done) / int(total)
 
 
-def _compare(base: str, smart: str, higher_is_better: bool) -> tuple[str, str]:
-    """Styles for the two cells of one column: the better value green, the worse red."""
-    a, b = (_count(base), _count(smart)) if "/" in base + smart else (None, None)
-    if a is None or b is None:
-        try:
-            a, b = float(base), float(smart)
-        except ValueError:
-            return "", ""
-    if a == b:
-        return "", ""
-    base_wins = (a > b) == higher_is_better
-    return ("green", "red") if base_wins else ("red", "green")
+def _number(text: str) -> float | None:
+    """'8/9' -> 8/9, '2.5' -> 2.5, '-' -> None."""
+    if "/" in text:
+        return _count(text)
+    try:
+        return float(text)
+    except ValueError:
+        return None
+
+
+def _compare(values: list[str], higher_is_better: bool) -> list[str]:
+    """Styles for the cells of one column: the best value green, the worst red, others plain."""
+    numbers = [_number(v) for v in values]
+    known = [n for n in numbers if n is not None]
+    if len(set(known)) < 2:
+        return [""] * len(values)
+    best = max(known) if higher_is_better else min(known)
+    worst = min(known) if higher_is_better else max(known)
+    return [
+        "" if n is None else "green" if n == best else "red" if n == worst else ""
+        for n in numbers
+    ]
 
 
 def print_summaries(results: list[dict]) -> None:
@@ -117,6 +146,7 @@ def print_summaries(results: list[dict]) -> None:
         ("needed", 9, True),
         ("noise", 8, False),
         ("stale in", 10, False),
+        ("stale", 8, False),
         ("avg", 7, False),
         ("answers", 10, True),
         ("stale in", 10, False),
@@ -130,52 +160,66 @@ def print_summaries(results: list[dict]) -> None:
         )
         print(
             paint(
-                f"{'mode':<10}{'needed':>9}{'noise':>8}{'stale in':>10}{'avg':>7}"
-                f"{'answers':>10}{'stale in':>10}",
+                f"{'mode':<10}{'needed':>9}{'noise':>8}{'stale in':>10}{'stale':>8}"
+                f"{'avg':>7}{'answers':>10}{'stale in':>10}",
                 "bold",
             )
         )
         print(
             paint(
-                f"{'':<10}{'present':>9}{'present':>8}{'prompt':>10}{'lines':>7}"
-                f"{'correct':>10}{'answer':>10}",
+                f"{'':<10}{'present':>9}{'present':>8}{'prompt':>10}{'marked':>8}"
+                f"{'lines':>7}{'correct':>10}{'answer':>10}",
                 "bold",
             )
         )
+        modes = [m for m in COMPARED if all(m in r for r in rows)]
+        full_note = "full" in modes
         values = {}
-        for m in ("baseline", "smart"):
+        for m in modes:
             values[m] = [
-                tally(rows, m, "needed_present"),
-                tally(rows, m, "noise_present"),
+                tally(rows, m, "needed_present") if m != "full" else "-",
+                tally(rows, m, "noise_present") if m != "full" else "-",
                 str(sum(r[m]["stale_in_prompt"] for r in rows)),
+                str(sum(r[m].get("stale_marked", False) for r in rows)),
                 f"{sum(r[m]['lines'] for r in rows) / len(rows):.1f}",
                 tally(rows, m, "correct"),
                 tally(rows, m, "stale"),
             ]
         verdicts = [
-            _compare(values["baseline"][i], values["smart"][i], columns[i][2])
+            _compare([values[m][i] for m in modes if m != "full"], columns[i][2])
             for i in range(len(columns))
         ]
-        for side, m in enumerate(("baseline", "smart")):
+        compared = [m for m in modes if m != "full"]
+        for m in modes:
             line = f"{m:<10}"
             for i, (_, width, _) in enumerate(columns):
-                line += paint(f"{values[m][i]:>{width}}", verdicts[i][side] or "dim")  # noqa: E501
+                style = verdicts[i][compared.index(m)] if m in compared else ""
+                line += paint(f"{values[m][i]:>{width}}", style or "dim")
             print(line)
         print(
             paint("  ", "dim")
             + paint("green", "green")
-            + paint(" = better than the other mode, ", "dim")
+            + paint(" = best of baseline, smart and hybrid, ", "dim")
             + paint("red", "red")
-            + paint(" = worse", "dim")
+            + paint(" = worst", "dim")
         )
         print(paint("  lower is better for: noise, stale, lines", "dim"))
+        print(
+            paint(
+                "  stale marked = an outdated value only on lines marked as old (hybrid)",
+                "dim",
+            )
+        )
+        if full_note:
+            print(paint("  full = the whole history, a reference ceiling", "dim"))
 
 
 def print_retrieval_problems(results: list[dict]) -> None:
     misses = [
         (r, m, why)
         for r in results
-        for m in ("baseline", "smart")
+        for m in ("baseline", "smart", "hybrid")
+        if m in r
         for why, bad in (
             ("needed fact missing", r[m]["needed_present"] is False),
             ("noise in prompt", r[m]["noise_present"] is True),
@@ -196,11 +240,11 @@ def print_wrong_answers(results: list[dict]) -> None:
     wrong = [
         (r, m)
         for r in results
-        for m in ("baseline", "smart")
-        if r[m].get("correct") is False
+        for m in COMPARED
+        if r.get(m, {}).get("correct") is False
     ]
     if wrong:
-        print(paint("\nWrong answers (baseline and smart)", "bold", "red"))
+        print(paint("\nWrong answers (every mode with memory)", "bold", "red"))
         for r, m in wrong:
             note = "   <-- fact WAS in the prompt" if r[m]["needed_present"] else ""
             print(

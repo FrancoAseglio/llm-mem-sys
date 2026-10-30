@@ -1,6 +1,8 @@
 """Scoring helpers for evaluate.py: each takes the recalled lines (or the answer) and one
 question dict from the scenarios. None means "this question does not test that"."""
 
+from memory_system.read.hybrid_rules import is_marked
+
 
 def normalise(text: str) -> str:
     return text.lower().replace("’", "'")
@@ -24,6 +26,20 @@ def needed_fact_present(lines: list[str], question: dict) -> bool | None:
         return None
     text = normalise(" ".join(lines))
     return all(word in text for word in needs)
+
+
+def stale_split(lines: list[str], question: dict) -> tuple[bool, bool]:
+    """(stale in prompt, stale only on marked lines).
+
+    An outdated value on a line the hybrid mode marks as old ("[outdated: now X]", "[no longer
+    true: X]", a timeline) is counted apart: the prompt says it is old. Only the hybrid mode
+    writes such lines, so for the other modes the first value is the old metric and the second
+    is always False.
+    """
+    stale = question.get("stale", [])
+    plain = contains_any(" ".join(x for x in lines if not is_marked(x)), stale)
+    marked = contains_any(" ".join(x for x in lines if is_marked(x)), stale)
+    return plain, marked and not plain
 
 
 def noise_present(lines: list[str], question: dict) -> bool | None:

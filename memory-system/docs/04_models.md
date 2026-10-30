@@ -31,7 +31,7 @@ Design rule: no other file imports `ollama` directly. Swapping the provider mean
 | Function | Signature | Returns | Used by |
 |---|---|---|---|
 | `embed` | `embed(text)` | numpy array, 768 floats (float32) | `write/manager.py` (message), `write/conflicts.py` (new fact), `read/retrieve.py` (question, relation texts), `summaries/summarize.py` (note), `summaries/retrieve.py` (question) |
-| `chat` | `chat(messages, temperature=0.3)` | the full reply as a string | `scripts/evaluate.py` |
+| `chat` | `chat(messages, temperature=0.3, num_ctx=None)` | the full reply as a string; `num_ctx` asks for a larger context window (the full mode only; None keeps the call and its cache key as before) | `scripts/evaluate.py` |
 | `enable_cache`, `cache_stats` | `enable_cache(path)`, `cache_stats()` | the disk cache; its (hits, misses) | `scripts/evaluate.py` only |
 | `chat_stream` | `chat_stream(messages, temperature=0.3)` | an iterator yielding the reply piece by piece | `scripts/chat.py` |
 | `chat_structured` | `chat_structured(system, user, schema)` | an instance of the pydantic class passed in | `write/extract.py`, `summaries/summarize.py` |
@@ -123,6 +123,10 @@ That behaviour matters for the write path: a message, its facts and their events
 | `ABOUT_USER` | on (env `ABOUT_USER=0` turns it off) | `write/conflicts.py`, `write/manager.py` | Switch for the check that drops facts the message gives to someone else ([05](05_write_path.md), section 4.3) |
 | `CHANGE_RULE` | on (env `CHANGE_RULE=0` turns it off) | `write/conflicts.py` | A new city, employer, job title or partner replaces the current one only if the message says it changed ([05](05_write_path.md), section 4.4) |
 | `PAST_MAX_LINES` | 2 | `read/past_retrieve.py` | Most `Earlier:` lines per question |
+| `HYBRID_FACT_LINES` | 2 | `read/hybrid.py` | Most current fact lines in the hybrid mode ([06](06_read_path.md), section 11) |
+| `HYBRID_MARKERS` | on (env `HYBRID_MARKERS=0` turns it off) | `read/hybrid.py` | Mark hybrid messages whose facts changed or were retracted |
+| `HYBRID_TIMELINE` | on (env `HYBRID_TIMELINE=0` turns it off) | `read/hybrid.py` | One timeline line for past questions in the hybrid mode |
+| `FULL_NUM_CTX` | 8192 (env) | `scripts/evaluate.py` | Context window asked of the chat model for full-mode answers |
 | `SUMMARIES` | on (env `SUMMARIES=0` turns it off) | `summaries/summarize.py`, `summaries/retrieve.py` | Switch for the whole summaries layer |
 | `NOTE_TAGS` | on (env `NOTE_TAGS=0` turns it off) | `summaries/summarize.py` | Show the notes model the facts stored from each message ([07](07_summaries.md), section 4.2) |
 | `NOTE_FACT_WINDOW` | on (env `NOTE_FACT_WINDOW=0` turns it off) | `assistant.py`, `summaries/retrieve.py` | Measure the note window from the best line, facts included ([07](07_summaries.md), section 5) |

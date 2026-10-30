@@ -71,6 +71,20 @@ PIN_IMPORTANCE = 1.01
 PAST_FACTS = os.environ.get("PAST_FACTS", "1") != "0"
 PAST_MAX_LINES = 2
 
+# ---- Hybrid mode: the baseline's messages, plus a few facts (docs/06_read_path.md, section 11) ----
+# At most this many current fact lines, chosen by smart's gate (allergy pass included), go above
+# the messages. Messages that produced a fact that has since changed are marked.
+HYBRID_FACT_LINES = 2
+# Mark messages whose facts changed or were retracted. HYBRID_MARKERS=0 switches marking off.
+HYBRID_MARKERS = os.environ.get("HYBRID_MARKERS", "1") != "0"
+# One timeline line (every value of one relation, oldest first) for questions about the past.
+# HYBRID_TIMELINE=0 switches it off.
+HYBRID_TIMELINE = os.environ.get("HYBRID_TIMELINE", "1") != "0"
+
+# ---- Full mode: the user's whole history in the prompt (a reference ceiling, not a design) ----
+# Context window asked of the chat model for full-mode answers only, so nothing is cut silently.
+FULL_NUM_CTX = int(os.environ.get("FULL_NUM_CTX", "8192"))
+
 # ---- Write path: drop facts the message gives to someone else (write/actions.about_user) ----
 # ABOUT_USER=0 switches the check off, for ablations.
 ABOUT_USER = os.environ.get("ABOUT_USER", "1") != "0"

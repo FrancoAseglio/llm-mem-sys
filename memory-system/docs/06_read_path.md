@@ -7,6 +7,8 @@ The read path decides which small part of it the model gets to see.
 | File | Job |
 |---|---|
 | `src/memory_system/read/retrieve.py` | Smart retrieval over facts (gate, then rank) and the plain vector baseline over messages |
+| `src/memory_system/read/hybrid.py`, `read/hybrid_rules.py` | The hybrid mode (baseline messages, marked, plus a few facts) and the full reference mode (section 11) |
+| `src/memory_system/read/labels.py` | The prompt label of each relation type (`lives_in` → "Lives in") |
 | `src/memory_system/assistant.py` | Formats the chosen memories as text and builds the final prompt |
 
 Used by `scripts/chat.py` (interactive), `scripts/evaluate.py` (measurement) and `scripts/inspect_scores.py` (per-fact breakdown).
@@ -22,6 +24,9 @@ Used by `scripts/chat.py` (interactive), `scripts/evaluate.py` (measurement) and
     ├─ mode = smart ────▶ read/retrieve.retrieve()      reads: facts (active only)
     │                     + read/past_retrieve          reads: replaced facts, past questions only
     │                     + summaries/retrieve          reads: episode notes, in the room left
+    ├─ mode = hybrid ───▶ read/hybrid.hybrid_lines()    reads: facts (2 lines at most), messages,
+    │                                                          replaced facts (markers, timeline)
+    ├─ mode = full ─────▶ read/hybrid.all_messages()    reads: every user message
     ├─ mode = baseline ─▶ retrieve.retrieve_baseline()  reads: messages (user role)
     └─ mode = none ─────▶ nothing
     │
@@ -50,6 +55,8 @@ Learning from the same message (write path) happens after, so a question never r
 |---|---|---|
 | `smart` | `facts`, only `status = 'active'` | Only facts that pass the relevance gate, at most `k` (default 4), as short lines. Often zero or one. |
 | `baseline` | `messages`, role `user` | The top `k` most similar past messages, whatever they are |
+| `hybrid` | `messages` and `facts` | Up to 2 current facts (smart's gate), one timeline line for a past question, then the baseline's `k` messages, each marked when a fact it gave has changed (section 11) |
+| `full` | `messages`, role `user` | Every past message, oldest first: a reference ceiling, not a design (section 11) |
 | `none` | nothing | No memory block at all |
 
 `baseline` imitates the common "vector memory" approach and is the control group.  
@@ -185,7 +192,10 @@ Because it cannot say "nothing is relevant", chit-chat and outdated statements r
 
 Smart mode's header is "What you currently know about the user:";  
 baseline's is "Past messages from the user that may be relevant:".  
+Hybrid's says that current facts come first, then past messages, and what the two markers mean; full's is "Everything the user has told you, oldest first:".  
 With no memory lines there is no memory block at all.
+
+The modes, in the order the evaluation prints them, are `assistant.MODES`.
 
 ## 6. Inspecting and tuning
 
@@ -273,3 +283,51 @@ Known gaps (measured on set I, [08_evaluation.md](08_evaluation.md)):
 | Past lines are ordered by similarity, not by date | For "Where did I live originally?" the oldest value came second and the model answered "I don't know" |
 | Keyword trigger | Missed paraphrases and false positives are possible |
 | Notes built on replaced facts stay hidden | The stale-source rule of the notes layer is unchanged ([07_summaries.md](07_summaries.md)) |
+
+## 11. Hybrid and full modes
+
+Set M showed that on long histories the baseline's four raw messages answer more than smart's facts and notes ([results/set_M/log.md](results/set_M/log.md)). The hybrid mode keeps the baseline's recall and adds what facts do well: current values, outdated values, allergies, and the order of past values. Code: `read/hybrid.py` (database), `read/hybrid_rules.py` (pure); `assistant.recall` puts the lines together. It is development on spent sets until a fresh set measures it ([results/logs/hybrid_dev.md](results/logs/hybrid_dev.md)).
+
+### 11.1 What the prompt holds, in order
+
+| # | Lines | Rule | Setting |
+|---|---|---|---|
+| 1 | Current facts | Smart's gate and ranking (`retrieve`), allergy pass included, at most 2. Same format as smart: `Lives in: Kristiansand (since 2026-03-01)` | `HYBRID_FACT_LINES` (2) |
+| 2 | One timeline | Only for a past question (the keyword trigger of section 10, and `PAST_FACTS` on). The relation of the best replaced or retracted fact that passes the gate (floor, window, routing; no allergy pass); then every value that relation ever had, oldest first | `HYBRID_TIMELINE` (env, on) |
+| 3 | The baseline's `k` messages | Exactly the baseline's choice (`baseline_messages`, the same query), word for word, with markers | `HYBRID_MARKERS` (env, on) |
+
+No episode notes: the raw messages carry the details that notes lost on set M.  
+At most `2 + 1 + k` lines (7 with `k = 4`), against the baseline's 4. Hybrid gives up smart's short prompt.
+
+### 11.2 Markers on messages
+
+For each message, every user fact it produced (`facts.source_message_id`) that is no longer active gives one marker after the message:
+
+| The fact | Marker | Example |
+|---|---|---|
+| Superseded; its `superseded_by` chain ends on an active fact | `[outdated: now <current value>]` | `"I've moved to Oslo" [outdated: now Kristiansand]` |
+| The chain ends on another relation (a like that became a dislike) | `[outdated: now <Label>: <value>]` | `[outdated: now Dislikes: coffee]` |
+| Archived by a retraction, or the chain does not end on an active fact | `[no longer true: <value>]` | `"I play bass in a covers band" [no longer true: bass]` |
+| The chain ends on the same value again (a user who moved back) | none | the old message is true again |
+| Conflicted (a dependent fact we cannot judge) | none | |
+
+The header tells the model what the markers mean.
+
+### 11.3 Timeline
+
+`Lives in, oldest first: Stavanger -> Oslo -> Kristiansand (now)`. Values are in the order of `valid_from`; repeats in a row are merged; the current value gets `(now)`, a retracted one `(ended)`, a conflicted one `(unsure)`. No dates, because the `(since date)` labels have been read as event dates before (set M, "When is my wedding?"). Fixes the gap of section 10 where past lines were ordered by similarity, and reads retracted values, which section 10 does not.
+
+### 11.4 Full mode
+
+Every user message, oldest first, in the baseline's line format. On set M a user's history is about 1,100 tokens. The chat call for this mode asks for a context window of `FULL_NUM_CTX` tokens (8192), so the history is never cut silently; every other mode's call is unchanged. It answers "how much could the model do with everything in front of it?" and is not meant to scale. It is used by the evaluation only (`scripts/chat.py` offers `hybrid`, not `full`).
+
+### 11.5 Known gaps
+
+| Gap | Impact |
+|---|---|
+| Only the message that first gave a fact is marked | A later message that repeats the old value ("Oslo is lovely in spring") is not marked |
+| Other people's changes are not marked | A brother's old city in a message has no user fact behind it |
+| A marker is only as right as the facts | A wrong supersession marks a true message as outdated |
+| One timeline per question | A past question about two relations gets one |
+| Keyword trigger | The same as section 10 |
+| Longer prompt | Up to 7 lines against 4 |

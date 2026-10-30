@@ -31,4 +31,4 @@ Written predictions, made before runs, are kept unchanged in [predictions/](pred
 
 - Paths are relative to the `memory-system/` folder.
 - Commands are run from that folder with `poetry run`.
-- "Smart" means this system; "baseline" means plain vector search over past messages; "none" means no memory.
+- "Smart" means this system's facts and notes; "baseline" means plain vector search over past messages; "hybrid" means the baseline's messages, marked when outdated, plus a few facts; "full" means the whole history in the prompt (a reference ceiling); "none" means no memory.

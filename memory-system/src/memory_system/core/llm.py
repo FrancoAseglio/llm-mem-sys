@@ -50,17 +50,28 @@ def embed(text: str) -> np.ndarray:
     return vec.copy()
 
 
-def chat(messages: list[dict], temperature: float = 0.3) -> str:
-    """Return the chat model's full reply. Cached on disk only at temperature 0."""
-    key = make_key("chat", CHAT_MODEL, messages, temperature)
+def chat(
+    messages: list[dict], temperature: float = 0.3, num_ctx: int | None = None
+) -> str:
+    """Return the chat model's full reply. Cached on disk only at temperature 0.
+
+    `num_ctx` asks for a context window of that many tokens (the full mode); None keeps the
+    model's default, exactly as before, so the other modes' calls and cache keys are unchanged.
+    """
+    key = (
+        make_key("chat", CHAT_MODEL, messages, temperature)
+        if num_ctx is None
+        else make_key("chat", CHAT_MODEL, messages, temperature, num_ctx)
+    )
     use_cache = _cache is not None and temperature == 0
     if use_cache:
         cached = _cache.get(key)
         if cached is not None:
             return cached.decode()
-    resp = ollama.chat(
-        model=CHAT_MODEL, messages=messages, options={"temperature": temperature}
-    )
+    options = {"temperature": temperature}
+    if num_ctx is not None:
+        options["num_ctx"] = num_ctx
+    resp = ollama.chat(model=CHAT_MODEL, messages=messages, options=options)
     if use_cache:
         _cache.put(key, resp.message.content.encode())
     return resp.message.content

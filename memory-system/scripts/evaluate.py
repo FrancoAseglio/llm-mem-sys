@@ -1,10 +1,14 @@
 """Replay scenarios with backdated messages, then ask each question with
 no memory, baseline vector memory and smart memory.
 
+Modes: none, baseline (vector memory), smart (this system), hybrid (baseline messages, marked,
+plus a few facts) and full (the whole history, a reference ceiling).
+
 Measured without the LLM (fast, objective):
   needed fact in prompt  did the memory lines contain what the question needs?
   noise in prompt        did they contain words that should NOT be there?
-  stale value in prompt  did an outdated value reach the prompt?
+  stale value in prompt  did an outdated value reach the prompt on a line not marked as old?
+  stale, marked          was it there only on lines marked as old (hybrid only)?
 Measured with the LLM (slower, noisier):
   answers correct        did the reply contain the right words?
 
@@ -15,7 +19,7 @@ Results are also written to eval_results.json.
 SUMMARIES=0 in the environment switches the summaries layer off (nothing written or shown).
 Deterministic model calls (embeddings, extraction, summaries, temperature-0 answers) are cached in
 .cache/llm.sqlite, so a second run of an unchanged set takes seconds; --no-cache forces fresh calls.
-By default only baseline and smart answers are generated (--answers none baseline smart for all).
+By default baseline, smart, hybrid and full answers are generated (--answers lists the modes).
 
 Scoring lives in evaluation/metrics.py, printing in evaluation/report.py, the scenarios in evaluation/scenarios/.
 """
@@ -30,9 +34,9 @@ from evaluation.metrics import (
     is_correct,
     needed_fact_present,
     noise_present,
+    stale_split,
 )
 from evaluation.report import (
-    MODES,
     print_retrieval_problems,
     print_summaries,
     print_table,
@@ -40,8 +44,8 @@ from evaluation.report import (
 )
 from evaluation.scenarios import SCENARIOS, SETS
 
-from memory_system.assistant import build_messages, recall
-from memory_system.core.config import CONSOLIDATE, SUMMARIES
+from memory_system.assistant import MODES, build_messages, recall
+from memory_system.core.config import CONSOLIDATE, FULL_NUM_CTX, SUMMARIES
 from memory_system.core.db import get_pool
 from memory_system.core.llm import cache_stats, chat, enable_cache
 from memory_system.core.style import paint, set_enabled, status, status_clear
@@ -171,15 +175,22 @@ def ask(scenario: dict, question: dict, args: argparse.Namespace) -> dict:
     }
     for mode in MODES:
         lines = recall(mode, user_of(scenario), question["q"], args.k, touch=False)
+        stale_plain, stale_marked = stale_split(lines, question)
         entry = {
             "lines": len(lines),
-            "memory": lines,
+            # the full mode's lines are the whole history, the same for every question
+            "memory": [] if mode == "full" else lines,
             "needed_present": needed_fact_present(lines, question),
             "noise_present": noise_present(lines, question),
-            "stale_in_prompt": contains_any(" ".join(lines), question.get("stale", [])),
+            "stale_in_prompt": stale_plain,
+            "stale_marked": stale_marked,
         }
         if not args.retrieval_only and mode in args.answers:
-            answer = chat(build_messages(mode, lines, [], question["q"]), temperature=0)
+            answer = chat(
+                build_messages(mode, lines, [], question["q"]),
+                temperature=0,
+                num_ctx=FULL_NUM_CTX if mode == "full" else None,
+            )
             entry.update(
                 answer=answer,
                 correct=is_correct(answer, question),
@@ -188,8 +199,11 @@ def ask(scenario: dict, question: dict, args: argparse.Namespace) -> dict:
         row[mode] = entry
         if args.verbose:
             print(f"\n[{mode}] {question['q']}")
-            for line in lines:
-                print(f"    recalled: {line}")
+            if mode == "full":
+                print(f"    recalled: the whole history ({len(lines)} messages)")
+            else:
+                for line in lines:
+                    print(f"    recalled: {line}")
             if "answer" in entry:
                 print(f"    answer: {entry['answer']}")
     return row
@@ -211,8 +225,8 @@ def main() -> None:
         "--answers",
         nargs="+",
         choices=MODES,
-        default=["baseline", "smart"],
-        help="modes whose answers are generated (default: baseline smart; the no-memory "
+        default=["baseline", "smart", "hybrid", "full"],
+        help="modes whose answers are generated (default: all but none; the no-memory "
         "answers never depend on memory, so they rarely need recomputing)",
     )
     parser.add_argument(

@@ -1,30 +1,25 @@
 from datetime import date
 
 from memory_system.core.config import NOTE_FACT_WINDOW
+from memory_system.read.hybrid import all_messages, hybrid_lines
+from memory_system.read.labels import LABELS
 from memory_system.read.past_retrieve import retrieve_past
 from memory_system.read.retrieve import Memory, retrieve, retrieve_baseline
 from memory_system.summaries.retrieve import retrieve_summaries
 
-LABELS = {
-    "name": "Name",
-    "lives_in": "Lives in",
-    "works_at": "Works at",
-    "job_title": "Job title",
-    "partner": "Partner",
-    "birthday": "Birthday",
-    "hobby": "Hobby",
-    "likes": "Likes",
-    "dislikes": "Dislikes",
-    "allergic_to": "Allergic to",
-    "family_member": "Family member",
-    "speaks": "Speaks",
-    "goal": "Goal",
-}
-
 HEADERS = {
     "smart": "What you currently know about the user:",
     "baseline": "Past messages from the user that may be relevant:",
+    "hybrid": (
+        "What you know about the user: current facts first, then past messages that may be "
+        "relevant. A message marked [outdated: now X] was true when it was written and has "
+        "changed since; one marked [no longer true: X] is not true any more:"
+    ),
+    "full": "Everything the user has told you, oldest first:",
 }
+
+# Modes, in the order the evaluation prints them.
+MODES = ["none", "baseline", "smart", "hybrid", "full"]
 
 
 def format_memory(m: Memory) -> str:
@@ -55,6 +50,11 @@ def recall(
             else None
         )
         return lines + retrieve_summaries(user_id, query, lines, k, touch, fact_best)
+    if mode == "hybrid":
+        facts, past, messages = hybrid_lines(user_id, query, k, touch)
+        return [format_memory(m) for m in facts] + ([past] if past else []) + messages
+    if mode == "full":
+        return all_messages(user_id)
     if mode == "baseline":
         return [
             f'[{created:%Y-%m-%d}] "{content}"'

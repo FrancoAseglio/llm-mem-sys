@@ -2,7 +2,8 @@
 
     poetry run python scripts/chat.py --user franco --mode smart
 
-Commands: /mode smart|baseline|none   /facts   /quit
+Commands: /mode smart|hybrid|baseline|none   /facts   /quit
+(The full reference mode is for the evaluation only.)
 """
 
 import argparse
@@ -21,13 +22,13 @@ from memory_system.summaries.consolidate import consolidate
 from memory_system.summaries.summarize import pending_count, summarize_pending
 from memory_system.write.manager import ingest_user_message, list_facts
 
+CHAT_MODES = ["smart", "hybrid", "baseline", "none"]
+
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--user", default="me")
-    parser.add_argument(
-        "--mode", choices=["smart", "baseline", "none"], default="smart"
-    )
+    parser.add_argument("--mode", choices=CHAT_MODES, default="smart")
     parser.add_argument("--k", type=int, default=4)
     parser.add_argument(
         "--quiet", action="store_true", help="hide recall/memory debug lines"
@@ -57,7 +58,7 @@ def main() -> None:
             break
         if text.startswith("/mode"):
             new = text.split()[-1]
-            if new in ("smart", "baseline", "none"):
+            if new in CHAT_MODES:
                 mode = new
                 print(paint(f"mode -> {mode}", "bold"))
             continue
