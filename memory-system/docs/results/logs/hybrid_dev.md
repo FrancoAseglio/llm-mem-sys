@@ -69,6 +69,59 @@ Expected sum: 46 − about 1 (distraction) + 1 (Tamsin's city) + about 2.5 (thre
 
 **Go to set N** if, on M, hybrid ≥ baseline + 2 (raw), hybrid's stale answers are ≤ the baseline's, and on L hybrid ≥ baseline − 1. Otherwise report it and rework before writing set N. Because this is development, a pass is not evidence: it only says hybrid is worth a blind test.
 
-## Results
+## Results (2026-10-30)
 
-(to be filled in after the runs)
+Outputs (each as `.txt` and `.json`): `hybrid_M`, `hybrid_L`. Run 3 (A to J) was not run.
+
+| Measure | Reference | Predicted | Found |
+|---|---|---|---|
+| M, baseline answers (57) | 46 | 46 (±1) | 46 |
+| M, smart answers | 43 | 43 (±2) | 43 |
+| **M, hybrid answers** | | **about 50 (47 to 52)** | **50** |
+| M, full answers | | about 48 (43 to 53) | **44**, below the baseline |
+| M, needed present (54) | baseline 48, smart 43 | | hybrid **52** |
+| M, hybrid stale in prompt (not marked) | baseline 16 | about 10 (8 to 12) | 11 |
+| M, hybrid stale, marked | | about 5 (3 to 7) | 5 |
+| M, hybrid stale in answer | baseline 4, smart 1 | 1 or 2 | 2 (both right answers that name the old value too: "moved from Trondheim to Galway", "switched from Brittany") |
+| M, hybrid avg lines | | about 5.2 | 5.2 |
+| L, baseline / smart answers (30) | 27 / 26 | the same (±1) | 27 / 26 |
+| **L, hybrid answers** | | **about 28 (26 to 29)** | **28** |
+| L, full answers | | about 27 (24 to 29) | 27 |
+
+**The go criteria are met:** on M hybrid is baseline + 4 (at least + 2 needed), its stale answers are 2 against the baseline's 4, and on L hybrid is baseline + 1.
+
+### Head to head on M
+
+Hybrid against the baseline: both right 44, **hybrid only 6, baseline only 2**, both wrong 5. A sign test on the 8 differing questions gives p of about 0.29. It is in the right direction, but it is not evidence, and M is spent.
+
+Hybrid against smart: hybrid only 9, smart only 2.
+
+The 6 gains are exactly the ones predicted:
+
+| Question | What did it |
+|---|---|
+| Solveig: before Kristiansand; before Oslo | the timeline `Stavanger -> Oslo -> Kristiansand (now)`. Both modes were wrong before |
+| Tamsin: before Bristol; before Clifton Down School | the timeline |
+| Ruben: before Rotterdam | the timeline |
+| Tamsin: Which city do I live in? | the `Lives in: Bristol` line, with the old cities marked |
+
+Five of the six are past questions. On present questions hybrid kept the baseline's answers. The 8 questions smart had lost (violin, trip, half marathon, music, Kiwibyte's buyer, Joost's job, a brother's move) all came back, because the messages are the baseline's.
+
+The 2 losses, both caused by what hybrid adds:
+
+| Question | Cause |
+|---|---|
+| Ruben: Which languages do I speak? | Fact lines `Speaks: English`, `Speaks: Spanish` (Dutch was never extracted). The model answered from the incomplete facts, although the message above said "I speak Dutch and English" |
+| Ruben: Write a one-line professional bio | The message "Hi, I'm Ruben. I'm a software engineer at Kiwibyte in Utrecht." carried three markers (`now head of engineering`, `now Peatline`, `now Rotterdam`). The bio left out the name, which the check requires. A marker covers the whole message, including the parts that are still true |
+
+The 5 both-wrong questions are as predicted: the wedding (hybrid now says "Dublin", Callum's wedding, with `Partner: Priya` on top), the signature, Ruben's brother, the dinner, and the bike count.
+
+On L the gains are Maren's name (fact line) and her wedding (a keyword pass: "your brother Fintan is getting married" is right). The loss is the suitcase flight: the lines were exactly the baseline's, and the answer was "I don't know". So the only difference was the header, which counts as noise.
+
+### Full is not a ceiling for this model
+
+With the whole history (about 96 messages) the 8B model answered 44 on M, below the baseline's 46. It said "I don't know" with the answer in the prompt (partner, sister's job, sport, mum, cat, bio) and picked old values (Oslo, the Norwich school, the covers band). It won only on past questions and Ruben's brother. On this model, choosing a few lines and marking the old ones does better than giving everything. That part of the hybrid design is now supported by evidence, not only assumed.
+
+### What this means
+
+Hybrid is worth a blind test. Its gains come from facts used where they are strong (order of past values, current value on top), on top of the baseline's recall. Its losses come from facts that are incomplete (multi-valued relations) and from markers covering whole messages. Both are candidates to change, but they were found on a spent set: if changed before set N, the change is labelled development, and set N measures the result blind.

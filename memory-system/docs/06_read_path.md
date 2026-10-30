@@ -331,3 +331,5 @@ Every user message, oldest first, in the baseline's line format. On set M a user
 | One timeline per question | A past question about two relations gets one |
 | Keyword trigger | The same as section 10 |
 | Longer prompt | Up to 7 lines against 4 |
+| A marker covers the whole message | Set M: "Hi, I'm Ruben. I'm a software engineer at Kiwibyte ..." got three markers, and the bio left out the still-true name |
+| Fact lines can be incomplete | Set M: `Speaks: English`, `Speaks: Spanish` without Dutch; the model trusted the facts over the message below them |
