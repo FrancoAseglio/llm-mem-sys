@@ -77,7 +77,7 @@ Before the model sees a batch, `is_chatter` removes messages that hold nothing t
 
 Before the tags (set L, 2026-10-28) the prompt said "skip plain personal facts stored elsewhere (name, home city, job, allergies, languages, likes, dislikes)". The model cannot know what was stored, and it skipped cello lessons, learning Finnish and a brother's wedding that extraction had not stored either, so nothing kept them. `NOTE_TAGS=0` restores that prompt (`SYSTEM_PROMPT_UNTAGGED`) for comparison.
 
-With the tags the model also wrote profile notes that only restate stored facts ("The user lives in Bologna and works as an architect at Studio Verdi"); they matched many questions and raised noise. So, with tags on, a note is dropped (reason "only stored facts") when every message it cites is held by its stored facts: `only_stored` in `summaries/rules.py` requires every name of the message to be in a stored value and `NOTE_STORED_MIN` (0.75) of its content words to match a stored value or a word that states that kind of fact (`RELATION_WORDS`: "wife", "called" for `partner`). Development record: [results/logs/note_tags_dev.md](results/logs/note_tags_dev.md).
+With the tags the model also wrote profile notes that only restate stored facts ("The user lives in Bologna and works as an architect at Studio Verdi"); they matched many questions and raised noise. So, with tags on, a note is dropped (reason "only stored facts") when every message it cites is held by its stored facts: `only_stored` in `summaries/rules.py` requires every name of the message to be in a stored value and `NOTE_STORED_MIN` (0.75) of its content words to match a stored value or a word that states that kind of fact (`RELATION_WORDS`: "wife", "called" for `partner`). Development record: [history](history.md#note-tags).
 
 ### 4.3 The faithfulness check
 
@@ -187,7 +187,7 @@ The second query shows `up_to`, the kept ids and every dropped sentence with its
 
 ## 8. Results in brief
 
-Details and caveats in [08_evaluation.md](08_evaluation.md); the full record of runs, failures and changes in `results/logs/summaries_dev.md`.
+Details and caveats in [08_evaluation.md](08_evaluation.md); the full record of runs, failures and changes in [history, summaries](history.md#summaries).
 
 | Measure (smart) | Layer off | Layer on |
 |---|---|---|
@@ -286,12 +286,12 @@ With consolidation on, retrieval reads digests and the notes no digest replaced,
 | Summary text in use / its source messages, set J | 1.10 | 1.01 |
 | Sets A to I | | Identical to the last regression, except B: stale in prompt 1 to 0 |
 
-Of the seven pre-registered criteria, compression failed (targets 0.70 and 0.85); retention, final state, the age rule and the regression passed; attribution passed but was weakly tested. Checked by hand, no digest invents a detail, but one turns "the removal company paid for a technician to repair the piano" into "it was repaired by the removal company", and one keeps a "partner" that its notes had invented. Details in [08_evaluation.md](08_evaluation.md) and `results/set_J/log.md`.
+Of the seven pre-registered criteria, compression failed (targets 0.70 and 0.85); retention, final state, the age rule and the regression passed; attribution passed but was weakly tested. Checked by hand, no digest invents a detail, but one turns "the removal company paid for a technician to repair the piano" into "it was repaired by the removal company", and one keeps a "partner" that its notes had invented. Details in [08_evaluation.md](08_evaluation.md) and [history, set j](history.md#set-j).
 
 ### 12.4 What was learned
 
 - **The model rarely groups.** 14 of its 24 proposed digests cited a single note. The rule drops them, so those notes are never merged.
-- **Better grouping would not be enough.** Grouping by code (shared names, similar meaning) was explored on J afterwards and grouped only 21 of 36 old notes, with some wrong groups (two trips joined by one person's name). Even if every old note were merged at 0.79, summary text in use would be 0.92 of its sources; the target needs 0.70 on every note. Keeping every detail is what limits compression ([results/logs/consolidation_v2_exploration.md](results/logs/consolidation_v2_exploration.md)).
+- **Better grouping would not be enough.** Grouping by code (shared names, similar meaning) was explored on J afterwards and grouped only 21 of 36 old notes, with some wrong groups (two trips joined by one person's name). Even if every old note were merged at 0.79, summary text in use would be 0.92 of its sources; the target needs 0.70 on every note. Keeping every detail is what limits compression ([history](history.md#consolidation-v2)).
 - **Retention works as intended and costs merges.** The only group in the band story was dropped because it lost the name "Margit".
 - **One line instead of two helps.** The Hanoi question was answered correctly only with consolidation: a digest of the two December notes left room for the newer February note. This is a side effect of the line budget, not of the final-state rule; the February note was too recent to merge.
 - **The stale-source rule hides a whole digest.** In set B a digest merged "The user lives in Turin" (a note that should not exist) with five harmless notes about Turin. The superseded city hides all six. That removed a stale line from the B prompts, but also five pieces of information.

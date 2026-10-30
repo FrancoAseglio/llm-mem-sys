@@ -72,4 +72,4 @@ Reasons behind the main numbers:
 
 Reported only: indirect correct, `forbid` words in the prompt, every hand decision with its reason.
 
-A failed criterion is reported as a failure. My honest expectation: 4 and 5 pass; 1 and 3 pass about 65% each; 2 is close to a coin flip, because baseline is strong when a fact never changes and smart may miss indirect questions at the gate. K is spent after its single run.
+A failed criterion is reported as a failure. Expected outcome: 4 and 5 pass; 1 and 3 pass about 65% each; 2 is close to a coin flip, because baseline is strong when a fact never changes and smart may miss indirect questions at the gate. K is spent after its single run.

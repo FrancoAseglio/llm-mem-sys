@@ -1,6 +1,6 @@
 # 8. Evaluation
 
-How the memory is measured, what the test sets are, the rules that keep the measurement honest, the results so far, and what those results do not prove.
+How the memory is measured, what the test sets are, the rules that keep the measurement valid, the results so far, and what those results do not prove.
 
 ## 1. What is compared
 
@@ -33,7 +33,7 @@ With the language model (slower, noisier, run at temperature 0):
 | Answer correct | Does the reply contain the right words? Every group in `expect` needs at least one of its words |
 | Stale in answer | Does the reply contain an outdated word? |
 
-All checks are keyword matches on lower-cased text. They are objective but crude: a correct answer worded differently counts as wrong, and a lucky word counts as right.
+All checks are keyword matches on lower-cased text. They are objective but crude: a correct answer worded differently counts as wrong, and an incidental match counts as right.
 
 ## 3. The test sets
 
@@ -106,7 +106,7 @@ poetry run python scripts/evaluate.py --only b_stale_flood --verbose
 poetry run python scripts/inspect_scores.py --scenario b_stale_flood
 ```
 
-`make quick`, `make set SET=I`, `make answers SET=I` and `make eval SET=I OUT=docs/results/set_I/name` wrap the common cases; `make eval` is the final-run form (no cache, verbose, output saved as `name.txt` and `name.json`) ([02_setup.md](02_setup.md), "Keeping the Mac cool").
+`make quick`, `make set SET=I`, `make answers SET=I` and `make eval SET=I RUN=id PHASE=phase` wrap the common cases; `make eval` is the final-run form (no cache, verbose; the run is added to the tables in [../results/](../results/README.md)) ([02_setup.md](02_setup.md), "Keeping the Mac cool").
 
 **Cache and answers.** `evaluate.py` caches embeddings and temperature-0 replies in `.cache/llm.sqlite`, so re-running an unchanged set takes seconds and prints `cache: N hits, M misses`. A first run of a new set misses the cache by construction, so blind sets are unaffected. `--no-cache` forces fresh calls and is the mode for a final comparison. By default the baseline, smart, hybrid and full answers are generated (`--answers` lists the modes; add `none` for the no-memory answers); the no-memory column then shows `-`. The full mode's prompt lines are not saved in the `.json` (they are the whole history, the same for every question); verbose output prints their count. The session runner (set K) still compares none, baseline and smart only.
 
@@ -136,7 +136,7 @@ An outdated value also reached the baseline's answer once (set F); never the sma
 
 ### Sets A to F with the summaries layer
 
-Same stored facts; the layer on or off. Criteria were written before the layer was built ([predictions/set_H.md](predictions/set_H.md)). Final numbers, after the two changes described in [results/logs/summaries_dev.md](results/logs/summaries_dev.md):
+Same stored facts; the layer on or off. Criteria were written before the layer was built ([predictions/set_H.md](predictions/set_H.md)). Final numbers, after the two changes described in [history](history.md#summaries):
 
 | Smart, sets A to F | Layer off | Layer on | Criterion | Result |
 |---|---|---|---|---|
@@ -166,7 +166,7 @@ The two failed criteria were read prompt by prompt. Of the stale cases, the note
 
 ### Set I: questions about the past
 
-The mechanism ([06_read_path.md](06_read_path.md), section 10) was written after the predictions, which were committed before the first run. Smart with the mechanism, against the criteria; full diagnosis in [results/logs/past_step.md](results/logs/past_step.md).
+The mechanism ([06_read_path.md](06_read_path.md), section 10) was written after the predictions, which were committed before the first run. Smart with the mechanism, against the criteria; full diagnosis in [history](history.md#past-step).
 
 | Measure | Criterion | Result |
 |---|---|---|
@@ -214,12 +214,12 @@ Run once on the system without consolidation (run 1), then once with it (run 2),
 | 7. No regression on A to I | Passed: identical to the last regression, except B (stale in prompt 1 to 0, a side effect explained in [07](07_summaries.md), section 12.4) |
 
 - **The baseline was perfect on J.** One clear message per episode is the easy case for vector search over messages.
-- **My prediction for consolidation was too pessimistic** (about 17.5 needed present predicted, 24 found), and too optimistic for compression (0.65 predicted, 0.79 found).
+- **The prediction for consolidation was too pessimistic** (about 17.5 needed present predicted, 24 found), and too optimistic for compression (0.65 predicted, 0.79 found).
 - **The two smart misses in run 1 had other causes.** The asbestos note was dropped by the notes' faithfulness check (a true paraphrase failed the 75% word share), and the "moved to February" note lost the window to the two December notes. Consolidation fixed the second only because one digest took the place of two notes.
 
 ### Set K: consistency across sessions
 
-Six stories told over several sessions; each session starts with no chat history, so only memory carries facts between them. The three modes answer every turn side by side. Predictions and design: [predictions/set_K.md](predictions/set_K.md); hand review and details: `results/set_K/log.md`.
+Six stories told over several sessions; each session starts with no chat history, so only memory carries facts between them. The three modes answer every turn side by side. Predictions and design: [predictions/set_K.md](predictions/set_K.md); hand review and details: [history, set k](history.md#set-k).
 
 | Set K, 23 probes (after the hand review) | none | baseline | smart |
 |---|---|---|---|
@@ -236,7 +236,7 @@ Six stories told over several sessions; each session starts with no chat history
 
 ### Set L: unseen data
 
-The first measure on data written after every other set was spent, before any change, run once. Predictions: [predictions/set_L.md](predictions/set_L.md); causes of every miss: `results/set_L/log.md`.
+The first measure on data written after every other set was spent, before any change, run once. Predictions: [predictions/set_L.md](predictions/set_L.md); causes of every miss: [history, set l](history.md#set-l).
 
 | Set L, 30 questions | Needed | Noise | Stale in prompt | Avg lines | Answers | Stale in answer |
 |---|---|---|---|---|---|---|
@@ -252,7 +252,7 @@ The first measure on data written after every other set was spent, before any ch
 
 ### Set M: long histories, the main hypothesis
 
-Three users with 92 to 100 messages over about 18 months; written after the fixes of steps 1 and 2, run once, plus four ablations. Predictions: [predictions/set_M.md](predictions/set_M.md); every smart loss explained: `results/set_M/log.md`.
+Three users with 92 to 100 messages over about 18 months; written after the fixes of steps 1 and 2, run once, plus four ablations. Predictions: [predictions/set_M.md](predictions/set_M.md); every smart loss explained: [history, set m](history.md#set-m).
 
 | Set M, 57 questions | Needed | Stale in prompt | Avg lines | Answers (reviewed) | Stale in answer |
 |---|---|---|---|---|---|
@@ -266,7 +266,7 @@ Three users with 92 to 100 messages over about 18 months; written after the fixe
 
 ### Set N: the hybrid read path, blind
 
-The design and question mix of M with three new users; written after the hybrid step ([06_read_path.md](06_read_path.md), section 11) and run once. Predictions: [predictions/set_N.md](predictions/set_N.md); every difference explained: `results/set_N/log.md`.
+The design and question mix of M with three new users; written after the hybrid step ([06_read_path.md](06_read_path.md), section 11) and run once. Predictions: [predictions/set_N.md](predictions/set_N.md); every difference explained: [history, set n](history.md#set-n).
 
 | Set N, 57 questions | Needed | Stale in prompt (marked) | Avg lines | Answers (reviewed) | Stale in answer |
 |---|---|---|---|---|---|
@@ -282,7 +282,7 @@ The design and question mix of M with three new users; written after the hybrid 
 
 ### Set O: the final blind test, and N and O together
 
-Same design as N with new people; the sentences announcing changes were worded unlike N's. Run once. Predictions: [predictions/set_O.md](predictions/set_O.md); details: `results/set_O/log.md`.
+Same design as N with new people; the sentences announcing changes were worded unlike N's. Run once. Predictions: [predictions/set_O.md](predictions/set_O.md); details: [history, set o](history.md#set-o).
 
 | | Baseline | Smart | Hybrid | Full |
 |---|---|---|---|---|
@@ -332,7 +332,7 @@ Predictions are kept unchanged in [predictions/](predictions/). Outcomes: on set
 
 ## 8. Next
 
-- **A hybrid read path, measured on a fresh set:** raw messages as the main memory, with facts used where they are strong (current values, marking or filtering outdated messages, allergies). Set M rejected facts as a replacement for messages ([results/set_M/log.md](results/set_M/log.md)).
+- **A hybrid read path, measured on a fresh set:** raw messages as the main memory, with facts used where they are strong (current values, marking or filtering outdated messages, allergies). Set M rejected facts as a replacement for messages ([history](history.md#set-m)).
 - The write-path errors found on set L (facts about other people stored as the user's, incidental places stored as home, a friend as a partner) and the gap between notes and facts, measured on a fresh set (M) with the gate fixes ([10_limits_and_roadmap.md](10_limits_and_roadmap.md)).
 - The two follow-ups to set I, measured on a fresh set: past questions that also read facts archived by a retraction, and past lines ordered oldest first ([10_limits_and_roadmap.md](10_limits_and_roadmap.md)).
 - A second version of consolidation that compresses more, measured on a fresh set (J is spent); see [10_limits_and_roadmap.md](10_limits_and_roadmap.md).

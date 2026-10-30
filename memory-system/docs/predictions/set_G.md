@@ -5,8 +5,8 @@ Set G (`scripts/scenarios/set_g.py`, 9 scenarios, 19 questions) is blind and is 
 gate, the extraction and the weights are frozen; no tuning on G before this first run.
 
 The set is deliberately outside what the system was built for: 12 of the 19 questions need
-episodes, details or the past, which the 13 typed facts do not hold. I wrote the questions and I
-know the system, so they are biased toward its weak points; the control questions are there to
+episodes, details or the past, which the 13 typed facts do not hold. The questions were written by
+the system's author, so they are biased toward its weak points; the control questions are there to
 show what is unaffected.
 
 ## Per scenario
@@ -24,7 +24,7 @@ show what is unaffected.
 | g_training | What am I training for? | wrong | present, correct | about 50% (a `goal` fact if the model extracts one) |
 | g_project | What project am I leading at work? | wrong | present, correct | missing (about 90%) |
 | g_project | When is the deadline for it? | wrong | present, correct | missing (about 90%) |
-| g_jobsearch | How did my job search go? | wrong | present (Orbital is in the offer and start messages) | present about 60% via `works_at = Orbital Freight`; the answer will say where I work, not tell the story, but keyword scoring may still count it |
+| g_jobsearch | How did my job search go? | wrong | present (Orbital is in the offer and start messages) | present about 60% via `works_at = Orbital Freight`; the answer will say where the user works, not tell the story, but keyword scoring may still count it |
 | g_jobsearch | Which company turned me down? | wrong | present about 70% (6 messages, 4 recalled) | missing (about 90%) |
 | g_jobsearch | Where do I work? | wrong | present | present |
 | g_control_facts | What's my name? | wrong | present | present |
@@ -44,7 +44,7 @@ show what is unaffected.
 
 Pre-registered claims:
 
-- On the 12 episode, past and misfile questions, **baseline's needed-present count will exceed smart's by at least 4**. If not, my picture of the weakness is wrong.
+- On the 12 episode, past and misfile questions, **baseline's needed-present count will exceed smart's by at least 4**. If not, the assumed weakness is wrong.
 - Smart's two clean wins are the noise and abstain questions, and the stale count.
 - On the 7 control questions (name, languages, snack, current home, where I work, both abstains) smart will be at least as good as baseline on needed-present.
 - The most likely surprise: the model's extraction capturing episode details as `goal`, `hobby` or `family_member` facts, making smart score higher than predicted on the trip, wedding and training questions.

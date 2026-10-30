@@ -286,7 +286,7 @@ Known gaps (measured on set I, [08_evaluation.md](08_evaluation.md)):
 
 ## 11. Hybrid and full modes
 
-Set M showed that on long histories the baseline's four raw messages answer more than smart's facts and notes ([results/set_M/log.md](results/set_M/log.md)). The hybrid mode keeps the baseline's recall and adds what facts do well: current values, outdated values, allergies, and the order of past values. Code: `read/hybrid.py` (database), `read/hybrid_rules.py` (pure); `assistant.recall` puts the lines together. It is development on spent sets until a fresh set measures it ([results/logs/hybrid_dev.md](results/logs/hybrid_dev.md)).
+Set M showed that on long histories the baseline's four raw messages answer more than smart's facts and notes ([history](history.md#set-m)). The hybrid mode keeps the baseline's recall and adds what facts do well: current values, outdated values, allergies, and the order of past values. Code: `read/hybrid.py` (database), `read/hybrid_rules.py` (pure); `assistant.recall` puts the lines together. It is development on spent sets until a fresh set measures it ([history](history.md#hybrid)).
 
 ### 11.1 What the prompt holds, in order
 
@@ -309,7 +309,7 @@ For each message, every user fact it produced (`facts.source_message_id`) that i
 | The chain ends on another relation (a like that became a dislike) | `[outdated: <Label>: <old> -> now <Label>: <value>]` | `[outdated: Likes: coffee -> now Dislikes: coffee]` |
 | Archived by a retraction, or the chain does not end on an active fact | `[no longer true: <Label>: <old>]` | `"I play bass in a covers band" [no longer true: Hobby: bass]` |
 | The chain ends on the same value again (a user who moved back) | none | the old message is true again |
-| Conflicted (a dependent fact we cannot judge) | none | |
+| Conflicted (a dependent fact that cannot be judged) | none | |
 
 The marker names the old value and its kind, so the model can tell which part of the message changed. The header stays short: it says that a marked message was true when written and has changed since. A longer header that also said "the rest of the message may still be true" was tried in fixes_N and dropped: two answers became "You don't know." Until set N a marker named only the new value (`[outdated: now Kristiansand]`): on set M a bio left out the still-true name of a marked introduction, and on set N "[outdated: now Jonte]" made a brother's move look outdated.
 

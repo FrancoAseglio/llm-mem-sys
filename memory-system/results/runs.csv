@@ -1,0 +1,54 @@
+order,run,phase,description
+1,A_to_G_after_fix2,regression,sets A to G after the second gate fix
+2,G_first_run,blind,"set G, first run, smart without notes"
+3,G_rerun_summaries,rerun,set G re-run with the notes layer
+4,H_first_run,blind,"set H, validation of the notes layer"
+5,I_first_run,blind,"set I, questions about the past, mechanism on"
+6,I_off,ablation,"set I, PAST_FACTS=0"
+7,A_to_H_past_rule,regression,sets A to H with the past rule on
+8,J_off,blind,set J without consolidation
+9,J_on,blind,set J with consolidation
+10,A_to_I_consolidation,regression,sets A to I with consolidation on
+11,K_first_run,blind,"set K, consistency across sessions"
+12,A_to_J_nocache,noise check,"sets A to J re-run from scratch, cache off"
+13,K_rerun_nocache,noise check,"set K re-run, cache off"
+14,L_first_run,blind,"set L, unseen data, every question type"
+15,L_summaries_off,ablation,"set L, SUMMARIES=0"
+16,L_about_user,development,set L with the about_user check
+17,A_to_J_about_user,regression,sets A to J with about_user
+18,K_about_user,regression,set K with about_user
+19,L_note_tags,development,"set L, notes tagged with stored facts, iteration 1"
+20,A_to_J_note_tags,regression,"sets A to J, note tags iteration 1"
+21,K_note_tags,regression,"set K, note tags iteration 1"
+22,L_note_tags_v2,development,"set L, note tags iteration 2 (with a bug)"
+23,A_to_J_note_tags_v2,regression,"sets A to J, note tags iteration 2 (bug)"
+24,K_note_tags_v2,regression,"set K, note tags iteration 2 (bug)"
+25,L_note_tags_v2b,development,"set L, note tags iteration 2b"
+26,A_to_J_note_tags_v2b,regression,"sets A to J, note tags iteration 2b"
+27,K_note_tags_v2b,regression,"set K, note tags iteration 2b"
+28,L_note_window,development,"set L, note window counts the best fact"
+29,A_to_J_note_window,regression,"sets A to J, note window"
+30,K_note_window,regression,"set K, note window"
+31,L_first_person,development,"set L, about_user needs a first-person word"
+32,A_to_J_first_person,regression,"sets A to J, first-person rule"
+33,K_first_person,regression,"set K, first-person rule"
+34,M_full,blind,"set M, long histories, the main hypothesis"
+35,M_facts_only,ablation,"set M, SUMMARIES=0"
+36,M_no_fact_window,ablation,"set M, NOTE_FACT_WINDOW=0"
+37,M_no_about_user,ablation,"set M, ABOUT_USER=0"
+38,M_no_note_tags,ablation,"set M, NOTE_TAGS=0"
+39,M_change_rule,development,"set M, change rule, iteration 1"
+40,L_change_rule,development,"set L, change rule, iteration 1"
+41,A_to_J_change_rule,regression,"sets A to J, change rule iteration 1"
+42,K_change_rule,regression,"set K, change rule iteration 1"
+43,M_change_rule_1b,development,"set M, change rule iteration 1b"
+44,L_change_rule_1b,development,"set L, change rule iteration 1b"
+45,A_to_J_change_rule_1b,regression,"sets A to J, change rule iteration 1b"
+46,K_change_rule_1b,regression,"set K, change rule iteration 1b"
+47,M_hybrid,development,set M with the hybrid and full modes
+48,L_hybrid,development,set L with the hybrid and full modes
+49,N_full,blind,"set N, blind test of the hybrid read path"
+50,N_fixes,development,set N with the fixes from N
+51,M_fixes,development,set M with the fixes from N
+52,L_fixes,development,set L with the fixes from N
+53,O_full,blind,"set O, the final blind test"

@@ -1,6 +1,6 @@
 # Predictions before set N (written 2026-10-30, before any run)
 
-Set N (`scripts/evaluation/scenarios/sets/set_n.json`, 3 users, 283 messages, 57 questions) is the blind test of the hybrid read path. Hybrid was built and checked on the spent sets M and L ([results/logs/hybrid_dev.md](../results/logs/hybrid_dev.md)): 50 against the baseline's 46 on M, and 28 against 27 on L. Those runs were development. N was written after them and before any run on it. It is run **once**. Nothing below has been checked against data.
+Set N (`scripts/evaluation/scenarios/sets/set_n.json`, 3 users, 283 messages, 57 questions) is the blind test of the hybrid read path. Hybrid was built and checked on the spent sets M and L ([results/logs/hybrid_dev.md](../history.md#hybrid)): 50 against the baseline's 46 on M, and 28 against 27 on L. Those runs were development. N was written after them and before any run on it. It is run **once**. Nothing below has been checked against data.
 
 ## Design (frozen with the set)
 
@@ -47,7 +47,7 @@ Secondary, also pre-registered:
 
 ## Predictions
 
-Calibrated on M. I underpredicted the baseline on L and on M by about 9 questions, so the numbers below start from each mode's rate per question type on M (`hybrid_M`), adjusted where N differs. Two of N's past questions follow a single move, which is easier for the baseline than M's two-move users.
+Calibrated on M. The baseline was underpredicted on L and on M by about 9 questions, so the numbers below start from each mode's rate per question type on M (`hybrid_M`), adjusted where N differs. Two of N's past questions follow a single move, which is easier for the baseline than M's two-move users.
 
 | Type | n | Baseline on M | Smart on M | Hybrid on M | Baseline on N | Smart on N | Hybrid on N |
 |---|---|---|---|---|---|---|---|
@@ -67,7 +67,7 @@ Calibrated on M. I underpredicted the baseline on L and on M by about 9 question
 
 | Measure | Prediction |
 |---|---|
-| **d = hybrid − baseline** | **about +3 (0 to +6); I give "+3 or more" about a 50% chance.** Almost all of the gain should come from the past questions (timelines). Elsewhere hybrid should equal the baseline, minus about 0.5 from the extra lines (the two M losses: an incomplete multi-valued fact, a marker over a still-true message) |
+| **d = hybrid − baseline** | **about +3 (0 to +6); "+3 or more" has about a 50% chance.** Almost all of the gain should come from the past questions (timelines). Elsewhere hybrid should equal the baseline, minus about 0.5 from the extra lines (the two M losses: an incomplete multi-valued fact, a marker over a still-true message) |
 | d = smart − baseline (H3) | about −3 (−7 to +1) |
 | Full | about 42 (37 to 47): below the baseline, as on M |
 | Outdated value in the answer (19 with `stale`) | baseline about 4, smart about 1, hybrid about 2 |
@@ -75,7 +75,7 @@ Calibrated on M. I underpredicted the baseline on L and on M by about 9 question
 | Stale, marked (hybrid) | about 5 |
 | Average lines | baseline 4.0, smart about 2.1, hybrid about 5.2, full about 95 |
 
-Where I expect hybrid and the baseline to differ:
+Where hybrid and the baseline are expected to differ:
 
 | Question | Expected |
 |---|---|
@@ -84,4 +84,4 @@ Where I expect hybrid and the baseline to differ:
 | Henrike: languages (three values) | a risk for hybrid if a language was not extracted (the M loss) |
 | Signature and bio (Kwame, Henrike) | a risk for hybrid: markers on the introduction message |
 
-If H1 fails, hybrid still does no harm against the baseline, and its gain is limited to past questions. In that case the honest headline is "a marked timeline helps questions about the past", not "better than vector memory".
+If H1 fails, hybrid still does no harm against the baseline, and its gain is limited to past questions. In that case the accurate headline is "a marked timeline helps questions about the past", not "better than vector memory".

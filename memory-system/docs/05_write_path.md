@@ -144,7 +144,7 @@ Only asserted facts are checked, and the manager uses the same check when it lis
 
 ### 4.4 `signals_change(value, relation, text)`
 
-True if the message says a single value changed. Used only when the user already has a different active city, employer, job title or partner: then the new value replaces the old one only if this is true. The user's first value needs nothing. Added after set M, where incidental mentions replaced current facts one after another ([results/set_M/log.md](results/set_M/log.md)).
+True if the message says a single value changed. Used only when the user already has a different active city, employer, job title or partner: then the new value replaces the old one only if this is true. The user's first value needs nothing. Added after set M, where incidental mentions replaced current facts one after another ([history](history.md#set-m)).
 
 | Relation | A change is said with | Example kept | Example rejected |
 |---|---|---|---|

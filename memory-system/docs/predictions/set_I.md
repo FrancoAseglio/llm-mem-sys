@@ -23,7 +23,7 @@ superseded facts are never read.
 
 Amendment made before any run on set I: the unit test caught that "What food did I use to dislike?"
 (question form, "use to" without the d) did not fire, so "did I use to" was added to the list. This was
-found by a test on my own wording, not by running the set.
+found by a unit test on hand-written wording, not by running the set.
 
 ## Per question (smart with the mechanism; baseline = 4 raw messages)
 

@@ -23,8 +23,8 @@ Sentences:
   things" and the lack of any goal example push the model to drop them) or get filed as `likes`/`hobby`.
   Sentences 6 and 9 (saving / buying) are the most likely to be empty, like the boat.
 - **Change**: one rule line and one example in the extractor prompt, saying that plans, hopes
-  and saving towards something are `goal`. I will **not** change the `goal` description in
-  `relation_types`: retrieval embeds that text for routing, so editing it would change
+  and saving towards something are `goal`. The `goal` description in
+  `relation_types` is **not** changed: retrieval embeds that text for routing, so editing it would change
   routing for every question in A-C.
 - **After**: 8-10 of 10 become `goal`. Risk: a value that keeps the verb ("run a marathon"
   vs "marathon"), which is fine for keyword checks.
@@ -39,7 +39,7 @@ Code only, nothing to predict. Facts are still capped at `k` and sorted by score
   The bypass is a separate branch, so turning it off has to reproduce the old behaviour exactly.
 - `SAFETY_BYPASS=1`: set A has no allergy facts, so no change. Allergy facts in B/C:
   - `b_drug_allergy_noise` ("dinner recipe", penicillin 0.35): **changes**. The `allergic_to`
-    hint mentions recipes and cooking, so I expect it in the routing top-2, so penicillin is
+    hint mentions recipes and cooking, so it is expected in the routing top-2, so penicillin is
     added. **B noise goes 0/2 -> 1/2.** This is exactly the case the user wants to stay out,
     and option A cannot keep it out.
   - `b_food_allergy` (peanuts, snack) and `b_correction` (walnuts): already retrieved, no change.
@@ -69,7 +69,7 @@ Code only, nothing to predict. Facts are still capped at `k` and sorted by score
 Totals, smart mode:
 - **ON**: needed 8-9/9, noise 2/12 (the drug profile's cook and blood-type questions).
 - **OFF**: needed 7-8/9 (cook question missing), noise 0/12.
-- Mushrooms (dislike) are neither needed nor noise. I expect them to show up on the food profile's
+- Mushrooms (dislike) are neither needed nor noise. They are expected to show up on the food profile's
   cook question in both modes.
 - Baseline: needed about 8/9, noise high (4 lines of mostly filler every time, which often includes
   the profile's other facts).

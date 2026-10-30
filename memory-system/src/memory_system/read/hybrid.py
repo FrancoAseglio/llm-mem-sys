@@ -51,7 +51,7 @@ def _chain_end(conn, fact_id: int) -> tuple[str, str, str] | None:
 def outdated_markers(user_id: str, message_ids: list[int]) -> dict[int, list[str]]:
     """{message id: markers} for messages that produced a user fact that is no longer active:
     superseded (marked with the current value) or archived by a retraction. Facts still active,
-    and conflicted ones (we cannot tell whether they are true), give no marker."""
+    and conflicted ones (whose truth cannot be told), give no marker."""
     if not message_ids:
         return {}
     markers: dict[int, list[str]] = {}

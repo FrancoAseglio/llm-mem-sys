@@ -20,7 +20,7 @@ Known bugs this work targets:
   remove X.
 
 **Will not solve**
-- Depends on the 8B model setting `action` correctly. I expect it to do so on explicit
+- Depends on the 8B model setting `action` correctly. It is expected to do so on explicit
   "I'm not X" wording most of the time, but not for every phrasing ("scratch that", "turns out...").
 - Matching uses the existing check (exact, or trigram similarity >= 0.8). Singular/plural
   pairs fall below 0.8 (`peanut` vs `peanuts` is about 0.67), so `retract peanut` will **miss**
@@ -28,7 +28,7 @@ Known bugs this work targets:
 - Risk of the opposite error: negative-sounding assertions ("I can't stand olives",
   "I really dislike mushrooms", "I can't eat gluten at all") may be emitted as retractions.
   A retraction with no matching fact stores nothing, so that dislike/intolerance would be **lost**.
-  I expect 0-2 such losses across A-E.
+  Expected: 0-2 such losses across A-E.
 - Corrections that span two messages ("No, I meant Rome") are still not handled.
 
 ## Fix 2: grounding check
@@ -47,7 +47,7 @@ message. Words match if one is a prefix of the other or they share the first 5 l
 - Junk built from message words passes: `job_title = new position`, `works_at = Delta Labs employee`.
 - Short values are always rejected: names like Max, Eva, Leo; `egg`, `tea`, `art`. None of the
   values stored today in A-E is under 4 letters (`eggs`, `Ines`, `Luca`, `Anna`, `Rome`, `fado` are
-  all 4+), so I expect no loss in A-E. This is a real cost for future data.
+  all 4+), so no loss is expected in A-E. This is a real cost for future data.
 - Legitimate normalisation is rejected: "I'm a dev" -> `software developer`, "born 3/3" -> `March 3`.
 
 ## Fix 3: likes/dislikes contradiction
@@ -104,14 +104,14 @@ Some drift from the changed extractor prompt (new field, new rule, new example) 
 
 What the A-E re-ingest showed, which shapes these numbers: in `b_correction` the model labelled
 **both** halves of "not peanuts, walnuts" as `retract`, so peanuts was archived but walnuts was
-**never stored**. Over-retraction of the asserted half is the main risk. I had predicted the risk for
+**never stored**. Over-retraction of the asserted half is the main risk. The risk had been predicted for
 dislikes, not for the second half of a correction.
 
 | Scenario | Expected stored facts | Confidence | Main risk |
 |---|---|---|---|
 | `f_correction_allergy` ("latex is fine for me, it's pollen I'm allergic to") | latex `archived`, pollen `active` | latex archived ~50% (no "not" in the sentence); pollen active ~55% | pollen emitted as retract and lost (as walnuts was); or latex left active |
 | `f_no_longer_hobby` ("I don't play chess anymore; ... my hobby is pottery") | chess `archived`, pottery `active` | chess archived ~70%; pottery active ~65% | pottery labelled retract; "playing chess" vs "chess" wording misses the 0.8 trigram match |
-| `f_vague_promotion` ("finally got the promotion") | teacher `active`, nothing new | ~35% | model invents a title. "manager"/"senior teacher" -> **rejected** by grounding (logged). "promotion"/"promoted" -> **passes** grounding and supersedes teacher. I give: junk stored ~40%, junk rejected ~30%, nothing extracted ~30% |
+| `f_vague_promotion` ("finally got the promotion") | teacher `active`, nothing new | ~35% | model invents a title. "manager"/"senior teacher" -> **rejected** by grounding (logged). "promotion"/"promoted" -> **passes** grounding and supersedes teacher. Estimate: junk stored ~40%, junk rejected ~30%, nothing extracted ~30% |
 | `f_like_to_dislike` (spicy food) | likes `superseded` by dislikes, event `contradiction` | ~55% | values differ ("spicy food" vs "spicy"), so no match and both active; or "gone off" read as a retract of likes (likes archived, also acceptable) |
 | `f_dislike_to_like` (opera) | dislikes `superseded` by likes, event `contradiction` | ~65% | model files it as hobby, or "can't stand" first time is stored as a retract (nothing stored), then a plain add |
 | `f_employer_no_title` (Riverside Clinic) | works_at Saint Mary's `superseded`, nurse `conflicted` | ~75% | model re-emits job_title=nurse from nowhere: "nurse" is not in the message, so rejected and it does not shield the old title, fine; or `switched employers` produces no works_at value |
@@ -127,4 +127,4 @@ Retrieval questions in F (secondary, retrieval only):
 - `f_employer_no_title` "Where do I work?" riverside ✓ ~80%; "job title" nurse absent ~75%.
 - `f_employer_with_title` contoso ✓ ~85%, product manager ✓ ~75%.
 
-Overall: I expect 4-5 of the 7 F scenarios to end in exactly the intended stored state.
+Overall: 4-5 of the 7 F scenarios are expected to end in exactly the intended stored state.

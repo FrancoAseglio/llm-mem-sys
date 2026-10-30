@@ -1,8 +1,10 @@
 # Everyday commands. Run from this folder. `nice` keeps the Mac responsive while the model works.
 # Variables: SET=I (a set letter, or "A B" for several), SCENARIO=dislike_noise (a scenario id),
-# OUT=docs/results/set_M/full (a path without extension: .txt and .json are written next to it).
+# RUN=M_after_fix (a new run id) PHASE=development (blind, development, regression, ablation, ...).
+# A finished run is added to the tables in results/ (scripts/export_results.py); its printed
+# output is kept in runs/<RUN>.txt, which git ignores.
 SHELL := /bin/bash
-RUN = nice -n 10 poetry run
+PY = nice -n 10 poetry run
 
 .PHONY: help test check format db chat scenarios inspect quick set answers eval sessions
 
@@ -20,11 +22,12 @@ help:
 	@echo "EVALUATE"
 	@echo "  make quick                  retrieval only, every set, stored data (seconds, no chat model)"
 	@echo "  make set SET=I              ingest again and score retrieval only (after a write-path change)"
-	@echo "  make answers SET=I          stored data, plus baseline and smart answers (cache on)"
-	@echo "  make eval SET=M OUT=path    final run: ingest, no cache, verbose; saves OUT.txt and OUT.json"
+	@echo "  make answers SET=I          stored data, plus the answers of every mode (cache on)"
+	@echo "  make eval SET=M RUN=id PHASE=development"
+	@echo "                              final run: ingest, no cache, verbose; adds it to results/*.csv"
 	@echo "                              [ARGS=--no-ingest] reuses stored data; env switches pass through,"
-	@echo "                              e.g. SUMMARIES=0 make eval SET=M OUT=... ARGS=--no-ingest"
-	@echo "  make sessions [OUT=path]    consistency across sessions (set K), every mode, no cache"
+	@echo "                              e.g. SUMMARIES=0 make eval SET=M RUN=... PHASE=ablation ARGS=--no-ingest"
+	@echo "  make sessions RUN=id PHASE=regression   consistency across sessions (set K), no cache"
 
 test:
 	poetry run pytest -q
@@ -54,23 +57,25 @@ inspect:
 	poetry run python scripts/inspect_scores.py --scenario $(SCENARIO)
 
 quick:
-	$(RUN) python scripts/evaluate.py --retrieval-only --no-ingest
+	$(PY) python scripts/evaluate.py --retrieval-only --no-ingest
 
 set:
 	@test -n "$(SET)" || { echo "usage: make set SET=I"; exit 1; }
-	$(RUN) python scripts/evaluate.py --set $(SET) --retrieval-only
+	$(PY) python scripts/evaluate.py --set $(SET) --retrieval-only
 
 answers:
 	@test -n "$(SET)" || { echo "usage: make answers SET=I"; exit 1; }
-	$(RUN) python scripts/evaluate.py --set $(SET) --no-ingest
+	$(PY) python scripts/evaluate.py --set $(SET) --no-ingest
 
 eval:
-	@test -n "$(SET)" -a -n "$(OUT)" || { echo "usage: make eval SET=M OUT=docs/results/set_M/full [ARGS=--no-ingest]"; exit 1; }
-	@mkdir -p $(dir $(OUT))
-	set -o pipefail; NO_COLOR=1 $(RUN) python scripts/evaluate.py --set $(SET) --no-cache --verbose $(ARGS) | tee $(OUT).txt
-	cp eval_results.json $(OUT).json
+	@test -n "$(SET)" -a -n "$(RUN)" -a -n "$(PHASE)" || { echo "usage: make eval SET=M RUN=M_after_fix PHASE=development [ARGS=--no-ingest]"; exit 1; }
+	@mkdir -p runs
+	set -o pipefail; NO_COLOR=1 $(PY) python scripts/evaluate.py --set $(SET) --no-cache --verbose $(ARGS) | tee runs/$(RUN).txt
+	poetry run python scripts/export_results.py --run $(RUN) --phase "$(PHASE)" --description "$(DESC)" eval_results.json
 
 sessions:
-	@$(if $(OUT),mkdir -p $(dir $(OUT)),true)
-	set -o pipefail; NO_COLOR=1 $(RUN) python scripts/evaluate_sessions.py --no-cache --verbose $(if $(SCENARIO),--only $(SCENARIO),) $(if $(OUT),| tee $(OUT).txt,)
-	$(if $(OUT),cp eval_sessions.json $(OUT).json,)
+	@test -n "$(RUN)" -a -n "$(PHASE)" || { echo "usage: make sessions RUN=K_after_fix PHASE=regression [SCENARIO=k_move]"; exit 1; }
+	@mkdir -p runs
+	set -o pipefail; NO_COLOR=1 $(PY) python scripts/evaluate_sessions.py --no-cache --verbose $(if $(SCENARIO),--only $(SCENARIO),) | tee runs/$(RUN).txt
+	poetry run python scripts/export_results.py --run $(RUN) --phase "$(PHASE)" --description "$(DESC)" eval_sessions.json
+

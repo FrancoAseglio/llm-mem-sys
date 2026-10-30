@@ -77,7 +77,7 @@ def _conflict_dependent(
     conn, user_id: str, relation: str, message_relations: set[str], at: datetime | None
 ) -> None:
     """After `relation` changed, mark its dependent relation 'conflicted' unless the same
-    message also gave it. Not superseded: we cannot tell whether it is still true."""
+    message also gave it. Not superseded: whether it is still true cannot be told."""
     dependent = DEPENDENTS.get(relation)
     if dependent is None or dependent in message_relations:
         return

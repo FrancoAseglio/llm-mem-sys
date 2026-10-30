@@ -65,7 +65,7 @@ A new like that matches an active dislike (or the reverse) now supersedes it wit
 
 ### Summaries layer
 
-Full record in [results/logs/summaries_dev.md](results/logs/summaries_dev.md); the design in [07_summaries.md](07_summaries.md).
+Full record in [history](history.md#summaries); the design in [07_summaries.md](07_summaries.md).
 
 | Finding | Evidence | Change |
 |---|---|---|
@@ -80,7 +80,7 @@ Two things were disclosed in the record: set G was run before its code was commi
 
 ### Questions about the past
 
-Full record in [results/logs/past_step.md](results/logs/past_step.md); the mechanism in [06_read_path.md](06_read_path.md), section 10.
+Full record in [history](history.md#past-step); the mechanism in [06_read_path.md](06_read_path.md), section 10.
 
 | Finding | Evidence | Change |
 |---|---|---|
@@ -111,7 +111,7 @@ The code was split into smaller modules without changing behaviour: the scenario
 | Retraction archives, `conflicted` for dependents | Delete, or trust newest-wins | Keeps history; avoids asserting that an unknown is false |
 | Keep the message when extraction fails | Roll back everything | Nothing the user said is lost |
 | Temperature 0 for extraction and evaluation | Default sampling | Repeatable experiments |
-| All test sets labelled tuning, spent or blind | Re-using sets freely | Keeps the evidence honest |
+| All test sets labelled tuning, spent or blind | Re-using sets freely | Keeps the evidence valid |
 | Strong-match override and rank-3 allergy bypass not implemented | Implement now | Held for a pre-registered test on a fresh set |
 | Episode notes separate from facts | Add relation types for episodes | Episodes have no fixed type; facts stay clean and versioned |
 | Notes use the fact floor and window, with no routing | Tune a separate threshold | All earlier sets were spent, so a threshold could only be fitted on data already seen |

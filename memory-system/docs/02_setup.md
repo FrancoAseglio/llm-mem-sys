@@ -330,7 +330,7 @@ If an answer looks wrong, this is where to trace it. The ids in your own databas
 
 ## 9. Everyday commands
 
-| I want to | Command |
+| Task | Command |
 |---|---|
 | Create the database and its tables | `make db` (creates `memory_db` and runs `schema.sql`; safe to re-run) |
 | Chat with memory | `make chat` (or `make chat U=franco`; the same as `poetry run python scripts/chat.py --user me`; `/mode smart|baseline|none`, `/facts`, `/quit`) |
@@ -355,13 +355,13 @@ The heavy part is the 8B chat model. A full run of sets A to I would make about 
 - **Fewer answers.** By default only the baseline and smart answers are generated; `--answers none baseline smart` adds the no-memory ones.
 - **The right command for the change.**
 
-| I changed | Run | Cost |
+| What changed | Run | Cost |
 |---|---|---|
 | A rule, the gate, ranking or the read path | `make quick` (retrieval only on stored data, all sets) | seconds, no chat model |
 | The write path or a prompt | `make set SET=B` (ingest and score one set, retrieval only), then the other sets one at a time | one extraction call per message |
 | Something that changes answers | `make answers SET=I` for the set you test, once, at the end of a step | one chat call per question and mode |
-| Nothing, and I want a final, honest run | `make eval SET=I OUT=docs/results/set_I/name` (ingest, no cache, verbose; saves `name.txt` and `name.json`). `ARGS=--no-ingest` reuses the stored data; switches such as `SUMMARIES=0` go before `make` | everything, no cache |
-| Set K, the session set | `make sessions OUT=docs/results/set_K/name` | every turn, every mode, no cache |
+| Nothing; a final run from scratch is needed | `make eval SET=I RUN=I_rerun PHASE=development` (ingest, no cache, verbose; adds the run to `results/*.csv` and keeps the printed output in `runs/I_rerun.txt`). `ARGS=--no-ingest` reuses the stored data; switches such as `SUMMARIES=0` go before `make` | everything, no cache |
+| Set K, the session set | `make sessions RUN=K_rerun PHASE=regression` | every turn, every mode, no cache |
 
 Also: `make` runs the model at low priority (`nice`), `ollama ps` shows whether it runs fully on the GPU, and the tests (`make test`, about a second) never call a model. Close other heavy apps during a full run, and avoid running two evaluations at once.
 

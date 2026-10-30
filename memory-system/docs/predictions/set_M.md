@@ -1,6 +1,6 @@
 # Predictions before set M (written 2026-10-29, before any run)
 
-Set M (`scripts/evaluation/scenarios/sets/set_m.json`, 3 users, 289 messages, 57 questions) tests the question the project was built for: **is this memory better than plain vector search over a long, crowded history?** Sets A to L were short stories (4 to 18 messages), where the baseline's four most similar messages usually hold the answer. M was written after the step 1 and 2 fixes ([results/logs/about_user_dev.md](../results/logs/about_user_dev.md), [results/logs/note_tags_dev.md](../results/logs/note_tags_dev.md)) and before any run on it. It is run **once** on the current system, plus the ablations below. Nothing below has been checked against data.
+Set M (`scripts/evaluation/scenarios/sets/set_m.json`, 3 users, 289 messages, 57 questions) tests the question the project was built for: **is this memory better than plain vector search over a long, crowded history?** Sets A to L were short stories (4 to 18 messages), where the baseline's four most similar messages usually hold the answer. M was written after the step 1 and 2 fixes ([results/logs/about_user_dev.md](../history.md#about-user), [results/logs/note_tags_dev.md](../history.md#note-tags)) and before any run on it. It is run **once** on the current system, plus the ablations below. Nothing below has been checked against data.
 
 ## Design (frozen with the set)
 
@@ -41,7 +41,7 @@ A sign test on the questions where the two differ is reported with it. Secondary
 - **H2:** smart puts an outdated value in fewer answers than the baseline (18 questions have a `stale` list).
 - **H3:** smart uses under 2 lines per question on average, against 4.0.
 
-**My prediction is that H1 fails:** about 39 for the baseline and 36.5 for smart, so "no clear difference", leaning to the baseline. H2 and H3 should hold. The reasons are below; I would rather write this down now than be surprised kindly.
+**Prediction: H1 fails.** about 39 for the baseline and 36.5 for smart, so "no clear difference", leaning to the baseline. H2 and H3 should hold. The reasons are below.
 
 ## Per question (probability of a correct answer)
 

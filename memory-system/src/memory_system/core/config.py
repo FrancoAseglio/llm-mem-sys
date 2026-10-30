@@ -12,7 +12,7 @@ EMBED_MODEL = os.environ.get(
     "EMBED_MODEL", "nomic-embed-text"
 )  # 768 dims, matches schema.sql
 
-# Importance per relation type. The small local LLM rates almost everything 1.0, so we don't ask it.
+# Importance per relation type. The small local LLM rates almost everything 1.0, so it is not asked.
 DEFAULT_IMPORTANCE = {
     "allergic_to": 0.95,
     "family_member": 0.80,

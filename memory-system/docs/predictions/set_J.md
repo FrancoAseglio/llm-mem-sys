@@ -46,7 +46,7 @@ None of them is a threshold, and none was chosen by looking at J's results:
   shorter.
 - A run that would send exactly the notes of the last run is skipped (the model would answer the same).
 - Retention: plural weekdays ("Thursdays") count as weekday names; a capitalised word that starts
-  any sentence of a note is not a name. Both fixes came from my own unit tests, not from J.
+  any sentence of a note is not a name. Both fixes came from unit tests, not from J.
 - Consequence of 3b as written, noticed before run 2: a day number is a number, so a digest that
   turns "December 12" into "February" is rejected for dropping "12". The Hanoi digest will either
   keep both dates or not exist. Not changed, because the design was frozen.
@@ -129,8 +129,8 @@ Other columns:
 6. **Faithfulness:** every digest of J checked by hand against its source messages; any invented or
    misattributed detail is reported.
 7. **No regression:** sets A to F answers at least 58/61, needed at least 56/58, no outdated value in an
-   answer; G, H, I re-runs within 1 of their last result. I expect no digests at all in A to I, because
+   answer; G, H, I re-runs within 1 of their last result. No digests at all are expected in A to I, because
    those users have fewer than 6 notes older than 30 days; any digest there is reported.
 
-A failed criterion is reported as a failure. My honest expectation: criteria 1, 5 and 7 pass;
-criterion 2 is close to a coin flip (I predict a drop of about 2.5); 3, 4 and 6 pass about 65% each.
+A failed criterion is reported as a failure. Expected outcome: criteria 1, 5 and 7 pass;
+criterion 2 is close to a coin flip (a drop of about 2.5 is predicted); 3, 4 and 6 pass about 65% each.

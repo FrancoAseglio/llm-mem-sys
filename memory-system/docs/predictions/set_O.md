@@ -1,6 +1,6 @@
 # Predictions before set O (written 2026-10-30, before any run)
 
-Set O (`scripts/evaluation/scenarios/sets/set_o.json`, 3 users, 283 messages, 57 questions) is the **final** blind test of the hybrid read path. It was written after the fixes from set N ([results/logs/set_N_fixes_dev.md](../results/logs/set_N_fixes_dev.md)) and the two read-path corrections that followed them. It is run **once**. No system change after this run is tested again: whatever O shows goes into the report. Nothing below has been checked against data.
+Set O (`scripts/evaluation/scenarios/sets/set_o.json`, 3 users, 283 messages, 57 questions) is the **final** blind test of the hybrid read path. It was written after the fixes from set N ([results/logs/set_N_fixes_dev.md](../history.md#set-n-fixes)) and the two read-path corrections that followed them. It is run **once**. No system change after this run is tested again: whatever O shows goes into the report. Nothing below has been checked against data.
 
 ## The system under test
 
@@ -79,4 +79,4 @@ Calibrated on the runs of M and N with the current write path (`fixes_M`, `fixes
 | H4: names right / key facts right | 3 of 3 / about 10 of 12. Amara's "moving to Edinburgh one day" may move her city early, and the reworded change sentences are untested |
 | Average lines | baseline 4.0, smart about 2.4, hybrid about 5.3, full about 95 |
 
-Where I expect hybrid and the baseline to differ: the 7 past questions (timelines), current values after two changes (fact lines on top), and the three hand-scored allergy and intolerance questions. Where I expect risks for hybrid: a wrong fact above the right message (the pattern of every hybrid loss so far), and family questions if a wrong family fact comes first.
+Where hybrid and the baseline are expected to differ: the 7 past questions (timelines), current values after two changes (fact lines on top), and the three hand-scored allergy and intolerance questions. Expected risks for hybrid: a wrong fact above the right message (the pattern of every hybrid loss so far), and family questions if a wrong family fact comes first.

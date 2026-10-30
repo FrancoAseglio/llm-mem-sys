@@ -16,16 +16,17 @@ Prototype long-term memory for an LLM assistant. These documents explain what th
 | 8 | [08_evaluation.md](08_evaluation.md) | How memory is measured, the test sets, the protocol, the results and what they do not prove |
 | 9 | [09_findings.md](09_findings.md) | The experiments and mistakes that shaped the design, and the decision log |
 | 10 | [10_limits_and_roadmap.md](10_limits_and_roadmap.md) | Everything known to be missing or weak, and what comes next |
+| - | [history.md](history.md) | The development logs and test-set records, in order |
 
-Written predictions, made before runs, are kept unchanged in [predictions/](predictions/README.md). The predictions and the files in [results/](results/README.md) are historical records: the file paths they mention are those of the time, before the package was split into `core/`, `write/`, `read/` and `summaries/` ([01_overview.md](01_overview.md), code map).
+Written predictions, made before runs, are kept unchanged in [predictions/](predictions/README.md). The development logs and the record of every test set are in [history.md](history.md), in the order they were written. Every run's data is in [../results/](../results/README.md) as CSV tables. Predictions and history are historical records: the file paths they mention are those of the time (run outputs that used to be files in `docs/results/` are now rows of the CSV tables; the package was later split into `core/`, `write/`, `read/` and `summaries/`).
 
 ## Quick paths
 
-- **I want to run it:** 02, then `README.md` in the project root.
-- **I want to understand it in 30 minutes:** 01, then the flow diagrams at the top of 05 and 06.
-- **I want to change a setting:** the settings table in 04, then the tuning table in 06.
-- **I want to trust the numbers:** 08, then the limits section of 10.
-- **I want to know how history is kept:** 07.
+- **To run it:** 02, then `README.md` in the project root.
+- **To understand it in 30 minutes:** 01, then the flow diagrams at the top of 05 and 06.
+- **To change a setting:** the settings table in 04, then the tuning table in 06.
+- **To check the numbers:** 08, then the limits section of 10.
+- **To see how history is kept:** 07.
 
 ## Conventions
 

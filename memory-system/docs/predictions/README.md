@@ -16,4 +16,6 @@ Written before the run they describe, committed first, and kept unchanged. One f
 | `set_N.md` | set N (blind, long crowded histories; hybrid against the baseline) |
 | `set_O.md` | set O (blind, the final test; hybrid against the baseline, pooled with N) |
 
-The result files they mention are listed with their new names in [../results/README.md](../results/README.md).
+The result files they mention (`results/...`) were later converted into the tables in [../../results/](../../results/README.md) (run ids in `runs.csv`), and the written logs merged into [../history.md](../history.md). The original files are at the git tag `raw-results`. Four links in `set_M.md`, `set_N.md` and `set_O.md` were pointed at the merged history; their text is unchanged.
+
+The wording of these files was later edited for a neutral, impersonal style (first-person phrasing such as "I expect" became "expected"). Predicted numbers, criteria and designs are unchanged; the original wording is in the git history.

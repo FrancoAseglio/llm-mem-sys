@@ -87,7 +87,7 @@ By type (expected correct):
 
 ## Statements to check after the run
 
-1. **Baseline answers about 2 more questions than smart with summaries.** On unseen data, with every question type mixed, I do not expect smart to win on answers. If smart ties or wins, this prediction failed in smart's favour.
+1. **Baseline answers about 2 more questions than smart with summaries.** On unseen data, with every question type mixed, smart is not expected to win on answers. If smart ties or wins, this prediction failed in smart's favour.
 2. **Smart never puts an outdated value in an answer** (0), and baseline does 0 to 2 times.
 3. **Smart sends under 2 lines on average,** against 4.0.
 4. **Summaries add about 5 correct answers** (15.5 to 21), almost all of them episodes.
