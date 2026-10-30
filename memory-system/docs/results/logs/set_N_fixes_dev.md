@@ -46,6 +46,37 @@ Each long set takes about an hour.
 
 **Go to set O** if on N the names are 3 of 3 and the slots at least 11 of 12, hybrid is at least 52 on N, and hybrid loses no more than 2 against its last run on M (50) or L (28). Otherwise report it and rework. A pass is not evidence, because N, M and L are spent. Set O decides.
 
-## Results
+## Results (2026-10-30)
 
-(to be filled in after the runs)
+Outputs (each as `.txt` and `.json`): `fixes_N`, `fixes_M`, `fixes_L`. All three were run, with ingestion and cache off.
+
+| Measure | Last run | Predicted | Found |
+|---|---|---|---|
+| Name right at the end (N, 3 users) | 0 of 3 | 3 of 3 | **3 of 3** |
+| Name right at the end (M, 3 users) | 2 of 3 | 3 of 3 | **3 of 3** |
+| N: city, employer, job title, partner (12) | 10 | 12 (11 to 12) | **12** |
+| N: baseline | 45 | 45 (±1) | 45 |
+| N: smart | 42 | about 44 (41 to 46) | 40 |
+| **N: hybrid** | 50 | **about 53 (50 to 55)** | **50** |
+| N: hybrid stale in answer | 2 | | **0** |
+| N: full | 50 | 50 (±2) | 50 |
+| M: baseline / smart | 46 / 43 | the same (±2) | 46 / 42 |
+| **M: hybrid** | 50 | about 51 (48 to 53) | 49 |
+| L: hybrid | 28 | 28 (±1) | 28 |
+
+**The write-path fixes worked:** every name is now right, and so is every key fact on N. Ruben's Dutch is now extracted on M, so his languages question is right too.
+
+**The go criterion failed:** hybrid needed at least 52 on N and got 50. On N it gained the four answers the fixes aimed at: Marisol's city and employer, Henrike's brother and her three languages. It also lost four:
+
+| Question | Cause |
+|---|---|
+| Marisol: Where does my sister live now? / What does my sister do? | Fix 4 showed every value of the top kinds: three `family_member` lines (Lucia, dad, and Bastien wrongly filed as family) above the messages. The model said "I don't know" with the sister's messages in the prompt |
+| Henrike: Do I still go sailing? | "You don't know." An active `Hobby: dinghy sailing` sat above a message marked `[no longer true: Hobby: sailing]`, under the longer header |
+| Kwame: When is my driving test? | The trap: the same lines as the baseline. It was right last time by luck |
+
+On M the losses were similar: "Do I still drink coffee?" got "You don't know." with the same lines as the baseline, so the header is the likely cause, and the music question was answered from a wrong `Hobby: folk music` fact.
+
+**Rework, read path only. Not run on N, M or L. Set O measures it, blind:**
+
+1. Every value is shown only for list kinds of fact (`speaks`, `allergic_to`, `likes`, `dislikes`); other kinds show their best value. This keeps all three languages and drops the extra family names.
+2. The short header of the set N run is back. The labelled markers stay.

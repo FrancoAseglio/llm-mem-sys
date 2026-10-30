@@ -226,6 +226,21 @@ def test_top_relations():
     assert [x.value for x in hybrid.top_relations(facts, 2, 2)] == ["a", "b"]
 
 
+def test_top_relations_one_line_for_a_kind_that_is_not_a_list():
+    def m(relation, value):
+        return Memory(0, relation, value, START, 0.0, False, {})
+
+    # fixes_N: three family names filled the prompt for "Where does my sister live?"
+    facts = [
+        m("family_member", "Lucia"),
+        m("lives_in", "Grenoble"),
+        m("family_member", "dad"),
+        m("family_member", "Bastien"),
+    ]
+    got = hybrid.top_relations(facts, 2, 4)
+    assert [x.value for x in got] == ["Lucia", "Grenoble"]
+
+
 def test_retracted_value_is_marked(conn):
     say(conn, 0, "I play bass in a covers band", "hobby", "bass")
     say(conn, 30, "I quit the band, no more bass", "hobby", "bass", action="retract")

@@ -1,6 +1,7 @@
 """Read side of the hybrid mode and the full reference mode (docs/06_read_path.md, section 11).
 
-hybrid: the current facts of the best two kinds (smart's gate), one timeline line for a question
+hybrid: the current facts of the best two kinds (smart's gate; every value of a list kind such as
+        languages), one timeline line for a question
         about the past, then the baseline's top-k messages word for word, each marked when a fact
         it produced has since changed or was retracted.
 full:   every user message, oldest first.
@@ -9,6 +10,7 @@ full:   every user message, oldest first.
 from memory_system.core.config import (
     HYBRID_FACT_MAX,
     HYBRID_FACT_RELATIONS,
+    HYBRID_LIST_RELATIONS,
     HYBRID_MARKERS,
     HYBRID_TIMELINE,
     PAST_FACTS,
@@ -100,14 +102,26 @@ def timeline(user_id: str, query: str) -> str | None:
     return timeline_line(relation, values)
 
 
-def top_relations(facts: list[Memory], relations: int, most: int) -> list[Memory]:
-    """The facts whose relation is among the first `relations` relations in `facts` (best first),
-    at most `most` lines: all three languages, not two of them."""
+def top_relations(
+    facts: list[Memory],
+    relations: int,
+    most: int,
+    lists: frozenset = HYBRID_LIST_RELATIONS,
+) -> list[Memory]:
+    """Facts of the first `relations` relations in `facts` (best first): every value of a list
+    relation (all three languages, not two), the best value of any other (one family member,
+    not every name), at most `most` lines."""
     kept: list[str] = []
+    out: list[Memory] = []
     for m in facts:
-        if m.relation not in kept and len(kept) < relations:
+        if m.relation not in kept:
+            if len(kept) == relations:
+                continue
             kept.append(m.relation)
-    return [m for m in facts if m.relation in kept][:most]
+            out.append(m)
+        elif m.relation in lists:
+            out.append(m)
+    return out[:most]
 
 
 def hybrid_lines(

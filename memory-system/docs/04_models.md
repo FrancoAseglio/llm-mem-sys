@@ -125,6 +125,7 @@ That behaviour matters for the write path: a message, its facts and their events
 | `PAST_MAX_LINES` | 2 | `read/past_retrieve.py` | Most `Earlier:` lines per question |
 | `HYBRID_FACT_RELATIONS` | 2 | `read/hybrid.py` | Kinds of fact shown in the hybrid mode, with every value that passes the gate ([06](06_read_path.md), section 11) |
 | `HYBRID_FACT_MAX` | 4 | `read/hybrid.py` | Most fact lines in the hybrid mode |
+| `HYBRID_LIST_RELATIONS` | `speaks`, `allergic_to`, `likes`, `dislikes` | `read/hybrid.py` | Kinds of fact whose every value is shown in the hybrid mode; others show their best value only |
 | `HYBRID_MARKERS` | on (env `HYBRID_MARKERS=0` turns it off) | `read/hybrid.py` | Mark hybrid messages whose facts changed or were retracted |
 | `HYBRID_TIMELINE` | on (env `HYBRID_TIMELINE=0` turns it off) | `read/hybrid.py` | One timeline line for past questions in the hybrid mode |
 | `FULL_NUM_CTX` | 8192 (env) | `scripts/evaluate.py` | Context window asked of the chat model for full-mode answers |

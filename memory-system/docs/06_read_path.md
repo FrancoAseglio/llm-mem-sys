@@ -55,7 +55,7 @@ Learning from the same message (write path) happens after, so a question never r
 |---|---|---|
 | `smart` | `facts`, only `status = 'active'` | Only facts that pass the relevance gate, at most `k` (default 4), as short lines. Often zero or one. |
 | `baseline` | `messages`, role `user` | The top `k` most similar past messages, whatever they are |
-| `hybrid` | `messages` and `facts` | The current facts of the best two kinds (smart's gate, at most 4 lines), one timeline line for a past question, then the baseline's `k` messages, each marked when a fact it gave has changed (section 11) |
+| `hybrid` | `messages` and `facts` | The current facts of the best two kinds (smart's gate; every value only for lists such as languages; at most 4 lines), one timeline line for a past question, then the baseline's `k` messages, each marked when a fact it gave has changed (section 11) |
 | `full` | `messages`, role `user` | Every past message, oldest first: a reference ceiling, not a design (section 11) |
 | `none` | nothing | No memory block at all |
 
@@ -292,7 +292,7 @@ Set M showed that on long histories the baseline's four raw messages answer more
 
 | # | Lines | Rule | Setting |
 |---|---|---|---|
-| 1 | Current facts | Smart's gate and ranking (`retrieve`, allergy pass included), then every value of the first two relations among them, at most 4 lines: all three languages, not two of them. Same format as smart: `Lives in: Kristiansand (since 2026-03-01)`. Until set N it was the first 2 lines, which cut a list of three languages | `HYBRID_FACT_RELATIONS` (2), `HYBRID_FACT_MAX` (4) |
+| 1 | Current facts | Smart's gate and ranking (`retrieve`, allergy pass included), then the first two relations among them: one line each, except that a list relation (`speaks`, `allergic_to`, `likes`, `dislikes`) shows every value that passes, at most 4 lines: all three languages, not two of them, but one family member, not every name. Same format as smart: `Lives in: Kristiansand (since 2026-03-01)`. Until set N it was the first 2 lines, which cut a list of three languages; every value of every relation then filled the prompt with family names (fixes_N) | `HYBRID_FACT_RELATIONS` (2), `HYBRID_FACT_MAX` (4), `HYBRID_LIST_RELATIONS` |
 | 2 | One timeline | Only for a past question (the keyword trigger of section 10, and `PAST_FACTS` on). The relation of the best replaced or retracted fact that passes the gate (floor, window, routing; no allergy pass); then every value that relation ever had, oldest first | `HYBRID_TIMELINE` (env, on) |
 | 3 | The baseline's `k` messages | Exactly the baseline's choice (`baseline_messages`, the same query), word for word, with markers | `HYBRID_MARKERS` (env, on) |
 
@@ -311,7 +311,7 @@ For each message, every user fact it produced (`facts.source_message_id`) that i
 | The chain ends on the same value again (a user who moved back) | none | the old message is true again |
 | Conflicted (a dependent fact we cannot judge) | none | |
 
-The marker names the old value and its kind, so the model can tell which part of the message changed. The header says so, and that the rest of the message may still be true. Until set N a marker named only the new value (`[outdated: now Kristiansand]`): on set M a bio left out the still-true name of a marked introduction, and on set N "[outdated: now Jonte]" made a brother's move look outdated.
+The marker names the old value and its kind, so the model can tell which part of the message changed. The header stays short: it says that a marked message was true when written and has changed since. A longer header that also said "the rest of the message may still be true" was tried in fixes_N and dropped: two answers became "You don't know." Until set N a marker named only the new value (`[outdated: now Kristiansand]`): on set M a bio left out the still-true name of a marked introduction, and on set N "[outdated: now Jonte]" made a brother's move look outdated.
 
 ### 11.3 Timeline
 

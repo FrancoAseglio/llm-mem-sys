@@ -14,5 +14,6 @@ Written before the run they describe, committed first, and kept unchanged. One f
 | `set_L.md` | set L (blind, unseen data, every question type) |
 | `set_M.md` | set M (blind, long crowded histories; the main hypothesis) |
 | `set_N.md` | set N (blind, long crowded histories; hybrid against the baseline) |
+| `set_O.md` | set O (blind, the final test; hybrid against the baseline, pooled with N) |
 
 The result files they mention are listed with their new names in [../results/README.md](../results/README.md).

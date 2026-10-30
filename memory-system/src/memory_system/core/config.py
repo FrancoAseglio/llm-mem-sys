@@ -72,11 +72,14 @@ PAST_FACTS = os.environ.get("PAST_FACTS", "1") != "0"
 PAST_MAX_LINES = 2
 
 # ---- Hybrid mode: the baseline's messages, plus a few facts (docs/06_read_path.md, section 11) ----
-# Current facts above the messages, chosen by smart's gate (allergy pass included): every value
-# of the best HYBRID_FACT_RELATIONS kinds of fact, at most HYBRID_FACT_MAX lines. Set N: a cap of
-# 2 lines showed two of three languages, and the model answered with two.
+# Current facts above the messages, chosen by smart's gate (allergy pass included): the best
+# HYBRID_FACT_RELATIONS kinds of fact, one line each, except that a list kind (languages,
+# allergies, likes, dislikes) shows every value that passes; at most HYBRID_FACT_MAX lines.
+# Set N: a cap of 2 lines showed two of three languages; every value of every kind then filled
+# the prompt with family names (fixes_N), so only list kinds are expanded.
 HYBRID_FACT_RELATIONS = 2
 HYBRID_FACT_MAX = 4
+HYBRID_LIST_RELATIONS = frozenset({"speaks", "allergic_to", "likes", "dislikes"})
 # Mark messages whose facts changed or were retracted. HYBRID_MARKERS=0 switches marking off.
 HYBRID_MARKERS = os.environ.get("HYBRID_MARKERS", "1") != "0"
 # One timeline line (every value of one relation, oldest first) for questions about the past.

@@ -1,0 +1,2057 @@
+ingesting n_marisol (95 messages)...
+n_marisol: 28 summaries written
+n_marisol: 5 digests written
+
+--- facts stored for n_marisol ---
+  allergic_to   tree nuts             active      2025-05-17 14:10
+  allergic_to   walnuts               active      2025-05-17 14:10
+  allergic_to   cashews               active      2025-05-17 14:10
+  family_member Lucia                 active      2025-05-27 14:10
+  family_member dad                   active      2025-07-08 14:10
+  family_member Bastien               active      2026-01-17 13:10
+  goal          move to France in Septemberactive      2025-08-07 14:10
+  goal          selling mugs at a market in Decemberactive      2026-08-10 14:10
+  hobby         singing               active      2025-09-04 14:10
+  hobby         French classes        active      2026-01-02 13:10
+  hobby         ceramics              active      2026-02-01 13:10
+  hobby         throwing pots         active      2026-02-01 13:10
+  job_title     hospital pharmacist   superseded  2025-04-26 14:10
+  job_title     quality manager       active      2025-12-03 13:10
+  lives_in      Valencia              superseded  2025-04-26 14:10
+  lives_in      Lyon                  superseded  2025-08-07 14:10
+  lives_in      Grenoble              active      2026-04-22 14:10
+  name          Marisol               active      2025-04-26 14:10
+  partner       Hugo                  archived    2025-05-08 14:10
+  partner       Bastien               active      2025-12-18 13:10
+  speaks        French                active      2025-10-06 14:10
+  works_at      Clinica Albereda      superseded  2025-04-26 14:10
+  works_at      Pharmavert            archived    2025-08-07 14:10
+  works_at      Alpenmed              active      2026-04-07 14:10
+--- summaries stored for eval_n_marisol ---
+  The user has been in a relationship with Hugo for two years. [merged into #5771]
+  The user's sister Lucia lives in Seville and works as an architect.
+  The user sings alto in a community choir on Tuesday nights. [merged into #5772]
+  The user spent a long weekend in Lisbon with Hugo, riding the old tram up to the castle. [merged into #5775]
+  The user's dad lives in Alicante and is retired.
+  The user adopted a grey cat named Churro from the shelter. [merged into #5774]
+  The user got a job at Pharmavert in Lyon and is moving to France in September. [merged into #5773]
+  The user's flat in Lyon is near the Croix-Rousse hill.
+  The user found a new choir in Lyon where they still sing alto.
+  The user went to Morocco with Lucia and they slept in a desert camp near Merzouga. [merged into #5775]
+  The user broke up with Hugo due to the long distance. [merged into #5771]
+  The user's French is getting better and they can now follow meetings at Pharmavert.
+  The user named their sourdough starter Bernardo.
+  The user and their friend Nerea are planning a trip to Peru next March.
+  The user has been promoted to quality manager at Pharmavert.
+  The user has started seeing someone named Bastien, who is a mountain guide.
+  The user quit the choir because the rehearsals clashed with their French classes. [merged into #5772]
+  The user's partner Bastien moved to Madrid where he joined a big architecture firm.
+  The user's family member Bastien has guiding work in March, so the Peru trip has been pushed to June.
+  The user signed up for a ceramics course and loves throwing pots.
+  The user bought their own pottery wheel for 380 euros. [merged into #5774]
+  The user and Bastien hiked in the Dolomites for a week in July.
+  The user left Pharmavert and is starting at Alpenmed in Grenoble next month, same role. [merged into #5773]
+  The user moved to Grenoble with Bastien, and the mountains are right outside the window.
+  The user's dad visited them in Grenoble for a week.
+  The user is going to be an aunt.
+  The user is learning to make tartiflette from Bastien's mother.
+  The user works at Alpenmed and they have an audit next week.
+  DIGEST #5771: The user has been in a relationship with Hugo for two years, but they broke up due to the long distance.
+  DIGEST #5772: The user sings alto in a community choir on Tuesday nights, but quit the choir because the rehearsals clashed with their French classes.
+  DIGEST #5773: The user got a job at Pharmavert in Lyon and is moving to France in September, but left Pharmavert and is starting at Alpenmed in Grenoble next month, same role.
+  DIGEST #5774: The user adopted a grey cat named Churro from the shelter and bought their own pottery wheel for 380 euros.
+  DIGEST #5775: The user spent a long weekend in Lisbon with Hugo, riding the old tram up to the castle, and went to Morocco with Lucia and they slept in a desert camp near Merzouga.
+
+[none] Which city do I live in now?
+
+[baseline] Which city do I live in now?
+    recalled: [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+    recalled: [2026-06-22] "What's the oldest city in Europe?"
+    recalled: [2025-08-07] "Big news: I got a job at Pharmavert in Lyon, I'm moving to France in September."
+    recalled: [2025-07-08] "My dad lives in Alicante, he's retired now."
+    answer: You live in Lyon.
+
+[smart] Which city do I live in now?
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    recalled: Note from 2025-12-18: The user's partner Bastien moved to Madrid where he joined a big architecture firm.
+    recalled: Note from 2026-05-12: The user moved to Grenoble with Bastien, and the mountains are right outside the window.
+    answer: You live in Grenoble.
+
+[hybrid] Which city do I live in now?
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    recalled: [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+    recalled: [2026-06-22] "What's the oldest city in Europe?"
+    recalled: [2025-08-07] "Big news: I got a job at Pharmavert in Lyon, I'm moving to France in September." [no longer true: Works at: Pharmavert] [outdated: Lives in: Lyon -> now Grenoble]
+    recalled: [2025-07-08] "My dad lives in Alicante, he's retired now."
+    answer: You live in Grenoble.
+
+[full] Which city do I live in now?
+    recalled: the whole history (95 messages)
+    answer: You live in Grenoble.
+[1/57] n_marisol: Which city do I live in now?
+
+[none] Where did I live before Grenoble?
+
+[baseline] Where did I live before Grenoble?
+    recalled: [2026-04-22] "Moved to Grenoble with Bastien, the mountains are right outside the window."
+    recalled: [2026-06-01] "My dad came to visit us in Grenoble for a week."
+    recalled: [2026-01-09] "Is Lyon or Grenoble cheaper to live in?"
+    recalled: [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+    answer: You lived in Lyon before moving to Grenoble.
+
+[smart] Where did I live before Grenoble?
+    recalled: Earlier: Lives in: Lyon (until 2026-04-22)
+    recalled: Earlier: Lives in: Valencia (until 2025-08-07)
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    answer: You lived in Lyon before moving to Grenoble.
+
+[hybrid] Where did I live before Grenoble?
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    recalled: Lives in, oldest first: Valencia -> Lyon -> Grenoble (now)
+    recalled: [2026-04-22] "Moved to Grenoble with Bastien, the mountains are right outside the window."
+    recalled: [2026-06-01] "My dad came to visit us in Grenoble for a week."
+    recalled: [2026-01-09] "Is Lyon or Grenoble cheaper to live in?"
+    recalled: [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+    answer: You lived in Lyon before moving to Grenoble.
+
+[full] Where did I live before Grenoble?
+    recalled: the whole history (95 messages)
+    answer: You lived in Lyon before moving to Grenoble.
+[2/57] n_marisol: Where did I live before Grenoble?
+
+[none] Which city did I live in before Lyon?
+
+[baseline] Which city did I live in before Lyon?
+    recalled: [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+    recalled: [2026-01-09] "Is Lyon or Grenoble cheaper to live in?"
+    recalled: [2025-08-07] "Big news: I got a job at Pharmavert in Lyon, I'm moving to France in September."
+    recalled: [2026-06-22] "What's the oldest city in Europe?"
+    answer: I don't know.
+
+[smart] Which city did I live in before Lyon?
+    recalled: Earlier: Lives in: Lyon (until 2026-04-22)
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    answer: I don't know.
+
+[hybrid] Which city did I live in before Lyon?
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    recalled: Lives in, oldest first: Valencia -> Lyon -> Grenoble (now)
+    recalled: [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+    recalled: [2026-01-09] "Is Lyon or Grenoble cheaper to live in?"
+    recalled: [2025-08-07] "Big news: I got a job at Pharmavert in Lyon, I'm moving to France in September." [no longer true: Works at: Pharmavert] [outdated: Lives in: Lyon -> now Grenoble]
+    recalled: [2026-06-22] "What's the oldest city in Europe?"
+    answer: You lived in Valencia before Lyon.
+
+[full] Which city did I live in before Lyon?
+    recalled: the whole history (95 messages)
+    answer: You lived in Valencia before moving to Lyon.
+[3/57] n_marisol: Which city did I live in before Lyon?
+
+[none] Where do I work now?
+
+[baseline] Where do I work now?
+    recalled: [2025-08-07] "Big news: I got a job at Pharmavert in Lyon, I'm moving to France in September."
+    recalled: [2026-04-07] "I left Pharmavert. I'm starting at Alpenmed in Grenoble next month, same role."
+    recalled: [2025-12-03] "I've been promoted to quality manager at Pharmavert."
+    recalled: [2025-10-10] "How does GPS know where I am?"
+    answer: You work at Alpenmed in Grenoble, starting next month. You were previously at Pharmavert, but left to take on a similar role at Alpenmed.
+
+[smart] Where do I work now?
+    recalled: Works at: Alpenmed (since 2026-04-07)
+    recalled: Job title: quality manager (since 2025-12-03)
+    recalled: Note from 2025-12-18: The user's partner Bastien moved to Madrid where he joined a big architecture firm.
+    recalled: Note from 2025-12-03: The user has been promoted to quality manager at Pharmavert.
+    answer: You work at Alpenmed, where you hold the position of Quality Manager.
+
+[hybrid] Where do I work now?
+    recalled: Works at: Alpenmed (since 2026-04-07)
+    recalled: Job title: quality manager (since 2025-12-03)
+    recalled: [2025-08-07] "Big news: I got a job at Pharmavert in Lyon, I'm moving to France in September." [no longer true: Works at: Pharmavert] [outdated: Lives in: Lyon -> now Grenoble]
+    recalled: [2026-04-07] "I left Pharmavert. I'm starting at Alpenmed in Grenoble next month, same role."
+    recalled: [2025-12-03] "I've been promoted to quality manager at Pharmavert."
+    recalled: [2025-10-10] "How does GPS know where I am?"
+    answer: You work at Alpenmed, as of April 7, 2026.
+
+[full] Where do I work now?
+    recalled: the whole history (95 messages)
+    answer: You work at Alpenmed in Grenoble.
+[4/57] n_marisol: Where do I work now?
+
+[none] Where did I work before Alpenmed?
+
+[baseline] Where did I work before Alpenmed?
+    recalled: [2026-09-29] "Work at Alpenmed is intense, we have an audit next week."
+    recalled: [2026-04-07] "I left Pharmavert. I'm starting at Alpenmed in Grenoble next month, same role."
+    recalled: [2025-04-26] "Hi, I'm Marisol. I'm a hospital pharmacist at Clinica Albereda in Valencia."
+    recalled: [2025-08-07] "Big news: I got a job at Pharmavert in Lyon, I'm moving to France in September."
+    answer: You worked at Pharmavert before joining Alpenmed.
+
+[smart] Where did I work before Alpenmed?
+    recalled: Earlier: Works at: Clinica Albereda (until 2025-08-07)
+    recalled: Works at: Alpenmed (since 2026-04-07)
+    answer: You worked at Clinica Albereda until August 7, 2025.
+
+[hybrid] Where did I work before Alpenmed?
+    recalled: Works at: Alpenmed (since 2026-04-07)
+    recalled: Works at, oldest first: Clinica Albereda -> Pharmavert (ended) -> Alpenmed (now)
+    recalled: [2026-09-29] "Work at Alpenmed is intense, we have an audit next week."
+    recalled: [2026-04-07] "I left Pharmavert. I'm starting at Alpenmed in Grenoble next month, same role."
+    recalled: [2025-04-26] "Hi, I'm Marisol. I'm a hospital pharmacist at Clinica Albereda in Valencia." [outdated: Job title: hospital pharmacist -> now quality manager] [no longer true: Works at: Clinica Albereda] [outdated: Lives in: Valencia -> now Grenoble]
+    recalled: [2025-08-07] "Big news: I got a job at Pharmavert in Lyon, I'm moving to France in September." [no longer true: Works at: Pharmavert] [outdated: Lives in: Lyon -> now Grenoble]
+    answer: You worked at Pharmavert before joining Alpenmed.
+
+[full] Where did I work before Alpenmed?
+    recalled: the whole history (95 messages)
+    answer: You worked at Pharmavert in Lyon before moving to Alpenmed in Grenoble.
+[5/57] n_marisol: Where did I work before Alpenmed?
+
+[none] What's my partner's name?
+
+[baseline] What's my partner's name?
+    recalled: [2025-05-08] "My boyfriend Hugo and I have been together for two years."
+    recalled: [2026-10-26] "Give me a tip for remembering names."
+    recalled: [2025-10-22] "I named my sourdough starter Bernardo."
+    recalled: [2025-12-18] "I've started seeing someone, his name is Bastien, he's a mountain guide."
+    answer: Bastien.
+
+[smart] What's my partner's name?
+    recalled: Partner: Bastien (since 2025-12-18)
+    answer: Your partner's name is Bastien.
+
+[hybrid] What's my partner's name?
+    recalled: Partner: Bastien (since 2025-12-18)
+    recalled: [2025-05-08] "My boyfriend Hugo and I have been together for two years." [no longer true: Partner: Hugo]
+    recalled: [2026-10-26] "Give me a tip for remembering names."
+    recalled: [2025-10-22] "I named my sourdough starter Bernardo."
+    recalled: [2025-12-18] "I've started seeing someone, his name is Bastien, he's a mountain guide."
+    answer: Your partner's name is Bastien.
+
+[full] What's my partner's name?
+    recalled: the whole history (95 messages)
+    answer: I don't know.
+[6/57] n_marisol: What's my partner's name?
+
+[none] What's my cat called?
+
+[baseline] What's my cat called?
+    recalled: [2025-07-21] "I adopted a grey cat from the shelter, I called him Churro."
+    recalled: [2025-12-22] "Why do cats bring their owners gifts?"
+    recalled: [2025-09-22] "How do I keep a cat entertained in a small flat?"
+    recalled: [2025-10-22] "I named my sourdough starter Bernardo."
+    answer: Your cat is called Churro.
+
+[smart] What's my cat called?
+    recalled: Name: Marisol (since 2025-04-26)
+    recalled: Note from 2026-03-03: The user adopted a grey cat named Churro from the shelter and bought their own pottery wheel for 380 euros.
+    recalled: Note from 2025-10-22: The user named their sourdough starter Bernardo.
+    answer: Your cat's name is Churro.
+
+[hybrid] What's my cat called?
+    recalled: Name: Marisol (since 2025-04-26)
+    recalled: [2025-07-21] "I adopted a grey cat from the shelter, I called him Churro."
+    recalled: [2025-12-22] "Why do cats bring their owners gifts?"
+    recalled: [2025-09-22] "How do I keep a cat entertained in a small flat?"
+    recalled: [2025-10-22] "I named my sourdough starter Bernardo."
+    answer: Your cat's name is Churro.
+
+[full] What's my cat called?
+    recalled: the whole history (95 messages)
+    answer: Your cat is called Churro.
+[7/57] n_marisol: What's my cat called?
+
+[none] What did I name my sourdough starter?
+
+[baseline] What did I name my sourdough starter?
+    recalled: [2025-10-22] "I named my sourdough starter Bernardo."
+    recalled: [2025-10-28] "What's a good feeding schedule for a sourdough starter?"
+    recalled: [2026-10-26] "Give me a tip for remembering names."
+    recalled: [2025-07-21] "I adopted a grey cat from the shelter, I called him Churro."
+    answer: You named your sourdough starter Bernardo.
+
+[smart] What did I name my sourdough starter?
+    recalled: Name: Marisol (since 2025-04-26)
+    recalled: Note from 2025-10-22: The user named their sourdough starter Bernardo.
+    answer: You named your sourdough starter Bernardo.
+
+[hybrid] What did I name my sourdough starter?
+    recalled: Name: Marisol (since 2025-04-26)
+    recalled: [2025-10-22] "I named my sourdough starter Bernardo."
+    recalled: [2025-10-28] "What's a good feeding schedule for a sourdough starter?"
+    recalled: [2026-10-26] "Give me a tip for remembering names."
+    recalled: [2025-07-21] "I adopted a grey cat from the shelter, I called him Churro."
+    answer: You named your sourdough starter Bernardo.
+
+[full] What did I name my sourdough starter?
+    recalled: the whole history (95 messages)
+    answer: You named your sourdough starter Bernardo.
+[8/57] n_marisol: What did I name my sourdough starter?
+
+[none] Which city did I visit with Hugo?
+
+[baseline] Which city did I visit with Hugo?
+    recalled: [2025-06-24] "Hugo and I spent a long weekend in Lisbon, we rode the old tram up to the castle."
+    recalled: [2025-09-21] "Hugo and I broke up. The long distance was too hard."
+    recalled: [2026-04-22] "Moved to Grenoble with Bastien, the mountains are right outside the window."
+    recalled: [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+    answer: You visited Lisbon with Hugo.
+
+[smart] Which city did I visit with Hugo?
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    recalled: Hobby: French classes (since 2026-01-02)
+    recalled: Note from 2025-09-13: The user spent a long weekend in Lisbon with Hugo, riding the old tram up to the castle, and went to Morocco with Lucia and they slept in a desert camp near Merzouga.
+    answer: You visited Lisbon with Hugo.
+
+[hybrid] Which city did I visit with Hugo?
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    recalled: Hobby: French classes (since 2026-01-02)
+    recalled: [2025-06-24] "Hugo and I spent a long weekend in Lisbon, we rode the old tram up to the castle."
+    recalled: [2025-09-21] "Hugo and I broke up. The long distance was too hard."
+    recalled: [2026-04-22] "Moved to Grenoble with Bastien, the mountains are right outside the window."
+    recalled: [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+    answer: You visited Lisbon with Hugo.
+
+[full] Which city did I visit with Hugo?
+    recalled: the whole history (95 messages)
+    answer: You visited Lisbon with Hugo.
+[9/57] n_marisol: Which city did I visit with Hugo?
+
+[none] Where in Morocco did my sister and I sleep in the desert?
+
+[baseline] Where in Morocco did my sister and I sleep in the desert?
+    recalled: [2025-09-13] "Lucia and I went to Morocco, we slept in a desert camp near Merzouga."
+    recalled: [2025-05-27] "My sister Lucia lives in Seville and works as an architect."
+    recalled: [2026-06-03] "What's the weather like in Morocco in April?"
+    recalled: [2026-06-01] "My dad came to visit us in Grenoble for a week."
+    answer: You and your sister Lucia slept in a desert camp near Merzouga.
+
+[smart] Where in Morocco did my sister and I sleep in the desert?
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    recalled: Speaks: French (since 2025-10-06)
+    recalled: Note from 2025-09-13: The user spent a long weekend in Lisbon with Hugo, riding the old tram up to the castle, and went to Morocco with Lucia and they slept in a desert camp near Merzouga.
+    answer: You and Lucia slept in a desert camp near Merzouga.
+
+[hybrid] Where in Morocco did my sister and I sleep in the desert?
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    recalled: Speaks: French (since 2025-10-06)
+    recalled: [2025-09-13] "Lucia and I went to Morocco, we slept in a desert camp near Merzouga."
+    recalled: [2025-05-27] "My sister Lucia lives in Seville and works as an architect."
+    recalled: [2026-06-03] "What's the weather like in Morocco in April?"
+    recalled: [2026-06-01] "My dad came to visit us in Grenoble for a week."
+    answer: You and your sister Lucia slept in a desert camp near Merzouga.
+
+[full] Where in Morocco did my sister and I sleep in the desert?
+    recalled: the whole history (95 messages)
+    answer: You and your sister Lucia slept in a desert camp near Merzouga.
+[10/57] n_marisol: Where in Morocco did my sister and I sleep in the desert?
+
+[none] Where does my sister live now?
+
+[baseline] Where does my sister live now?
+    recalled: [2025-05-27] "My sister Lucia lives in Seville and works as an architect."
+    recalled: [2025-07-08] "My dad lives in Alicante, he's retired now."
+    recalled: [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+    recalled: [2025-11-18] "Lucia moved to Madrid, she joined a big architecture firm there."
+    answer: Your sister Lucia lives in Madrid, where she works for a big architecture firm.
+
+[smart] Where does my sister live now?
+    recalled: Family member: Lucia (since 2025-05-27)
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    recalled: Family member: dad (since 2025-07-08)
+    recalled: Family member: Bastien (since 2026-01-17)
+    answer: I don't know.
+
+[hybrid] Where does my sister live now?
+    recalled: Family member: Lucia (since 2025-05-27)
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    recalled: Family member: dad (since 2025-07-08)
+    recalled: Family member: Bastien (since 2026-01-17)
+    recalled: [2025-05-27] "My sister Lucia lives in Seville and works as an architect."
+    recalled: [2025-07-08] "My dad lives in Alicante, he's retired now."
+    recalled: [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+    recalled: [2025-11-18] "Lucia moved to Madrid, she joined a big architecture firm there."
+    answer: I don't know.
+
+[full] Where does my sister live now?
+    recalled: the whole history (95 messages)
+    answer: Your sister Lucia lives in Madrid, where she works as an architect.
+[11/57] n_marisol: Where does my sister live now?
+
+[none] What does my sister do for work?
+
+[baseline] What does my sister do for work?
+    recalled: [2025-05-27] "My sister Lucia lives in Seville and works as an architect."
+    recalled: [2025-10-01] "What does a sommelier do?"
+    recalled: [2026-06-21] "Lucia is pregnant, I'm going to be an aunt!"
+    recalled: [2026-02-23] "How do submarines dive and surface?"
+    answer: Your sister Lucia is an architect and lives in Seville.
+
+[smart] What does my sister do for work?
+    recalled: Family member: Lucia (since 2025-05-27)
+    recalled: Family member: dad (since 2025-07-08)
+    recalled: Works at: Alpenmed (since 2026-04-07)
+    recalled: Family member: Bastien (since 2026-01-17)
+    answer: I don't know.
+
+[hybrid] What does my sister do for work?
+    recalled: Family member: Lucia (since 2025-05-27)
+    recalled: Family member: dad (since 2025-07-08)
+    recalled: Works at: Alpenmed (since 2026-04-07)
+    recalled: Family member: Bastien (since 2026-01-17)
+    recalled: [2025-05-27] "My sister Lucia lives in Seville and works as an architect."
+    recalled: [2025-10-01] "What does a sommelier do?"
+    recalled: [2026-06-21] "Lucia is pregnant, I'm going to be an aunt!"
+    recalled: [2026-02-23] "How do submarines dive and surface?"
+    answer: I don't know.
+
+[full] What does my sister do for work?
+    recalled: the whole history (95 messages)
+    answer: Your sister Lucia is an architect. She lives in Seville.
+[12/57] n_marisol: What does my sister do for work?
+
+[none] When is the Peru trip?
+
+[baseline] When is the Peru trip?
+    recalled: [2026-07-11] "The Peru flights are booked, we leave on June 14."
+    recalled: [2026-02-16] "We pushed the Peru trip to June, Bastien has guiding work in March."
+    recalled: [2025-11-03] "My friend Nerea and I are planning a trip to Peru next March."
+    recalled: [2025-04-30] "What's the best time of year to visit Machu Picchu?"
+    answer: You're going to Peru in June. You mentioned that the flights are booked for June 14.
+
+[smart] When is the Peru trip?
+    recalled: Goal: selling mugs at a market in December (since 2026-08-10)
+    recalled: Goal: move to France in September (since 2025-08-07)
+    recalled: Note from 2026-02-16: The user's family member Bastien has guiding work in March, so the Peru trip has been pushed to June.
+    recalled: Note from 2025-11-03: The user and their friend Nerea are planning a trip to Peru next March.
+    answer: The Peru trip has been pushed back to June, as Bastien has guiding work in March.
+
+[hybrid] When is the Peru trip?
+    recalled: Goal: selling mugs at a market in December (since 2026-08-10)
+    recalled: Goal: move to France in September (since 2025-08-07)
+    recalled: [2026-07-11] "The Peru flights are booked, we leave on June 14."
+    recalled: [2026-02-16] "We pushed the Peru trip to June, Bastien has guiding work in March."
+    recalled: [2025-11-03] "My friend Nerea and I are planning a trip to Peru next March."
+    recalled: [2025-04-30] "What's the best time of year to visit Machu Picchu?"
+    answer: You mentioned that the Peru flights are booked, and you leave on June 14.
+
+[full] When is the Peru trip?
+    recalled: the whole history (95 messages)
+    answer: You're going to Peru in June. You mentioned that you and Bastien had pushed the trip back from March to June because he had guiding work to attend to.
+[13/57] n_marisol: When is the Peru trip?
+
+[none] Who am I going to Peru with?
+
+[baseline] Who am I going to Peru with?
+    recalled: [2025-11-03] "My friend Nerea and I are planning a trip to Peru next March."
+    recalled: [2026-07-11] "The Peru flights are booked, we leave on June 14."
+    recalled: [2026-01-17] "Nerea can't come to Peru any more, so Bastien is coming with me instead."
+    recalled: [2026-02-14] "What should I pack for high altitude in Peru?"
+    answer: You're going to Peru with Bastien.
+
+[smart] Who am I going to Peru with?
+    recalled: Partner: Bastien (since 2025-12-18)
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    recalled: Note from 2025-11-03: The user and their friend Nerea are planning a trip to Peru next March.
+    answer: You're planning a trip to Peru with your friend Nerea, as you mentioned on November 3rd last year.
+
+[hybrid] Who am I going to Peru with?
+    recalled: Partner: Bastien (since 2025-12-18)
+    recalled: Lives in: Grenoble (since 2026-04-22)
+    recalled: [2025-11-03] "My friend Nerea and I are planning a trip to Peru next March."
+    recalled: [2026-07-11] "The Peru flights are booked, we leave on June 14."
+    recalled: [2026-01-17] "Nerea can't come to Peru any more, so Bastien is coming with me instead."
+    recalled: [2026-02-14] "What should I pack for high altitude in Peru?"
+    answer: You're going to Peru with Bastien.
+
+[full] Who am I going to Peru with?
+    recalled: the whole history (95 messages)
+    answer: You're going to Peru with Bastien, a mountain guide.
+[14/57] n_marisol: Who am I going to Peru with?
+
+[none] I'm baking cookies for a party tonight. Any advice on the ingredients for me?
+
+[baseline] I'm baking cookies for a party tonight. Any advice on the ingredients for me?
+    recalled: [2025-10-22] "I named my sourdough starter Bernardo."
+    recalled: [2026-09-04] "Bastien's mother is teaching me to make tartiflette."
+    recalled: [2025-07-30] "Give me a simple recipe for lentil soup."
+    recalled: [2025-10-28] "What's a good feeding schedule for a sourdough starter?"
+    answer: I don't know your baking experience or the type of cookies you're making, so I'll keep it general. For most cookie recipes, it's a good idea to use high-quality ingredients, such as fresh butter, pure vanilla extract, and real sugar. If you're using a specific type of flour, like whole wheat or oat flour, make sure to adjust the liquid content accordingly. Also, consider the flavor profile you want to achieve and choose ingredients that complement each other.
+
+[smart] I'm baking cookies for a party tonight. Any advice on the ingredients for me?
+    recalled: Allergic to: cashews (since 2025-05-17)
+    recalled: Allergic to: tree nuts (since 2025-05-17)
+    recalled: Allergic to: walnuts (since 2025-05-17)
+    recalled: Note from 2026-09-04: The user is learning to make tartiflette from Bastien's mother.
+    answer: When using ingredients, be mindful of your allergies. Tree nuts, including walnuts, are a concern. If you're planning to bake cookies, you might want to choose a recipe that doesn't include these ingredients.
+
+[hybrid] I'm baking cookies for a party tonight. Any advice on the ingredients for me?
+    recalled: Allergic to: cashews (since 2025-05-17)
+    recalled: Allergic to: tree nuts (since 2025-05-17)
+    recalled: Allergic to: walnuts (since 2025-05-17)
+    recalled: [2025-10-22] "I named my sourdough starter Bernardo."
+    recalled: [2026-09-04] "Bastien's mother is teaching me to make tartiflette."
+    recalled: [2025-07-30] "Give me a simple recipe for lentil soup."
+    recalled: [2025-10-28] "What's a good feeding schedule for a sourdough starter?"
+    answer: I don't know your dietary restrictions or allergies, but I do know that you're allergic to tree nuts, which includes walnuts. If you're planning to use walnuts in your cookie recipe, you might want to consider substituting them with a different ingredient.
+
+[full] I'm baking cookies for a party tonight. Any advice on the ingredients for me?
+    recalled: the whole history (95 messages)
+    answer: I don't know what ingredients you have on hand or what type of cookies you're making, so I'll just offer some general advice. When baking cookies, it's essential to use high-quality ingredients, especially when it comes to leavening agents, spices, and flavorings. Make sure to check the expiration dates of your baking powder, baking soda, and salt. Also, consider using fresh spices and flavorings, like vanilla extract, to get the best flavor out of your cookies.
+[15/57] n_marisol: I'm baking cookies for a party tonight. Any advice on the in
+
+[none] Do I still sing in a choir?
+
+[baseline] Do I still sing in a choir?
+    recalled: [2025-09-04] "I found a new choir in Lyon, still singing alto."
+    recalled: [2025-06-10] "I sing alto in a community choir on Tuesday nights."
+    recalled: [2026-01-02] "I quit the choir, the rehearsals clashed with my French classes."
+    recalled: [2026-04-28] "Give me a few vocal warm-ups for an alto."
+    answer: You quit the choir in January 2026 because the rehearsals clashed with your French classes.
+
+[smart] Do I still sing in a choir?
+    recalled: Note from 2026-01-02: The user sings alto in a community choir on Tuesday nights, but quit the choir because the rehearsals clashed with their French classes.
+    recalled: Note from 2025-09-04: The user found a new choir in Lyon where they still sing alto.
+    answer: You still sing alto in a choir in Lyon.
+
+[hybrid] Do I still sing in a choir?
+    recalled: [2025-09-04] "I found a new choir in Lyon, still singing alto."
+    recalled: [2025-06-10] "I sing alto in a community choir on Tuesday nights."
+    recalled: [2026-01-02] "I quit the choir, the rehearsals clashed with my French classes."
+    recalled: [2026-04-28] "Give me a few vocal warm-ups for an alto."
+    answer: You quit the choir in January 2026 because the rehearsals clashed with your French classes.
+
+[full] Do I still sing in a choir?
+    recalled: the whole history (95 messages)
+    answer: You mentioned that you sing alto in a community choir on Tuesday nights, but I don't have any information about your current choir activities.
+[16/57] n_marisol: Do I still sing in a choir?
+
+[none] What hobby am I into these days?
+
+[baseline] What hobby am I into these days?
+    recalled: [2026-08-10] "Ceramics is my thing now, I'm selling mugs at a market in December."
+    recalled: [2026-02-01] "I've signed up for a ceramics course, I love throwing pots."
+    recalled: [2026-03-03] "I bought my own pottery wheel for 380 euros."
+    recalled: [2025-07-12] "Which clay is best for a beginner on the wheel?"
+    answer: You're into ceramics these days. You've been taking a course and even bought your own pottery wheel.
+
+[smart] What hobby am I into these days?
+    recalled: Hobby: ceramics (since 2026-02-01)
+    recalled: Hobby: singing (since 2025-09-04)
+    recalled: Hobby: throwing pots (since 2026-02-01)
+    recalled: Hobby: French classes (since 2026-01-02)
+    answer: You've been enjoying ceramics and throwing pots since February this year.
+
+[hybrid] What hobby am I into these days?
+    recalled: Hobby: ceramics (since 2026-02-01)
+    recalled: Hobby: singing (since 2025-09-04)
+    recalled: Hobby: throwing pots (since 2026-02-01)
+    recalled: Hobby: French classes (since 2026-01-02)
+    recalled: [2026-08-10] "Ceramics is my thing now, I'm selling mugs at a market in December."
+    recalled: [2026-02-01] "I've signed up for a ceramics course, I love throwing pots."
+    recalled: [2026-03-03] "I bought my own pottery wheel for 380 euros."
+    recalled: [2025-07-12] "Which clay is best for a beginner on the wheel?"
+    answer: You're into ceramics these days.
+
+[full] What hobby am I into these days?
+    recalled: the whole history (95 messages)
+    answer: I don't know.
+[17/57] n_marisol: What hobby am I into these days?
+
+[none] How much did my pottery wheel cost?
+
+[baseline] How much did my pottery wheel cost?
+    recalled: [2026-03-03] "I bought my own pottery wheel for 380 euros."
+    recalled: [2025-07-12] "Which clay is best for a beginner on the wheel?"
+    recalled: [2026-08-10] "Ceramics is my thing now, I'm selling mugs at a market in December."
+    recalled: [2026-02-01] "I've signed up for a ceramics course, I love throwing pots."
+    answer: Your pottery wheel cost 380 euros.
+
+[smart] How much did my pottery wheel cost?
+    recalled: Hobby: ceramics (since 2026-02-01)
+    recalled: Note from 2026-03-03: The user adopted a grey cat named Churro from the shelter and bought their own pottery wheel for 380 euros.
+    answer: Your pottery wheel cost 380 euros.
+
+[hybrid] How much did my pottery wheel cost?
+    recalled: Hobby: ceramics (since 2026-02-01)
+    recalled: [2026-03-03] "I bought my own pottery wheel for 380 euros."
+    recalled: [2025-07-12] "Which clay is best for a beginner on the wheel?"
+    recalled: [2026-08-10] "Ceramics is my thing now, I'm selling mugs at a market in December."
+    recalled: [2026-02-01] "I've signed up for a ceramics course, I love throwing pots."
+    answer: Your pottery wheel cost 380 euros.
+
+[full] How much did my pottery wheel cost?
+    recalled: the whole history (95 messages)
+    answer: You bought your own pottery wheel for 380 euros.
+[18/57] n_marisol: How much did my pottery wheel cost?
+
+[none] What's my favourite opera?
+
+[baseline] What's my favourite opera?
+    recalled: [2025-09-04] "I found a new choir in Lyon, still singing alto."
+    recalled: [2026-01-02] "I quit the choir, the rehearsals clashed with my French classes."
+    recalled: [2025-06-10] "I sing alto in a community choir on Tuesday nights."
+    recalled: [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+    answer: I don't know.
+
+[smart] What's my favourite opera?
+    recalled: Speaks: French (since 2025-10-06)
+    recalled: Note from 2025-09-04: The user found a new choir in Lyon where they still sing alto.
+    recalled: Note from 2026-01-02: The user sings alto in a community choir on Tuesday nights, but quit the choir because the rehearsals clashed with their French classes.
+    answer: I don't know.
+
+[hybrid] What's my favourite opera?
+    recalled: Speaks: French (since 2025-10-06)
+    recalled: [2025-09-04] "I found a new choir in Lyon, still singing alto."
+    recalled: [2026-01-02] "I quit the choir, the rehearsals clashed with my French classes."
+    recalled: [2025-06-10] "I sing alto in a community choir on Tuesday nights."
+    recalled: [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+    answer: I don't know.
+
+[full] What's my favourite opera?
+    recalled: the whole history (95 messages)
+    answer: I don't know.
+[19/57] n_marisol: What's my favourite opera?
+ingesting n_kwame (95 messages)...
+n_kwame: 31 summaries written
+
+--- facts stored for n_kwame ---
+  allergic_to   sesame                active      2025-05-12 14:18
+  family_member Abena                 active      2025-05-01 14:18
+  family_member Declan                active      2025-06-05 14:18
+  family_member Yaw                   active      2025-07-01 14:18
+  family_member mum                   active      2025-07-28 14:18
+  family_member Kofi                  active      2025-12-18 13:18
+  goal          move to Manchester    active      2025-08-11 14:18
+  goal          visit Ghana in Decemberactive      2025-09-23 14:18
+  goal          midwife               active      2025-10-21 14:18
+  goal          York                  active      2026-04-29 14:18
+  hobby         drums                 archived    2025-05-24 14:18
+  hobby         saxophone             active      2026-03-15 13:18
+  hobby         saxophone playing     active      2026-08-30 14:18
+  job_title     graduate engineer     superseded  2025-04-20 14:18
+  job_title     engineer              superseded  2025-10-07 14:18
+  job_title     signalling upgrade    superseded  2026-02-13 13:18
+  job_title     senior engineer       active      2026-05-31 14:18
+  lives_in      Leeds                 superseded  2025-04-20 14:18
+  lives_in      Manchester            active      2026-01-31 13:18
+  name          Kwame                 active      2025-04-20 14:18
+  partner       Abena                 active      2025-05-01 14:18
+  works_at      Brackwell Consulting  archived    2025-04-20 14:18
+  works_at      Tidemoor Rail         active      2026-02-13 13:18
+--- summaries stored for eval_n_kwame ---
+  The user's wife Abena is a nurse on a children's ward.
+  The user is allergic to sesame.
+  The user plays drums in their church band on Sundays.
+  The user's best mate Declan lives round the corner from them in Leeds.
+  The user ran the Leeds 10K this morning in 47 minutes, their best time yet.
+  The user's son Yaw started nursery this week.
+  The user's car broke down on the M62 on the way to their mum's.
+  The user's mum lives in Kumasi and visits them every summer.
+  The user and Abena are thinking about moving to Manchester one day, closer to her family.
+  The user and Abena spent a weekend in north Wales, climbing the walls of Conwy Castle.
+  The user was promoted to engineer at Brackwell.
+  Declan moved to Glasgow for a job at a shipyard.
+  Abena is retraining as a midwife and starts the course in January.
+  The user saw The Marrow Lanterns in Sheffield and it was the best gig they've been to in years.
+  The user and their family are pushing the Ghana trip to January.
+  The user's car broke down again, this time outside Yaw's nursery.
+  The user's nephew Kofi has his driving test on 9 May and he's very nervous.
+  The user got an offer from Tidemoor Rail in Manchester and they're moving in the spring.
+  The user left Brackwell Consulting today.
+  The user moved to Manchester and their house is in Chorlton.
+  The user and their partner are planning a weekend in Bath for their anniversary.
+  The user gave up the drums when they moved.
+  The user has taken up the saxophone instead.
+  The user bought a second-hand alto saxophone for 640 pounds.
+  The user's colleague Abena is a midwife at a Manchester hospital now.
+  The user changed their anniversary plans to York instead of Bath.
+  The user's child Yaw lost his first tooth.
+  The user was promoted to senior engineer at Tidemoor Rail.
+  The user's friend Declan came down from Glasgow for the weekend and they watched the rugby.
+  The user has booked a trip to Ghana in January to see their mum.
+  The user's saxophone lessons are going well and they can play a whole tune now.
+
+[none] Which city do I live in?
+
+[baseline] Which city do I live in?
+    recalled: [2026-01-31] "We've moved to Manchester! The house is in Chorlton."
+    recalled: [2025-06-05] "My best mate Declan lives round the corner from us in Leeds."
+    recalled: [2025-08-11] "Abena and I are thinking about moving to Manchester one day, closer to her family."
+    recalled: [2026-09-18] "Is Chorlton a nice area to live in?"
+    answer: You live in Manchester.
+
+[smart] Which city do I live in?
+    recalled: Lives in: Manchester (since 2026-01-31)
+    answer: You live in Manchester.
+
+[hybrid] Which city do I live in?
+    recalled: Lives in: Manchester (since 2026-01-31)
+    recalled: [2026-01-31] "We've moved to Manchester! The house is in Chorlton."
+    recalled: [2025-06-05] "My best mate Declan lives round the corner from us in Leeds."
+    recalled: [2025-08-11] "Abena and I are thinking about moving to Manchester one day, closer to her family."
+    recalled: [2026-09-18] "Is Chorlton a nice area to live in?"
+    answer: You live in Manchester.
+
+[full] Which city do I live in?
+    recalled: the whole history (95 messages)
+    answer: You live in Manchester.
+[20/57] n_kwame: Which city do I live in?
+
+[none] Where did I live before Manchester?
+
+[baseline] Where did I live before Manchester?
+    recalled: [2026-01-31] "We've moved to Manchester! The house is in Chorlton."
+    recalled: [2025-07-05] "Is it cheaper to rent or buy in Manchester?"
+    recalled: [2025-08-11] "Abena and I are thinking about moving to Manchester one day, closer to her family."
+    recalled: [2025-06-05] "My best mate Declan lives round the corner from us in Leeds."
+    answer: I don't know.
+
+[smart] Where did I live before Manchester?
+    recalled: Earlier: Lives in: Leeds (until 2026-01-31)
+    recalled: Lives in: Manchester (since 2026-01-31)
+    answer: You lived in Leeds before moving to Manchester.
+
+[hybrid] Where did I live before Manchester?
+    recalled: Lives in: Manchester (since 2026-01-31)
+    recalled: Lives in, oldest first: Leeds -> Manchester (now)
+    recalled: [2026-01-31] "We've moved to Manchester! The house is in Chorlton."
+    recalled: [2025-07-05] "Is it cheaper to rent or buy in Manchester?"
+    recalled: [2025-08-11] "Abena and I are thinking about moving to Manchester one day, closer to her family."
+    recalled: [2025-06-05] "My best mate Declan lives round the corner from us in Leeds."
+    answer: You lived in Leeds before moving to Manchester.
+
+[full] Where did I live before Manchester?
+    recalled: the whole history (95 messages)
+    answer: You lived in Leeds before moving to Manchester.
+[21/57] n_kwame: Where did I live before Manchester?
+
+[none] Which company do I work for?
+
+[baseline] Which company do I work for?
+    recalled: [2025-04-20] "Hi, I'm Kwame. I'm a graduate engineer at Brackwell Consulting in Leeds."
+    recalled: [2025-12-26] "What does a quantity surveyor do?"
+    recalled: [2025-10-07] "I've been promoted to engineer at Brackwell."
+    recalled: [2026-05-31] "I've been promoted to senior engineer at Tidemoor Rail."
+    answer: You work for Tidemoor Rail, as a senior engineer.
+
+[smart] Which company do I work for?
+    recalled: Works at: Tidemoor Rail (since 2026-02-13)
+    recalled: Job title: senior engineer (since 2026-05-31)
+    recalled: Note from 2026-04-14: The user's colleague Abena is a midwife at a Manchester hospital now.
+    recalled: Note from 2026-05-31: The user was promoted to senior engineer at Tidemoor Rail.
+    answer: You work for Tidemoor Rail.
+
+[hybrid] Which company do I work for?
+    recalled: Works at: Tidemoor Rail (since 2026-02-13)
+    recalled: Job title: senior engineer (since 2026-05-31)
+    recalled: [2025-04-20] "Hi, I'm Kwame. I'm a graduate engineer at Brackwell Consulting in Leeds." [no longer true: Works at: Brackwell Consulting] [outdated: Job title: graduate engineer -> now senior engineer] [outdated: Lives in: Leeds -> now Manchester]
+    recalled: [2025-12-26] "What does a quantity surveyor do?"
+    recalled: [2025-10-07] "I've been promoted to engineer at Brackwell." [outdated: Job title: engineer -> now senior engineer]
+    recalled: [2026-05-31] "I've been promoted to senior engineer at Tidemoor Rail."
+    answer: You work for Tidemoor Rail.
+
+[full] Which company do I work for?
+    recalled: the whole history (95 messages)
+    answer: You work for Tidemoor Rail in Manchester.
+[22/57] n_kwame: Which company do I work for?
+
+[none] Which company did I work for before Tidemoor Rail?
+
+[baseline] Which company did I work for before Tidemoor Rail?
+    recalled: [2026-05-31] "I've been promoted to senior engineer at Tidemoor Rail."
+    recalled: [2026-02-13] "Started at Tidemoor Rail, I'm working on the signalling upgrade."
+    recalled: [2026-01-02] "Got an offer from Tidemoor Rail in Manchester. We're moving in the spring."
+    recalled: [2025-10-07] "I've been promoted to engineer at Brackwell."
+    answer: You worked for Brackwell before joining Tidemoor Rail.
+
+[smart] Which company did I work for before Tidemoor Rail?
+    recalled: Earlier: Job title: engineer (until 2026-02-13)
+    recalled: Earlier: Job title: signalling upgrade (until 2026-05-31)
+    recalled: Works at: Tidemoor Rail (since 2026-02-13)
+    recalled: Note from 2026-05-31: The user was promoted to senior engineer at Tidemoor Rail.
+    answer: I don't know.
+
+[hybrid] Which company did I work for before Tidemoor Rail?
+    recalled: Works at: Tidemoor Rail (since 2026-02-13)
+    recalled: Works at, oldest first: Brackwell Consulting (ended) -> Tidemoor Rail (now)
+    recalled: [2026-05-31] "I've been promoted to senior engineer at Tidemoor Rail."
+    recalled: [2026-02-13] "Started at Tidemoor Rail, I'm working on the signalling upgrade." [outdated: Job title: signalling upgrade -> now senior engineer]
+    recalled: [2026-01-02] "Got an offer from Tidemoor Rail in Manchester. We're moving in the spring."
+    recalled: [2025-10-07] "I've been promoted to engineer at Brackwell." [outdated: Job title: engineer -> now senior engineer]
+    answer: You worked for Brackwell Consulting before joining Tidemoor Rail.
+
+[full] Which company did I work for before Tidemoor Rail?
+    recalled: the whole history (95 messages)
+    answer: You worked for Brackwell Consulting before joining Tidemoor Rail.
+[23/57] n_kwame: Which company did I work for before Tidemoor Rail?
+
+[none] What's my job title?
+
+[baseline] What's my job title?
+    recalled: [2025-10-07] "I've been promoted to engineer at Brackwell."
+    recalled: [2026-05-31] "I've been promoted to senior engineer at Tidemoor Rail."
+    recalled: [2025-04-20] "Hi, I'm Kwame. I'm a graduate engineer at Brackwell Consulting in Leeds."
+    recalled: [2026-04-14] "Abena qualified, she's a midwife at a Manchester hospital now."
+    answer: You're a senior engineer at Tidemoor Rail.
+
+[smart] What's my job title?
+    recalled: Job title: senior engineer (since 2026-05-31)
+    answer: Your job title is senior engineer.
+
+[hybrid] What's my job title?
+    recalled: Job title: senior engineer (since 2026-05-31)
+    recalled: [2025-10-07] "I've been promoted to engineer at Brackwell." [outdated: Job title: engineer -> now senior engineer]
+    recalled: [2026-05-31] "I've been promoted to senior engineer at Tidemoor Rail."
+    recalled: [2025-04-20] "Hi, I'm Kwame. I'm a graduate engineer at Brackwell Consulting in Leeds." [no longer true: Works at: Brackwell Consulting] [outdated: Job title: graduate engineer -> now senior engineer] [outdated: Lives in: Leeds -> now Manchester]
+    recalled: [2026-04-14] "Abena qualified, she's a midwife at a Manchester hospital now."
+    answer: Your job title is senior engineer.
+
+[full] What's my job title?
+    recalled: the whole history (95 messages)
+    answer: You're a senior engineer at Tidemoor Rail.
+[24/57] n_kwame: What's my job title?
+
+[none] What instrument do I play these days?
+
+[baseline] What instrument do I play these days?
+    recalled: [2026-08-30] "Saxophone lessons are going well, I can play a whole tune now."
+    recalled: [2025-05-24] "I play drums in our church band on Sundays."
+    recalled: [2026-03-15] "I gave up the drums when we moved, I've taken up the saxophone instead."
+    recalled: [2026-02-10] "Good reed strength for a beginner on alto sax?"
+    answer: You play the saxophone.
+
+[smart] What instrument do I play these days?
+    recalled: Hobby: saxophone playing (since 2026-08-30)
+    recalled: Hobby: saxophone (since 2026-03-15)
+    recalled: Note from 2026-08-30: The user's saxophone lessons are going well and they can play a whole tune now.
+    recalled: Note from 2026-03-15: The user has taken up the saxophone instead.
+    answer: You play the saxophone.
+
+[hybrid] What instrument do I play these days?
+    recalled: Hobby: saxophone playing (since 2026-08-30)
+    recalled: Hobby: saxophone (since 2026-03-15)
+    recalled: [2026-08-30] "Saxophone lessons are going well, I can play a whole tune now."
+    recalled: [2025-05-24] "I play drums in our church band on Sundays." [no longer true: Hobby: drums]
+    recalled: [2026-03-15] "I gave up the drums when we moved, I've taken up the saxophone instead."
+    recalled: [2026-02-10] "Good reed strength for a beginner on alto sax?"
+    answer: You play the saxophone.
+
+[full] What instrument do I play these days?
+    recalled: the whole history (95 messages)
+    answer: You play the alto saxophone.
+[25/57] n_kwame: What instrument do I play these days?
+
+[none] How many times has my car broken down?
+
+[baseline] How many times has my car broken down?
+    recalled: [2025-12-03] "The car broke down again, this time outside Yaw's nursery."
+    recalled: [2025-07-15] "The car broke down on the M62 on the way to my mum's."
+    recalled: [2025-08-12] "What should I check before buying a used car?"
+    recalled: [2026-10-16] "How do I keep a car battery healthy in winter?"
+    answer: I've noted that your car broke down outside Yaw's nursery in December 2025, and also on the M62 on the way to your mum's in July 2025. I don't have information on any other breakdowns.
+
+[smart] How many times has my car broken down?
+    recalled: Note from 2025-12-03: The user's car broke down again, this time outside Yaw's nursery.
+    recalled: Note from 2025-07-15: The user's car broke down on the M62 on the way to their mum's.
+    answer: I've noted that your car broke down twice: once on the M62 on the way to your mum's in July 2025, and again outside Yaw's nursery in December 2025.
+
+[hybrid] How many times has my car broken down?
+    recalled: [2025-12-03] "The car broke down again, this time outside Yaw's nursery."
+    recalled: [2025-07-15] "The car broke down on the M62 on the way to my mum's."
+    recalled: [2025-08-12] "What should I check before buying a used car?"
+    recalled: [2026-10-16] "How do I keep a car battery healthy in winter?"
+    answer: I don't know.
+
+[full] How many times has my car broken down?
+    recalled: the whole history (95 messages)
+    answer: Your car has broken down twice: once on the M62 on the way to your mum's and again outside Yaw's nursery.
+[26/57] n_kwame: How many times has my car broken down?
+
+[none] Which castle did Abena and I climb in Wales?
+
+[baseline] Which castle did Abena and I climb in Wales?
+    recalled: [2025-08-25] "Abena and I spent a weekend in north Wales, we climbed the walls of Conwy Castle."
+    recalled: [2025-05-01] "My wife Abena is a nurse on a children's ward."
+    recalled: [2026-06-26] "Declan came down from Glasgow for the weekend, we watched the rugby."
+    recalled: [2026-04-14] "Abena qualified, she's a midwife at a Manchester hospital now."
+    answer: You climbed the walls of Conwy Castle in north Wales.
+
+[smart] Which castle did Abena and I climb in Wales?
+    recalled: Partner: Abena (since 2025-05-01)
+    recalled: Note from 2025-08-25: The user and Abena spent a weekend in north Wales, climbing the walls of Conwy Castle.
+    answer: You and Abena climbed the walls of Conwy Castle in north Wales.
+
+[hybrid] Which castle did Abena and I climb in Wales?
+    recalled: Partner: Abena (since 2025-05-01)
+    recalled: [2025-08-25] "Abena and I spent a weekend in north Wales, we climbed the walls of Conwy Castle."
+    recalled: [2025-05-01] "My wife Abena is a nurse on a children's ward."
+    recalled: [2026-06-26] "Declan came down from Glasgow for the weekend, we watched the rugby."
+    recalled: [2026-04-14] "Abena qualified, she's a midwife at a Manchester hospital now."
+    answer: You climbed the walls of Conwy Castle in north Wales.
+
+[full] Which castle did Abena and I climb in Wales?
+    recalled: the whole history (95 messages)
+    answer: You and Abena climbed the walls of Conwy Castle in north Wales.
+[27/57] n_kwame: Which castle did Abena and I climb in Wales?
+
+[none] Which band did I see in Sheffield?
+
+[baseline] Which band did I see in Sheffield?
+    recalled: [2025-11-05] "Saw The Marrow Lanterns in Sheffield, best gig I've been to in years."
+    recalled: [2026-06-26] "Declan came down from Glasgow for the weekend, we watched the rugby."
+    recalled: [2025-05-24] "I play drums in our church band on Sundays."
+    recalled: [2025-06-05] "My best mate Declan lives round the corner from us in Leeds."
+    answer: The Marrow Lanterns. You mentioned that was the best gig you'd been to in years.
+
+[smart] Which band did I see in Sheffield?
+    recalled: Lives in: Manchester (since 2026-01-31)
+    recalled: Note from 2025-11-05: The user saw The Marrow Lanterns in Sheffield and it was the best gig they've been to in years.
+    answer: You saw The Marrow Lanterns in Sheffield, and it was the best gig you've been to in years.
+
+[hybrid] Which band did I see in Sheffield?
+    recalled: Lives in: Manchester (since 2026-01-31)
+    recalled: [2025-11-05] "Saw The Marrow Lanterns in Sheffield, best gig I've been to in years."
+    recalled: [2026-06-26] "Declan came down from Glasgow for the weekend, we watched the rugby."
+    recalled: [2025-05-24] "I play drums in our church band on Sundays." [no longer true: Hobby: drums]
+    recalled: [2025-06-05] "My best mate Declan lives round the corner from us in Leeds."
+    answer: You saw The Marrow Lanterns in Sheffield.
+
+[full] Which band did I see in Sheffield?
+    recalled: the whole history (95 messages)
+    answer: You saw The Marrow Lanterns in Sheffield.
+[28/57] n_kwame: Which band did I see in Sheffield?
+
+[none] How much did my saxophone cost?
+
+[baseline] How much did my saxophone cost?
+    recalled: [2026-03-30] "Bought a second-hand alto saxophone for 640 pounds."
+    recalled: [2026-08-30] "Saxophone lessons are going well, I can play a whole tune now."
+    recalled: [2026-03-15] "I gave up the drums when we moved, I've taken up the saxophone instead."
+    recalled: [2026-02-10] "Good reed strength for a beginner on alto sax?"
+    answer: Your saxophone cost 640 pounds.
+
+[smart] How much did my saxophone cost?
+    recalled: Hobby: saxophone (since 2026-03-15)
+    recalled: Hobby: saxophone playing (since 2026-08-30)
+    recalled: Note from 2026-03-30: The user bought a second-hand alto saxophone for 640 pounds.
+    answer: You bought a second-hand alto saxophone for 640 pounds.
+
+[hybrid] How much did my saxophone cost?
+    recalled: Hobby: saxophone (since 2026-03-15)
+    recalled: Hobby: saxophone playing (since 2026-08-30)
+    recalled: [2026-03-30] "Bought a second-hand alto saxophone for 640 pounds."
+    recalled: [2026-08-30] "Saxophone lessons are going well, I can play a whole tune now."
+    recalled: [2026-03-15] "I gave up the drums when we moved, I've taken up the saxophone instead."
+    recalled: [2026-02-10] "Good reed strength for a beginner on alto sax?"
+    answer: You bought a second-hand alto saxophone for 640 pounds.
+
+[full] How much did my saxophone cost?
+    recalled: the whole history (95 messages)
+    answer: You bought a second-hand alto saxophone for 640 pounds.
+[29/57] n_kwame: How much did my saxophone cost?
+
+[none] What was my time in the Leeds 10K?
+
+[baseline] What was my time in the Leeds 10K?
+    recalled: [2025-06-18] "Ran the Leeds 10K this morning in 47 minutes, my best time yet."
+    recalled: [2025-09-17] "How do I train for a 10K under 45 minutes?"
+    recalled: [2026-06-26] "Declan came down from Glasgow for the weekend, we watched the rugby."
+    recalled: [2025-06-05] "My best mate Declan lives round the corner from us in Leeds."
+    answer: You ran the Leeds 10K in 47 minutes, your best time yet.
+
+[smart] What was my time in the Leeds 10K?
+    recalled: Note from 2025-06-18: The user ran the Leeds 10K this morning in 47 minutes, their best time yet.
+    answer: You ran the Leeds 10K this morning in 47 minutes, which was your best time yet.
+
+[hybrid] What was my time in the Leeds 10K?
+    recalled: [2025-06-18] "Ran the Leeds 10K this morning in 47 minutes, my best time yet."
+    recalled: [2025-09-17] "How do I train for a 10K under 45 minutes?"
+    recalled: [2026-06-26] "Declan came down from Glasgow for the weekend, we watched the rugby."
+    recalled: [2025-06-05] "My best mate Declan lives round the corner from us in Leeds."
+    answer: You ran the Leeds 10K in 47 minutes, your best time yet.
+
+[full] What was my time in the Leeds 10K?
+    recalled: the whole history (95 messages)
+    answer: You ran the Leeds 10K this morning in 47 minutes, your best time yet.
+[30/57] n_kwame: What was my time in the Leeds 10K?
+
+[none] When are we visiting Ghana?
+
+[baseline] When are we visiting Ghana?
+    recalled: [2025-09-23] "We're planning to visit Ghana in December to see my mum."
+    recalled: [2025-11-20] "We're pushing the Ghana trip to January, flights in December are crazy."
+    recalled: [2026-07-26] "Our Ghana trip in January is booked, I can't wait to see my mum."
+    recalled: [2026-04-25] "What's the weather like in Ghana in January?"
+    answer: You're planning to visit Ghana in January. Your trip is booked.
+
+[smart] When are we visiting Ghana?
+    recalled: Note from 2026-07-26: The user has booked a trip to Ghana in January to see their mum.
+    recalled: Note from 2025-11-20: The user and their family are pushing the Ghana trip to January.
+    answer: You're planning to visit Ghana in January. You and your family have been pushing the trip back to January from an earlier date.
+
+[hybrid] When are we visiting Ghana?
+    recalled: [2025-09-23] "We're planning to visit Ghana in December to see my mum."
+    recalled: [2025-11-20] "We're pushing the Ghana trip to January, flights in December are crazy."
+    recalled: [2026-07-26] "Our Ghana trip in January is booked, I can't wait to see my mum."
+    recalled: [2026-04-25] "What's the weather like in Ghana in January?"
+    answer: We're visiting Ghana in January.
+
+[full] When are we visiting Ghana?
+    recalled: the whole history (95 messages)
+    answer: You mentioned earlier that you and Abena are planning to visit Ghana in January to see your mum.
+[31/57] n_kwame: When are we visiting Ghana?
+
+[none] Where are we going for our anniversary?
+
+[baseline] Where are we going for our anniversary?
+    recalled: [2026-02-28] "For our anniversary we're planning a weekend in Bath."
+    recalled: [2026-04-29] "Change of plan for the anniversary: York instead of Bath, Bath was fully booked."
+    recalled: [2025-09-23] "We're planning to visit Ghana in December to see my mum."
+    recalled: [2026-07-26] "Our Ghana trip in January is booked, I can't wait to see my mum."
+    answer: You're planning a weekend in York for your anniversary, as you mentioned earlier.
+
+[smart] Where are we going for our anniversary?
+    recalled: Goal: visit Ghana in December (since 2025-09-23)
+    recalled: Goal: move to Manchester (since 2025-08-11)
+    recalled: Note from 2026-02-28: The user and their partner are planning a weekend in Bath for their anniversary.
+    answer: We're planning a weekend in Bath.
+
+[hybrid] Where are we going for our anniversary?
+    recalled: Goal: visit Ghana in December (since 2025-09-23)
+    recalled: Goal: move to Manchester (since 2025-08-11)
+    recalled: [2026-02-28] "For our anniversary we're planning a weekend in Bath."
+    recalled: [2026-04-29] "Change of plan for the anniversary: York instead of Bath, Bath was fully booked."
+    recalled: [2025-09-23] "We're planning to visit Ghana in December to see my mum."
+    recalled: [2026-07-26] "Our Ghana trip in January is booked, I can't wait to see my mum."
+    answer: We're going to York.
+
+[full] Where are we going for our anniversary?
+    recalled: the whole history (95 messages)
+    answer: You're planning a weekend in York for your anniversary.
+[32/57] n_kwame: Where are we going for our anniversary?
+
+[none] Where does Declan live now?
+
+[baseline] Where does Declan live now?
+    recalled: [2025-09-08] "Declan moved to Glasgow for a job at a shipyard."
+    recalled: [2025-06-05] "My best mate Declan lives round the corner from us in Leeds."
+    recalled: [2026-06-26] "Declan came down from Glasgow for the weekend, we watched the rugby."
+    recalled: [2026-01-31] "We've moved to Manchester! The house is in Chorlton."
+    answer: Declan lives in Glasgow, where he has a job at a shipyard.
+
+[smart] Where does Declan live now?
+    recalled: Note from 2025-09-08: Declan moved to Glasgow for a job at a shipyard.
+    recalled: Note from 2025-06-05: The user's best mate Declan lives round the corner from them in Leeds.
+    answer: Declan moved to Glasgow for a job at a shipyard, so he lives there now.
+
+[hybrid] Where does Declan live now?
+    recalled: [2025-09-08] "Declan moved to Glasgow for a job at a shipyard."
+    recalled: [2025-06-05] "My best mate Declan lives round the corner from us in Leeds."
+    recalled: [2026-06-26] "Declan came down from Glasgow for the weekend, we watched the rugby."
+    recalled: [2026-01-31] "We've moved to Manchester! The house is in Chorlton."
+    answer: Declan lives in Glasgow, where he has a job at a shipyard.
+
+[full] Where does Declan live now?
+    recalled: the whole history (95 messages)
+    answer: Declan lives in Glasgow, where he works at a shipyard.
+[33/57] n_kwame: Where does Declan live now?
+
+[none] What does my wife do now?
+
+[baseline] What does my wife do now?
+    recalled: [2025-05-01] "My wife Abena is a nurse on a children's ward."
+    recalled: [2025-10-21] "Abena is retraining as a midwife, she starts the course in January."
+    recalled: [2026-04-14] "Abena qualified, she's a midwife at a Manchester hospital now."
+    recalled: [2026-03-15] "I gave up the drums when we moved, I've taken up the saxophone instead."
+    answer: Your wife Abena is a midwife at a Manchester hospital.
+
+[smart] What does my wife do now?
+    recalled: Partner: Abena (since 2025-05-01)
+    recalled: Note from 2025-05-01: The user's wife Abena is a nurse on a children's ward.
+    recalled: Note from 2025-10-21: Abena is retraining as a midwife and starts the course in January.
+    answer: Your wife Abena is currently retraining as a midwife. She's due to start the course in January.
+
+[hybrid] What does my wife do now?
+    recalled: Partner: Abena (since 2025-05-01)
+    recalled: [2025-05-01] "My wife Abena is a nurse on a children's ward."
+    recalled: [2025-10-21] "Abena is retraining as a midwife, she starts the course in January."
+    recalled: [2026-04-14] "Abena qualified, she's a midwife at a Manchester hospital now."
+    recalled: [2026-03-15] "I gave up the drums when we moved, I've taken up the saxophone instead."
+    answer: Abena is a midwife at a Manchester hospital.
+
+[full] What does my wife do now?
+    recalled: the whole history (95 messages)
+    answer: Your wife Abena is a midwife at a Manchester hospital.
+[34/57] n_kwame: What does my wife do now?
+
+[none] We're getting a takeaway tonight. Is there anything I should be careful about?
+
+[baseline] We're getting a takeaway tonight. Is there anything I should be careful about?
+    recalled: [2026-08-13] "What snacks are safe to take to a children's party?"
+    recalled: [2025-08-12] "What should I check before buying a used car?"
+    recalled: [2026-09-09] "How do I calm down before a big presentation?"
+    recalled: [2026-02-28] "For our anniversary we're planning a weekend in Bath."
+    answer: When ordering a takeaway, it's a good idea to check the ingredients and allergens in the food, especially if you or someone in your household has a food allergy or intolerance. You might also want to ask about cooking methods and any potential cross-contamination with other foods.
+
+[smart] We're getting a takeaway tonight. Is there anything I should be careful about?
+    recalled: Allergic to: sesame (since 2025-05-12)
+    recalled: Note from 2025-12-18: The user's nephew Kofi has his driving test on 9 May and he's very nervous.
+    recalled: Note from 2026-02-28: The user and their partner are planning a weekend in Bath for their anniversary.
+    answer: Considering your sesame allergy, you might want to double-check the ingredients of the takeaway food. It's always a good idea to inform the restaurant about your allergy, so they can take necessary precautions.
+
+[hybrid] We're getting a takeaway tonight. Is there anything I should be careful about?
+    recalled: Allergic to: sesame (since 2025-05-12)
+    recalled: [2026-08-13] "What snacks are safe to take to a children's party?"
+    recalled: [2025-08-12] "What should I check before buying a used car?"
+    recalled: [2026-09-09] "How do I calm down before a big presentation?"
+    recalled: [2026-02-28] "For our anniversary we're planning a weekend in Bath."
+    answer: Considering your sesame allergy, you might want to double-check the ingredients of the takeaway food to ensure it doesn't contain sesame.
+
+[full] We're getting a takeaway tonight. Is there anything I should be careful about?
+    recalled: the whole history (95 messages)
+    answer: Considering your sesame allergy, you might want to double-check the ingredients of the takeaway food to ensure they don't contain sesame or sesame products. It's always a good idea to inform the takeaway staff about your allergy, so they can take necessary precautions.
+[35/57] n_kwame: We're getting a takeaway tonight. Is there anything I should
+
+[none] Write a one-line email signature for me.
+
+[baseline] Write a one-line email signature for me.
+    recalled: [2025-11-11] "Give me a quick breakfast idea with oats."
+    recalled: [2026-03-01] "How do I write a good CV summary?"
+    recalled: [2025-04-20] "Hi, I'm Kwame. I'm a graduate engineer at Brackwell Consulting in Leeds."
+    recalled: [2026-02-13] "Started at Tidemoor Rail, I'm working on the signalling upgrade."
+    answer: I don't know your name or job title, but a simple email signature could be: "Best regards, [Your Name]"
+
+[smart] Write a one-line email signature for me.
+    answer: Here is a one-line email signature for you: "Best regards, [Your Name]".
+
+[hybrid] Write a one-line email signature for me.
+    recalled: [2025-11-11] "Give me a quick breakfast idea with oats."
+    recalled: [2026-03-01] "How do I write a good CV summary?"
+    recalled: [2025-04-20] "Hi, I'm Kwame. I'm a graduate engineer at Brackwell Consulting in Leeds." [no longer true: Works at: Brackwell Consulting] [outdated: Job title: graduate engineer -> now senior engineer] [outdated: Lives in: Leeds -> now Manchester]
+    recalled: [2026-02-13] "Started at Tidemoor Rail, I'm working on the signalling upgrade." [outdated: Job title: signalling upgrade -> now senior engineer]
+    answer: I don't know your current job title or company, but I can suggest a generic format: "Best regards, [Your Name]".
+
+[full] Write a one-line email signature for me.
+    recalled: the whole history (95 messages)
+    answer: I don't know your name or contact information, so I'm unable to write a personalized email signature for you.
+[36/57] n_kwame: Write a one-line email signature for me.
+
+[none] When is my driving test?
+
+[baseline] When is my driving test?
+    recalled: [2025-12-18] "My nephew Kofi has his driving test on 9 May, he's so nervous."
+    recalled: [2026-10-04] "Busy month at work, the signalling tests start next week."
+    recalled: [2025-08-12] "What should I check before buying a used car?"
+    recalled: [2026-08-30] "Saxophone lessons are going well, I can play a whole tune now."
+    answer: I don't know.
+
+[smart] When is my driving test?
+    recalled: Note from 2025-12-18: The user's nephew Kofi has his driving test on 9 May and he's very nervous.
+    answer: I don't know.
+
+[hybrid] When is my driving test?
+    recalled: [2025-12-18] "My nephew Kofi has his driving test on 9 May, he's so nervous."
+    recalled: [2026-10-04] "Busy month at work, the signalling tests start next week."
+    recalled: [2025-08-12] "What should I check before buying a used car?"
+    recalled: [2026-08-30] "Saxophone lessons are going well, I can play a whole tune now."
+    answer: I don't know.
+
+[full] When is my driving test?
+    recalled: the whole history (95 messages)
+    answer: I don't know.
+[37/57] n_kwame: When is my driving test?
+
+[none] What's my favourite cheese?
+
+[baseline] What's my favourite cheese?
+    recalled: [2025-06-05] "My best mate Declan lives round the corner from us in Leeds."
+    recalled: [2025-10-23] "What are fun things to do in York for a weekend?"
+    recalled: [2026-08-03] "Recommend a good podcast about engineering."
+    recalled: [2025-05-12] "I'm allergic to sesame, even a little tahini sets me off."
+    answer: I don't know.
+
+[smart] What's my favourite cheese?
+    recalled: Note from 2025-06-05: The user's best mate Declan lives round the corner from them in Leeds.
+    recalled: Note from 2026-06-26: The user's friend Declan came down from Glasgow for the weekend and they watched the rugby.
+    answer: I don't know.
+
+[hybrid] What's my favourite cheese?
+    recalled: [2025-06-05] "My best mate Declan lives round the corner from us in Leeds."
+    recalled: [2025-10-23] "What are fun things to do in York for a weekend?"
+    recalled: [2026-08-03] "Recommend a good podcast about engineering."
+    recalled: [2025-05-12] "I'm allergic to sesame, even a little tahini sets me off."
+    answer: I don't know.
+
+[full] What's my favourite cheese?
+    recalled: the whole history (95 messages)
+    answer: I don't know.
+[38/57] n_kwame: What's my favourite cheese?
+ingesting n_henrike (93 messages)...
+n_henrike: 25 summaries written
+n_henrike: 3 digests written
+
+--- facts stored for n_henrike ---
+  allergic_to   lactose               active      2025-05-19 16:46
+  family_member Malte                 active      2025-06-26 16:46
+  family_member Bruno                 active      2025-07-09 16:46
+  family_member Frieda                active      2025-09-07 16:46
+  family_member grandmother           active      2026-07-27 16:46
+  goal          move in August        active      2025-12-07 15:46
+  goal          move to a bigger flat in Altonaactive      2025-12-07 15:46
+  hobby         sailing               archived    2025-06-12 16:46
+  hobby         dinghy sailing        active      2025-06-12 16:46
+  job_title     editor                superseded  2025-04-29 16:46
+  job_title     senior editor         superseded  2025-10-23 16:46
+  job_title     narrative designer    active      2026-01-22 15:46
+  lives_in      Kiel                  superseded  2025-04-29 16:46
+  lives_in      Hamburg               superseded  2025-07-25 16:46
+  lives_in      Ottensen              superseded  2025-08-09 16:46
+  lives_in      Altona                active      2026-04-09 16:46
+  name          Henrike               active      2025-04-29 16:46
+  partner       Jonte                 active      2025-05-10 16:46
+  speaks        Danish                active      2025-05-31 16:46
+  speaks        English               active      2025-05-31 16:46
+  speaks        German                active      2025-05-31 16:46
+  works_at      Elbquill Press        archived    2025-04-29 16:46
+  works_at      Harbourlight Games    active      2026-01-22 15:46
+--- summaries stored for eval_n_henrike ---
+  The user met their partner Jonte at university six years ago.
+  The user is lactose intolerant and sticks to oat milk.
+  The user sails a small dinghy on the Kiel fjord most weekends. [merged into #5832]
+  The user's brother Malte lives in Munich and works as a brewer.
+  The user has a tortoise called Bruno, who is older than them.
+  The user sailed to Bornholm with friends, it took three days.
+  The user's niece Frieda was born.
+  The user baked a Black Forest cake with oat cream for Jonte's birthday.
+  The user visited Copenhagen with Jonte and they spent a whole day at the design museum.
+  The user was promoted to senior editor at Elbquill.
+  The user bought a new mirrorless camera for 1,150 euros to get into photography.
+  The user's friend Malte moved to Vienna to open his own small brewery.
+  The user is planning to move to a bigger flat in Altona with Jonte in August. [merged into #5834]
+  The user took the dinghy out on the Elbe for the first time and found the currents scary.
+  The user left Elbquill Press and is now a narrative designer at Harbourlight Games.
+  The user is enjoying their second week at Harbourlight Games, writing dialogue for a game. [merged into #5833]
+  The user's pet Bruno has started hibernating in a box in the cellar.
+  The user went to Lisbon for a long weekend with Jonte and they had lots of custard tarts.
+  The user sold the dinghy and stopped sailing because of their new job. [merged into #5832]
+  The user moved into the Altona flat in October and finally unpacked. [merged into #5834]
+  The user's photo of the harbour got second prize in a local competition.
+  The user's friend Jonte started a new job at a wind energy company.
+  The user wrote most of the side quests for the game Harbourlight. [merged into #5833]
+  The user is learning to make Danish rye bread like their grandmother did.
+  The user and their family are thinking of getting a dog in the spring.
+  DIGEST #5832: The user sails a small dinghy on the Kiel fjord most weekends, but sold it and stopped sailing because of their new job.
+  DIGEST #5833: The user is enjoying their second week at Harbourlight Games, writing dialogue for a game, and wrote most of the side quests for the game Harbourlight.
+  DIGEST #5834: The user is planning to move to a bigger flat in Altona with Jonte in August, and moved into the Altona flat in October and finally unpacked.
+
+[none] Where do I work?
+
+[baseline] Where do I work?
+    recalled: [2025-04-29] "Hi, I'm Henrike. I live in Kiel and work as an editor at Elbquill Press."
+    recalled: [2026-06-02] "Jonte started a new job at a wind energy company."
+    recalled: [2025-06-26] "My brother Malte lives in Munich and works as a brewer."
+    recalled: [2025-10-23] "I've been promoted to senior editor at Elbquill."
+    answer: You work as a senior editor at Elbquill Press in Kiel.
+
+[smart] Where do I work?
+    recalled: Works at: Harbourlight Games (since 2026-01-22)
+    recalled: Lives in: Altona (since 2026-04-09)
+    recalled: Note from 2026-06-02: The user's friend Jonte started a new job at a wind energy company.
+    recalled: Note from 2025-06-26: The user's brother Malte lives in Munich and works as a brewer.
+    answer: You work at Harbourlight Games.
+
+[hybrid] Where do I work?
+    recalled: Works at: Harbourlight Games (since 2026-01-22)
+    recalled: Lives in: Altona (since 2026-04-09)
+    recalled: [2025-04-29] "Hi, I'm Henrike. I live in Kiel and work as an editor at Elbquill Press." [outdated: Lives in: Kiel -> now Altona] [no longer true: Works at: Elbquill Press] [outdated: Job title: editor -> now narrative designer]
+    recalled: [2026-06-02] "Jonte started a new job at a wind energy company."
+    recalled: [2025-06-26] "My brother Malte lives in Munich and works as a brewer."
+    recalled: [2025-10-23] "I've been promoted to senior editor at Elbquill." [outdated: Job title: senior editor -> now narrative designer]
+    answer: You work at Harbourlight Games.
+
+[full] Where do I work?
+    recalled: the whole history (93 messages)
+    answer: You work as a narrative designer at Harbourlight Games.
+[39/57] n_henrike: Where do I work?
+
+[none] Where did I work before Harbourlight Games?
+
+[baseline] Where did I work before Harbourlight Games?
+    recalled: [2026-06-27] "Harbourlight shipped our first game, I wrote most of the side quests."
+    recalled: [2026-01-22] "I left Elbquill Press. I'm joining Harbourlight Games as a narrative designer."
+    recalled: [2026-02-06] "Week two at Harbourlight Games and I love writing dialogue for a game."
+    recalled: [2025-10-29] "How do I photograph a harbour at night?"
+    answer: You worked at Elbquill Press before joining Harbourlight Games as a narrative designer.
+
+[smart] Where did I work before Harbourlight Games?
+    recalled: Earlier: Job title: editor (until 2025-10-23)
+    recalled: Works at: Harbourlight Games (since 2026-01-22)
+    answer: I don't know.
+
+[hybrid] Where did I work before Harbourlight Games?
+    recalled: Works at: Harbourlight Games (since 2026-01-22)
+    recalled: Works at, oldest first: Elbquill Press (ended) -> Harbourlight Games (now)
+    recalled: [2026-06-27] "Harbourlight shipped our first game, I wrote most of the side quests."
+    recalled: [2026-01-22] "I left Elbquill Press. I'm joining Harbourlight Games as a narrative designer."
+    recalled: [2026-02-06] "Week two at Harbourlight Games and I love writing dialogue for a game."
+    recalled: [2025-10-29] "How do I photograph a harbour at night?"
+    answer: You worked at Elbquill Press before joining Harbourlight Games.
+
+[full] Where did I work before Harbourlight Games?
+    recalled: the whole history (93 messages)
+    answer: You worked as an editor at Elbquill Press before joining Harbourlight Games as a narrative designer.
+[40/57] n_henrike: Where did I work before Harbourlight Games?
+
+[none] What's my job title?
+
+[baseline] What's my job title?
+    recalled: [2026-03-24] "I sold the dinghy, I stopped sailing, there's no time with the new job."
+    recalled: [2025-10-23] "I've been promoted to senior editor at Elbquill."
+    recalled: [2025-04-29] "Hi, I'm Henrike. I live in Kiel and work as an editor at Elbquill Press."
+    recalled: [2026-06-02] "Jonte started a new job at a wind energy company."
+    answer: You're a senior editor at Elbquill.
+
+[smart] What's my job title?
+    recalled: Job title: narrative designer (since 2026-01-22)
+    answer: You're a narrative designer.
+
+[hybrid] What's my job title?
+    recalled: Job title: narrative designer (since 2026-01-22)
+    recalled: [2026-03-24] "I sold the dinghy, I stopped sailing, there's no time with the new job."
+    recalled: [2025-10-23] "I've been promoted to senior editor at Elbquill." [outdated: Job title: senior editor -> now narrative designer]
+    recalled: [2025-04-29] "Hi, I'm Henrike. I live in Kiel and work as an editor at Elbquill Press." [outdated: Lives in: Kiel -> now Altona] [no longer true: Works at: Elbquill Press] [outdated: Job title: editor -> now narrative designer]
+    recalled: [2026-06-02] "Jonte started a new job at a wind energy company."
+    answer: You're a narrative designer.
+
+[full] What's my job title?
+    recalled: the whole history (93 messages)
+    answer: You're a senior editor at Elbquill Press, but you've since moved to Harbourlight Games as a narrative designer.
+[41/57] n_henrike: What's my job title?
+
+[none] Where did I live before Hamburg?
+
+[baseline] Where did I live before Hamburg?
+    recalled: [2025-08-09] "We've moved to Hamburg, our flat is in Ottensen."
+    recalled: [2025-07-13] "What are the best neighbourhoods in Hamburg for young couples?"
+    recalled: [2025-04-29] "Hi, I'm Henrike. I live in Kiel and work as an editor at Elbquill Press."
+    recalled: [2025-07-25] "Elbquill is moving its office to Hamburg, so we're moving there too."
+    answer: You lived in Kiel before moving to Hamburg.
+
+[smart] Where did I live before Hamburg?
+    recalled: Earlier: Lives in: Hamburg (until 2025-08-09)
+    recalled: Lives in: Altona (since 2026-04-09)
+    answer: I don't know.
+
+[hybrid] Where did I live before Hamburg?
+    recalled: Lives in: Altona (since 2026-04-09)
+    recalled: Lives in, oldest first: Kiel -> Hamburg -> Ottensen -> Altona (now)
+    recalled: [2025-08-09] "We've moved to Hamburg, our flat is in Ottensen." [outdated: Lives in: Ottensen -> now Altona]
+    recalled: [2025-07-13] "What are the best neighbourhoods in Hamburg for young couples?"
+    recalled: [2025-04-29] "Hi, I'm Henrike. I live in Kiel and work as an editor at Elbquill Press." [outdated: Lives in: Kiel -> now Altona] [no longer true: Works at: Elbquill Press] [outdated: Job title: editor -> now narrative designer]
+    recalled: [2025-07-25] "Elbquill is moving its office to Hamburg, so we're moving there too." [outdated: Lives in: Hamburg -> now Altona]
+    answer: You lived in Kiel before moving to Hamburg.
+
+[full] Where did I live before Hamburg?
+    recalled: the whole history (93 messages)
+    answer: You lived in Kiel before moving to Hamburg.
+[42/57] n_henrike: Where did I live before Hamburg?
+
+[none] Do I still go sailing?
+
+[baseline] Do I still go sailing?
+    recalled: [2026-03-24] "I sold the dinghy, I stopped sailing, there's no time with the new job."
+    recalled: [2025-05-02] "What should I know about sailing on the Elbe?"
+    recalled: [2025-06-12] "I sail a small dinghy on the Kiel fjord most weekends."
+    recalled: [2025-08-23] "Jonte and I sailed to Bornholm with friends, three days on the water."
+    answer: You stopped sailing after selling the dinghy, due to lack of time with your new job.
+
+[smart] Do I still go sailing?
+    recalled: Hobby: dinghy sailing (since 2025-06-12)
+    answer: You still enjoy dinghy sailing.
+
+[hybrid] Do I still go sailing?
+    recalled: Hobby: dinghy sailing (since 2025-06-12)
+    recalled: [2026-03-24] "I sold the dinghy, I stopped sailing, there's no time with the new job."
+    recalled: [2025-05-02] "What should I know about sailing on the Elbe?"
+    recalled: [2025-06-12] "I sail a small dinghy on the Kiel fjord most weekends." [no longer true: Hobby: sailing]
+    recalled: [2025-08-23] "Jonte and I sailed to Bornholm with friends, three days on the water."
+    answer: You don't know.
+
+[full] Do I still go sailing?
+    recalled: the whole history (93 messages)
+    answer: You mentioned that you sail a small dinghy on the Kiel fjord most weekends, but you also mentioned that you sold the dinghy in 2026, saying there's no time with your new job.
+[43/57] n_henrike: Do I still go sailing?
+
+[none] What's my tortoise called?
+
+[baseline] What's my tortoise called?
+    recalled: [2025-07-09] "We have a tortoise called Bruno, he's older than me."
+    recalled: [2025-06-07] "How do I care for a tortoise during hibernation?"
+    recalled: [2026-07-08] "How do I move a tortoise to a new home safely?"
+    recalled: [2026-09-27] "We're thinking of getting a dog in the spring."
+    answer: Your tortoise is called Bruno.
+
+[smart] What's my tortoise called?
+    recalled: Name: Henrike (since 2025-04-29)
+    recalled: Speaks: English (since 2025-05-31)
+    recalled: Speaks: Danish (since 2025-05-31)
+    recalled: Speaks: German (since 2025-05-31)
+    answer: I don't know.
+
+[hybrid] What's my tortoise called?
+    recalled: Name: Henrike (since 2025-04-29)
+    recalled: Speaks: English (since 2025-05-31)
+    recalled: Speaks: Danish (since 2025-05-31)
+    recalled: Speaks: German (since 2025-05-31)
+    recalled: [2025-07-09] "We have a tortoise called Bruno, he's older than me."
+    recalled: [2025-06-07] "How do I care for a tortoise during hibernation?"
+    recalled: [2026-07-08] "How do I move a tortoise to a new home safely?"
+    recalled: [2026-09-27] "We're thinking of getting a dog in the spring."
+    answer: Your tortoise is called Bruno.
+
+[full] What's my tortoise called?
+    recalled: the whole history (93 messages)
+    answer: Your tortoise is called Bruno.
+[44/57] n_henrike: What's my tortoise called?
+
+[none] Where did Jonte and I sail to with friends?
+
+[baseline] Where did Jonte and I sail to with friends?
+    recalled: [2025-08-23] "Jonte and I sailed to Bornholm with friends, three days on the water."
+    recalled: [2026-03-09] "Jonte and I went to Lisbon for a long weekend, lots of custard tarts."
+    recalled: [2025-10-06] "Visited Copenhagen with Jonte, we spent a whole day at the design museum."
+    recalled: [2025-05-10] "My partner Jonte and I met at university, we've been together six years."
+    answer: You sailed to Bornholm with friends, three days on the water.
+
+[smart] Where did Jonte and I sail to with friends?
+    recalled: Note from 2026-03-09: The user went to Lisbon for a long weekend with Jonte and they had lots of custard tarts.
+    recalled: Note from 2025-08-23: The user sailed to Bornholm with friends, it took three days.
+    answer: You sailed to Bornholm with friends, it took three days.
+
+[hybrid] Where did Jonte and I sail to with friends?
+    recalled: [2025-08-23] "Jonte and I sailed to Bornholm with friends, three days on the water."
+    recalled: [2026-03-09] "Jonte and I went to Lisbon for a long weekend, lots of custard tarts."
+    recalled: [2025-10-06] "Visited Copenhagen with Jonte, we spent a whole day at the design museum."
+    recalled: [2025-05-10] "My partner Jonte and I met at university, we've been together six years."
+    answer: You sailed to Bornholm with friends, three days on the water.
+
+[full] Where did Jonte and I sail to with friends?
+    recalled: the whole history (93 messages)
+    answer: You and Jonte sailed to Bornholm with friends, a three-day trip on the water.
+[45/57] n_henrike: Where did Jonte and I sail to with friends?
+
+[none] What did I bake for Jonte's birthday?
+
+[baseline] What did I bake for Jonte's birthday?
+    recalled: [2025-09-21] "I baked a Black Forest cake with oat cream for Jonte's birthday."
+    recalled: [2026-07-27] "I'm learning to make Danish rye bread like my grandmother did."
+    recalled: [2026-03-09] "Jonte and I went to Lisbon for a long weekend, lots of custard tarts."
+    recalled: [2025-10-06] "Visited Copenhagen with Jonte, we spent a whole day at the design museum."
+    answer: You baked a Black Forest cake with oat cream for Jonte's birthday.
+
+[smart] What did I bake for Jonte's birthday?
+    recalled: Note from 2025-09-21: The user baked a Black Forest cake with oat cream for Jonte's birthday.
+    answer: You baked a Black Forest cake with oat cream for Jonte's birthday.
+
+[hybrid] What did I bake for Jonte's birthday?
+    recalled: [2025-09-21] "I baked a Black Forest cake with oat cream for Jonte's birthday."
+    recalled: [2026-07-27] "I'm learning to make Danish rye bread like my grandmother did."
+    recalled: [2026-03-09] "Jonte and I went to Lisbon for a long weekend, lots of custard tarts."
+    recalled: [2025-10-06] "Visited Copenhagen with Jonte, we spent a whole day at the design museum."
+    answer: You baked a Black Forest cake with oat cream for Jonte's birthday.
+
+[full] What did I bake for Jonte's birthday?
+    recalled: the whole history (93 messages)
+    answer: You baked a Black Forest cake with oat cream for Jonte's birthday.
+[46/57] n_henrike: What did I bake for Jonte's birthday?
+
+[none] What prize did my harbour photo win?
+
+[baseline] What prize did my harbour photo win?
+    recalled: [2026-05-13] "My photo of the harbour got second prize in a local competition."
+    recalled: [2025-10-29] "How do I photograph a harbour at night?"
+    recalled: [2025-05-20] "Why is the sea blue?"
+    recalled: [2025-10-06] "Visited Copenhagen with Jonte, we spent a whole day at the design museum."
+    answer: Your harbour photo won second prize in a local competition.
+
+[smart] What prize did my harbour photo win?
+    recalled: Hobby: dinghy sailing (since 2025-06-12)
+    recalled: Note from 2026-05-13: The user's photo of the harbour got second prize in a local competition.
+    answer: Your harbour photo won second prize in a local competition.
+
+[hybrid] What prize did my harbour photo win?
+    recalled: Hobby: dinghy sailing (since 2025-06-12)
+    recalled: [2026-05-13] "My photo of the harbour got second prize in a local competition."
+    recalled: [2025-10-29] "How do I photograph a harbour at night?"
+    recalled: [2025-05-20] "Why is the sea blue?"
+    recalled: [2025-10-06] "Visited Copenhagen with Jonte, we spent a whole day at the design museum."
+    answer: Your harbour photo won second prize in a local competition.
+
+[full] What prize did my harbour photo win?
+    recalled: the whole history (93 messages)
+    answer: Your harbour photo won second prize in a local competition.
+[47/57] n_henrike: What prize did my harbour photo win?
+
+[none] How much did my camera cost?
+
+[baseline] How much did my camera cost?
+    recalled: [2025-11-07] "Bought a new mirrorless camera for 1,150 euros, I want to get into photography."
+    recalled: [2026-04-27] "What camera settings are best for street photography?"
+    recalled: [2026-05-13] "My photo of the harbour got second prize in a local competition."
+    recalled: [2025-10-29] "How do I photograph a harbour at night?"
+    answer: Your camera cost 1,150 euros.
+
+[smart] How much did my camera cost?
+    recalled: Note from 2025-11-07: The user bought a new mirrorless camera for 1,150 euros to get into photography.
+    answer: Your camera cost 1,150 euros.
+
+[hybrid] How much did my camera cost?
+    recalled: [2025-11-07] "Bought a new mirrorless camera for 1,150 euros, I want to get into photography."
+    recalled: [2026-04-27] "What camera settings are best for street photography?"
+    recalled: [2026-05-13] "My photo of the harbour got second prize in a local competition."
+    recalled: [2025-10-29] "How do I photograph a harbour at night?"
+    answer: Your camera cost 1,150 euros.
+
+[full] How much did my camera cost?
+    recalled: the whole history (93 messages)
+    answer: You bought a new mirrorless camera for 1,150 euros.
+[48/57] n_henrike: How much did my camera cost?
+
+[none] When did we move into the Altona flat?
+
+[baseline] When did we move into the Altona flat?
+    recalled: [2026-04-09] "We moved into the Altona flat in October, finally unpacked."
+    recalled: [2025-12-07] "Jonte and I are buying a bigger flat in Altona, we should move in August."
+    recalled: [2025-08-09] "We've moved to Hamburg, our flat is in Ottensen."
+    recalled: [2026-01-07] "Our move is delayed, the new flat won't be ready until October."
+    answer: You moved into the Altona flat in October.
+
+[smart] When did we move into the Altona flat?
+    recalled: Lives in: Altona (since 2026-04-09)
+    recalled: Note from 2026-04-09: The user is planning to move to a bigger flat in Altona with Jonte in August, and moved into the Altona flat in October and finally unpacked.
+    answer: You moved into the Altona flat in October.
+
+[hybrid] When did we move into the Altona flat?
+    recalled: Lives in: Altona (since 2026-04-09)
+    recalled: [2026-04-09] "We moved into the Altona flat in October, finally unpacked."
+    recalled: [2025-12-07] "Jonte and I are buying a bigger flat in Altona, we should move in August."
+    recalled: [2025-08-09] "We've moved to Hamburg, our flat is in Ottensen." [outdated: Lives in: Ottensen -> now Altona]
+    recalled: [2026-01-07] "Our move is delayed, the new flat won't be ready until October."
+    answer: You moved into the Altona flat in October.
+
+[full] When did we move into the Altona flat?
+    recalled: the whole history (93 messages)
+    answer: You moved into the Altona flat in October 2026.
+[49/57] n_henrike: When did we move into the Altona flat?
+
+[none] Where does my brother live now?
+
+[baseline] Where does my brother live now?
+    recalled: [2025-06-26] "My brother Malte lives in Munich and works as a brewer."
+    recalled: [2025-08-09] "We've moved to Hamburg, our flat is in Ottensen."
+    recalled: [2025-11-22] "Malte moved to Vienna, he's opening his own small brewery there."
+    recalled: [2026-04-09] "We moved into the Altona flat in October, finally unpacked."
+    answer: Your brother Malte lives in Vienna, where he's running his own small brewery.
+
+[smart] Where does my brother live now?
+    recalled: Lives in: Altona (since 2026-04-09)
+    recalled: Family member: Bruno (since 2025-07-09)
+    recalled: Note from 2025-06-26: The user's brother Malte lives in Munich and works as a brewer.
+    answer: Your brother Malte lives in Munich.
+
+[hybrid] Where does my brother live now?
+    recalled: Lives in: Altona (since 2026-04-09)
+    recalled: Family member: Bruno (since 2025-07-09)
+    recalled: [2025-06-26] "My brother Malte lives in Munich and works as a brewer."
+    recalled: [2025-08-09] "We've moved to Hamburg, our flat is in Ottensen." [outdated: Lives in: Ottensen -> now Altona]
+    recalled: [2025-11-22] "Malte moved to Vienna, he's opening his own small brewery there."
+    recalled: [2026-04-09] "We moved into the Altona flat in October, finally unpacked."
+    answer: Your brother Malte lives in Vienna, where he's opening his own small brewery.
+
+[full] Where does my brother live now?
+    recalled: the whole history (93 messages)
+    answer: Your brother Malte lives in Vienna, Austria, and he's opening his own small brewery there.
+[50/57] n_henrike: Where does my brother live now?
+
+[none] What does my brother do?
+
+[baseline] What does my brother do?
+    recalled: [2025-06-26] "My brother Malte lives in Munich and works as a brewer."
+    recalled: [2025-07-09] "We have a tortoise called Bruno, he's older than me."
+    recalled: [2026-08-04] "How do I take care of a leather jacket?"
+    recalled: [2025-04-29] "Hi, I'm Henrike. I live in Kiel and work as an editor at Elbquill Press."
+    answer: Your brother Malte is a brewer in Munich.
+
+[smart] What does my brother do?
+    recalled: Family member: Bruno (since 2025-07-09)
+    recalled: Family member: grandmother (since 2026-07-27)
+    recalled: Note from 2025-06-26: The user's brother Malte lives in Munich and works as a brewer.
+    answer: Your brother Malte lives in Munich and works as a brewer.
+
+[hybrid] What does my brother do?
+    recalled: Family member: Bruno (since 2025-07-09)
+    recalled: Family member: grandmother (since 2026-07-27)
+    recalled: [2025-06-26] "My brother Malte lives in Munich and works as a brewer."
+    recalled: [2025-07-09] "We have a tortoise called Bruno, he's older than me."
+    recalled: [2026-08-04] "How do I take care of a leather jacket?"
+    recalled: [2025-04-29] "Hi, I'm Henrike. I live in Kiel and work as an editor at Elbquill Press." [outdated: Lives in: Kiel -> now Altona] [no longer true: Works at: Elbquill Press] [outdated: Job title: editor -> now narrative designer]
+    answer: Your brother Malte lives in Munich and works as a brewer.
+
+[full] What does my brother do?
+    recalled: the whole history (93 messages)
+    answer: Your brother Malte is a brewer and he lives in Vienna, where he's opening his own small brewery.
+[51/57] n_henrike: What does my brother do?
+
+[none] What's my niece's name?
+
+[baseline] What's my niece's name?
+    recalled: [2025-09-07] "My niece Frieda was born, Malte is a dad now!"
+    recalled: [2025-07-09] "We have a tortoise called Bruno, he's older than me."
+    recalled: [2025-06-26] "My brother Malte lives in Munich and works as a brewer."
+    recalled: [2025-05-31] "I speak German and English, and Danish from my grandmother."
+    answer: Frieda.
+
+[smart] What's my niece's name?
+    recalled: Family member: Frieda (since 2025-09-07)
+    recalled: Family member: grandmother (since 2026-07-27)
+    recalled: Family member: Bruno (since 2025-07-09)
+    recalled: Family member: Malte (since 2025-06-26)
+    answer: I don't know.
+
+[hybrid] What's my niece's name?
+    recalled: Family member: Frieda (since 2025-09-07)
+    recalled: Family member: grandmother (since 2026-07-27)
+    recalled: Family member: Bruno (since 2025-07-09)
+    recalled: Family member: Malte (since 2025-06-26)
+    recalled: [2025-09-07] "My niece Frieda was born, Malte is a dad now!"
+    recalled: [2025-07-09] "We have a tortoise called Bruno, he's older than me."
+    recalled: [2025-06-26] "My brother Malte lives in Munich and works as a brewer."
+    recalled: [2025-05-31] "I speak German and English, and Danish from my grandmother."
+    answer: Your niece's name is Frieda.
+
+[full] What's my niece's name?
+    recalled: the whole history (93 messages)
+    answer: Your niece's name is Frieda.
+[52/57] n_henrike: What's my niece's name?
+
+[none] Can you suggest a dessert I could make for friends this weekend?
+
+[baseline] Can you suggest a dessert I could make for friends this weekend?
+    recalled: [2025-09-21] "I baked a Black Forest cake with oat cream for Jonte's birthday."
+    recalled: [2026-03-09] "Jonte and I went to Lisbon for a long weekend, lots of custard tarts."
+    recalled: [2026-10-24] "What's a good card game for two people?"
+    recalled: [2026-07-17] "How do I make a good cup of tea?"
+    answer: Considering your fondness for Black Forest cake, I'd recommend making a Tiramisu. It's a classic Italian dessert that's easy to make and always a crowd-pleaser. The combination of ladyfingers, mascarpone cheese, and espresso is a great way to impress your friends. Would you like a simple recipe to get you started?
+
+[smart] Can you suggest a dessert I could make for friends this weekend?
+    recalled: Allergic to: lactose (since 2025-05-19)
+    recalled: Note from 2026-03-09: The user went to Lisbon for a long weekend with Jonte and they had lots of custard tarts.
+    recalled: Note from 2025-09-21: The user baked a Black Forest cake with oat cream for Jonte's birthday.
+    answer: Considering your lactose allergy, I'd recommend making a dessert that uses non-dairy milk or is lactose-free. How about a fruit tart with a nut-based crust or a chocolate mousse made with oat cream?
+
+[hybrid] Can you suggest a dessert I could make for friends this weekend?
+    recalled: Allergic to: lactose (since 2025-05-19)
+    recalled: [2025-09-21] "I baked a Black Forest cake with oat cream for Jonte's birthday."
+    recalled: [2026-03-09] "Jonte and I went to Lisbon for a long weekend, lots of custard tarts."
+    recalled: [2026-10-24] "What's a good card game for two people?"
+    recalled: [2026-07-17] "How do I make a good cup of tea?"
+    answer: Considering your lactose allergy, I'd recommend making a dessert that's lactose-free. How about a fruit tart with a nut-based crust or a chocolate mousse made with non-dairy milk? Alternatively, you could try making oat cream-based desserts, like the Black Forest cake you made for Jonte's birthday. What type of flavors or ingredients are you and your friends fond of?
+
+[full] Can you suggest a dessert I could make for friends this weekend?
+    recalled: the whole history (93 messages)
+    answer: Considering you mentioned baking a Black Forest cake with oat cream for Jonte's birthday, I'd suggest something similar. How about a classic German Apple Strudel with a twist? You could use oat milk and a flaky pastry crust to make it lactose-friendly. Alternatively, a simple yet elegant Lemon Lavender Panna Cotta would be a great option. What's your preference?
+[53/57] n_henrike: Can you suggest a dessert I could make for friends this week
+
+[none] Write a one-line professional bio for me.
+
+[baseline] Write a one-line professional bio for me.
+    recalled: [2026-02-05] "How do I write a thank-you note?"
+    recalled: [2025-08-18] "How do I write good branching dialogue for a game?"
+    recalled: [2026-02-06] "Week two at Harbourlight Games and I love writing dialogue for a game."
+    recalled: [2026-06-27] "Harbourlight shipped our first game, I wrote most of the side quests."
+    answer: I don't know your professional background or experience, so I'll need more information to craft a suitable bio. Can you tell me a bit about your work or accomplishments?
+
+[smart] Write a one-line professional bio for me.
+    recalled: Job title: narrative designer (since 2026-01-22)
+    recalled: Note from 2026-06-27: The user is enjoying their second week at Harbourlight Games, writing dialogue for a game, and wrote most of the side quests for the game Harbourlight.
+    answer: As a narrative designer at Harbourlight Games, I craft engaging stories and dialogue for immersive gaming experiences.
+
+[hybrid] Write a one-line professional bio for me.
+    recalled: Job title: narrative designer (since 2026-01-22)
+    recalled: [2026-02-05] "How do I write a thank-you note?"
+    recalled: [2025-08-18] "How do I write good branching dialogue for a game?"
+    recalled: [2026-02-06] "Week two at Harbourlight Games and I love writing dialogue for a game."
+    recalled: [2026-06-27] "Harbourlight shipped our first game, I wrote most of the side quests."
+    answer: As a narrative designer at Harbourlight Games, I craft engaging storylines and dialogue for immersive gaming experiences.
+
+[full] Write a one-line professional bio for me.
+    recalled: the whole history (93 messages)
+    answer: I don't know.
+[54/57] n_henrike: Write a one-line professional bio for me.
+
+[none] What's my partner's name?
+
+[baseline] What's my partner's name?
+    recalled: [2025-05-10] "My partner Jonte and I met at university, we've been together six years."
+    recalled: [2025-07-09] "We have a tortoise called Bruno, he's older than me."
+    recalled: [2025-06-26] "My brother Malte lives in Munich and works as a brewer."
+    recalled: [2026-10-24] "What's a good card game for two people?"
+    answer: Jonte.
+
+[smart] What's my partner's name?
+    recalled: Partner: Jonte (since 2025-05-10)
+    answer: Your partner's name is Jonte.
+
+[hybrid] What's my partner's name?
+    recalled: Partner: Jonte (since 2025-05-10)
+    recalled: [2025-05-10] "My partner Jonte and I met at university, we've been together six years."
+    recalled: [2025-07-09] "We have a tortoise called Bruno, he's older than me."
+    recalled: [2025-06-26] "My brother Malte lives in Munich and works as a brewer."
+    recalled: [2026-10-24] "What's a good card game for two people?"
+    answer: Your partner's name is Jonte.
+
+[full] What's my partner's name?
+    recalled: the whole history (93 messages)
+    answer: Jonte.
+[55/57] n_henrike: What's my partner's name?
+
+[none] Which languages do I speak?
+
+[baseline] Which languages do I speak?
+    recalled: [2025-05-31] "I speak German and English, and Danish from my grandmother."
+    recalled: [2026-09-28] "How do I get better at public speaking?"
+    recalled: [2025-04-29] "Hi, I'm Henrike. I live in Kiel and work as an editor at Elbquill Press."
+    recalled: [2026-07-27] "I'm learning to make Danish rye bread like my grandmother did."
+    answer: You speak German and English, and Danish from your grandmother.
+
+[smart] Which languages do I speak?
+    recalled: Speaks: English (since 2025-05-31)
+    recalled: Speaks: German (since 2025-05-31)
+    recalled: Speaks: Danish (since 2025-05-31)
+    answer: You speak English, German, and Danish.
+
+[hybrid] Which languages do I speak?
+    recalled: Speaks: English (since 2025-05-31)
+    recalled: Speaks: German (since 2025-05-31)
+    recalled: Speaks: Danish (since 2025-05-31)
+    recalled: [2025-05-31] "I speak German and English, and Danish from my grandmother."
+    recalled: [2026-09-28] "How do I get better at public speaking?"
+    recalled: [2025-04-29] "Hi, I'm Henrike. I live in Kiel and work as an editor at Elbquill Press." [outdated: Lives in: Kiel -> now Altona] [no longer true: Works at: Elbquill Press] [outdated: Job title: editor -> now narrative designer]
+    recalled: [2026-07-27] "I'm learning to make Danish rye bread like my grandmother did."
+    answer: You speak English, German, and Danish.
+
+[full] Which languages do I speak?
+    recalled: the whole history (93 messages)
+    answer: You speak German, English, and Danish from your grandmother.
+[56/57] n_henrike: Which languages do I speak?
+
+[none] What's my shoe size?
+
+[baseline] What's my shoe size?
+    recalled: [2026-03-31] "How do I clean suede shoes?"
+    recalled: [2026-02-14] "What should I check before buying a flat in Germany?"
+    recalled: [2025-12-07] "Jonte and I are buying a bigger flat in Altona, we should move in August."
+    recalled: [2026-01-18] "How do I choose a good mattress?"
+    answer: I don't know.
+
+[smart] What's my shoe size?
+    recalled: Partner: Jonte (since 2025-05-10)
+    recalled: Note from 2026-04-09: The user is planning to move to a bigger flat in Altona with Jonte in August, and moved into the Altona flat in October and finally unpacked.
+    answer: I don't know.
+
+[hybrid] What's my shoe size?
+    recalled: Partner: Jonte (since 2025-05-10)
+    recalled: [2026-03-31] "How do I clean suede shoes?"
+    recalled: [2026-02-14] "What should I check before buying a flat in Germany?"
+    recalled: [2025-12-07] "Jonte and I are buying a bigger flat in Altona, we should move in August."
+    recalled: [2026-01-18] "How do I choose a good mattress?"
+    answer: I don't know.
+
+[full] What's my shoe size?
+    recalled: the whole history (93 messages)
+    answer: I don't know.
+[57/57] n_henrike: What's my shoe size?
+  base = baseline vector memory   smart = facts and notes   hyb = hybrid   full = whole history   none = no memory
+  ✓ good   ✗ bad   - not measured   bold name = smart has a ✗
+  NOISE ✓ = no unwanted text   LINES = lines in the prompt
+
+                                                                                                                                                            │       NEEDED       │          ANSWER          │       LINES       
+scenario / question                   kind                                                                                                                  │  base smart  hyb   │  base smart  hyb   full  │  base smart  hyb  
+n_marisol: Which city do I live in n  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✗     ✓     ✓    │   ✗     ✓     ✓     ✓    │   4     3     5   
+n_marisol: Where did I live before G  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     3     6   
+n_marisol: Which city did I live in   long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✗     ✗     ✓    │   ✗     ✗     ✓     ✓    │   4     2     6   
+n_marisol: Where do I work now?       long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     4     6   
+n_marisol: Where did I work before A  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✗     ✓    │   ✓     ✗     ✓     ✓    │   4     2     6   
+n_marisol: What's my partner's name?  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✗    │   4     1     5   
+n_marisol: What's my cat called?      long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     3     5   
+n_marisol: What did I name my sourdo  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     2     5   
+n_marisol: Which city did I visit wi  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     3     6   
+n_marisol: Where in Morocco did my s  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     3     6   
+n_marisol: Where does my sister live  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✗     ✓    │   ✓     ✗     ✗     ✓    │   4     4     8   
+n_marisol: What does my sister do fo  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✗     ✓    │   ✓     ✗     ✗     ✓    │   4     4     8   
+n_marisol: When is the Peru trip?     long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     4     6   
+n_marisol: Who am I going to Peru wi  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✓     ✓    │   ✓     ✗     ✓     ✓    │   4     3     6   
+n_marisol: I'm baking cookies for a   long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✗     ✓     ✓    │   ✗     ✓     ✓     ✗    │   4     4     7   
+n_marisol: Do I still sing in a choi  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✓     ✓    │   ✓     ✗     ✓     ✗    │   4     2     4   
+n_marisol: What hobby am I into thes  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✗    │   4     4     8   
+n_marisol: How much did my pottery w  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     2     5   
+n_marisol: What's my favourite opera  long history: two moves, two employer changes, a partner change, a plan that changes date and companion               │   -     -     -    │   ✓     ✓     ✓     ✓    │   4     3     5   
+n_kwame: Which city do I live in?     long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     1     5   
+n_kwame: Where did I live before Man  long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✗     ✓     ✓     ✓    │   4     2     6   
+n_kwame: Which company do I work for  long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     4     6   
+n_kwame: Which company did I work fo  long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✗     ✓    │   ✓     ✗     ✓     ✓    │   4     4     6   
+n_kwame: What's my job title?         long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     1     5   
+n_kwame: What instrument do I play t  long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     4     6   
+n_kwame: How many times has my car b  long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✗     ✓     ✗     ✓    │   4     2     4   
+n_kwame: Which castle did Abena and   long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     2     5   
+n_kwame: Which band did I see in She  long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     2     5   
+n_kwame: How much did my saxophone c  long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     3     6   
+n_kwame: What was my time in the Lee  long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     1     4   
+n_kwame: When are we visiting Ghana?  long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     2     4   
+n_kwame: Where are we going for our   long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✗     ✓    │   ✓     ✗     ✓     ✓    │   4     3     6   
+n_kwame: Where does Declan live now?  long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     2     4   
+n_kwame: What does my wife do now?    long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     3     5   
+n_kwame: We're getting a takeaway to  long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✗     ✓     ✓    │   ✗     ✓     ✓     ✓    │   4     3     5   
+n_kwame: Write a one-line email sign  long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✗     ✓    │   ✗     ✗     ✗     ✗    │   4     0     4   
+n_kwame: When is my driving test?     long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   ✓     ✓     ✓    │   ✗     ✗     ✗     ✗    │   4     1     4   
+n_kwame: What's my favourite cheese?  long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change  │   -     -     -    │   ✓     ✓     ✓     ✓    │   4     2     4   
+n_henrike: Where do I work?           long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✗     ✓     ✓    │   ✗     ✓     ✓     ✓    │   4     4     6   
+n_henrike: Where did I work before H  long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✗     ✓    │   ✓     ✗     ✓     ✓    │   4     2     6   
+n_henrike: What's my job title?       long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✗     ✓     ✓    │   ✗     ✓     ✓     ✓    │   4     1     5   
+n_henrike: Where did I live before H  long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✗     ✓    │   ✓     ✗     ✓     ✓    │   4     2     6   
+n_henrike: Do I still go sailing?     long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✓     ✓    │   ✓     ✗     ✗     ✓    │   4     1     5   
+n_henrike: What's my tortoise called  long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✗     ✓    │   ✓     ✗     ✓     ✓    │   4     4     8   
+n_henrike: Where did Jonte and I sai  long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     2     4   
+n_henrike: What did I bake for Jonte  long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     1     4   
+n_henrike: What prize did my harbour  long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     2     5   
+n_henrike: How much did my camera co  long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     1     4   
+n_henrike: When did we move into the  long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     2     5   
+n_henrike: Where does my brother liv  long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✗     ✓    │   ✓     ✗     ✓     ✓    │   4     3     6   
+n_henrike: What does my brother do?   long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     3     6   
+n_henrike: What's my niece's name?    long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✓     ✓    │   ✓     ✗     ✓     ✓    │   4     4     8   
+n_henrike: Can you suggest a dessert  long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✗     ✓     ✓    │   ✗     ✓     ✓     ✓    │   4     3     5   
+n_henrike: Write a one-line professi  long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✗     ✗     ✗    │   ✗     ✗     ✗     ✗    │   4     2     5   
+n_henrike: What's my partner's name?  long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     1     5   
+n_henrike: Which languages do I spea  long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   ✓     ✓     ✓    │   ✓     ✓     ✓     ✓    │   4     3     7   
+n_henrike: What's my shoe size?       long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up           │   -     -     -    │   ✓     ✓     ✓     ✓    │   4     2     5   
+
+SET N (BLIND: long, crowded histories; written after the hybrid step, before any run; run once): 57 questions
+mode         needed   noise  stale in   stale    avg   answers  stale in
+            present present    prompt  marked  lines   correct    answer
+baseline      46/54       -        18       0    4.0     45/57      4/57
+smart         42/54       -         8       0    2.5     40/57      4/57
+hybrid        53/54       -        13       5    5.5     50/57      0/57
+full              -       -        19       0   94.3     50/57      2/57
+  green = best of baseline, smart and hybrid, red = worst
+  lower is better for: noise, stale, lines
+  stale marked = an outdated value only on lines marked as old (hybrid)
+  full = the whole history, a reference ceiling
+
+Retrieval problems
+  [baseline] n_marisol: needed fact missing
+      recalled: 
+        - [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+        - [2026-06-22] "What's the oldest city in Europe?"
+        - [2025-08-07] "Big news: I got a job at Pharmavert in Lyon, I'm moving to France in September."
+        - [2025-07-08] "My dad lives in Alicante, he's retired now."
+  [baseline] n_marisol: needed fact missing
+      recalled: 
+        - [2025-08-25] "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+        - [2026-01-09] "Is Lyon or Grenoble cheaper to live in?"
+        - [2025-08-07] "Big news: I got a job at Pharmavert in Lyon, I'm moving to France in September."
+        - [2026-06-22] "What's the oldest city in Europe?"
+  [smart] n_marisol: needed fact missing
+      recalled: 
+        - Earlier: Lives in: Lyon (until 2026-04-22)
+        - Lives in: Grenoble (since 2026-04-22)
+  [smart] n_marisol: needed fact missing
+      recalled: 
+        - Earlier: Works at: Clinica Albereda (until 2025-08-07)
+        - Works at: Alpenmed (since 2026-04-07)
+  [smart] n_marisol: needed fact missing
+      recalled: 
+        - Family member: Lucia (since 2025-05-27)
+        - Lives in: Grenoble (since 2026-04-22)
+        - Family member: dad (since 2025-07-08)
+        - Family member: Bastien (since 2026-01-17)
+  [smart] n_marisol: needed fact missing
+      recalled: 
+        - Family member: Lucia (since 2025-05-27)
+        - Family member: dad (since 2025-07-08)
+        - Works at: Alpenmed (since 2026-04-07)
+        - Family member: Bastien (since 2026-01-17)
+  [baseline] n_marisol: needed fact missing
+      recalled: 
+        - [2025-10-22] "I named my sourdough starter Bernardo."
+        - [2026-09-04] "Bastien's mother is teaching me to make tartiflette."
+        - [2025-07-30] "Give me a simple recipe for lentil soup."
+        - [2025-10-28] "What's a good feeding schedule for a sourdough starter?"
+  [smart] n_kwame: needed fact missing
+      recalled: 
+        - Earlier: Job title: engineer (until 2026-02-13)
+        - Earlier: Job title: signalling upgrade (until 2026-05-31)
+        - Works at: Tidemoor Rail (since 2026-02-13)
+        - Note from 2026-05-31: The user was promoted to senior engineer at Tidemoor Rail.
+  [smart] n_kwame: needed fact missing
+      recalled: 
+        - Goal: visit Ghana in December (since 2025-09-23)
+        - Goal: move to Manchester (since 2025-08-11)
+        - Note from 2026-02-28: The user and their partner are planning a weekend in Bath for their anniversar
+  [baseline] n_kwame: needed fact missing
+      recalled: 
+        - [2026-08-13] "What snacks are safe to take to a children's party?"
+        - [2025-08-12] "What should I check before buying a used car?"
+        - [2026-09-09] "How do I calm down before a big presentation?"
+        - [2026-02-28] "For our anniversary we're planning a weekend in Bath."
+  [smart] n_kwame: needed fact missing
+      recalled: nothing
+  [baseline] n_henrike: needed fact missing
+      recalled: 
+        - [2025-04-29] "Hi, I'm Henrike. I live in Kiel and work as an editor at Elbquill Press."
+        - [2026-06-02] "Jonte started a new job at a wind energy company."
+        - [2025-06-26] "My brother Malte lives in Munich and works as a brewer."
+        - [2025-10-23] "I've been promoted to senior editor at Elbquill."
+  [smart] n_henrike: needed fact missing
+      recalled: 
+        - Earlier: Job title: editor (until 2025-10-23)
+        - Works at: Harbourlight Games (since 2026-01-22)
+  [baseline] n_henrike: needed fact missing
+      recalled: 
+        - [2026-03-24] "I sold the dinghy, I stopped sailing, there's no time with the new job."
+        - [2025-10-23] "I've been promoted to senior editor at Elbquill."
+        - [2025-04-29] "Hi, I'm Henrike. I live in Kiel and work as an editor at Elbquill Press."
+        - [2026-06-02] "Jonte started a new job at a wind energy company."
+  [smart] n_henrike: needed fact missing
+      recalled: 
+        - Earlier: Lives in: Hamburg (until 2025-08-09)
+        - Lives in: Altona (since 2026-04-09)
+  [smart] n_henrike: needed fact missing
+      recalled: 
+        - Name: Henrike (since 2025-04-29)
+        - Speaks: English (since 2025-05-31)
+        - Speaks: Danish (since 2025-05-31)
+        - Speaks: German (since 2025-05-31)
+  [smart] n_henrike: needed fact missing
+      recalled: 
+        - Lives in: Altona (since 2026-04-09)
+        - Family member: Bruno (since 2025-07-09)
+        - Note from 2025-06-26: The user's brother Malte lives in Munich and works as a brewer.
+  [baseline] n_henrike: needed fact missing
+      recalled: 
+        - [2025-09-21] "I baked a Black Forest cake with oat cream for Jonte's birthday."
+        - [2026-03-09] "Jonte and I went to Lisbon for a long weekend, lots of custard tarts."
+        - [2026-10-24] "What's a good card game for two people?"
+        - [2026-07-17] "How do I make a good cup of tea?"
+  [baseline] n_henrike: needed fact missing
+      recalled: 
+        - [2026-02-05] "How do I write a thank-you note?"
+        - [2025-08-18] "How do I write good branching dialogue for a game?"
+        - [2026-02-06] "Week two at Harbourlight Games and I love writing dialogue for a game."
+        - [2026-06-27] "Harbourlight shipped our first game, I wrote most of the side quests."
+  [smart] n_henrike: needed fact missing
+      recalled: 
+        - Job title: narrative designer (since 2026-01-22)
+        - Note from 2026-06-27: The user is enjoying their second week at Harbourlight Games, writing dialogue
+  [hybrid] n_henrike: needed fact missing
+      recalled: 
+        - Job title: narrative designer (since 2026-01-22)
+        - [2026-02-05] "How do I write a thank-you note?"
+        - [2025-08-18] "How do I write good branching dialogue for a game?"
+        - [2026-02-06] "Week two at Harbourlight Games and I love writing dialogue for a game."
+        - [2026-06-27] "Harbourlight shipped our first game, I wrote most of the side quests."
+
+Wrong answers (every mode with memory)
+  [baseline] n_marisol: Which city do I live in now? 
+      answer: 'You live in Lyon.'
+  [baseline] n_marisol: Which city did I live in before Lyon? 
+      answer: "I don't know."
+  [smart] n_marisol: Which city did I live in before Lyon? 
+      answer: "I don't know."
+  [smart] n_marisol: Where did I work before Alpenmed? 
+      answer: 'You worked at Clinica Albereda until August 7, 2025.'
+  [full] n_marisol: What's my partner's name? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] n_marisol: Where does my sister live now? 
+      answer: "I don't know."
+  [hybrid] n_marisol: Where does my sister live now? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] n_marisol: What does my sister do for work? 
+      answer: "I don't know."
+  [hybrid] n_marisol: What does my sister do for work? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] n_marisol: Who am I going to Peru with? <-- fact WAS in the prompt
+      answer: "You're planning a trip to Peru with your friend Nerea, as you mentioned on November 3rd last year."
+  [baseline] n_marisol: I'm baking cookies for a party tonight. Any advice on the in 
+      answer: "I don't know your baking experience or the type of cookies you're making, so I'll keep it general. For most cookie recipes, it's a good idea to use high-quality ingredients, such as fresh butter, pure"
+  [full] n_marisol: I'm baking cookies for a party tonight. Any advice on the in <-- fact WAS in the prompt
+      answer: "I don't know what ingredients you have on hand or what type of cookies you're making, so I'll just offer some general advice. When baking cookies, it's essential to use high-quality ingredients, espec"
+  [smart] n_marisol: Do I still sing in a choir? <-- fact WAS in the prompt
+      answer: 'You still sing alto in a choir in Lyon.'
+  [full] n_marisol: Do I still sing in a choir? <-- fact WAS in the prompt
+      answer: "You mentioned that you sing alto in a community choir on Tuesday nights, but I don't have any information about your current choir activities."
+  [full] n_marisol: What hobby am I into these days? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [baseline] n_kwame: Where did I live before Manchester? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] n_kwame: Which company did I work for before Tidemoor Rail? 
+      answer: "I don't know."
+  [baseline] n_kwame: How many times has my car broken down? <-- fact WAS in the prompt
+      answer: "I've noted that your car broke down outside Yaw's nursery in December 2025, and also on the M62 on the way to your mum's in July 2025. I don't have information on any other breakdowns."
+  [hybrid] n_kwame: How many times has my car broken down? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] n_kwame: Where are we going for our anniversary? 
+      answer: "We're planning a weekend in Bath."
+  [baseline] n_kwame: We're getting a takeaway tonight. Is there anything I should 
+      answer: "When ordering a takeaway, it's a good idea to check the ingredients and allergens in the food, especially if you or someone in your household has a food allergy or intolerance. You might also want to "
+  [baseline] n_kwame: Write a one-line email signature for me. <-- fact WAS in the prompt
+      answer: 'I don\'t know your name or job title, but a simple email signature could be: "Best regards, [Your Name]"'
+  [smart] n_kwame: Write a one-line email signature for me. 
+      answer: 'Here is a one-line email signature for you: "Best regards, [Your Name]".'
+  [hybrid] n_kwame: Write a one-line email signature for me. <-- fact WAS in the prompt
+      answer: 'I don\'t know your current job title or company, but I can suggest a generic format: "Best regards, [Your Name]".'
+  [full] n_kwame: Write a one-line email signature for me. <-- fact WAS in the prompt
+      answer: "I don't know your name or contact information, so I'm unable to write a personalized email signature for you."
+  [baseline] n_kwame: When is my driving test? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [smart] n_kwame: When is my driving test? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [hybrid] n_kwame: When is my driving test? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [full] n_kwame: When is my driving test? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [baseline] n_henrike: Where do I work? 
+      answer: 'You work as a senior editor at Elbquill Press in Kiel.'
+  [smart] n_henrike: Where did I work before Harbourlight Games? 
+      answer: "I don't know."
+  [baseline] n_henrike: What's my job title? 
+      answer: "You're a senior editor at Elbquill."
+  [smart] n_henrike: Where did I live before Hamburg? 
+      answer: "I don't know."
+  [smart] n_henrike: Do I still go sailing? <-- fact WAS in the prompt
+      answer: 'You still enjoy dinghy sailing.'
+  [hybrid] n_henrike: Do I still go sailing? <-- fact WAS in the prompt
+      answer: "You don't know."
+  [smart] n_henrike: What's my tortoise called? 
+      answer: "I don't know."
+  [smart] n_henrike: Where does my brother live now? 
+      answer: 'Your brother Malte lives in Munich.'
+  [smart] n_henrike: What's my niece's name? <-- fact WAS in the prompt
+      answer: "I don't know."
+  [baseline] n_henrike: Can you suggest a dessert I could make for friends this week 
+      answer: "Considering your fondness for Black Forest cake, I'd recommend making a Tiramisu. It's a classic Italian dessert that's easy to make and always a crowd-pleaser. The combination of ladyfingers, mascarp"
+  [baseline] n_henrike: Write a one-line professional bio for me. 
+      answer: "I don't know your professional background or experience, so I'll need more information to craft a suitable bio. Can you tell me a bit about your work or accomplishments?"
+  [smart] n_henrike: Write a one-line professional bio for me. 
+      answer: 'As a narrative designer at Harbourlight Games, I craft engaging stories and dialogue for immersive gaming experiences.'
+  [hybrid] n_henrike: Write a one-line professional bio for me. 
+      answer: 'As a narrative designer at Harbourlight Games, I craft engaging storylines and dialogue for immersive gaming experiences.'
+  [full] n_henrike: Write a one-line professional bio for me. <-- fact WAS in the prompt
+      answer: "I don't know."
+
+Compression (characters)
+user                         sources  notes  merged digests   live   digest/merged  notes/src  live/src
+eval_n_marisol                  1713   1874     700     674   1848            0.96       1.09      1.08   (5 digests from 10 notes)
+eval_n_kwame                    1787   1970       0       0   1970               -       1.10      1.10
+eval_n_henrike                  1560   1735     432     412   1715            0.95       1.11      1.10   (3 digests from 6 notes)
+TOTAL                           5060   5579    1132    1086   5533            0.96       1.10      1.09   (8 digests from 16 notes)
+
+saved eval_results.json   (3515s)   cache: off
