@@ -1,1 +1,10 @@
+.env
+__pycache__/
+.venv/
+eval_results.json
+.cache/
+runs/
 eval_sessions.json
+.pytest_cache/
+.ruff_cache/
+.DS_Store

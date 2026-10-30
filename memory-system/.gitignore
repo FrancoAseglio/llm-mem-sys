@@ -1,6 +1,0 @@
-.env
-__pycache__/
-.venv/
-eval_results.json
-.cache/
-runs/
