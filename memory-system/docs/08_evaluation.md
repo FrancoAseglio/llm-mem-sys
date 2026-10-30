@@ -54,7 +54,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 | K | 6 | 23 probes | **Spent**: blind, consistency across sessions, written before its runner, run once; in its own format (`"format": "sessions"`), run by `scripts/evaluate_sessions.py`, not by `evaluate.py` | Multi-session stories: a move, an allergy, an employer change, a partner with a distractor, a move inside one session, a control where nothing changes; direct and indirect probes |
 | L | 10 | 30 | **Spent**: blind, unseen data, written after A to K were spent and before any change; run once, with summaries on and off | Every question type mixed: direct facts, changes, past questions, episodes, indirect questions, a third-person trap and abstain questions |
 | M | 3 | 57 | **Spent**: blind, long crowded histories (92 to 100 messages each), written after the step 1 and 2 fixes, run once with four ablations | The main hypothesis: is smart better than vector search on long histories? Moves, job changes, other people, similar trips, plans that change, many everyday questions on the same topics |
-| N | 3 | 57 | **Blind**: long crowded histories (93 to 95 messages each), the design and question mix of M with new people, written after the hybrid step and before any run | Hybrid against the baseline (the plan's success criterion, [predictions/set_N.md](predictions/set_N.md)); smart against the baseline again |
+| N | 3 | 57 | **Spent**: blind, long crowded histories (93 to 95 messages each), the design and question mix of M with new people, written after the hybrid step, run once | Hybrid against the baseline (the plan's success criterion, [predictions/set_N.md](predictions/set_N.md)); smart against the baseline again |
 
 A **blind** set is written before the change it tests and run once. After that it is **spent**: it has influenced decisions, so it can no longer validate anything. Today every set is spent or tuning (L was the first run on unseen data) (G was re-run once with the layer, which is why its second result is labelled as a re-run).
 
@@ -262,6 +262,22 @@ Three users with 92 to 100 messages over about 18 months; written after the fixe
 - **The hypothesis is rejected:** d = −12 (pre-registered threshold −3 for "the baseline is better"); the baseline was right and smart wrong on 14 questions, the reverse on 2 (sign test p of about 0.004).
 - **Why:** errors accumulate with length. Each statement is a chance for the 8B extractor to mis-store a fact, and single-valued facts are replaced by incidental mentions: a house viewing and a commute moved Ruben back to Utrecht, a transfer to Kristiansand stored no city, "Peatline has no office" became a job title. Notes lose details when merged and pass two at a time. The baseline hands the model the original sentences.
 - **Ablations:** notes matter most (facts only: 17 against 36); switching off `about_user`, the note tags or the note window changed answers by 2 or less (run noise), although `about_user` visibly kept other people's cities and jobs out of the facts.
+
+### Set N: the hybrid read path, blind
+
+The design and question mix of M with three new users; written after the hybrid step ([06_read_path.md](06_read_path.md), section 11) and run once. Predictions: [predictions/set_N.md](predictions/set_N.md); every difference explained: `results/set_N/log.md`.
+
+| Set N, 57 questions | Needed | Stale in prompt (marked) | Avg lines | Answers (reviewed) | Stale in answer |
+|---|---|---|---|---|---|
+| Baseline | 46/54 | 18 | 4.0 | 45/57 | 4 |
+| Smart | 44/54 | 10 | 2.5 | 42/57 | 6 |
+| **Hybrid** | **52/54** | 13 (5) | 5.2 | **50/57** | **2** |
+| Full | - | 19 | 94.3 | 50/57 | 2 |
+
+- **H1 met by the pre-registered rule:** d = hybrid − baseline = +5 (threshold +3). Not statistically significant: hybrid only right on 8, the baseline only on 3 (sign test p of about 0.23). On the development set M it was +4.
+- **The gains are facts used where they are strong:** timelines on past questions (2), current values on top (2), allergies on indirect questions (3); one more is noise. **The 3 losses all come from the facts layer:** an employer never replaced, the 2-line cap cutting a list of three languages, and a wrong marker from a `name` fact overwritten by other people's names.
+- **H2 met** (outdated answers 2 against 4); **H3 met:** smart alone is again worse than the baseline (−3).
+- **Full** (the whole history) scored 50, level with hybrid; on M it scored 44. It is a ceiling for this history length, not a design.
 
 ### What the results show
 

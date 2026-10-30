@@ -52,6 +52,8 @@ Saved outputs of the evaluation runs, one folder per test set. They are historic
 | `logs/` | `about_user_L.txt` | set L re-run with the check (development, labelled) |
 | `regressions/` | `A_to_J_about_user.txt` | sets A to J re-run with the check, cache off |
 | `set_K/` | `about_user.txt` | set K re-run with the check, cache off |
+| `set_N/` | `full.txt`, `full.json` | set N, blind, long histories, run once: baseline, smart, hybrid, full |
+| `set_N/` | `log.md` | set N: result, hand review, every difference between hybrid and the baseline, the hypotheses |
 | `set_L/` | `first_run.txt`, `first_run.json` | set L, blind, unseen data, run once (summaries on) |
 | `set_L/` | `summaries_off.txt`, `summaries_off.json` | set L, same stored data, `SUMMARIES=0` |
 | `set_L/` | `log.md` | set L: results, causes of every smart miss, predictions against results |

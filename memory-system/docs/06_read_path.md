@@ -333,3 +333,6 @@ Every user message, oldest first, in the baseline's line format. On set M a user
 | Longer prompt | Up to 7 lines against 4 |
 | A marker covers the whole message | Set M: "Hi, I'm Ruben. I'm a software engineer at Kiwibyte ..." got three markers, and the bio left out the still-true name |
 | Fact lines can be incomplete | Set M: `Speaks: English`, `Speaks: Spanish` without Dutch; the model trusted the facts over the message below them |
+| The 2-line cap cuts multi-valued answers | Set N: three languages stored, two shown, two answered |
+| A wrong fact gives a wrong marker | Set N: a `name` fact corrupted by other people's names marked "Malte moved to Vienna" as `[outdated: now Jonte]`; the model then said it did not know |
+| A stale active fact is trusted over the messages | Set N: `Works at: Clinica Albereda` (a new employer was never stored) beat "I'm starting at Alpenmed" in the line below |
