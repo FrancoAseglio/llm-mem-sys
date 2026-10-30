@@ -17,6 +17,7 @@ from memory_system.read.hybrid_rules import (
     marked_message,
     timeline_line,
 )
+from memory_system.read.retrieve import Memory
 from memory_system.write import conflicts
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
@@ -28,21 +29,29 @@ from evaluation.report import _compare  # noqa: E402
 
 def test_superseded_fact_is_marked_with_the_current_value():
     end = ("lives_in", "Kristiansand", "active")
-    assert fact_marker("lives_in", "Oslo", end) == "[outdated: now Kristiansand]"
+    assert (
+        fact_marker("lives_in", "Oslo", end)
+        == "[outdated: Lives in: Oslo -> now Kristiansand]"
+    )
 
 
 def test_a_flip_to_another_relation_names_it():
     end = ("dislikes", "coffee", "active")
-    assert fact_marker("likes", "coffee", end) == "[outdated: now Dislikes: coffee]"
+    assert (
+        fact_marker("likes", "coffee", end)
+        == "[outdated: Likes: coffee -> now Dislikes: coffee]"
+    )
 
 
 def test_retracted_fact_is_no_longer_true():
-    assert fact_marker("hobby", "bass", None) == "[no longer true: bass]"
+    assert fact_marker("hobby", "bass", None) == "[no longer true: Hobby: bass]"
 
 
 def test_chain_ending_in_a_retraction_is_no_longer_true():
     end = ("lives_in", "Oslo", "archived")
-    assert fact_marker("lives_in", "Bergen", end) == "[no longer true: Bergen]"
+    assert (
+        fact_marker("lives_in", "Bergen", end) == "[no longer true: Lives in: Bergen]"
+    )
 
 
 def test_moved_back_gives_no_marker():
@@ -81,8 +90,11 @@ def test_timeline_needs_a_history():
 @pytest.mark.parametrize(
     "line, marked",
     [
-        ('[2025-01-01] "I moved to Oslo" [outdated: now Bergen]', True),
-        ('[2025-01-01] "I play bass" [no longer true: bass]', True),
+        (
+            '[2025-01-01] "I moved to Oslo" [outdated: Lives in: Oslo -> now Bergen]',
+            True,
+        ),
+        ('[2025-01-01] "I play bass" [no longer true: Hobby: bass]', True),
         ("Lives in, oldest first: Oslo -> Bergen (now)", True),
         ('[2025-01-01] "I moved to Oslo"', False),
         # smart's lines are not marked: its metrics stay as they were
@@ -95,7 +107,10 @@ def test_is_marked(line, marked):
 
 def test_stale_split():
     question = {"stale": ["oslo"]}
-    marked = ['"I moved to Oslo" [outdated: now Bergen]', '"I love Bergen"']
+    marked = [
+        '"I moved to Oslo" [outdated: Lives in: Oslo -> now Bergen]',
+        '"I love Bergen"',
+    ]
     plain = ['"I moved to Oslo"', '"I love Bergen"']
     assert stale_split(marked, question) == (False, True)
     assert stale_split(plain, question) == (True, False)
@@ -169,20 +184,46 @@ def test_old_message_is_marked_with_the_current_value(conn):
     say(conn, 60, "I moved to Tallinn", "lives_in", "Tallinn")
     conn.commit()
     lines = lines_for("Where do I live?")
-    assert message_line(lines, "I live in Bergen").endswith("[outdated: now Tallinn]")
-    assert message_line(lines, "I moved to Oslo").endswith("[outdated: now Tallinn]")
+    assert message_line(lines, "I live in Bergen").endswith(
+        "[outdated: Lives in: Bergen -> now Tallinn]"
+    )
+    assert message_line(lines, "I moved to Oslo").endswith(
+        "[outdated: Lives in: Oslo -> now Tallinn]"
+    )
     assert message_line(lines, "I moved to Tallinn").endswith('"I moved to Tallinn"')
 
 
-def test_facts_come_first_and_are_at_most_two(conn):
+def test_facts_come_first_two_kinds_at_most(conn):
     say(conn, 0, "I live in Bergen", "lives_in", "Bergen")
     say(conn, 1, "I work at Kiwibyte", "works_at", "Kiwibyte")
     say(conn, 2, "I play chess", "hobby", "chess")
     conn.commit()
     lines = lines_for("Tell me about me")
-    assert len(lines) == 2 + 3
-    assert all(not line.startswith("[") for line in lines[:2])
+    facts = [line for line in lines if not line.startswith("[")]
+    assert len(facts) == 2  # three kinds of fact pass, two are shown
+    assert lines[:2] == facts
     assert all(line.startswith("[2025-") for line in lines[2:])
+
+
+def test_every_value_of_a_shown_kind(conn):
+    say(conn, 0, "I speak German, English and Danish", "speaks", "German")
+    conflicts.apply_fact(conn, USER, "speaks", "English", None)
+    conflicts.apply_fact(conn, USER, "speaks", "Danish", None)
+    conn.commit()
+    facts = [
+        line for line in lines_for("Which languages?") if line.startswith("Speaks")
+    ]
+    assert len(facts) == 3  # set N: a cap of two lines dropped Danish
+
+
+def test_top_relations():
+    def m(relation, value):
+        return Memory(0, relation, value, START, 0.0, False, {})
+
+    facts = [m("speaks", "a"), m("lives_in", "b"), m("speaks", "c"), m("hobby", "d")]
+    got = hybrid.top_relations(facts, 2, 4)
+    assert [x.value for x in got] == ["a", "b", "c"]
+    assert [x.value for x in hybrid.top_relations(facts, 2, 2)] == ["a", "b"]
 
 
 def test_retracted_value_is_marked(conn):
@@ -191,7 +232,7 @@ def test_retracted_value_is_marked(conn):
     conn.commit()
     lines = lines_for("What are my hobbies?")
     line = message_line(lines, "I play bass in a covers band")
-    assert line.endswith("[no longer true: bass]")
+    assert line.endswith("[no longer true: Hobby: bass]")
 
 
 def test_moved_back_is_not_marked(conn):
@@ -201,7 +242,9 @@ def test_moved_back_is_not_marked(conn):
     conn.commit()
     lines = lines_for("Where do I live?")
     assert message_line(lines, "I live in Bergen").endswith('"I live in Bergen"')
-    assert message_line(lines, "I moved to Oslo").endswith("[outdated: now Bergen]")
+    assert message_line(lines, "I moved to Oslo").endswith(
+        "[outdated: Lives in: Oslo -> now Bergen]"
+    )
 
 
 def test_timeline_for_a_past_question_only(conn):

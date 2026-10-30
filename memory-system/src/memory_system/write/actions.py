@@ -99,6 +99,15 @@ _OTHER_PEOPLE = frozenset(
 _ANY_FIRST_PERSON = re.compile(
     r"\b(?:i|i'm|im|i've|ive|i'd|i'll|me|my|mine|myself|we|we're|we've|we'd|we'll|us|our|ours)\b"
 )
+# A sentence that opens with one of these verbs has the user as its silent subject: "Moved to
+# Grenoble with Bastien" (set N stored no city, because the message has no first-person word).
+_IMPLICIT_SUBJECT = re.compile(
+    r"(?:^|[.!?:]\s+)(?:moved|started|got|joined|left|quit|began|bought|switched|relocated|"
+    r"transferred|finished|signed)\b"
+)
+# The user's own name comes only from a self-introduction (set N: the name became a sister's,
+# a friend's, a brother's and a partner's).
+_SELF_INTRO = r"\b(?:i'm|i am|im|call me|i go by)\s+"
 # A partner is named with one of these words somewhere in the message.
 _PARTNER_WORDS = re.compile(
     r"\b(?:boyfriend|girlfriend|partner|wife|husband|fianc\w*|spouse|seeing|dating|"
@@ -136,6 +145,18 @@ def _marries_someone_else(value: str, lower: str) -> bool:
     ) and not re.search(rf"\b{name}\s+and\s+(?:i|me)\b", lower)
 
 
+def _introduces_self(value: str, lower: str) -> bool:
+    """True if the message gives `value` as the user's own name: "Hi, I'm Ruben", "my name is
+    Ana", "call me Jo", "My name is not Marco, it's Mario" (any message with "my name" in it).
+    "Lucia is pregnant, I'm going to be an aunt" and "Malte moved to Vienna" do not."""
+    name = re.escape(value.lower().strip())
+    if not name:
+        return False
+    if re.search(_SELF_INTRO + name + r"\b", lower):
+        return True
+    return "my name" in lower and re.search(rf"\b{name}\b", lower) is not None
+
+
 def about_user(
     value: str, relation: str, text: str, others: frozenset = frozenset()
 ) -> bool:
@@ -157,7 +178,12 @@ def about_user(
 
     - Both: the message must have a first-person word somewhere (I, me, my, we, our ...).
       "Margit quit the band to move to Canada" names no subject word before Canada, so the
-      clause rule alone would give Canada to the user (set J, found 2026-10-28).
+      clause rule alone would give Canada to the user (set J, found 2026-10-28). A sentence
+      that opens with a verb such as "Moved", "Started" or "Got" counts as first person: its
+      silent subject is the user ("Moved to Grenoble with Bastien", set N, added 2026-10-30).
+
+    - name: only a self-introduction gives the user a name ("I'm Ruben", "my name is Ana");
+      other people's names in a message are not the user's (set N, added 2026-10-30).
 
     - `others`: lower-case names of the user's partner and family already stored. They count
       as someone else, so "Priya got a job at the hospital" (Priya being the user's wife) does
@@ -168,7 +194,13 @@ def about_user(
     "I" comes first.
     """
     lower = text.lower().replace("\u2019", "'")
-    if relation in SELF_RELATIONS | {"partner"} and not _ANY_FIRST_PERSON.search(lower):
+    if relation == "name":
+        return _introduces_self(value, lower)
+    if (
+        relation in SELF_RELATIONS | {"partner"}
+        and not _ANY_FIRST_PERSON.search(lower)
+        and not _IMPLICIT_SUBJECT.search(lower)
+    ):
         return False
     if relation == "partner" and not _PARTNER_WORDS.search(lower):
         return False
@@ -211,7 +243,8 @@ _CHANGE = {
         r"bought a (?:flat|house|home|apartment))\b"
     ),
     "works_at": re.compile(
-        r"\b(?:started (?:at|working)|new (?:job|position|role)|joined|work(?:s|ing)? (?:at|for)|"
+        r"\b(?:started (?:at|working)|new (?:job|position|role)|got (?:a|the) job|joined|"
+        r"work(?:s|ing)? (?:at|for)|"
         r"now (?:at|with|for)|i'?m (?:now )?at|i'?m now|hired|transferr?\w*|acquired|left|quit|"
         r"switch\w*|changed (?:jobs|employers))\b"
     ),

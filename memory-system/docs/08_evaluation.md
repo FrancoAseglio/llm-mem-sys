@@ -11,7 +11,7 @@ Each scripted life story is replayed message by message with backdated timestamp
 | `none` | nothing |
 | `baseline` | the 4 most similar past user messages (traditional vector memory) |
 | `smart` | the facts that pass the relevance gate, then up to 2 episode notes in the room left ([07_summaries.md](07_summaries.md)), at most 4 lines in all. `SUMMARIES=0` gives facts only |
-| `hybrid` | up to 2 current facts, one timeline line for a past question, then the baseline's 4 messages, marked when a fact they gave has changed ([06_read_path.md](06_read_path.md), section 11) |
+| `hybrid` | the current facts of the best two kinds (at most 4 lines), one timeline line for a past question, then the baseline's 4 messages, marked when a fact they gave has changed ([06_read_path.md](06_read_path.md), section 11) |
 | `full` | every past user message: a reference ceiling, not a design. Not scored for needed facts or noise, since it holds everything |
 
 ## 2. What is measured

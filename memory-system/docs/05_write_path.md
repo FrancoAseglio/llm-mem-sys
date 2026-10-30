@@ -132,7 +132,8 @@ True unless the message gives the value to someone or something other than the u
 |---|---|
 | `lives_in`, `works_at`, `job_title`, `birthday` | In each clause that mentions the value, the last subject word before it decides: `I`, `I'm`, `we` ... mean the user; `he`, `she`, `it`, `who`, `their` or a word for another person (`sister`, `friend`, `colleague` ...) mean someone else; no subject word ("My birthday is 5 May") means the user. The value is kept if any clause gives it to the user |
 | `partner` | The message must contain a partner word: `boyfriend`, `girlfriend`, `partner`, `wife`, `husband`, `seeing`, `dating`, `married`, `I'm with`, `split up` ... |
-| both of the above | The message must also contain a first-person word (`I`, `me`, `my`, `we`, `our` ...). "Margit quit the band to move to Canada" has none, so Canada is not the user's city (set J, added 2026-10-28) |
+| both of the above | The message must also contain a first-person word (`I`, `me`, `my`, `we`, `our` ...). "Margit quit the band to move to Canada" has none, so Canada is not the user's city (set J, added 2026-10-28). A sentence that opens with moved, started, got, joined, left, quit, began, bought, switched, relocated, transferred, finished or signed counts as first person, its subject being the silent "I": "Moved to Grenoble with Bastien" (set N stored no city; development, added 2026-10-30) |
+| `name` | Only a self-introduction gives the user a name: "I'm X", "I am X", "call me X", "I go by X", or any message with "my name" in it ("My name is not Marco, it's Mario"). On set N every user's name was overwritten by someone else's ("Lucia is pregnant, I'm going to be an aunt", "Declan came down from Glasgow"); development, added 2026-10-30 |
 | all others | Not checked: `family_member`, `hobby` and the rest can describe anyone |
 
 Possessives (his, her, their, its) are not subject words: "transferred me to their office in Kristiansand" is the user's move. For `partner` the clause rule applies too, with the partner nouns themselves ignored, and "X is getting married" (unless "X and I") is news about X: "My sister Ingvild got engaged to her partner Jonas" and "Callum is getting married in Dublin" give the user no partner (set M, 2026-10-30).
@@ -148,7 +149,7 @@ True if the message says a single value changed. Used only when the user already
 | Relation | A change is said with | Example kept | Example rejected |
 |---|---|---|---|
 | `lives_in` | moved, moving, relocated, transferred, live in, living in, based in, a new flat or house in, got a house | "Big change: I've moved to Oslo" | "We've started looking at houses in Rotterdam", "I now commute to Utrecht by train" |
-| `works_at` | started at, a new job or position, joined, work at or for, now at, I'm at, hired, transferred, acquired, left, quit, switched | "Kiwibyte was acquired by Lumenor, so I now work for Lumenor" | "Priya got a job at the hospital" (also not about the user) |
+| `works_at` | started at, a new job or position, got a job (added after set N: "I got a job at Pharmavert in Lyon" was rejected, so the first employer stayed), joined, work at or for, now at, I'm at, hired, transferred, acquired, left, quit, switched | "Kiwibyte was acquired by Lumenor, so I now work for Lumenor" | "Priya got a job at the hospital" (also not about the user) |
 | `job_title` | promoted, became, work as, started as, a new job or role, I'm now, now a, I'm a, as a, head of | "I've been promoted to head of the history department" | "Peatline has no office", "I've joined a choir" |
 | `partner` | a partner word (as in 4.3) | "I've started seeing someone new, his name is Emil" | |
 

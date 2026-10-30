@@ -55,7 +55,7 @@ Learning from the same message (write path) happens after, so a question never r
 |---|---|---|
 | `smart` | `facts`, only `status = 'active'` | Only facts that pass the relevance gate, at most `k` (default 4), as short lines. Often zero or one. |
 | `baseline` | `messages`, role `user` | The top `k` most similar past messages, whatever they are |
-| `hybrid` | `messages` and `facts` | Up to 2 current facts (smart's gate), one timeline line for a past question, then the baseline's `k` messages, each marked when a fact it gave has changed (section 11) |
+| `hybrid` | `messages` and `facts` | The current facts of the best two kinds (smart's gate, at most 4 lines), one timeline line for a past question, then the baseline's `k` messages, each marked when a fact it gave has changed (section 11) |
 | `full` | `messages`, role `user` | Every past message, oldest first: a reference ceiling, not a design (section 11) |
 | `none` | nothing | No memory block at all |
 
@@ -292,12 +292,12 @@ Set M showed that on long histories the baseline's four raw messages answer more
 
 | # | Lines | Rule | Setting |
 |---|---|---|---|
-| 1 | Current facts | Smart's gate and ranking (`retrieve`), allergy pass included, at most 2. Same format as smart: `Lives in: Kristiansand (since 2026-03-01)` | `HYBRID_FACT_LINES` (2) |
+| 1 | Current facts | Smart's gate and ranking (`retrieve`, allergy pass included), then every value of the first two relations among them, at most 4 lines: all three languages, not two of them. Same format as smart: `Lives in: Kristiansand (since 2026-03-01)`. Until set N it was the first 2 lines, which cut a list of three languages | `HYBRID_FACT_RELATIONS` (2), `HYBRID_FACT_MAX` (4) |
 | 2 | One timeline | Only for a past question (the keyword trigger of section 10, and `PAST_FACTS` on). The relation of the best replaced or retracted fact that passes the gate (floor, window, routing; no allergy pass); then every value that relation ever had, oldest first | `HYBRID_TIMELINE` (env, on) |
 | 3 | The baseline's `k` messages | Exactly the baseline's choice (`baseline_messages`, the same query), word for word, with markers | `HYBRID_MARKERS` (env, on) |
 
 No episode notes: the raw messages carry the details that notes lost on set M.  
-At most `2 + 1 + k` lines (7 with `k = 4`), against the baseline's 4. Hybrid gives up smart's short prompt.
+At most `4 + 1 + k` lines (9 with `k = 4`), usually 5 to 6, against the baseline's 4. Hybrid gives up smart's short prompt.
 
 ### 11.2 Markers on messages
 
@@ -305,13 +305,13 @@ For each message, every user fact it produced (`facts.source_message_id`) that i
 
 | The fact | Marker | Example |
 |---|---|---|
-| Superseded; its `superseded_by` chain ends on an active fact | `[outdated: now <current value>]` | `"I've moved to Oslo" [outdated: now Kristiansand]` |
-| The chain ends on another relation (a like that became a dislike) | `[outdated: now <Label>: <value>]` | `[outdated: now Dislikes: coffee]` |
-| Archived by a retraction, or the chain does not end on an active fact | `[no longer true: <value>]` | `"I play bass in a covers band" [no longer true: bass]` |
+| Superseded; its `superseded_by` chain ends on an active fact | `[outdated: <Label>: <old> -> now <current>]` | `"I've moved to Oslo" [outdated: Lives in: Oslo -> now Kristiansand]` |
+| The chain ends on another relation (a like that became a dislike) | `[outdated: <Label>: <old> -> now <Label>: <value>]` | `[outdated: Likes: coffee -> now Dislikes: coffee]` |
+| Archived by a retraction, or the chain does not end on an active fact | `[no longer true: <Label>: <old>]` | `"I play bass in a covers band" [no longer true: Hobby: bass]` |
 | The chain ends on the same value again (a user who moved back) | none | the old message is true again |
 | Conflicted (a dependent fact we cannot judge) | none | |
 
-The header tells the model what the markers mean.
+The marker names the old value and its kind, so the model can tell which part of the message changed. The header says so, and that the rest of the message may still be true. Until set N a marker named only the new value (`[outdated: now Kristiansand]`): on set M a bio left out the still-true name of a marked introduction, and on set N "[outdated: now Jonte]" made a brother's move look outdated.
 
 ### 11.3 Timeline
 

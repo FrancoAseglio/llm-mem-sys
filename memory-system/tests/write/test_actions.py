@@ -279,6 +279,18 @@ def test_multi_valued_asserts_are_untouched():
             "I'm planning a hiking trip next spring with my friend Pieter.",
         ),
         ("Jonas", "partner", "My sister Ingvild got engaged to her partner Jonas."),
+        # set N: other people's names are not the user's name
+        ("Lucia", "name", "Lucia is pregnant, I'm going to be an aunt!"),
+        ("Declan", "name", "Declan came down from Glasgow for the weekend."),
+        (
+            "Malte",
+            "name",
+            "Malte moved to Vienna, he's opening his own small brewery there.",
+        ),
+        ("Jonte", "name", "Jonte started a new job at a wind energy company."),
+        ("Elena", "name", "Correction: my sister's name is Elena, not Elisa."),
+        # a silent subject needs one of the opening verbs
+        ("Lyon", "lives_in", "Lovely weekend in Lyon with the kids."),
         (
             "Callum",
             "partner",
@@ -320,6 +332,21 @@ def test_about_someone_else(value, relation, text):
             "Moving again: Fjordline transferred me to their office in Kristiansand.",
         ),
         ("Priya", "partner", "Priya and I are getting married in June!"),
+        # set N: a sentence with a silent "I"
+        (
+            "Grenoble",
+            "lives_in",
+            "Moved to Grenoble with Bastien, the mountains are close.",
+        ),
+        # names: only a self-introduction
+        (
+            "Ruben",
+            "name",
+            "Hi, I'm Ruben. I'm a software engineer at Kiwibyte in Utrecht.",
+        ),
+        ("Ana", "name", "Hi, my name is Ana."),
+        ("Mario", "name", "My name is not Marco, it's Mario."),
+        ("Jo", "name", "Please call me Jo."),
     ],
 )
 def test_about_the_user(value, relation, text):
@@ -384,6 +411,11 @@ def test_a_known_person_is_someone_else():
             "I've been promoted to head of the history department.",
         ),
         ("Elena", "partner", "Dario and I split up. I'm with Elena now."),
+        (
+            "Pharmavert",
+            "works_at",
+            "Big news: I got a job at Pharmavert in Lyon, I'm moving to France in September.",
+        ),
     ],
 )
 def test_a_change_is_signalled(value, relation, text):

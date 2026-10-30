@@ -1,13 +1,14 @@
 """Read side of the hybrid mode and the full reference mode (docs/06_read_path.md, section 11).
 
-hybrid: up to HYBRID_FACT_LINES current facts (smart's gate), one timeline line for a question
+hybrid: the current facts of the best two kinds (smart's gate), one timeline line for a question
         about the past, then the baseline's top-k messages word for word, each marked when a fact
         it produced has since changed or was retracted.
 full:   every user message, oldest first.
 """
 
 from memory_system.core.config import (
-    HYBRID_FACT_LINES,
+    HYBRID_FACT_MAX,
+    HYBRID_FACT_RELATIONS,
     HYBRID_MARKERS,
     HYBRID_TIMELINE,
     PAST_FACTS,
@@ -99,11 +100,25 @@ def timeline(user_id: str, query: str) -> str | None:
     return timeline_line(relation, values)
 
 
+def top_relations(facts: list[Memory], relations: int, most: int) -> list[Memory]:
+    """The facts whose relation is among the first `relations` relations in `facts` (best first),
+    at most `most` lines: all three languages, not two of them."""
+    kept: list[str] = []
+    for m in facts:
+        if m.relation not in kept and len(kept) < relations:
+            kept.append(m.relation)
+    return [m for m in facts if m.relation in kept][:most]
+
+
 def hybrid_lines(
     user_id: str, query: str, k: int = 4, touch: bool = True
 ) -> tuple[list[Memory], str | None, list[str]]:
     """(facts, timeline line or None, message lines) for the hybrid mode."""
-    facts = retrieve(user_id, query, HYBRID_FACT_LINES, touch)
+    facts = top_relations(
+        retrieve(user_id, query, HYBRID_FACT_MAX, touch),
+        HYBRID_FACT_RELATIONS,
+        HYBRID_FACT_MAX,
+    )
     past = timeline(user_id, query)
     rows = baseline_messages(user_id, query, k)
     markers = outdated_markers(user_id, [r[0] for r in rows]) if HYBRID_MARKERS else {}

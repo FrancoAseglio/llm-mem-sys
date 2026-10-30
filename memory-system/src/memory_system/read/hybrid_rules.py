@@ -23,7 +23,11 @@ def fact_marker(
     `end` is (relation, value, status) of the last fact in its superseded_by chain, or None when
     the fact was archived (retracted) or the chain has no successor. Returns None when the chain
     ends on the same value again (a user who moved back): the message is current once more.
+    The marker names the old value and its kind, so the rest of the message stays usable:
+    "[outdated: Lives in: Oslo -> now Kristiansand]", "[no longer true: Hobby: bass]" (set M:
+    a marker that named only the new value hid the user's still-true name in a bio).
     """
+    old = f"{label(relation)}: {value}"
     if end is not None and end[2] == "active":
         end_relation, end_value, _ = end
         if end_relation == relation and end_value.lower() == value.lower():
@@ -33,8 +37,8 @@ def fact_marker(
             if end_relation == relation
             else f"{label(end_relation)}: {end_value}"
         )
-        return f"{OUTDATED}now {now}]"
-    return f"{ENDED}{value}]"
+        return f"{OUTDATED}{old} -> now {now}]"
+    return f"{ENDED}{old}]"
 
 
 def marked_message(text: str, markers: list[str]) -> str:

@@ -12,8 +12,9 @@ HEADERS = {
     "baseline": "Past messages from the user that may be relevant:",
     "hybrid": (
         "What you know about the user: current facts first, then past messages that may be "
-        "relevant. A message marked [outdated: now X] was true when it was written and has "
-        "changed since; one marked [no longer true: X] is not true any more:"
+        "relevant. A marker after a message names the one part of it that has changed since "
+        "([outdated: old -> now new]) or is not true any more ([no longer true: old]); the "
+        "rest of the message may still be true:"
     ),
     "full": "Everything the user has told you, oldest first:",
 }

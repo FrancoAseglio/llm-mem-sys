@@ -123,7 +123,8 @@ That behaviour matters for the write path: a message, its facts and their events
 | `ABOUT_USER` | on (env `ABOUT_USER=0` turns it off) | `write/conflicts.py`, `write/manager.py` | Switch for the check that drops facts the message gives to someone else ([05](05_write_path.md), section 4.3) |
 | `CHANGE_RULE` | on (env `CHANGE_RULE=0` turns it off) | `write/conflicts.py` | A new city, employer, job title or partner replaces the current one only if the message says it changed ([05](05_write_path.md), section 4.4) |
 | `PAST_MAX_LINES` | 2 | `read/past_retrieve.py` | Most `Earlier:` lines per question |
-| `HYBRID_FACT_LINES` | 2 | `read/hybrid.py` | Most current fact lines in the hybrid mode ([06](06_read_path.md), section 11) |
+| `HYBRID_FACT_RELATIONS` | 2 | `read/hybrid.py` | Kinds of fact shown in the hybrid mode, with every value that passes the gate ([06](06_read_path.md), section 11) |
+| `HYBRID_FACT_MAX` | 4 | `read/hybrid.py` | Most fact lines in the hybrid mode |
 | `HYBRID_MARKERS` | on (env `HYBRID_MARKERS=0` turns it off) | `read/hybrid.py` | Mark hybrid messages whose facts changed or were retracted |
 | `HYBRID_TIMELINE` | on (env `HYBRID_TIMELINE=0` turns it off) | `read/hybrid.py` | One timeline line for past questions in the hybrid mode |
 | `FULL_NUM_CTX` | 8192 (env) | `scripts/evaluate.py` | Context window asked of the chat model for full-mode answers |
