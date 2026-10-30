@@ -37,7 +37,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 
 ## 3. The test sets
 
-74 scenarios, 230 questions, in `scripts/evaluation/scenarios/sets/` (one JSON file per set, with its status label).
+83 scenarios, 310 questions (set K's 23 probes included), in `scripts/evaluation/scenarios/sets/` (one JSON file per set, with its status label).
 
 | Set | Scenarios | Questions | Status | What it tests |
 |---|---|---|---|---|
@@ -54,6 +54,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 | K | 6 | 23 probes | **Spent**: blind, consistency across sessions, written before its runner, run once; in its own format (`"format": "sessions"`), run by `scripts/evaluate_sessions.py`, not by `evaluate.py` | Multi-session stories: a move, an allergy, an employer change, a partner with a distractor, a move inside one session, a control where nothing changes; direct and indirect probes |
 | L | 10 | 30 | **Spent**: blind, unseen data, written after A to K were spent and before any change; run once, with summaries on and off | Every question type mixed: direct facts, changes, past questions, episodes, indirect questions, a third-person trap and abstain questions |
 | M | 3 | 57 | **Spent**: blind, long crowded histories (92 to 100 messages each), written after the step 1 and 2 fixes, run once with four ablations | The main hypothesis: is smart better than vector search on long histories? Moves, job changes, other people, similar trips, plans that change, many everyday questions on the same topics |
+| N | 3 | 57 | **Blind**: long crowded histories (93 to 95 messages each), the design and question mix of M with new people, written after the hybrid step and before any run | Hybrid against the baseline (the plan's success criterion, [predictions/set_N.md](predictions/set_N.md)); smart against the baseline again |
 
 A **blind** set is written before the change it tests and run once. After that it is **spent**: it has influenced decisions, so it can no longer validate anything. Today every set is spent or tuning (L was the first run on unseen data) (G was re-run once with the layer, which is why its second result is labelled as a re-run).
 

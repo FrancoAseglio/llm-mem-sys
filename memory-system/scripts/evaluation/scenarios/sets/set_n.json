@@ -1,0 +1,1961 @@
+{
+  "set": "N",
+  "label": "N (BLIND: long, crowded histories; written after the hybrid step, before any run; run once)",
+  "description": "SET N: long histories, the same design and question mix as set M with new people. Three users with about 95 messages each over about 18 months: moves (one announced months before), job changes, other people with their own cities and jobs, similar trips, plans that change, many everyday questions, some on the same topics as the user's life. 57 questions: 12 current values, 7 past values, 11 episodes (one count), 4 details, 5 changed plans, 7 about other people, 5 indirect (3 scored by hand), 2 direct facts (one with three values), 1 trap and 3 abstain questions. Status: BLIND. Predictions: docs/predictions/set_N.md. All people, places and companies are new.",
+  "scenarios": [
+    {
+      "id": "n_marisol",
+      "kind": "long history: two moves, two employer changes, a partner change, a plan that changes date and companion",
+      "messages": [
+        [
+          552,
+          "Hi, I'm Marisol. I'm a hospital pharmacist at Clinica Albereda in Valencia."
+        ],
+        [
+          548,
+          "What's the best time of year to visit Machu Picchu?"
+        ],
+        [
+          540,
+          "My boyfriend Hugo and I have been together for two years."
+        ],
+        [
+          539,
+          "How do I remove limescale from a shower head?"
+        ],
+        [
+          531,
+          "I'm allergic to tree nuts, walnuts and cashews especially."
+        ],
+        [
+          530,
+          "What's the difference between a comet and an asteroid?"
+        ],
+        [
+          521,
+          "My sister Lucia lives in Seville and works as an architect."
+        ],
+        [
+          520,
+          "Explain what a credit score is."
+        ],
+        [
+          512,
+          "How do I apply for a French residence permit?"
+        ],
+        [
+          507,
+          "I sing alto in a community choir on Tuesday nights."
+        ],
+        [
+          503,
+          "How long should I rest a steak after cooking?"
+        ],
+        [
+          494,
+          "Why do we get hiccups?"
+        ],
+        [
+          493,
+          "Hugo and I spent a long weekend in Lisbon, we rode the old tram up to the castle."
+        ],
+        [
+          485,
+          "What's a good name for a book club?"
+        ],
+        [
+          479,
+          "My dad lives in Alicante, he's retired now."
+        ],
+        [
+          475,
+          "Which clay is best for a beginner on the wheel?"
+        ],
+        [
+          466,
+          "I adopted a grey cat from the shelter, I called him Churro."
+        ],
+        [
+          465,
+          "How do hot air balloons steer?"
+        ],
+        [
+          457,
+          "Give me a simple recipe for lentil soup."
+        ],
+        [
+          449,
+          "Big news: I got a job at Pharmavert in Lyon, I'm moving to France in September."
+        ],
+        [
+          448,
+          "What causes thunder?"
+        ],
+        [
+          439,
+          "What are some good day hikes near Grenoble?"
+        ],
+        [
+          431,
+          "I've moved to Lyon. My flat is near the Croix-Rousse hill."
+        ],
+        [
+          430,
+          "How do I write a polite complaint email?"
+        ],
+        [
+          421,
+          "I found a new choir in Lyon, still singing alto."
+        ],
+        [
+          420,
+          "Why is the Dead Sea so salty?"
+        ],
+        [
+          412,
+          "Lucia and I went to Morocco, we slept in a desert camp near Merzouga."
+        ],
+        [
+          411,
+          "How do I clean a cast iron pan?"
+        ],
+        [
+          404,
+          "Hugo and I broke up. The long distance was too hard."
+        ],
+        [
+          403,
+          "How do I keep a cat entertained in a small flat?"
+        ],
+        [
+          394,
+          "What does a sommelier do?"
+        ],
+        [
+          389,
+          "My French is getting better, I can follow the meetings at Pharmavert now."
+        ],
+        [
+          385,
+          "How does GPS know where I am?"
+        ],
+        [
+          376,
+          "What's the difference between a latte and a flat white?"
+        ],
+        [
+          373,
+          "I named my sourdough starter Bernardo."
+        ],
+        [
+          367,
+          "What's a good feeding schedule for a sourdough starter?"
+        ],
+        [
+          361,
+          "My friend Nerea and I are planning a trip to Peru next March."
+        ],
+        [
+          358,
+          "How many hours of sleep do adults need?"
+        ],
+        [
+          349,
+          "Explain the rules of chess castling."
+        ],
+        [
+          346,
+          "Lucia moved to Madrid, she joined a big architecture firm there."
+        ],
+        [
+          339,
+          "What's a good houseplant for low light?"
+        ],
+        [
+          331,
+          "I've been promoted to quality manager at Pharmavert."
+        ],
+        [
+          330,
+          "How should a team prepare for a GMP audit?"
+        ],
+        [
+          321,
+          "How do glaciers move?"
+        ],
+        [
+          316,
+          "I've started seeing someone, his name is Bastien, he's a mountain guide."
+        ],
+        [
+          312,
+          "Why do cats bring their owners gifts?"
+        ],
+        [
+          303,
+          "How do I remove a splinter?"
+        ],
+        [
+          301,
+          "I quit the choir, the rehearsals clashed with my French classes."
+        ],
+        [
+          294,
+          "Is Lyon or Grenoble cheaper to live in?"
+        ],
+        [
+          286,
+          "Nerea can't come to Peru any more, so Bastien is coming with me instead."
+        ],
+        [
+          285,
+          "What is the Pythagorean theorem?"
+        ],
+        [
+          276,
+          "How do I keep cut flowers fresh longer?"
+        ],
+        [
+          271,
+          "I've signed up for a ceramics course, I love throwing pots."
+        ],
+        [
+          267,
+          "What's the best way to learn touch typing?"
+        ],
+        [
+          258,
+          "What should I pack for high altitude in Peru?"
+        ],
+        [
+          256,
+          "We pushed the Peru trip to June, Bastien has guiding work in March."
+        ],
+        [
+          249,
+          "How do submarines dive and surface?"
+        ],
+        [
+          241,
+          "I bought my own pottery wheel for 380 euros."
+        ],
+        [
+          240,
+          "What's a short poem form I could try?"
+        ],
+        [
+          231,
+          "How do I unclog a sink without chemicals?"
+        ],
+        [
+          226,
+          "Bastien and I hiked in the Dolomites for a week in July."
+        ],
+        [
+          222,
+          "How long does it take to reach B2 in French?"
+        ],
+        [
+          213,
+          "Why do some people sneeze in sunlight?"
+        ],
+        [
+          206,
+          "I left Pharmavert. I'm starting at Alpenmed in Grenoble next month, same role."
+        ],
+        [
+          203,
+          "How does a dishwasher clean without scrubbing?"
+        ],
+        [
+          194,
+          "What's the difference between a crepe and a pancake?"
+        ],
+        [
+          191,
+          "Moved to Grenoble with Bastien, the mountains are right outside the window."
+        ],
+        [
+          185,
+          "Give me a few vocal warm-ups for an alto."
+        ],
+        [
+          176,
+          "How do I stop my glasses fogging up?"
+        ],
+        [
+          171,
+          "Churro has figured out how to open the kitchen cupboard."
+        ],
+        [
+          167,
+          "What is an index fund?"
+        ],
+        [
+          158,
+          "Why does bread go stale?"
+        ],
+        [
+          151,
+          "My dad came to visit us in Grenoble for a week."
+        ],
+        [
+          149,
+          "What's the weather like in Morocco in April?"
+        ],
+        [
+          140,
+          "How do I iron a shirt quickly?"
+        ],
+        [
+          131,
+          "Lucia is pregnant, I'm going to be an aunt!"
+        ],
+        [
+          130,
+          "What's the oldest city in Europe?"
+        ],
+        [
+          122,
+          "How do electric cars brake?"
+        ],
+        [
+          113,
+          "What are the main sights in Lisbon?"
+        ],
+        [
+          111,
+          "The Peru flights are booked, we leave on June 14."
+        ],
+        [
+          104,
+          "What's a good warm-up before a run?"
+        ],
+        [
+          95,
+          "How do bats find their way in the dark?"
+        ],
+        [
+          86,
+          "Explain what a leap year is."
+        ],
+        [
+          81,
+          "Ceramics is my thing now, I'm selling mugs at a market in December."
+        ],
+        [
+          77,
+          "How do pharmacists check for drug interactions?"
+        ],
+        [
+          67,
+          "How do I make my own vinaigrette?"
+        ],
+        [
+          58,
+          "Why do planes fly so high?"
+        ],
+        [
+          56,
+          "Bastien's mother is teaching me to make tartiflette."
+        ],
+        [
+          49,
+          "What's the difference between empathy and sympathy?"
+        ],
+        [
+          40,
+          "What's a nice gift for a baby shower?"
+        ],
+        [
+          31,
+          "Work at Alpenmed is intense, we have an audit next week."
+        ],
+        [
+          30,
+          "How do I get rid of fruit flies?"
+        ],
+        [
+          22,
+          "What makes a rainbow?"
+        ],
+        [
+          13,
+          "How does a pressure cooker work?"
+        ],
+        [
+          4,
+          "Give me a tip for remembering names."
+        ]
+      ],
+      "questions": [
+        {
+          "q": "Which city do I live in now?",
+          "expect": [
+            [
+              "grenoble"
+            ]
+          ],
+          "needs": [
+            "grenoble"
+          ],
+          "stale": [
+            "lyon",
+            "valencia"
+          ]
+        },
+        {
+          "q": "Where did I live before Grenoble?",
+          "expect": [
+            [
+              "lyon"
+            ]
+          ],
+          "needs": [
+            "lyon"
+          ]
+        },
+        {
+          "q": "Which city did I live in before Lyon?",
+          "expect": [
+            [
+              "valencia"
+            ]
+          ],
+          "needs": [
+            "valencia"
+          ]
+        },
+        {
+          "q": "Where do I work now?",
+          "expect": [
+            [
+              "alpenmed"
+            ]
+          ],
+          "needs": [
+            "alpenmed"
+          ],
+          "stale": [
+            "pharmavert",
+            "albereda"
+          ]
+        },
+        {
+          "q": "Where did I work before Alpenmed?",
+          "expect": [
+            [
+              "pharmavert"
+            ]
+          ],
+          "needs": [
+            "pharmavert"
+          ]
+        },
+        {
+          "q": "What's my partner's name?",
+          "expect": [
+            [
+              "bastien"
+            ]
+          ],
+          "needs": [
+            "bastien"
+          ],
+          "stale": [
+            "hugo"
+          ]
+        },
+        {
+          "q": "What's my cat called?",
+          "expect": [
+            [
+              "churro"
+            ]
+          ],
+          "needs": [
+            "churro"
+          ]
+        },
+        {
+          "q": "What did I name my sourdough starter?",
+          "expect": [
+            [
+              "bernardo"
+            ]
+          ],
+          "needs": [
+            "bernardo"
+          ]
+        },
+        {
+          "q": "Which city did I visit with Hugo?",
+          "expect": [
+            [
+              "lisbon"
+            ]
+          ],
+          "needs": [
+            "lisbon"
+          ]
+        },
+        {
+          "q": "Where in Morocco did my sister and I sleep in the desert?",
+          "expect": [
+            [
+              "merzouga"
+            ]
+          ],
+          "needs": [
+            "merzouga"
+          ]
+        },
+        {
+          "q": "Where does my sister live now?",
+          "expect": [
+            [
+              "madrid"
+            ]
+          ],
+          "needs": [
+            "madrid"
+          ],
+          "stale": [
+            "seville"
+          ]
+        },
+        {
+          "q": "What does my sister do for work?",
+          "expect": [
+            [
+              "architect"
+            ]
+          ],
+          "needs": [
+            "architect"
+          ]
+        },
+        {
+          "q": "When is the Peru trip?",
+          "expect": [
+            [
+              "june"
+            ]
+          ],
+          "needs": [
+            "june"
+          ],
+          "stale": [
+            "march"
+          ]
+        },
+        {
+          "q": "Who am I going to Peru with?",
+          "expect": [
+            [
+              "bastien"
+            ]
+          ],
+          "needs": [
+            "bastien"
+          ],
+          "stale": [
+            "nerea"
+          ]
+        },
+        {
+          "q": "I'm baking cookies for a party tonight. Any advice on the ingredients for me?",
+          "expect": [
+            [
+              "tree nut",
+              "walnut",
+              "cashew",
+              "nut allergy",
+              "nut-free",
+              "allergic to nuts",
+              "your allergy"
+            ]
+          ],
+          "needs": [
+            "nut"
+          ]
+        },
+        {
+          "q": "Do I still sing in a choir?",
+          "expect": [
+            [
+              "stopped",
+              "gave up",
+              "quit",
+              "no longer",
+              "not anymore",
+              "left the",
+              "don't sing",
+              "don't sail",
+              "not any more"
+            ]
+          ],
+          "needs": [
+            "choir"
+          ]
+        },
+        {
+          "q": "What hobby am I into these days?",
+          "expect": [
+            [
+              "ceramic",
+              "pottery",
+              "pots",
+              "mugs",
+              "wheel"
+            ]
+          ],
+          "needs": [
+            "ceramic"
+          ],
+          "stale": [
+            "choir"
+          ]
+        },
+        {
+          "q": "How much did my pottery wheel cost?",
+          "expect": [
+            [
+              "380"
+            ]
+          ],
+          "needs": [
+            "380"
+          ]
+        },
+        {
+          "q": "What's my favourite opera?",
+          "expect": [
+            [
+              "don't know",
+              "do not know",
+              "don't have",
+              "do not have",
+              "haven't told",
+              "have not told",
+              "haven't mentioned",
+              "have not mentioned",
+              "not mentioned",
+              "didn't mention",
+              "did not mention",
+              "haven't shared",
+              "have not shared",
+              "not sure",
+              "no information",
+              "not aware",
+              "don't recall",
+              "no record",
+              "can't say",
+              "cannot say",
+              "i'm not able",
+              "unable to"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "n_kwame",
+      "kind": "long history: a move announced months before, an employer change, two promotions, a changed hobby, plans that change",
+      "messages": [
+        [
+          558,
+          "Hi, I'm Kwame. I'm a graduate engineer at Brackwell Consulting in Leeds."
+        ],
+        [
+          555,
+          "What's the best way to get from Accra to Kumasi?"
+        ],
+        [
+          547,
+          "My wife Abena is a nurse on a children's ward."
+        ],
+        [
+          546,
+          "How do I bleed a radiator?"
+        ],
+        [
+          537,
+          "Why is the moon sometimes visible in daytime?"
+        ],
+        [
+          536,
+          "I'm allergic to sesame, even a little tahini sets me off."
+        ],
+        [
+          528,
+          "What's a good way to save for a holiday?"
+        ],
+        [
+          524,
+          "I play drums in our church band on Sundays."
+        ],
+        [
+          518,
+          "How do I tune a drum kit?"
+        ],
+        [
+          512,
+          "My best mate Declan lives round the corner from us in Leeds."
+        ],
+        [
+          509,
+          "How do I make fluffy rice?"
+        ],
+        [
+          500,
+          "What's the difference between a hurricane and a typhoon?"
+        ],
+        [
+          499,
+          "Ran the Leeds 10K this morning in 47 minutes, my best time yet."
+        ],
+        [
+          491,
+          "How do vinyl records store sound?"
+        ],
+        [
+          486,
+          "Our son Yaw started nursery this week."
+        ],
+        [
+          482,
+          "Is it cheaper to rent or buy in Manchester?"
+        ],
+        [
+          472,
+          "The car broke down on the M62 on the way to my mum's."
+        ],
+        [
+          471,
+          "Explain how a mortgage offer works in the UK."
+        ],
+        [
+          463,
+          "Why do we yawn?"
+        ],
+        [
+          459,
+          "My mum lives in Kumasi, she visits us every summer."
+        ],
+        [
+          454,
+          "How do I fix a dripping tap?"
+        ],
+        [
+          445,
+          "Abena and I are thinking about moving to Manchester one day, closer to her family."
+        ],
+        [
+          444,
+          "What should I check before buying a used car?"
+        ],
+        [
+          436,
+          "What's a good stretch for tight hamstrings?"
+        ],
+        [
+          431,
+          "Abena and I spent a weekend in north Wales, we climbed the walls of Conwy Castle."
+        ],
+        [
+          427,
+          "How do bees communicate?"
+        ],
+        [
+          418,
+          "What is a P/E ratio?"
+        ],
+        [
+          417,
+          "Declan moved to Glasgow for a job at a shipyard."
+        ],
+        [
+          408,
+          "How do I train for a 10K under 45 minutes?"
+        ],
+        [
+          402,
+          "We're planning to visit Ghana in December to see my mum."
+        ],
+        [
+          399,
+          "How do I get candle wax off a carpet?"
+        ],
+        [
+          390,
+          "Why do cats sleep so much?"
+        ],
+        [
+          388,
+          "I've been promoted to engineer at Brackwell."
+        ],
+        [
+          381,
+          "What's the difference between a fruit and a vegetable?"
+        ],
+        [
+          374,
+          "Abena is retraining as a midwife, she starts the course in January."
+        ],
+        [
+          372,
+          "What are fun things to do in York for a weekend?"
+        ],
+        [
+          362,
+          "How do solar eclipses happen?"
+        ],
+        [
+          359,
+          "Saw The Marrow Lanterns in Sheffield, best gig I've been to in years."
+        ],
+        [
+          353,
+          "Give me a quick breakfast idea with oats."
+        ],
+        [
+          344,
+          "We're pushing the Ghana trip to January, flights in December are crazy."
+        ],
+        [
+          343,
+          "How do I change a car tyre?"
+        ],
+        [
+          335,
+          "How does railway signalling work?"
+        ],
+        [
+          331,
+          "The car broke down again, this time outside Yaw's nursery."
+        ],
+        [
+          326,
+          "Why are flamingos pink?"
+        ],
+        [
+          317,
+          "How do I start a compost heap?"
+        ],
+        [
+          316,
+          "My nephew Kofi has his driving test on 9 May, he's so nervous."
+        ],
+        [
+          308,
+          "What does a quantity surveyor do?"
+        ],
+        [
+          301,
+          "Got an offer from Tidemoor Rail in Manchester. We're moving in the spring."
+        ],
+        [
+          298,
+          "How do I teach a toddler to brush his teeth?"
+        ],
+        [
+          289,
+          "How do noise barriers on motorways work?"
+        ],
+        [
+          287,
+          "I left Brackwell Consulting today, a bit sad to say goodbye."
+        ],
+        [
+          280,
+          "What's a good board game for a family with a toddler?"
+        ],
+        [
+          272,
+          "We've moved to Manchester! The house is in Chorlton."
+        ],
+        [
+          271,
+          "How do I defrost a freezer quickly?"
+        ],
+        [
+          262,
+          "Good reed strength for a beginner on alto sax?"
+        ],
+        [
+          259,
+          "Started at Tidemoor Rail, I'm working on the signalling upgrade."
+        ],
+        [
+          252,
+          "Why does ice float?"
+        ],
+        [
+          244,
+          "For our anniversary we're planning a weekend in Bath."
+        ],
+        [
+          243,
+          "How do I write a good CV summary?"
+        ],
+        [
+          234,
+          "What's the tallest building in the world?"
+        ],
+        [
+          229,
+          "I gave up the drums when we moved, I've taken up the saxophone instead."
+        ],
+        [
+          225,
+          "How do I get chartered as a civil engineer in the UK?"
+        ],
+        [
+          216,
+          "How do I stop a bike chain squeaking?"
+        ],
+        [
+          214,
+          "Bought a second-hand alto saxophone for 640 pounds."
+        ],
+        [
+          207,
+          "How do 3D printers work?"
+        ],
+        [
+          199,
+          "Abena qualified, she's a midwife at a Manchester hospital now."
+        ],
+        [
+          198,
+          "What's the best way to wash a wool jumper?"
+        ],
+        [
+          188,
+          "What's the weather like in Ghana in January?"
+        ],
+        [
+          184,
+          "Change of plan for the anniversary: York instead of Bath, Bath was fully booked."
+        ],
+        [
+          179,
+          "Why do onions caramelise?"
+        ],
+        [
+          170,
+          "What is a haiku?"
+        ],
+        [
+          168,
+          "Yaw lost his first tooth, he's very proud."
+        ],
+        [
+          161,
+          "How does a smoke alarm detect smoke?"
+        ],
+        [
+          152,
+          "I've been promoted to senior engineer at Tidemoor Rail."
+        ],
+        [
+          151,
+          "What are the main sights in Bath?"
+        ],
+        [
+          142,
+          "How do I get my toddler to sleep through the night?"
+        ],
+        [
+          133,
+          "Why do leaves fall in autumn?"
+        ],
+        [
+          126,
+          "Declan came down from Glasgow for the weekend, we watched the rugby."
+        ],
+        [
+          124,
+          "What's the difference between a will and a trust?"
+        ],
+        [
+          115,
+          "How long does midwifery training take in the UK?"
+        ],
+        [
+          106,
+          "How do I make a paper aeroplane that flies far?"
+        ],
+        [
+          97,
+          "How do wind turbines turn wind into power?"
+        ],
+        [
+          96,
+          "Our Ghana trip in January is booked, I can't wait to see my mum."
+        ],
+        [
+          88,
+          "Recommend a good podcast about engineering."
+        ],
+        [
+          78,
+          "What snacks are safe to take to a children's party?"
+        ],
+        [
+          69,
+          "How do I clean my oven?"
+        ],
+        [
+          61,
+          "Saxophone lessons are going well, I can play a whole tune now."
+        ],
+        [
+          60,
+          "Why do we have time zones?"
+        ],
+        [
+          51,
+          "How do I calm down before a big presentation?"
+        ],
+        [
+          42,
+          "Is Chorlton a nice area to live in?"
+        ],
+        [
+          32,
+          "What's the difference between baking and roasting?"
+        ],
+        [
+          26,
+          "Busy month at work, the signalling tests start next week."
+        ],
+        [
+          23,
+          "How far away is the sun?"
+        ],
+        [
+          14,
+          "How do I keep a car battery healthy in winter?"
+        ],
+        [
+          5,
+          "What is a black belt in karate?"
+        ]
+      ],
+      "questions": [
+        {
+          "q": "Which city do I live in?",
+          "expect": [
+            [
+              "manchester"
+            ]
+          ],
+          "needs": [
+            "manchester"
+          ],
+          "stale": [
+            "leeds"
+          ]
+        },
+        {
+          "q": "Where did I live before Manchester?",
+          "expect": [
+            [
+              "leeds"
+            ]
+          ],
+          "needs": [
+            "leeds"
+          ]
+        },
+        {
+          "q": "Which company do I work for?",
+          "expect": [
+            [
+              "tidemoor"
+            ]
+          ],
+          "needs": [
+            "tidemoor"
+          ],
+          "stale": [
+            "brackwell"
+          ]
+        },
+        {
+          "q": "Which company did I work for before Tidemoor Rail?",
+          "expect": [
+            [
+              "brackwell"
+            ]
+          ],
+          "needs": [
+            "brackwell"
+          ]
+        },
+        {
+          "q": "What's my job title?",
+          "expect": [
+            [
+              "senior engineer"
+            ]
+          ],
+          "needs": [
+            "senior engineer"
+          ],
+          "stale": [
+            "graduate engineer"
+          ]
+        },
+        {
+          "q": "What instrument do I play these days?",
+          "expect": [
+            [
+              "saxophone",
+              "sax"
+            ]
+          ],
+          "needs": [
+            "saxophone"
+          ],
+          "stale": [
+            "drum"
+          ]
+        },
+        {
+          "q": "How many times has my car broken down?",
+          "expect": [
+            [
+              "two",
+              "twice"
+            ]
+          ],
+          "needs": [
+            "broke down"
+          ]
+        },
+        {
+          "q": "Which castle did Abena and I climb in Wales?",
+          "expect": [
+            [
+              "conwy"
+            ]
+          ],
+          "needs": [
+            "conwy"
+          ]
+        },
+        {
+          "q": "Which band did I see in Sheffield?",
+          "expect": [
+            [
+              "marrow lanterns"
+            ]
+          ],
+          "needs": [
+            "marrow lanterns"
+          ]
+        },
+        {
+          "q": "How much did my saxophone cost?",
+          "expect": [
+            [
+              "640"
+            ]
+          ],
+          "needs": [
+            "640"
+          ]
+        },
+        {
+          "q": "What was my time in the Leeds 10K?",
+          "expect": [
+            [
+              "47"
+            ]
+          ],
+          "needs": [
+            "47"
+          ]
+        },
+        {
+          "q": "When are we visiting Ghana?",
+          "expect": [
+            [
+              "january"
+            ]
+          ],
+          "needs": [
+            "january"
+          ],
+          "stale": [
+            "december"
+          ]
+        },
+        {
+          "q": "Where are we going for our anniversary?",
+          "expect": [
+            [
+              "york"
+            ]
+          ],
+          "needs": [
+            "york"
+          ],
+          "stale": [
+            "bath"
+          ]
+        },
+        {
+          "q": "Where does Declan live now?",
+          "expect": [
+            [
+              "glasgow"
+            ]
+          ],
+          "needs": [
+            "glasgow"
+          ],
+          "stale": [
+            "leeds"
+          ]
+        },
+        {
+          "q": "What does my wife do now?",
+          "expect": [
+            [
+              "midwife"
+            ]
+          ],
+          "needs": [
+            "midwife"
+          ],
+          "stale": [
+            "nurse"
+          ]
+        },
+        {
+          "q": "We're getting a takeaway tonight. Is there anything I should be careful about?",
+          "expect": [
+            [
+              "sesame"
+            ]
+          ],
+          "needs": [
+            "sesame"
+          ]
+        },
+        {
+          "q": "Write a one-line email signature for me.",
+          "expect": [
+            [
+              "kwame"
+            ],
+            [
+              "tidemoor",
+              "senior engineer"
+            ]
+          ],
+          "needs": [
+            "kwame",
+            "tidemoor"
+          ]
+        },
+        {
+          "q": "When is my driving test?",
+          "expect": [
+            [
+              "kofi"
+            ]
+          ],
+          "needs": [
+            "kofi"
+          ]
+        },
+        {
+          "q": "What's my favourite cheese?",
+          "expect": [
+            [
+              "don't know",
+              "do not know",
+              "don't have",
+              "do not have",
+              "haven't told",
+              "have not told",
+              "haven't mentioned",
+              "have not mentioned",
+              "not mentioned",
+              "didn't mention",
+              "did not mention",
+              "haven't shared",
+              "have not shared",
+              "not sure",
+              "no information",
+              "not aware",
+              "don't recall",
+              "no record",
+              "can't say",
+              "cannot say",
+              "i'm not able",
+              "unable to"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "n_henrike",
+      "kind": "long history: a move with the employer, a job change, a delayed flat, a brother who moves, a hobby given up",
+      "messages": [
+        [
+          549,
+          "Hi, I'm Henrike. I live in Kiel and work as an editor at Elbquill Press."
+        ],
+        [
+          546,
+          "What should I know about sailing on the Elbe?"
+        ],
+        [
+          538,
+          "My partner Jonte and I met at university, we've been together six years."
+        ],
+        [
+          537,
+          "How do I descale a coffee machine?"
+        ],
+        [
+          529,
+          "I'm lactose intolerant, so I stick to oat milk."
+        ],
+        [
+          528,
+          "Why is the sea blue?"
+        ],
+        [
+          519,
+          "What's a good way to start journaling?"
+        ],
+        [
+          517,
+          "I speak German and English, and Danish from my grandmother."
+        ],
+        [
+          510,
+          "How do I care for a tortoise during hibernation?"
+        ],
+        [
+          505,
+          "I sail a small dinghy on the Kiel fjord most weekends."
+        ],
+        [
+          501,
+          "How do I make crispy roast potatoes?"
+        ],
+        [
+          492,
+          "What causes earthquakes?"
+        ],
+        [
+          491,
+          "My brother Malte lives in Munich and works as a brewer."
+        ],
+        [
+          483,
+          "How do I get rid of a cold faster?"
+        ],
+        [
+          478,
+          "We have a tortoise called Bruno, he's older than me."
+        ],
+        [
+          474,
+          "What are the best neighbourhoods in Hamburg for young couples?"
+        ],
+        [
+          465,
+          "What's the difference between a novella and a novel?"
+        ],
+        [
+          462,
+          "Elbquill is moving its office to Hamburg, so we're moving there too."
+        ],
+        [
+          456,
+          "Why do birds migrate?"
+        ],
+        [
+          447,
+          "We've moved to Hamburg, our flat is in Ottensen."
+        ],
+        [
+          446,
+          "How do I hang a heavy mirror?"
+        ],
+        [
+          438,
+          "How do I write good branching dialogue for a game?"
+        ],
+        [
+          433,
+          "Jonte and I sailed to Bornholm with friends, three days on the water."
+        ],
+        [
+          429,
+          "What is an ETF?"
+        ],
+        [
+          420,
+          "How do I keep basil from wilting?"
+        ],
+        [
+          418,
+          "My niece Frieda was born, Malte is a dad now!"
+        ],
+        [
+          411,
+          "Why do we dream?"
+        ],
+        [
+          404,
+          "I baked a Black Forest cake with oat cream for Jonte's birthday."
+        ],
+        [
+          402,
+          "Is Bornholm worth visiting outside the summer?"
+        ],
+        [
+          393,
+          "What's the difference between weather fronts?"
+        ],
+        [
+          389,
+          "Visited Copenhagen with Jonte, we spent a whole day at the design museum."
+        ],
+        [
+          384,
+          "How do I wrap a present neatly?"
+        ],
+        [
+          375,
+          "How does a microwave heat food?"
+        ],
+        [
+          372,
+          "I've been promoted to senior editor at Elbquill."
+        ],
+        [
+          366,
+          "How do I photograph a harbour at night?"
+        ],
+        [
+          357,
+          "Bought a new mirrorless camera for 1,150 euros, I want to get into photography."
+        ],
+        [
+          356,
+          "What's a good stretch for a sore lower back?"
+        ],
+        [
+          348,
+          "Why do stars twinkle?"
+        ],
+        [
+          342,
+          "Malte moved to Vienna, he's opening his own small brewery there."
+        ],
+        [
+          339,
+          "How do I remove a red wine stain?"
+        ],
+        [
+          330,
+          "What are good lactose-free cheeses?"
+        ],
+        [
+          327,
+          "Jonte and I are buying a bigger flat in Altona, we should move in August."
+        ],
+        [
+          321,
+          "What's the history of the bicycle?"
+        ],
+        [
+          312,
+          "Took the dinghy out on the Elbe for the first time, the currents are scary."
+        ],
+        [
+          311,
+          "How do I make a simple tomato sauce?"
+        ],
+        [
+          303,
+          "Why do our ears pop on planes?"
+        ],
+        [
+          296,
+          "Our move is delayed, the new flat won't be ready until October."
+        ],
+        [
+          294,
+          "How do I keep my Danish from getting rusty?"
+        ],
+        [
+          285,
+          "How do I choose a good mattress?"
+        ],
+        [
+          281,
+          "I left Elbquill Press. I'm joining Harbourlight Games as a narrative designer."
+        ],
+        [
+          276,
+          "What is the golden ratio?"
+        ],
+        [
+          267,
+          "How do I write a thank-you note?"
+        ],
+        [
+          266,
+          "Week two at Harbourlight Games and I love writing dialogue for a game."
+        ],
+        [
+          258,
+          "What should I check before buying a flat in Germany?"
+        ],
+        [
+          251,
+          "Bruno has started hibernating in a box in the cellar."
+        ],
+        [
+          249,
+          "Why do apples turn brown?"
+        ],
+        [
+          240,
+          "How do lighthouses work?"
+        ],
+        [
+          235,
+          "Jonte and I went to Lisbon for a long weekend, lots of custard tarts."
+        ],
+        [
+          231,
+          "What's a good way to learn to juggle?"
+        ],
+        [
+          222,
+          "How does a brewery get a licence in Austria?"
+        ],
+        [
+          220,
+          "I sold the dinghy, I stopped sailing, there's no time with the new job."
+        ],
+        [
+          213,
+          "How do I clean suede shoes?"
+        ],
+        [
+          204,
+          "We moved into the Altona flat in October, finally unpacked."
+        ],
+        [
+          203,
+          "Why is the Leaning Tower of Pisa leaning?"
+        ],
+        [
+          195,
+          "How do I start running again after a break?"
+        ],
+        [
+          188,
+          "Malte came to visit with Frieda, she's walking now."
+        ],
+        [
+          186,
+          "What camera settings are best for street photography?"
+        ],
+        [
+          177,
+          "What's the difference between a sonnet and a ballad?"
+        ],
+        [
+          170,
+          "My photo of the harbour got second prize in a local competition."
+        ],
+        [
+          168,
+          "How do I stop a door from creaking?"
+        ],
+        [
+          159,
+          "How do vaccines get tested?"
+        ],
+        [
+          150,
+          "Jonte started a new job at a wind energy company."
+        ],
+        [
+          149,
+          "What are the main sights in Copenhagen?"
+        ],
+        [
+          141,
+          "What makes popcorn pop?"
+        ],
+        [
+          132,
+          "How do I plan a budget for the month?"
+        ],
+        [
+          125,
+          "Harbourlight shipped our first game, I wrote most of the side quests."
+        ],
+        [
+          123,
+          "Why do we have seasons?"
+        ],
+        [
+          114,
+          "How do I move a tortoise to a new home safely?"
+        ],
+        [
+          105,
+          "How do I make a good cup of tea?"
+        ],
+        [
+          96,
+          "What's the deepest lake in the world?"
+        ],
+        [
+          95,
+          "I'm learning to make Danish rye bread like my grandmother did."
+        ],
+        [
+          87,
+          "How do I take care of a leather jacket?"
+        ],
+        [
+          78,
+          "What does a narrative designer earn in Germany?"
+        ],
+        [
+          69,
+          "Why do some trees stay green in winter?"
+        ],
+        [
+          64,
+          "Bruno woke up from hibernation, he's eating dandelions again."
+        ],
+        [
+          60,
+          "How do I organise a small kitchen?"
+        ],
+        [
+          51,
+          "What is a sourdough discard good for?"
+        ],
+        [
+          42,
+          "How do I bake rye bread with a sourdough?"
+        ],
+        [
+          33,
+          "We're thinking of getting a dog in the spring."
+        ],
+        [
+          32,
+          "How do I get better at public speaking?"
+        ],
+        [
+          24,
+          "Why does the moon change shape?"
+        ],
+        [
+          15,
+          "How do I fix a zip that keeps opening?"
+        ],
+        [
+          6,
+          "What's a good card game for two people?"
+        ]
+      ],
+      "questions": [
+        {
+          "q": "Where do I work?",
+          "expect": [
+            [
+              "harbourlight"
+            ]
+          ],
+          "needs": [
+            "harbourlight"
+          ],
+          "stale": [
+            "elbquill"
+          ]
+        },
+        {
+          "q": "Where did I work before Harbourlight Games?",
+          "expect": [
+            [
+              "elbquill"
+            ]
+          ],
+          "needs": [
+            "elbquill"
+          ]
+        },
+        {
+          "q": "What's my job title?",
+          "expect": [
+            [
+              "narrative designer"
+            ]
+          ],
+          "needs": [
+            "narrative designer"
+          ],
+          "stale": [
+            "senior editor"
+          ]
+        },
+        {
+          "q": "Where did I live before Hamburg?",
+          "expect": [
+            [
+              "kiel"
+            ]
+          ],
+          "needs": [
+            "kiel"
+          ]
+        },
+        {
+          "q": "Do I still go sailing?",
+          "expect": [
+            [
+              "stopped",
+              "gave up",
+              "quit",
+              "no longer",
+              "not anymore",
+              "left the",
+              "don't sing",
+              "don't sail",
+              "not any more",
+              "sold"
+            ]
+          ],
+          "needs": [
+            "sail"
+          ]
+        },
+        {
+          "q": "What's my tortoise called?",
+          "expect": [
+            [
+              "bruno"
+            ]
+          ],
+          "needs": [
+            "bruno"
+          ]
+        },
+        {
+          "q": "Where did Jonte and I sail to with friends?",
+          "expect": [
+            [
+              "bornholm"
+            ]
+          ],
+          "needs": [
+            "bornholm"
+          ]
+        },
+        {
+          "q": "What did I bake for Jonte's birthday?",
+          "expect": [
+            [
+              "black forest"
+            ]
+          ],
+          "needs": [
+            "black forest"
+          ]
+        },
+        {
+          "q": "What prize did my harbour photo win?",
+          "expect": [
+            [
+              "second"
+            ]
+          ],
+          "needs": [
+            "second prize"
+          ]
+        },
+        {
+          "q": "How much did my camera cost?",
+          "expect": [
+            [
+              "1,150",
+              "1150",
+              "1.150"
+            ]
+          ],
+          "needs": [
+            "1,150"
+          ]
+        },
+        {
+          "q": "When did we move into the Altona flat?",
+          "expect": [
+            [
+              "october"
+            ]
+          ],
+          "needs": [
+            "october"
+          ],
+          "stale": [
+            "august"
+          ]
+        },
+        {
+          "q": "Where does my brother live now?",
+          "expect": [
+            [
+              "vienna"
+            ]
+          ],
+          "needs": [
+            "vienna"
+          ],
+          "stale": [
+            "munich"
+          ]
+        },
+        {
+          "q": "What does my brother do?",
+          "expect": [
+            [
+              "brew"
+            ]
+          ],
+          "needs": [
+            "brewer"
+          ]
+        },
+        {
+          "q": "What's my niece's name?",
+          "expect": [
+            [
+              "frieda"
+            ]
+          ],
+          "needs": [
+            "frieda"
+          ]
+        },
+        {
+          "q": "Can you suggest a dessert I could make for friends this weekend?",
+          "expect": [
+            [
+              "lactose",
+              "dairy-free",
+              "dairy free",
+              "without dairy",
+              "no dairy",
+              "oat milk",
+              "oat cream",
+              "vegan",
+              "coconut"
+            ]
+          ],
+          "needs": [
+            "lactose"
+          ]
+        },
+        {
+          "q": "Write a one-line professional bio for me.",
+          "expect": [
+            [
+              "henrike"
+            ],
+            [
+              "harbourlight",
+              "narrative design",
+              "game"
+            ]
+          ],
+          "needs": [
+            "henrike",
+            "harbourlight"
+          ]
+        },
+        {
+          "q": "What's my partner's name?",
+          "expect": [
+            [
+              "jonte"
+            ]
+          ],
+          "needs": [
+            "jonte"
+          ]
+        },
+        {
+          "q": "Which languages do I speak?",
+          "expect": [
+            [
+              "german"
+            ],
+            [
+              "english"
+            ],
+            [
+              "danish"
+            ]
+          ],
+          "needs": [
+            "german",
+            "english",
+            "danish"
+          ]
+        },
+        {
+          "q": "What's my shoe size?",
+          "expect": [
+            [
+              "don't know",
+              "do not know",
+              "don't have",
+              "do not have",
+              "haven't told",
+              "have not told",
+              "haven't mentioned",
+              "have not mentioned",
+              "not mentioned",
+              "didn't mention",
+              "did not mention",
+              "haven't shared",
+              "have not shared",
+              "not sure",
+              "no information",
+              "not aware",
+              "don't recall",
+              "no record",
+              "can't say",
+              "cannot say",
+              "i'm not able",
+              "unable to"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
