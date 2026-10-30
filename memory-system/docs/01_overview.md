@@ -84,11 +84,11 @@ The key ideas:
 | Update outdated information | Done: supersede, never overwrite | [05](05_write_path.md) |
 | Compress history into summaries | **Partly**: old notes are merged into digests (set J), but the saving is small: digests are 0.79 of the notes they replace, and summary text in use is still about the size of its source messages (1.01). The pre-registered target failed | [07](07_summaries.md), [10](10_limits_and_roadmap.md) |
 | Improve conversational consistency | **Partly**: measured across sessions (set K); smart and baseline about even, smart with no contradiction; stability not better | [08](08_evaluation.md), [10](10_limits_and_roadmap.md) |
-| Better answers than traditional vector memory | **Met by the pre-registered rule, not significant**: smart alone loses (L, M, N), but the hybrid read path (the baseline's messages, marked when outdated, plus a few facts) beat the baseline on the blind long-history set N (50 against 45; p of about 0.23) and on the development set M (50 against 46) | [06](06_read_path.md), [08](08_evaluation.md), [10](10_limits_and_roadmap.md) |
+| Better answers than traditional vector memory | **Supported in direction, not proven**: smart alone loses (L, M, N, O); the hybrid read path (the baseline's messages, marked when outdated, plus a few facts) beat the baseline on both blind long-history sets, N (50 against 45) and O (47 against 44), but pooled the difference is not significant (p = 0.13). The whole history in the prompt scored best on both (102 of 114) | [06](06_read_path.md), [08](08_evaluation.md), [10](10_limits_and_roadmap.md) |
 
 ## Results in brief
 
-Measured on 77 scripted life stories with 287 questions (sets A to J, L on unseen data, M and N on long histories) and 6 multi-session stories with 23 probes (set K), comparing smart memory with baseline (the 4 most similar past messages). Details and caveats in [08_evaluation.md](08_evaluation.md).
+Measured on 80 scripted life stories with 344 questions (sets A to J, L on unseen data, M, N and O on long histories) and 6 multi-session stories with 23 probes (set K), comparing smart memory with baseline (the 4 most similar past messages). Details and caveats in [08_evaluation.md](08_evaluation.md).
 
 Sets A to F (33 stories, 71 questions) were built around the 13 fact types and are all spent:
 

@@ -55,7 +55,7 @@ All checks are keyword matches on lower-cased text. They are objective but crude
 | L | 10 | 30 | **Spent**: blind, unseen data, written after A to K were spent and before any change; run once, with summaries on and off | Every question type mixed: direct facts, changes, past questions, episodes, indirect questions, a third-person trap and abstain questions |
 | M | 3 | 57 | **Spent**: blind, long crowded histories (92 to 100 messages each), written after the step 1 and 2 fixes, run once with four ablations | The main hypothesis: is smart better than vector search on long histories? Moves, job changes, other people, similar trips, plans that change, many everyday questions on the same topics |
 | N | 3 | 57 | **Spent**: blind, long crowded histories (93 to 95 messages each), the design and question mix of M with new people, written after the hybrid step, run once | Hybrid against the baseline (the plan's success criterion, [predictions/set_N.md](predictions/set_N.md)); smart against the baseline again |
-| O | 3 | 57 | **Blind**: the final test; long crowded histories, the design and question mix of M and N with new people and differently worded changes, written after the set N fixes, before any run | Hybrid against the baseline, alone and pooled with N for significance ([predictions/set_O.md](predictions/set_O.md)) |
+| O | 3 | 57 | **Spent**: the final blind test; long crowded histories, the design and question mix of M and N with new people and differently worded changes, written after the set N fixes, run once | Hybrid against the baseline, alone and pooled with N for significance ([predictions/set_O.md](predictions/set_O.md)) |
 
 A **blind** set is written before the change it tests and run once. After that it is **spent**: it has influenced decisions, so it can no longer validate anything. Today every set is spent or tuning (L was the first run on unseen data) (G was re-run once with the layer, which is why its second result is labelled as a re-run).
 
@@ -279,6 +279,21 @@ The design and question mix of M with three new users; written after the hybrid 
 - **The gains are facts used where they are strong:** timelines on past questions (2), current values on top (2), allergies on indirect questions (3); one more is noise. **The 3 losses all come from the facts layer:** an employer never replaced, the 2-line cap cutting a list of three languages, and a wrong marker from a `name` fact overwritten by other people's names.
 - **H2 met** (outdated answers 2 against 4); **H3 met:** smart alone is again worse than the baseline (−3).
 - **Full** (the whole history) scored 50, level with hybrid; on M it scored 44. It is a ceiling for this history length, not a design.
+
+### Set O: the final blind test, and N and O together
+
+Same design as N with new people; the sentences announcing changes were worded unlike N's. Run once. Predictions: [predictions/set_O.md](predictions/set_O.md); details: `results/set_O/log.md`.
+
+| | Baseline | Smart | Hybrid | Full |
+|---|---|---|---|---|
+| Set O, answers (57) | 44 | 39 | 47 | 52 |
+| Set O, outdated value in an answer | 2 | 7 | 5 | 1 |
+| **N + O, answers (114)** | **89** | 81 | **97** | **102** |
+| N + O, outdated value in an answer | 6 | 13 | 7 | 3 |
+
+- **H1 on O met at the threshold** (d = +3). **The pooled test is not significant:** hybrid only right on 15 questions, the baseline only on 7, p = 0.13.
+- **H2 failed** (5 outdated answers against 2), and the key facts reached 8 of 12 against a target of 10: the word-list rules missed changes worded differently ("Ondaline offered me a position and I said yes", "We're finally Edinburgh residents"), so stale facts sat above the right messages. Names held (3 of 3).
+- **Full scored best on both blind sets.** About 1,100 tokens of history per user fits the 8B model whole, so these sets cannot show memory beating the full history. They show it beating vector search, in direction.
 
 ### What the results show
 

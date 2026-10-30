@@ -55,6 +55,9 @@ Saved outputs of the evaluation runs, one folder per test set. They are historic
 | `set_N/` | `full.txt`, `full.json` | set N, blind, long histories, run once: baseline, smart, hybrid, full |
 | `set_N/` | `log.md` | set N: result, hand review, every difference between hybrid and the baseline, the hypotheses |
 | `logs/` | `set_N_fixes_dev.md` | fixes from set N (name rule, silent subject, "got a job", all values of a fact kind, labelled markers): predictions, development runs on N, M and L |
+| `logs/` | `fixes_N`, `fixes_M`, `fixes_L` (`.txt`, `.json`) | sets N, M and L with the fixes from N (development) |
+| `set_O/` | `full.txt`, `full.json` | set O, the final blind test, run once: baseline, smart, hybrid, full |
+| `set_O/` | `log.md` | set O: result, hand review, the hypotheses, N and O together |
 | `set_L/` | `first_run.txt`, `first_run.json` | set L, blind, unseen data, run once (summaries on) |
 | `set_L/` | `summaries_off.txt`, `summaries_off.json` | set L, same stored data, `SUMMARIES=0` |
 | `set_L/` | `log.md` | set L: results, causes of every smart miss, predictions against results |
