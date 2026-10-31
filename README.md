@@ -77,10 +77,11 @@ Other script: `scripts/chat.py` (interactive chat, `/mode smart|baseline|none`, 
 | Path | What |
 |---|---|
 | `src/memory_system/` | the memory system: `core/` (config, database, model calls), `write/` (extraction and conflict rules), `read/` (retrieval: smart, hybrid, baseline), `summaries/` (episode notes), `assistant.py` (prompt building) |
-| `evaluation/` | how the system is measured: `run.py` (question sets), `run_sessions.py` (set K), `metrics.py`, `report.py`, `export.py` (adds a run to `results/`), `scenarios/` (test sets A to O, as JSON) |
+| `evaluation/` | how the system is measured: `run.py` (question sets), `run_sessions.py` (set K), `metrics.py`, `report.py`, `export.py` (adds a run to `results/`), `analysis.py` and `charts.py` (the tables and charts of the results notebook), `scenarios/` (test sets A to O, as JSON) |
 | `scripts/` | developer tools: `chat.py`, `inspect_scores.py`, `list_scenarios.py`, `smoke_test.py` |
 | `tests/` | mirrors the package: `core/`, `write/`, `read/`, `summaries/`, `evaluation/`; the pure tests need no services, the rest need Postgres |
 | `db/schema.sql` | full schema for a fresh database; after a schema change, drop and recreate the database from it |
 | `results/` | every evaluation run as CSV tables, with a data dictionary |
+| `notebooks/results.ipynb` | the results told in five charts; the code is in `evaluation/analysis.py` and `evaluation/charts.py` (`make notebook`) |
 | `docs/` | documentation: `architecture/` (01 to 07), `evaluation/` (08 to 10), `predictions/`, `history.md`; start at [`docs/README.md`](docs/README.md) |
-| `report/` | the project report and the original proposal |
+| `report/` | the project report, its figures (PDFs saved by `make figures`) and the original proposal |

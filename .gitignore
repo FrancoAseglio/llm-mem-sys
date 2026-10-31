@@ -8,3 +8,4 @@ eval_sessions.json
 .pytest_cache/
 .ruff_cache/
 .DS_Store
+.ipynb_checkpoints/

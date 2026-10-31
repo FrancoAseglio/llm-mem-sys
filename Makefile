@@ -6,7 +6,7 @@
 SHELL := /bin/bash
 PY = nice -n 10 poetry run
 
-.PHONY: help test check format db chat scenarios inspect quick set answers eval sessions
+.PHONY: help test check format db chat scenarios inspect quick set answers eval sessions notebook figures
 
 help:
 	@echo "SET UP"
@@ -28,6 +28,10 @@ help:
 	@echo "                              [ARGS=--no-ingest] reuses stored data; env switches pass through,"
 	@echo "                              e.g. SUMMARIES=0 make eval SET=M RUN=... PHASE=ablation ARGS=--no-ingest"
 	@echo "  make sessions RUN=id PHASE=regression   consistency across sessions (set K), no cache"
+	@echo "RESULTS"
+	@echo "  make notebook               run notebooks/results.ipynb on results/*.csv"
+	@echo "  make figures                save every chart as a PDF in report/figures/ for the report"
+	@echo "                              (needs: poetry install --with analysis)"
 
 test:
 	poetry run pytest -q
@@ -79,3 +83,8 @@ sessions:
 	set -o pipefail; NO_COLOR=1 $(PY) python -m evaluation.run_sessions --no-cache --verbose $(if $(SCENARIO),--only $(SCENARIO),) | tee runs/$(RUN).txt
 	poetry run python -m evaluation.export --run $(RUN) --phase "$(PHASE)" --description "$(DESC)" eval_sessions.json
 
+notebook:
+	poetry run jupyter nbconvert --to notebook --execute --inplace notebooks/results.ipynb
+
+figures:
+	poetry run python -c "from evaluation import charts; charts.export_figures()"
