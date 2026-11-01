@@ -1,6 +1,7 @@
 """The inspector's view of the live memory: the pure helpers, then the queries on Postgres.
 
-The pure tests need no services. The database test needs the Postgres database from .env, like
+The pure tests need no services (the template test needs the dashboard group, and is skipped
+without it, as in CI). The database test needs the Postgres database from .env, like
 the other DB tests (CI provides one); it stores one user, reads it back and deletes it.
 """
 
@@ -86,6 +87,7 @@ def test_ollama_status_when_it_is_not_running(monkeypatch):
 
 
 def test_code_filter_escapes_and_marks_commands():
+    pytest.importorskip("fastapi")  # the template helpers need the dashboard group
     from dashboard.templating import code_spans
 
     assert str(code_spans("run `ollama serve` <now>")) == (
