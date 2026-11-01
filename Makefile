@@ -6,7 +6,7 @@
 SHELL := /bin/bash
 PY = nice -n 10 poetry run
 
-.PHONY: help test check format db chat scenarios inspect quick set answers eval sessions notebook figures
+.PHONY: help test check format db chat scenarios inspect quick set answers eval sessions notebook figures dashboard
 
 help:
 	@echo "SET UP"
@@ -32,6 +32,10 @@ help:
 	@echo "  make notebook               run notebooks/results.ipynb on results/*.csv"
 	@echo "  make figures                save every chart as a PDF in report/figures/ for the report"
 	@echo "                              (needs: poetry install --with analysis)"
+	@echo "  make dashboard              http://localhost:8000: browse every question and answer of a run,"
+	@echo "                              and inspect a stored user's memory live; the inspector needs"
+	@echo "                              Postgres and Ollama running (brew services start ollama)"
+	@echo "                              (needs: poetry install --with dashboard)"
 
 test:
 	poetry run pytest -q
@@ -88,3 +92,7 @@ notebook:
 
 figures:
 	poetry run python -c "from evaluation import charts; charts.export_figures()"
+
+dashboard:
+	@(sleep 2 && command -v open >/dev/null && open http://localhost:8000) &
+	poetry run uvicorn dashboard.app:app --port 8000

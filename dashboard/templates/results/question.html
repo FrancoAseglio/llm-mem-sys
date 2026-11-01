@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% set page = "results" %}
+{% block title %}{{ q.question }}{% endblock %}
+{% block content %}
+<nav class="pager">
+  <a href="/results?{{ list_query }}" data-base="/results" data-keep-run>← List{% if position %} ({{ position[0] }} of {{ position[1] }}){% endif %}</a>
+  <span class="spacer"></span>
+  {% if prev_id is not none %}<a id="prev" href="/results/{{ run.run }}/{{ prev_id }}{{ item_query }}" data-base="/results/{{ run.run }}/{{ prev_id }}">← Previous</a>{% endif %}
+  {% if next_id is not none %}<a id="next" href="/results/{{ run.run }}/{{ next_id }}{{ item_query }}" data-base="/results/{{ run.run }}/{{ next_id }}">Next →</a>{% endif %}
+</nav>
+
+<span class="eyebrow">{{ run.run }} · set {{ q.set }}</span>
+<h1 class="question">{{ q.question }}</h1>
+<p class="meta" title="Tests: {{ q.kind }}">
+  {{ q.scenario }}{% if q.qtype %} · {{ QTYPES[q.qtype] }}{% endif %}
+</p>
+
+<div class="toolbar">
+  {% include "partials/mode_toggles.html" %}
+  {% include "partials/legend.html" %}
+</div>
+
+<section class="cards" data-cards style="--cards: {{ shown | select('in', q.answers) | list | length or 1 }}">
+  {% for m in run.modes if m in q.answers %}
+  {% with a = q.answers[m], hidden = m not in shown %}{% include "partials/mode_card.html" %}{% endwith %}
+  {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,7 @@
+{# One result: right, wrong, not scored, or not asked. Expects `value` (True, False, None) and
+   `asked` (whether the mode answered at all). #}
+{% if not asked %}<span class="badge badge-absent" title="not asked in this mode">–</span>
+{% elif value is true %}<span class="badge badge-right" title="right">✓</span>
+{% elif value is false %}<span class="badge badge-wrong" title="wrong">✗</span>
+{% else %}<span class="badge badge-unscored" title="no answer check">·</span>
+{% endif %}

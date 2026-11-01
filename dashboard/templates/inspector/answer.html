@@ -1,0 +1,7 @@
+{# One mode's answer, loaded into its card by static/app.js. #}
+{% if error %}
+<p class="notice">{{ error | code }}</p>
+{% else %}
+<p class="answer">{{ answer }}</p>
+<p class="answer-time">{{ '%.1f' % seconds }} s</p>
+{% endif %}

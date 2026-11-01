@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% set page = "home" %}
+{% block title %}Overview{% endblock %}
+{% block content %}
+<section class="intro">
+  <span class="eyebrow">Local dashboard</span>
+  <h1>Behind the totals</h1>
+  <p class="lede">
+    The project compares ways of giving an LLM assistant a long-term memory of its user. 
+  </p>
+  <p class="lede">
+    Here you can see, for any question of any saved evaluation run, what each memory mode put in the
+    prompt and what the model answered;
+    <br>
+    and do the same live for a new question on a user stored in the database.
+  </p>
+</section>
+
+<section class="pages">
+  <a class="page-card" href="/results">
+    <span class="eyebrow">Page 1</span>
+    <h2>Results →</h2>
+    <p>
+      Every saved evaluation question ({{ run_count }} runs, {{ question_count }}
+      questions). <br>Pick a run, narrow it by set or question type, tick the modes whose columns you
+      want, then open a question to compare their prompts and answers side by side.
+    </p>
+    <!-- <p class="needs label">Needs nothing: reads <code>results/*.csv</code></p> -->
+  </a>
+  <a class="page-card" href="/inspector">
+    <span class="eyebrow">Page 2</span>
+    <h2>Inspector →</h2>
+    <p>
+      Choose a stored user to see their current facts, the outdated ones and how values changed.
+      Ask a question and see each mode's prompt lines and answer. Read-only, as in the
+      evaluation.
+    </p>
+    <!-- <p class="needs label">Needs Postgres and Ollama running (<code>brew services start ollama</code>)</p> -->
+  </a>
+</section>
+
+<div class="section-head"><h2>Start here</h2><span class="stats">ready-made views of the results</span></div>
+<section class="points">
+  {% for p in points %}
+  <a class="point" href="{{ p.href }}">
+    <b>{{ p.title }}</b>
+    <span>{{ p.text }}</span>
+    <span class="count">{{ p.count }} question{{ '' if p.count == 1 else 's' }} →</span>
+  </a>
+  {% endfor %}
+</section>
+
+<div class="explain">
+  <section>
+    <div class="section-head"><h2>The modes</h2></div>
+    <dl class="modes-list">
+      {% for m, text in mode_text.items() %}
+      <dt class="mode-{{ m }}">{{ m }}</dt><dd>{{ text }}</dd>
+      {% endfor %}
+    </dl>
+  </section>
+  <section>
+    <div class="section-head"><h2>Reading the pages</h2></div>
+    <dl class="key">
+      <dt><span class="badge badge-right">✓</span></dt><dd>right answer (keyword check)</dd>
+      <dt><span class="badge badge-wrong">✗</span></dt><dd>wrong answer</dd>
+      <dt><span class="badge badge-unscored">·</span></dt><dd>no answer check for this question</dd>
+      <dt><span class="badge badge-absent">–</span></dt><dd>mode not run for this question</dd>
+    </dl>
+    {% include "partials/legend.html" %}
+    <p class="memory-note">
+      Only runs saved with every answer are here; the runs kept only as printed totals are in
+      <code>results/totals.csv</code> and the notebook. <br>Scores are the raw keyword scores.
+    </p>
+  </section>
+</div>
+{% endblock %}

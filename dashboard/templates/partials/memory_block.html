@@ -1,0 +1,15 @@
+{# The memory lines one mode put in the prompt. Expects `a`, with `mode`, `lines` and `memory`
+   (a list of Line). #}
+{% if a.mode == 'full' %}
+<p class="memory-note">The whole history ({{ a.lines }} messages), not listed.</p>
+{% elif a.mode == 'none' %}
+<p class="memory-note">No memory.</p>
+{% elif not a.memory %}
+<p class="memory-note">Nothing passed retrieval.</p>
+{% else %}
+<ol class="memory">
+  {% for line in a.memory %}
+  <li class="line line-{{ line.kind }}">{{ line.text }}</li>
+  {% endfor %}
+</ol>
+{% endif %}

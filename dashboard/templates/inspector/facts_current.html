@@ -1,0 +1,15 @@
+{# The user's active facts. #}
+{% if memory.current %}
+<table class="grid facts">
+  <thead><tr><th>Fact</th><th>Value</th><th>Since</th></tr></thead>
+  <tbody>
+    {% for f in memory.current %}
+    <tr>
+      <td class="muted">{{ f.name }}</td>
+      <td class="value">{{ f.value }}</td>
+      <td class="muted" title="confidence {{ '%.2f' % f.confidence }}">{{ f.valid_from.strftime('%Y-%m-%d') }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}<p class="memory-note">No current facts.</p>{% endif %}

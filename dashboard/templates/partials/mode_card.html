@@ -1,0 +1,23 @@
+{# One mode's answer to a question. Expects `a` (an Answer). The scoring checks are folded
+   away; their summary says how many went wrong. #}
+<article class="card mode-{{ a.mode }}" data-mode="{{ a.mode }}" {{ 'hidden' if hidden }}>
+  <header>
+    <h2>{{ MODE_LABELS[a.mode] }}</h2>
+    {% with value = a.correct, asked = true %}{% include "partials/answer_badge.html" %}{% endwith %}
+  </header>
+  <p class="answer">{{ a.answer or '(no answer)' }}</p>
+  {% if a.checks %}
+  {% set problems = a.problems() %}
+  <details>
+    <summary>Checks: {% if problems %}<span class="bad">{{ problems|length }} problem{{ '' if problems|length == 1 else 's' }}</span>{% else %}all fine{% endif %}</summary>
+    <ul class="checks">
+      {% for name, value in a.checks.items() %}
+      {% set good = name not in problems %}
+      <li class="{{ 'good' if good else 'bad' }}">{{ '✓' if good else '✗' }} {{ CHECKS[name] if value else 'no ' ~ CHECKS[name] }}</li>
+      {% endfor %}
+    </ul>
+  </details>
+  {% endif %}
+  <p class="memory-head">Memory · {{ a.lines }} line{{ '' if a.lines == 1 else 's' }}</p>
+  {% include "partials/memory_block.html" %}
+</article>

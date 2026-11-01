@@ -19,10 +19,14 @@ dependencies = [
 [tool.poetry.group.analysis]
 optional = true  # the results notebook only: poetry install --with analysis
 
+[tool.poetry.group.dashboard]
+optional = true  # the local dashboard only: poetry install --with dashboard
+
 [tool.poetry]
 packages = [
     {include = "memory_system", from = "src"},
     {include = "evaluation"},
+    {include = "dashboard"},
 ]
 
 [build-system]
@@ -41,6 +45,12 @@ analysis = [
     "ipykernel (>=7.4.0,<8.0.0)",
     "plotly (>=7.1.0,<8.0.0)",
     "kaleido (>=1.5.0,<2.0.0)"
+]
+dashboard = [
+    "fastapi (>=0.162.0,<0.163.0)",
+    "jinja2 (>=3.1.6,<4.0.0)",
+    "uvicorn (>=0.54.0,<0.55.0)",
+    "httpx2 (>=2.16.0,<3.0.0)"  # FastAPI's test client, for tests/dashboard
 ]
 
 [tool.pytest.ini_options]

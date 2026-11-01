@@ -1,0 +1,40 @@
+{# The filter bar of the question list. Changing a menu reloads the list (static/app.js); a
+   menu the run has no use for (one set only, no question types) is not shown. The mode boxes
+   only show or hide columns, so they act at once without a reload. #}
+<form class="filters" method="get" action="/results" data-autosubmit autocomplete="off">
+  <label><span>Run</span>
+    <select name="run">
+      {% for phase, runs in run_menu %}
+      <optgroup label="{{ phase }}">
+        {% for r in runs %}
+        <option value="{{ r.run }}" {{ 'selected' if r.run == filters.run }}>{{ r.run }}</option>
+        {% endfor %}
+      </optgroup>
+      {% endfor %}
+    </select>
+  </label>
+  {% if run.sets|length > 1 %}
+  <label><span>Set</span>
+    <select name="set">
+      <option value="">all ({{ run.sets|join(', ') }})</option>
+      {% for s in run.sets %}
+      <option value="{{ s }}" {{ 'selected' if s == filters.set }}>{{ s }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  {% endif %}
+  {% if qtypes %}
+  <label><span>Question type</span>
+    <select name="qtype">
+      <option value="">all</option>
+      {% for t in qtypes %}
+      <option value="{{ t }}" {{ 'selected' if t == filters.qtype }}>{{ QTYPES[t] }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  {% endif %}
+  {% include "partials/mode_toggles.html" %}
+  <noscript><button type="submit" class="button-solid">Apply</button></noscript>
+  {% if not is_default %}<a class="reset" href="/results">Reset</a>{% endif %}
+</form>
+<p class="hint">{{ description }}</p>

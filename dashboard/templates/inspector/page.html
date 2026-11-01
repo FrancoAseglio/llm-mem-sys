@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% set page = "inspector" %}
+{% block title %}Inspector{% if user %} · {{ user }}{% endif %}{% endblock %}
+{% block content %}
+<span class="eyebrow">Inspector · live, read-only</span>
+<h1>{{ user or 'The live memory' }}</h1>
+<p class="lede">
+  What the memory holds about a stored user, and what each mode would put in the prompt and
+  answer for a new question. <br>Needs Postgres and Ollama running; nothing is stored.
+</p>
+
+<ul class="status" aria-label="Services">
+  {% for c in checks %}
+  <li class="check {{ 'ok' if c.ok else 'bad' }}"><span class="dot"></span><span class="name">{{ c.name }}</span><span class="detail">{{ c.detail | code }}</span></li>
+  {% endfor %}
+</ul>
+
+{% if error %}<p class="notice">{{ error | code }}</p>{% endif %}
+
+{% if user_menu is defined %}
+<form class="filters" method="get" action="/inspector" autocomplete="off" id="ask-form">
+  <label><span>User</span>
+    <select name="user" data-autosubmit-field>
+      <option value="">choose a user</option>
+      {% for group, users in user_menu %}
+      <optgroup label="{{ group }}">
+        {% for u in users %}
+        <option value="{{ u.id }}" {{ 'selected' if u.id == user }}>{{ u.id }} ({{ u.messages }} messages, {{ u.facts }} facts)</option>
+        {% endfor %}
+      </optgroup>
+      {% endfor %}
+    </select>
+  </label>
+  {% if memory is defined %}
+  <label class="grow"><span>Question</span>
+    <input type="text" name="q" value="{{ q }}" placeholder="e.g. Where do I live now?" autocomplete="off" required {{ 'disabled' if not model_ok }}>
+  </label>
+  <fieldset class="modes">
+    <legend>Modes</legend>
+    <div class="boxes">
+      {% for m in MODE_LABELS %}
+      <label class="mode-{{ m }}"><input type="checkbox" name="mode" value="{{ m }}" {{ 'checked' if m in modes }}> {{ m }}</label>
+      {% endfor %}
+    </div>
+  </fieldset>
+  <button type="submit" class="button-solid" {{ 'disabled' if not model_ok }}>Ask</button>
+  {% endif %}
+  <noscript><button type="submit" class="button-solid">Open</button></noscript>
+</form>
+<p class="hint">
+  {% if memory is defined and not model_ok %}
+  Questions need Ollama (the embeddings and the answers): start it, then reload this page.
+  {% elif memory is defined %}
+  Type a question and press Ask. <br>Each card shows at once what its mode puts in the prompt; the
+  answers follow from the model, one mode at a time. <br>The mode boxes show or hide cards straight
+  away; ticking a mode that has no card yet asks again.
+  {% else %}
+  Choose a user to see what the memory holds about them. <br>The evaluation's users are named
+  eval_ and the scenario id; chat users come from <code>make chat</code>.
+  {% endif %}
+</p>
+{% endif %}
+
+{% if prompts is defined %}
+<div class="section-head"><h2>“{{ q }}”</h2>{% include "partials/legend.html" %}</div>
+<section class="cards" id="cards" style="--cards: {{ prompts|length }}">
+  {% for p in prompts %}
+  <article class="card mode-{{ p.mode }}" data-mode="{{ p.mode }}">
+    <header><h2>{{ MODE_LABELS[p.mode] }}</h2></header>
+    <div class="answer-slot" data-answer-url="/inspector/answer?{{ {'user': user, 'q': q, 'mode': p.mode} | urlencode }}">
+      <p class="answer waiting">Waiting for the model…</p>
+    </div>
+    <noscript><p class="memory-note">Answers need JavaScript.</p></noscript>
+    <p class="memory-head">Memory · {{ p.lines }} line{{ '' if p.lines == 1 else 's' }}</p>
+    {% with a = p %}{% include "partials/memory_block.html" %}{% endwith %}
+    <details class="prompt">
+      <summary>Whole system prompt</summary>
+      <pre>{{ p.system }}</pre>
+    </details>
+  </article>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if memory is defined %}
+<div class="memory-panels">
+  <section>
+    <div class="section-head"><h2>Current facts</h2><span class="stats">{{ memory.messages }} messages · {{ memory.notes }} notes</span></div>
+    {% include "inspector/facts_current.html" %}
+  </section>
+  <section>
+    <div class="section-head"><h2>Timelines</h2></div>
+    {% if memory.timelines %}
+    <ul class="timeline">{% for line in memory.timelines %}<li>{{ line }}</li>{% endfor %}</ul>
+    {% else %}<p class="memory-note">No fact has changed yet.</p>{% endif %}
+    <div class="section-head"><h2>Outdated facts</h2><span class="stats">{{ memory.old|length }}</span></div>
+    {% include "inspector/facts_old.html" %}
+  </section>
+</div>
+{% elif not error and user_menu is defined %}
+{% endif %}
+{% endblock %}

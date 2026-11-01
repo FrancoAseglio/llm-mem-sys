@@ -1,0 +1,36 @@
+{# The footer of every page: what the dashboard is, its pages, what each needs. #}
+<footer class="site-footer">
+  <div class="footer-grid">
+    <section>
+      <div class="label">Memory system</div>
+      <p>A long-term memory prototype for LLM assistants, <br>measured against vector search and
+        full history. <br>Dashboard running on your machine.</p>
+    </section>
+    <section>
+      <div class="label">Pages</div>
+      <ul>
+        <li><a href="/">Overview</a></li>
+        <li><a href="/results">Results</a></li>
+        <li><a href="/inspector">Inspector</a></li>
+      </ul>
+    </section>
+    <section>
+      <div class="label">Data</div>
+      <ul>
+        <li>Results: <code>results/*.csv</code></li>
+        <li>Inspector: Postgres</li>
+      </ul>
+    </section>
+    <section>
+      <div class="label">Inspector needs</div>
+      <ul>
+        <li>Postgres: <code>brew services start postgresql@17</code></li>
+        <li>Ollama: <code>brew services start ollama</code></li>
+      </ul>
+    </section>
+  </div>
+  <div class="footer-meta">
+    <span>make dashboard · localhost:8000</span>
+    <a href="https://github.com/FrancoAseglio/llm-mem-sys">github.com/FrancoAseglio/llm-mem-sys</a>
+  </div>
+</footer>

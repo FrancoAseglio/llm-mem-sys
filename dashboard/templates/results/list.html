@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% set page = "results" %}
+{% block title %}Results · {{ run.run }}{% endblock %}
+{% block content %}
+<span class="eyebrow">Results · {{ run.phase }} run</span>
+<h1>{{ run.run }}</h1>
+<p class="lede">{{ run.description[:1]|upper }}{{ run.description[1:] }}.</p>
+{% include "partials/filters.html" %}
+
+<section class="tally" aria-label="Right answers in the list">
+  <span class="count"><b>{{ questions|length }}</b> question{{ '' if questions|length == 1 else 's' }}</span>
+  {% for m in run.modes %}
+  {% set right, scored = tally[m] %}
+  <span class="chip mode-{{ m }}" data-mode="{{ m }}" title="{{ MODE_LABELS[m] }}" {{ 'hidden' if m not in shown }}>{{ m }} <b>{{ right }}</b>/{{ scored }}</span>
+  {% endfor %}
+</section>
+
+{% if questions %}
+<table class="grid questions">
+  <thead>
+    <tr>
+      <th class="num">#</th>
+      <th>Question</th>
+      <th>Type</th>
+      {% for m in run.modes %}<th class="mode-head mode-{{ m }}" data-mode="{{ m }}" title="{{ MODE_LABELS[m] }}" {{ 'hidden' if m not in shown }}>{{ m }}</th>{% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for q in questions %}
+    {% set base = '/results/' ~ q.run ~ '/' ~ q.id %}
+    <tr data-href="{{ base ~ item_query }}" data-base="{{ base }}" title="Set {{ q.set }} · {{ q.scenario }}">
+      <td class="num">{{ q.id + 1 }}</td>
+      <td><a href="{{ base ~ item_query }}" data-base="{{ base }}">{{ q.question }}</a></td>
+      <td class="muted">{{ QTYPES[q.qtype] if q.qtype else q.kind }}</td>
+      {% for m in run.modes %}
+      <td class="cell" data-mode="{{ m }}" {{ 'hidden' if m not in shown }}>{% with value = q.result(m), asked = m in q.answers %}{% include "partials/answer_badge.html" %}{% endwith %}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="empty">No question matches these filters.</p>
+{% endif %}
+{% endblock %}

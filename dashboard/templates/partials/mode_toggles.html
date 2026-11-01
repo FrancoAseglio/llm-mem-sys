@@ -1,0 +1,11 @@
+{# One box per mode of the run: unticking hides that mode's column, chip or card at once
+   (static/app.js), and the choice is kept in the address and in the links. Expects `run` and
+   `shown`. Without JavaScript the boxes are sent with the form. #}
+<fieldset class="modes" data-mode-toggles>
+  <legend>Modes</legend>
+  <div class="boxes">
+    {% for m in run.modes %}
+    <label class="mode-{{ m }}" title="{{ MODE_LABELS[m] }}"><input type="checkbox" name="mode" value="{{ m }}" {{ 'checked' if m in shown }}> {{ m }}</label>
+    {% endfor %}
+  </div>
+</fieldset>

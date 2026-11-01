@@ -79,9 +79,10 @@ Other script: `scripts/chat.py` (interactive chat, `/mode smart|baseline|none`, 
 | `src/memory_system/` | the memory system: `core/` (config, database, model calls), `write/` (extraction and conflict rules), `read/` (retrieval: smart, hybrid, baseline), `summaries/` (episode notes), `assistant.py` (prompt building) |
 | `evaluation/` | how the system is measured: `run.py` (question sets), `run_sessions.py` (set K), `metrics.py`, `report.py`, `export.py` (adds a run to `results/`), `analysis.py` and `charts.py` (the tables and charts of the results notebook), `scenarios/` (test sets A to O, as JSON) |
 | `scripts/` | developer tools: `chat.py`, `inspect_scores.py`, `list_scenarios.py`, `smoke_test.py` |
-| `tests/` | mirrors the package: `core/`, `write/`, `read/`, `summaries/`, `evaluation/`; the pure tests need no services, the rest need Postgres |
+| `tests/` | mirrors the package: `core/`, `write/`, `read/`, `summaries/`, `evaluation/`, plus `dashboard/`; the pure tests need no services, the rest need Postgres |
 | `db/schema.sql` | full schema for a fresh database; after a schema change, drop and recreate the database from it |
 | `results/` | every evaluation run as CSV tables, with a data dictionary |
-| `notebooks/results.ipynb` | the results told in five charts; the code is in `evaluation/analysis.py` and `evaluation/charts.py` (`make notebook`) |
+| `notebooks/results.ipynb` | the results told in eight charts; the code is in `evaluation/analysis.py` and `evaluation/charts.py` (`make notebook`) |
+| `dashboard/` | local web dashboard (`make dashboard`, http://localhost:8000); its landing page explains it. **Results**: every question of a run, filtered by set and question type, with a column per mode that you can show or hide, and each mode's memory lines and answer side by side (needs only `results/`). **Inspector**: a stored user's current and outdated facts and timelines, and a new question answered by each mode, read-only (needs Postgres and Ollama running: `brew services start postgresql@17` and `brew services start ollama`; the page shows the state of both). `data.py` and `memory.py` (the data of each page), `routes/` (one module per page: home, results, inspector), `templates/`, `static/`; needs `poetry install --with dashboard` |
 | `docs/` | documentation: `architecture/` (01 to 07), `evaluation/` (08 to 10), `predictions/`, `history.md`; start at [`docs/README.md`](docs/README.md) |
 | `report/` | the project report, its figures (PDFs saved by `make figures`) and the original proposal |

@@ -1,0 +1,16 @@
+{# Facts that are no longer current: replaced, retracted, or in conflict. Newest first. #}
+{% if memory.old %}
+<table class="grid facts">
+  <thead><tr><th>Fact</th><th>Value</th><th>Status</th><th>From – to</th></tr></thead>
+  <tbody>
+    {% for f in memory.old %}
+    <tr class="old">
+      <td class="muted">{{ f.name }}</td>
+      <td class="value">{{ f.value }}</td>
+      <td class="status-{{ f.status }}">{{ f.status }}</td>
+      <td class="muted">{{ f.valid_from.strftime('%Y-%m-%d') }} – {{ f.valid_to.strftime('%Y-%m-%d') if f.valid_to else '' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}<p class="memory-note">No outdated facts.</p>{% endif %}
