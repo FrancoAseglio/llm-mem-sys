@@ -14,7 +14,7 @@ and stop being retrieved, but are kept. A digest that fails is dropped and its n
 One `consolidate` event per run lists what was kept and what was dropped, with reasons. A failed
 model call stores nothing and logs a `reject` event. Messages are never touched.
 
-The design was frozen before any code (docs/predictions/set_J.md, section 1).
+The design was frozen before any code (docs/predictions/set_J.md, section 1, at the git tag docs-archive).
 """
 
 from pydantic import BaseModel

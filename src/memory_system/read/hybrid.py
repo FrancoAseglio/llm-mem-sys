@@ -1,4 +1,5 @@
-"""Read side of the hybrid mode and the full reference mode (docs/06_read_path.md, section 11).
+"""Read side of the hybrid mode and the full reference mode (docs/design.md, "Hybrid, the
+final design").
 
 hybrid: the current facts of the best two kinds (smart's gate; every value of a list kind such as
         languages), one timeline line for a question

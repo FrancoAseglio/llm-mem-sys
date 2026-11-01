@@ -57,8 +57,6 @@ format:
 	poetry run ruff format .
 	$(MAKE) check
 
-# In the containers DATABASE_URL is set (and the database is created on its first start);
-# on the Mac, the local memory_db is created if it is missing.
 db:
 ifdef DATABASE_URL
 	psql "$(DATABASE_URL)" -q -f db/schema.sql

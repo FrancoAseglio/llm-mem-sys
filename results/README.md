@@ -55,7 +55,7 @@ The 24 runs that were saved only as printed text (intermediate development itera
 
 ## Notes
 
-- **Scores are raw keyword scores.** Where a set's hand rules changed a count, the log in [../docs/history.md](../docs/history.md) says so. Two runs are affected: the baseline on set M is 48 reviewed against 47 raw (`M_full`), and 47 against 46 (`M_change_rule_1b`). On N and O the hand review agreed with the raw scores.
+- **Scores are raw keyword scores.** Where a set's hand rules changed a count, the development history (`docs/history.md` at the git tag `docs-archive`) says so. Two runs are affected: the baseline on set M is 48 reviewed against 47 raw (`M_full`), and 47 against 46 (`M_change_rule_1b`). On N and O the hand review agreed with the raw scores.
 - **The blind runs that carry the main result** are `M_full`, `N_full` and `O_full`. Everything marked `development` was run on a set that was already spent.
 - **Charts:** [`../notebooks/results.ipynb`](../notebooks/results.ipynb) tells the result with eight interactive charts drawn from these tables (code in `evaluation/analysis.py` and `evaluation/charts.py`). `make notebook` re-runs it and `make figures` saves the charts as PDFs in `report/figures/` (both need `poetry install --with analysis`; the static images need Chrome, installed once with `poetry run plotly_get_chrome`).
 - **Dashboard:** `make dashboard` (needs `poetry install --with dashboard`) opens these tables at http://localhost:8000: every question of a run, filtered by set and question type, with a column per mode that you can show or hide, and each mode's memory lines and answer side by side. The rows of `answers.csv` for a mode that was not run (no answer and no score: the `none` mode in the later runs) are not shown.

@@ -1,6 +1,6 @@
 """Scoring for the session sets (consistency across turns, set K). Pure: no database, no model.
 
-The design is frozen in docs/predictions/set_K.md, section 1:
+The design is frozen in docs/predictions/set_K.md, section 1 (git tag docs-archive):
   correct           every `expect` group has a word in the answer
   forbid_raw        a `forbid` word (outdated or wrong value) is in the answer, before hand review
   forbid_in_prompt  a `forbid` word is in the memory lines

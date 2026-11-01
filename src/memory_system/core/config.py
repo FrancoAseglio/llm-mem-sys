@@ -33,7 +33,7 @@ DEFAULT_IMPORTANCE = {
 DUPLICATE_SIMILARITY = 0.8
 
 # ---- Retrieval: a relevance gate (floor, window, routing), then a ranking among what passes ----
-# Evidence for these values: docs/09_findings.md.
+# Evidence for these values: docs/evaluation/09_findings.md at the git tag docs-archive.
 
 # Floor: a fact needs raw cosine similarity >= this to the question. Fragile (one example per side).
 MIN_RELEVANCE = 0.42
@@ -71,7 +71,7 @@ PIN_IMPORTANCE = 1.01
 PAST_FACTS = os.environ.get("PAST_FACTS", "1") != "0"
 PAST_MAX_LINES = 2
 
-# ---- Hybrid mode: the baseline's messages, plus a few facts (docs/06_read_path.md, section 11) ----
+# ---- Hybrid mode: the baseline's messages, plus a few facts (docs/design.md) ----
 # Current facts above the messages, chosen by smart's gate (allergy pass included): the best
 # HYBRID_FACT_RELATIONS kinds of fact, one line each, except that a list kind (languages,
 # allergies, likes, dislikes) shows every value that passes; at most HYBRID_FACT_MAX lines.
@@ -136,7 +136,7 @@ SUMMARY_EVERY = 6
 # A summary sentence is kept only if at least this share of its content words is in its sources.
 SUMMARY_FAITHFUL_MIN = 0.75
 
-# ---- Consolidation: old notes of one user merged into shorter digests (docs/predictions/set_J.md) ----
+# ---- Consolidation: old notes of one user merged into shorter digests (docs/predictions/set_J.md, tag docs-archive) ----
 # CONSOLIDATE=0 switches it off: nothing is merged and retrieval reads the plain notes, as before.
 CONSOLIDATE = os.environ.get("CONSOLIDATE", "1") != "0"
 

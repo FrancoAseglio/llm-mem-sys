@@ -1,6 +1,6 @@
 """Consistency across turns: replay multi-session stories (set K) in three modes at once.
 
-The design is frozen in docs/predictions/set_K.md, section 1. Per story: a fresh user. For each
+The design is frozen in docs/predictions/set_K.md, section 1 (git tag docs-archive). Per story: a fresh user. For each
 user turn, in order, every mode (none, baseline, smart) recalls its memory lines for the turn and
 the model answers at temperature 0 with that mode's chat history of the current session (the last
 6 messages, as in the chat). Then the turn is ingested once: the write path does not depend on the

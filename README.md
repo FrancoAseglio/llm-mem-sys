@@ -1,120 +1,117 @@
-# LLM long-term memory system
+# LLM long-term memory
 
-Prototype long-term memory for an LLM assistant, running fully locally.
+A prototype long-term memory for an LLM assistant, running fully on one machine. It remembers
+what a user says across conversations, keeps track of facts that change ("I moved to Milan"),
+and gives the model only what is relevant to the question. It is measured against plain vector
+search over past messages, the usual way assistants remember.
 
-- **Write path**: each user message is stored, and a local LLM extracts structured facts
-  (`lives_in = Milan`, `allergic_to = peanuts`). New values supersede old ones for
-  single-valued relations, so stale facts never reach the prompt.
-- **Read path**: facts pass a relevance gate (similarity floor, relative window,
-  relation routing) and are then ranked. Often nothing passes, so the prompt stays clean.
-- **Baseline**: plain top-k vector search over past messages, for comparison.
+## Result
 
-Stack: Python 3.12 + Poetry, Postgres 17 + pgvector + pg_trgm, Ollama
-(`llama3.1:8b` for chat and extraction, `nomic-embed-text` for embeddings).
+On two blind test sets (114 questions about users with long, changing histories), the final
+design answered more questions than vector search:
 
-## Setup
+| Memory | Right answers |
+|---|---|
+| Vector search over messages (baseline) | 89 |
+| Extracted facts only | 81 |
+| **Hybrid: messages, marked when outdated, plus facts** | **97** |
+| The whole history in the prompt (reference) | 102 |
 
-```bash
-# Python
-poetry install
+The gain met the pre-registered rule on both sets but is not statistically significant
+(p = 0.13). Facts work best as annotations on the raw conversation, not as a replacement for it.
+Details and limits: [docs/evaluation.md](docs/evaluation.md).
 
-# Postgres (macOS / Homebrew)
-brew install postgresql@17 pgvector
-brew services start postgresql@17
-createdb memory_db
-psql memory_db -f db/schema.sql
+## How it works
 
-# Ollama
-brew install ollama
-brew services start ollama
-ollama pull llama3.1:8b
-ollama pull nomic-embed-text
-```
+- **Three layers** in Postgres: the messages, structured facts extracted from them
+  (`lives_in = Milan`, `allergic_to = peanuts`), and one-sentence notes about episodes.
+- **Write path:** a local model extracts facts from each message; pure rules check them (is the
+  value in the message? is it about the user? is it a real change?). A new value replaces the old
+  one, which is kept as history, never overwritten.
+- **Read path:** facts pass a relevance gate (similarity floor, relative window, routing by kind),
+  so the prompt holds only what matters. The final *hybrid* mode reads the most similar messages
+  and labels the outdated ones: `"I've moved to Oslo" [outdated: Lives in: Oslo -> now Kristiansand]`.
 
-Create `.env` in the repository root (copy `.env.example`):
+More in [docs/design.md](docs/design.md).
 
-```
-DATABASE_URL=postgresql://<user>@localhost:5432/memory_db
-CHAT_MODEL=llama3.1:8b
-EMBED_MODEL=nomic-embed-text
-```
+## Quick start (Docker)
 
-Check everything is wired up:
-
-```bash
-poetry run python scripts/smoke_test.py
-```
-
-## Run with Docker
-
-Everything except Ollama runs in containers: Postgres with pgvector, the dashboard, and a
-project container for the evaluation, the chat, the tests and the notebook. Ollama stays on the
-Mac, because Docker on macOS cannot use the GPU (the models would take minutes per answer).
+Everything runs in containers except Ollama, which stays on the Mac: Docker on macOS cannot use
+the GPU, and the models would take minutes per answer.
 
 ```bash
 brew install ollama
 brew services start ollama
 ollama pull llama3.1:8b
 ollama pull nomic-embed-text
-
 make up
 ```
 
-- `make up` builds and starts Postgres and the dashboard: http://localhost:8000.
-- `make shell` opens a shell in the project container; every make target works there.
-- `make down` stops them; the database is kept in a Docker volume.
+Then open http://localhost:8000: the dashboard shows every evaluation question with each mode's
+memory and answer, and lets you ask stored users new questions. The database starts with the
+evaluation users already loaded (`db/snapshot.sql.gz`).
 
-Any command can also run directly, e.g. `docker compose run --rm app make eval SET=M RUN=id
-PHASE=development` or `docker compose run --rm app make check`. The repository is mounted in
-the containers, so code changes apply without a rebuild and results, `runs/` and the model cache
-land in the repository as usual; rebuild (`make up`) only after changing the dependencies.
+- `make shell` opens a shell in the project container, where every `make` command works.
+- `make down` stops the containers and keeps the database; `docker compose down -v` deletes it.
+- Postgres is also reachable from the Mac on port 5434 (`DB_PORT` in `.env` changes it).
 
-On its first start the database creates the schema and loads `db/snapshot.sql.gz`, the memory of
-the evaluation users (written by `make snapshot` from an ingested database; chat users are left
-out). The inspector then works at once, without ingesting the scenarios again. To start over,
-`docker compose down -v` deletes the database volume. Postgres is also on `localhost:5434` for
-tools on the Mac (`DATABASE_URL=postgresql://memory:memory@localhost:5434/memory_db`; `DB_PORT=...`
-in `.env` picks another port if that one is taken).
+## Local setup (without Docker)
 
-## Evaluate
+Needs Python 3.12 with Poetry, Postgres 17 with pgvector, and Ollama with the two models above.
 
 ```bash
-# ingest the scenarios (backdated messages) and run everything, including LLM answers
-poetry run python -m evaluation.run --set A
-
-# retrieval only, on already ingested data (seconds, deterministic)
-poetry run python -m evaluation.run --set A B C D E F --retrieval-only --no-ingest
-
-# why was each fact kept or dropped?
-poetry run python scripts/inspect_scores.py --scenario b_stale_flood
+poetry install --with analysis,dashboard
+cp .env.example .env
 ```
 
-Results are also written to `eval_results.json`; `make eval` adds a run to the tables in `results/`. All scenario sets (A to O) have been seen,
-so they cannot validate further tuning; a change needs a new set written beforehand.
-The status of each set is the `label` in its file under `evaluation/scenarios/sets/`.
-
-`make help` lists shortcuts (`make db`, `make chat`, `make test`, `make format`, `make scenarios`, `make inspect SCENARIO=dislike_noise`, `make quick`, `make eval SET=I RUN=id PHASE=development`, ...); the evaluation caches deterministic model calls in `.cache/` so repeated runs take seconds (`docs/architecture/02_setup.md`, "Keeping the Mac cool").
-
-Tests (`tests/` only; the DB tests need the Postgres database from `.env`):
+Set `DATABASE_URL` in `.env` to your Postgres database, then create the tables and check that
+everything answers:
 
 ```bash
-poetry run pytest -q
+make db
+poetry run python scripts/smoke_test.py
 ```
 
-Other script: `scripts/chat.py` (interactive chat, `/mode smart|baseline|none`, `/facts`).
+## Everyday commands
 
-## Layout
+`make help` lists them all. The main ones:
 
-| Path | What |
+| Command | Does |
 |---|---|
-| `src/memory_system/` | the memory system: `core/` (config, database, model calls), `write/` (extraction and conflict rules), `read/` (retrieval: smart, hybrid, baseline), `summaries/` (episode notes), `assistant.py` (prompt building) |
-| `evaluation/` | how the system is measured: `run.py` (question sets), `run_sessions.py` (set K), `metrics.py`, `report.py`, `export.py` (adds a run to `results/`), `analysis.py` and `charts.py` (the tables and charts of the results notebook), `scenarios/` (test sets A to O, as JSON) |
-| `scripts/` | developer tools: `chat.py`, `inspect_scores.py`, `list_scenarios.py`, `smoke_test.py`, `snapshot.py` |
-| `tests/` | mirrors the package: `core/`, `write/`, `read/`, `summaries/`, `evaluation/`, plus `dashboard/` and `scripts/`; the pure tests need no services, the rest need Postgres |
-| `db/` | `schema.sql`, the full schema for a fresh database (after a schema change, drop and recreate the database from it), and `snapshot.sql.gz`, the evaluation users' memory (`make snapshot`, `make snapshot-load`) |
-| `Dockerfile`, `docker-compose.yml` | the containers (see Run with Docker) |
-| `results/` | every evaluation run as CSV tables, with a data dictionary |
-| `notebooks/results.ipynb` | the results told in eight charts; the code is in `evaluation/analysis.py` and `evaluation/charts.py` (`make notebook`) |
-| `dashboard/` | local web dashboard (`make dashboard`, http://localhost:8000); its landing page explains it. **Results**: every question of a run, filtered by set and question type, with a column per mode that you can show or hide, and each mode's memory lines and answer side by side (needs only `results/`). **Inspector**: a stored user's current and outdated facts and timelines, and a new question answered by each mode, read-only (needs Postgres and Ollama running: `brew services start postgresql@17` and `brew services start ollama`; the page shows the state of both). `data.py` and `memory.py` (the data of each page), `routes/` (one module per page: home, results, inspector), `templates/`, `static/`; needs `poetry install --with dashboard` |
-| `docs/` | documentation: `architecture/` (01 to 07), `evaluation/` (08 to 10), `predictions/`, `history.md`; start at [`docs/README.md`](docs/README.md) |
-| `report/` | the project report, its figures (PDFs saved by `make figures`) and the original proposal |
+| `make check` | lint, format check and tests (what CI runs) |
+| `make chat` | talk to the assistant with memory (`/mode`, `/facts`, `/quit`) |
+| `make dashboard` | the dashboard at http://localhost:8000 |
+| `make quick` | retrieval scores on stored data, in seconds |
+| `make eval SET=M RUN=id PHASE=development` | a full run of a test set, added to `results/` |
+| `make notebook` | re-run the results notebook |
+| `make figures` | save the charts as PDFs in `report/figures/` |
+| `make snapshot` | save the evaluation users' memory to `db/snapshot.sql.gz` |
+
+## Repository
+
+```
+src/memory_system/   the memory: core/ (config, database, models), write/, read/, summaries/
+evaluation/          test sets (scenarios/), the runners, scoring, the analysis behind the charts
+dashboard/           the local web dashboard (FastAPI)
+results/             every evaluation run as CSV tables, with a data dictionary
+notebooks/           results.ipynb, the charts
+scripts/             chat, score inspector, scenario list, smoke test, database snapshot
+db/                  schema.sql and the evaluation snapshot
+docs/                design.md and evaluation.md
+report/              the project proposal and the report
+tests/               unit and database tests, mirroring the packages
+```
+
+The detailed development documents, every set's predictions and the full history are kept at the
+git tag [`docs-archive`](https://github.com/FrancoAseglio/llm-mem-sys/tree/docs-archive/docs).
+
+## License
+
+[MIT](LICENSE).
+
+## Acknowledgements
+
+Parts of the code, tests and documentation, notably the evaluation tooling, the results notebook,
+the dashboard and the Docker setup, were written with the help of Claude (Anthropic), working
+from my design and instructions. All experiments were run and checked locally, and the
+predictions for every test set were written before its run.

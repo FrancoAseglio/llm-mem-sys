@@ -1,7 +1,8 @@
 [project]
 name = "memory-system"
 version = "0.1.0"
-description = ""
+description = "A long-term memory prototype for an LLM assistant, measured against vector search"
+license = "MIT"
 authors = [
     {name = "FrancoAseglio",email = "aseglio.f@gmail.com"}
 ]
