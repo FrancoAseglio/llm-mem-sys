@@ -22,7 +22,7 @@ poetry install
 brew install postgresql@17 pgvector
 brew services start postgresql@17
 createdb memory_db
-psql memory_db -f db/schema.sql         # fresh DB; creates the vector and pg_trgm extensions
+psql memory_db -f db/schema.sql
 
 # Ollama
 brew install ollama
@@ -44,6 +44,37 @@ Check everything is wired up:
 ```bash
 poetry run python scripts/smoke_test.py
 ```
+
+## Run with Docker
+
+Everything except Ollama runs in containers: Postgres with pgvector, the dashboard, and a
+project container for the evaluation, the chat, the tests and the notebook. Ollama stays on the
+Mac, because Docker on macOS cannot use the GPU (the models would take minutes per answer).
+
+```bash
+brew install ollama
+brew services start ollama
+ollama pull llama3.1:8b
+ollama pull nomic-embed-text
+
+make up
+```
+
+- `make up` builds and starts Postgres and the dashboard: http://localhost:8000.
+- `make shell` opens a shell in the project container; every make target works there.
+- `make down` stops them; the database is kept in a Docker volume.
+
+Any command can also run directly, e.g. `docker compose run --rm app make eval SET=M RUN=id
+PHASE=development` or `docker compose run --rm app make check`. The repository is mounted in
+the containers, so code changes apply without a rebuild and results, `runs/` and the model cache
+land in the repository as usual; rebuild (`make up`) only after changing the dependencies.
+
+On its first start the database creates the schema and loads `db/snapshot.sql.gz`, the memory of
+the evaluation users (written by `make snapshot` from an ingested database; chat users are left
+out). The inspector then works at once, without ingesting the scenarios again. To start over,
+`docker compose down -v` deletes the database volume. Postgres is also on `localhost:5434` for
+tools on the Mac (`DATABASE_URL=postgresql://memory:memory@localhost:5434/memory_db`; `DB_PORT=...`
+in `.env` picks another port if that one is taken).
 
 ## Evaluate
 
@@ -78,9 +109,10 @@ Other script: `scripts/chat.py` (interactive chat, `/mode smart|baseline|none`, 
 |---|---|
 | `src/memory_system/` | the memory system: `core/` (config, database, model calls), `write/` (extraction and conflict rules), `read/` (retrieval: smart, hybrid, baseline), `summaries/` (episode notes), `assistant.py` (prompt building) |
 | `evaluation/` | how the system is measured: `run.py` (question sets), `run_sessions.py` (set K), `metrics.py`, `report.py`, `export.py` (adds a run to `results/`), `analysis.py` and `charts.py` (the tables and charts of the results notebook), `scenarios/` (test sets A to O, as JSON) |
-| `scripts/` | developer tools: `chat.py`, `inspect_scores.py`, `list_scenarios.py`, `smoke_test.py` |
-| `tests/` | mirrors the package: `core/`, `write/`, `read/`, `summaries/`, `evaluation/`, plus `dashboard/`; the pure tests need no services, the rest need Postgres |
-| `db/schema.sql` | full schema for a fresh database; after a schema change, drop and recreate the database from it |
+| `scripts/` | developer tools: `chat.py`, `inspect_scores.py`, `list_scenarios.py`, `smoke_test.py`, `snapshot.py` |
+| `tests/` | mirrors the package: `core/`, `write/`, `read/`, `summaries/`, `evaluation/`, plus `dashboard/` and `scripts/`; the pure tests need no services, the rest need Postgres |
+| `db/` | `schema.sql`, the full schema for a fresh database (after a schema change, drop and recreate the database from it), and `snapshot.sql.gz`, the evaluation users' memory (`make snapshot`, `make snapshot-load`) |
+| `Dockerfile`, `docker-compose.yml` | the containers (see Run with Docker) |
 | `results/` | every evaluation run as CSV tables, with a data dictionary |
 | `notebooks/results.ipynb` | the results told in eight charts; the code is in `evaluation/analysis.py` and `evaluation/charts.py` (`make notebook`) |
 | `dashboard/` | local web dashboard (`make dashboard`, http://localhost:8000); its landing page explains it. **Results**: every question of a run, filtered by set and question type, with a column per mode that you can show or hide, and each mode's memory lines and answer side by side (needs only `results/`). **Inspector**: a stored user's current and outdated facts and timelines, and a new question answered by each mode, read-only (needs Postgres and Ollama running: `brew services start postgresql@17` and `brew services start ollama`; the page shows the state of both). `data.py` and `memory.py` (the data of each page), `routes/` (one module per page: home, results, inspector), `templates/`, `static/`; needs `poetry install --with dashboard` |

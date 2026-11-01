@@ -14,6 +14,7 @@ Measured with the LLM (slower, noisier):
 
     poetry run python -m evaluation.run --set B                        # ingest + everything
     poetry run python -m evaluation.run --set A --no-ingest --retrieval-only   # seconds
+      (stored data, no chat model: no answers, and no episode notes or digests written either)
     poetry run python -m evaluation.run --only b_stale_flood --verbose
 Results are also written to eval_results.json.
 SUMMARIES=0 in the environment switches the summaries layer off (nothing written or shown).
@@ -55,6 +56,17 @@ from memory_system.write.manager import ingest_user_message, list_facts
 
 def user_of(scenario: dict) -> str:
     return f"eval_{scenario['id']}"
+
+
+def writes_notes(
+    no_ingest: bool, retrieval_only: bool, summaries: bool = SUMMARIES
+) -> bool:
+    """Whether the run writes episode notes and digests for the scenarios' new messages.
+
+    Not on a retrieval-only run over stored data (make quick): it promises seconds and no chat
+    model, and it scores the notes already stored. Every other run writes them as before.
+    """
+    return summaries and not (no_ingest and retrieval_only)
 
 
 def ingest(scenario: dict) -> None:
@@ -259,7 +271,8 @@ def main() -> None:
         if not args.no_ingest:
             status(f"ingesting {sc['id']} ({len(sc['messages'])} messages)...")
             ingest(sc)
-        if SUMMARIES:  # only new messages are summarised, so re-runs change nothing
+        if writes_notes(args.no_ingest, args.retrieval_only):
+            # only new messages are summarised, so re-runs change nothing
             kept = summarize_pending(user_of(sc))
             if kept:  # silent when nothing is new
                 status(f"{sc['id']}: {len(kept)} summaries written")

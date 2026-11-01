@@ -1,0 +1,70 @@
+# Everything except Ollama in containers. Start with `make up`, stop with `make down`.
+#
+#   db          Postgres 17 with pgvector, also on localhost:5434 for tools on the Mac (5434 so it
+#               clashes neither with a Homebrew Postgres on 5432 nor with the installer's on 5433;
+#               DB_PORT=... in .env picks another). On its first start it runs db/schema.sql,
+#               then loads db/snapshot.sql.gz (the evaluation users) if the file is there.
+#   dashboard   http://localhost:8000; reloads when the code changes.
+#   app         runs any make command: `docker compose run --rm app make eval SET=M ...`, or
+#               `make shell` for a shell. It does not run on its own.
+#
+# The repository is mounted at /app in dashboard and app: code changes apply at once, and
+# results/*.csv, runs/ and the model cache (.cache/) are written straight to the Mac.
+# DATABASE_URL and OLLAMA_HOST below win over .env; the other .env switches still apply.
+#
+# Ollama is not in a container: Docker on macOS cannot use the Mac's GPU, so the models would run
+# on the CPU and take minutes per answer. Keep it running on the Mac (brew services start ollama);
+# the containers reach it at host.docker.internal. On Linux, start Ollama with OLLAMA_HOST=0.0.0.0.
+#
+# The database lives in the `pgdata` volume: `make down` keeps it; `docker compose down -v`
+# deletes it, and the next start loads the schema and the snapshot again.
+
+x-project: &project
+  build: .
+  image: llm-mem-sys
+  volumes:
+    - .:/app
+  environment:
+    DATABASE_URL: postgresql://memory:memory@db:5432/memory_db
+    OLLAMA_HOST: http://host.docker.internal:11434
+  extra_hosts:
+    - "host.docker.internal:host-gateway" # already defined on macOS; needed on Linux
+  depends_on:
+    db:
+      condition: service_healthy
+
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: memory
+      POSTGRES_PASSWORD: memory
+      POSTGRES_DB: memory_db
+    ports:
+      - "${DB_PORT:-5434}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d:ro # schema.sql, then snapshot.sql.gz (by name)
+    healthcheck:
+      # Over TCP: while the first start loads the schema and the snapshot, Postgres listens on
+      # its socket only, so the other services wait until the data is in.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U memory -d memory_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 120
+
+  dashboard:
+    <<: *project
+    command: uvicorn dashboard.app:app --host 0.0.0.0 --port 8000 --reload --reload-dir dashboard --reload-dir src
+    ports:
+      - "8000:8000"
+
+  app:
+    <<: *project
+    profiles: ["tools"] # only for `docker compose run`, never started by `up`
+    stdin_open: true
+    tty: true
+    command: bash
+
+volumes:
+  pgdata:

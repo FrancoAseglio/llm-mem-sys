@@ -5,7 +5,18 @@ import ollama
 from pydantic import BaseModel
 
 from memory_system.core.cache import DiskCache, make_key
-from memory_system.core.config import CACHE_PATH, CHAT_MODEL, EMBED_MODEL
+from memory_system.core.config import (
+    CACHE_PATH,
+    CHAT_MODEL,
+    EMBED_MODEL,
+    LLM_TIMEOUT,
+    MAX_TOKENS_CHAT,
+    MAX_TOKENS_STRUCTURED,
+)
+
+# One client for every call, with a timeout (see config.LLM_TIMEOUT). It reads OLLAMA_HOST like
+# the library's own functions, so the containers reach Ollama on the host.
+_client = ollama.Client(timeout=LLM_TIMEOUT)
 
 # Disk cache for deterministic calls. Off unless enable_cache() is called (the evaluation does;
 # the chat never does).
@@ -39,7 +50,7 @@ def embed(text: str) -> np.ndarray:
         vec = np.frombuffer(cached, dtype=np.float32).copy()
     else:
         vec = np.asarray(
-            ollama.embed(model=EMBED_MODEL, input=text)["embeddings"][0],
+            _client.embed(model=EMBED_MODEL, input=text)["embeddings"][0],
             dtype=np.float32,
         )
         if _cache:
@@ -68,10 +79,10 @@ def chat(
         cached = _cache.get(key)
         if cached is not None:
             return cached.decode()
-    options = {"temperature": temperature}
+    options = {"temperature": temperature, "num_predict": MAX_TOKENS_CHAT}
     if num_ctx is not None:
         options["num_ctx"] = num_ctx
-    resp = ollama.chat(model=CHAT_MODEL, messages=messages, options=options)
+    resp = _client.chat(model=CHAT_MODEL, messages=messages, options=options)
     if use_cache:
         _cache.put(key, resp.message.content.encode())
     return resp.message.content
@@ -79,10 +90,10 @@ def chat(
 
 def chat_stream(messages: list[dict], temperature: float = 0.3) -> Iterator[str]:
     """Yield the chat model's reply token by token."""
-    for chunk in ollama.chat(
+    for chunk in _client.chat(
         model=CHAT_MODEL,
         messages=messages,
-        options={"temperature": temperature},
+        options={"temperature": temperature, "num_predict": MAX_TOKENS_CHAT},
         stream=True,
     ):
         yield chunk.message.content
@@ -94,14 +105,14 @@ def chat_structured[T: BaseModel](system: str, user: str, schema: type[T]) -> T:
     cached = _cache.get(key) if _cache else None
     if cached is not None:
         return schema.model_validate_json(cached.decode())
-    resp = ollama.chat(
+    resp = _client.chat(
         model=CHAT_MODEL,
         messages=[
             {"role": "system", "content": system},
             {"role": "user", "content": user},
         ],
         format=schema.model_json_schema(),
-        options={"temperature": 0},
+        options={"temperature": 0, "num_predict": MAX_TOKENS_STRUCTURED},
     )
     result = schema.model_validate_json(
         resp.message.content

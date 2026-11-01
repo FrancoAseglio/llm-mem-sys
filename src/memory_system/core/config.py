@@ -90,6 +90,19 @@ HYBRID_TIMELINE = os.environ.get("HYBRID_TIMELINE", "1") != "0"
 # Context window asked of the chat model for full-mode answers only, so nothing is cut silently.
 FULL_NUM_CTX = int(os.environ.get("FULL_NUM_CTX", "8192"))
 
+# ---- Limits on every model call, so a reply that never ends cannot run for ever ----
+# The small model sometimes keeps generating (a JSON list that never closes, an answer that
+# repeats); Ollama then shifts its context and goes on indefinitely. These caps sit far above any
+# real reply (extractions, notes and digests take a few hundred tokens, answers fewer), so
+# they change only replies that would have run away. Greedy decoding (temperature 0) makes
+# every shorter reply identical with or without the cap, which is why the cap is not part of the
+# cache key and the cached evaluation replies stay valid.
+MAX_TOKENS_STRUCTURED = int(os.environ.get("MAX_TOKENS_STRUCTURED", "1536"))
+MAX_TOKENS_CHAT = int(os.environ.get("MAX_TOKENS_CHAT", "1024"))
+# Seconds before a model call gives up. The callers treat it like any model failure (logged and
+# skipped on the write path; an evaluation stops with the error).
+LLM_TIMEOUT = float(os.environ.get("LLM_TIMEOUT", "300"))
+
 # ---- Write path: drop facts the message gives to someone else (write/actions.about_user) ----
 # ABOUT_USER=0 switches the check off, for ablations.
 ABOUT_USER = os.environ.get("ABOUT_USER", "1") != "0"

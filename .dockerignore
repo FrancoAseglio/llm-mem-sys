@@ -1,0 +1,15 @@
+# Not copied into the image: local data, caches and secrets. (When the containers run, the
+# repository is mounted over /app anyway; this only keeps the image's own copy clean.)
+.git
+.venv
+.cache
+.env
+runs
+eval_results.json
+eval_sessions.json
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+**/.DS_Store
+**/.ipynb_checkpoints
+db/snapshot.sql.gz

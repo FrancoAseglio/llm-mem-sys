@@ -6,11 +6,18 @@
 SHELL := /bin/bash
 PY = nice -n 10 poetry run
 
-.PHONY: help test check format db chat scenarios inspect quick set answers eval sessions notebook figures dashboard
+.PHONY: help test check format db chat scenarios inspect quick set answers eval sessions notebook figures dashboard snapshot snapshot-load up down shell
 
 help:
+	@echo "DOCKER (everything except Ollama, which stays on the Mac; see docker-compose.yml)"
+	@echo "  make up                     build and start Postgres and the dashboard (http://localhost:8000)"
+	@echo "  make down                   stop them (the database is kept)"
+	@echo "  make shell                  a shell in the project container; every make target below works there,"
+	@echo "                              or run one directly: docker compose run --rm app make eval SET=M ..."
 	@echo "SET UP"
 	@echo "  make db                     create memory_db and its tables (safe to re-run)"
+	@echo "  make snapshot               save the evaluation users' memory to db/snapshot.sql.gz"
+	@echo "  make snapshot-load          load db/snapshot.sql.gz into an empty database (the container does it itself)"
 	@echo "  make chat [U=me]            talk to the assistant with memory (/mode, /facts, /quit)"
 	@echo "CODE"
 	@echo "  make test                   unit tests (about 1 s)"
@@ -50,9 +57,31 @@ format:
 	poetry run ruff format .
 	$(MAKE) check
 
+# In the containers DATABASE_URL is set (and the database is created on its first start);
+# on the Mac, the local memory_db is created if it is missing.
 db:
+ifdef DATABASE_URL
+	psql "$(DATABASE_URL)" -q -f db/schema.sql
+else
 	createdb memory_db 2>/dev/null || true
 	psql memory_db -q -f db/schema.sql
+endif
+
+snapshot:
+	poetry run python scripts/snapshot.py
+
+snapshot-load:
+	poetry run python scripts/snapshot.py --load
+
+up:
+	docker compose up -d --build
+	@echo "Dashboard: http://localhost:8000 (Postgres on localhost:$${DB_PORT:-5434}). Ollama must run on the Mac."
+
+down:
+	docker compose down
+
+shell:
+	docker compose run --rm app bash
 
 chat:
 	poetry run python scripts/chat.py --user $(if $(U),$(U),me)

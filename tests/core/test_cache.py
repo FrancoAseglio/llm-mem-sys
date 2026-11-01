@@ -19,7 +19,7 @@ def fresh(monkeypatch):
     """No cache and an empty memo for every test; count the calls the 'model' receives."""
     monkeypatch.setattr(llm, "_cache", None)
     monkeypatch.setattr(llm, "_memo", {})
-    calls = SimpleNamespace(embed=0, chat=0)
+    calls = SimpleNamespace(embed=0, chat=0, options=[])
 
     def fake_embed(model, input):
         calls.embed += 1
@@ -27,11 +27,12 @@ def fresh(monkeypatch):
 
     def fake_chat(model, messages, options=None, format=None, stream=False):
         calls.chat += 1
+        calls.options.append(options)
         content = '{"value": "x"}' if format else "reply"
         return SimpleNamespace(message=SimpleNamespace(content=content))
 
-    monkeypatch.setattr(llm.ollama, "embed", fake_embed)
-    monkeypatch.setattr(llm.ollama, "chat", fake_chat)
+    monkeypatch.setattr(llm._client, "embed", fake_embed)
+    monkeypatch.setattr(llm._client, "chat", fake_chat)
     return calls
 
 
@@ -103,3 +104,25 @@ def test_no_cache_means_every_call_goes_to_the_model(fresh):
     llm.chat(msgs, temperature=0)
     assert fresh.chat == 2
     assert llm.cache_stats() is None
+
+
+def test_every_call_has_a_token_cap(fresh):
+    llm.chat([{"role": "user", "content": "hi"}])
+    llm.chat([{"role": "user", "content": "hi"}], num_ctx=8192)
+    llm.chat_structured("sys", "user", Answer)
+    caps = [o["num_predict"] for o in fresh.options]
+    assert caps == [llm.MAX_TOKENS_CHAT, llm.MAX_TOKENS_CHAT, llm.MAX_TOKENS_STRUCTURED]
+
+
+def test_the_cap_is_not_part_of_the_cache_key(fresh, monkeypatch):
+    """Replies cached before the cap existed are still found."""
+    cache = DiskCache(":memory:")
+    monkeypatch.setattr(llm, "_cache", cache)
+    messages = [{"role": "user", "content": "hi"}]
+    cache.put(make_key("chat", llm.CHAT_MODEL, messages, 0), b"cached reply")
+    assert llm.chat(messages, temperature=0) == "cached reply"
+    assert fresh.chat == 0
+
+
+def test_the_client_has_a_timeout():
+    assert llm._client._client.timeout.read == llm.LLM_TIMEOUT

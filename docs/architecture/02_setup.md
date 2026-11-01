@@ -66,6 +66,13 @@ poetry run python scripts/smoke_test.py     # ends with "All good."
 poetry run pytest -q                        # 150 passed
 ```
 
+### With Docker instead
+
+Postgres and the Python side can run in containers instead (`make up`, see "Run with Docker" in
+the README). Only Ollama is then installed on the Mac, as in section 5. The containers reach it
+at `host.docker.internal:11434`, and the database starts with the evaluation users already
+loaded from `db/snapshot.sql.gz`.
+
 ## 3. Versions used during development
 
 | Tool | Version |
